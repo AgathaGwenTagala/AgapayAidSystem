@@ -1,0 +1,40 @@
+﻿@page
+@model AgapayAidSystem.Pages.UsersModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Users</h1>
+    <a class="btn btn-primary btn-sm" href="/Create">New User</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>User Type</th>
+                <th>User Photo</th>
+                <th>Register Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.listUsers)
+            {
+                <tr>
+                    <td>@item.userID</td>
+                    <td>@item.username</td>
+                    <td>@item.password</td>
+                    <td>@item.userType</td>
+                    <td>@item.userPhoto</td>
+                    <td>@item.registerDate</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/Users/Edit?id=">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="/Users/Delete?id=">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
