@@ -1,0 +1,49 @@
+﻿@page
+@model AgapayAidSystem.Pages.Login.LoginModel
+@{
+}
+
+<div class="container border" style="padding:20px">
+	<form method="post">
+		@* for validation *@
+		<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+		@* UserName *@
+		<div class="form-group row">
+			<div class="col-2">
+				<label asp-for="Credential.UserName"></label>
+			</div>
+			<div class="col-5">
+				<input type="text" asp-for="Credential.UserName" class="form-control"/>
+			</div>
+			<span class="text-danger" asp-validation-for="Credential.UserName"></span>
+		</div>
+
+		@* Padding *@
+		<div style="padding:10px"></div>
+
+		@* Password *@
+		<div class="form-group row">
+			<div class="col-2">
+				<label asp-for="Credential.Password"></label>
+			</div>
+			<div class="col-5">
+				<input type="password" asp-for="Credential.Password" class="form-control"/>
+			</div>
+			<span class="text-danger" asp-validation-for="Credential.Password"></span>
+		</div>
+
+		@* Padding *@
+		<div style="padding:10px"></div>
+
+		@* Submit button *@
+		<div class="form-group row">
+			<div class="col-2">
+				<input type="submit" class="btn btn-primary" value="Login" />
+			</div>
+			<div class="col-5">
+				
+			</div>
+		</div>
+	</form>
+</div>
