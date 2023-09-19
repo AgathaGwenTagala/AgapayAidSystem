@@ -11,12 +11,12 @@ namespace AgapayAidSystem.Pages
         {
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=pass123;";
-                //not sure sa pass
+                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=alsk1207;";
+                
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM users";
+                    String sql = "SELECT * FROM user";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())

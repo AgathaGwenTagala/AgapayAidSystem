@@ -4,9 +4,20 @@
     ViewData["Title"] = "Users";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Users</h1>
-    <a class="btn btn-primary btn-sm" href="/Create">New User</a>
+<h1 class="text-center display-4">Users</h1>
+<!--
+<div class="text-left">
+   <a class="btn btn-primary btn-sm" href="/Create">New User</a>
+</div>
+-->
+<div class="container">
+    <div class="row">
+        <div class="col"></div> <!-- This empty column pushes the button to the right -->
+        <div class="col-auto">
+            <button class="btn btn-primary" href="/Create">New User</button>
+        </div>
+    </div>
+</div>
     <table class="table">
         <thead>
             <tr>
@@ -37,4 +48,4 @@
             }
         </tbody>
     </table>
-</div>
+
