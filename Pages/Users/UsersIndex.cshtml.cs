@@ -34,7 +34,12 @@ namespace AgapayAidSystem.Pages.Users
                                 if (!reader.IsDBNull(4))
                                 {
                                     userInfo.userPhoto = (byte[])reader.GetValue(4);
+<<<<<<<< HEAD:Pages/Users/UsersIndex.cshtml.cs
                                 }**/
+========
+                                }
+                                userInfo.createdAt = reader.GetDateTime(5).ToString();
+>>>>>>>> ca9cba49272f2106b726ad178d5f27d5244a152f:Pages/Users/Users.cshtml.cs
 
 								listUsers.Add(userInfo);
                             }
@@ -56,6 +61,10 @@ namespace AgapayAidSystem.Pages.Users
         public string username { get; set; }
         public string password { get; set; }
         public string userType { get; set; }
+<<<<<<<< HEAD:Pages/Users/UsersIndex.cshtml.cs
+========
+        public byte[] userPhoto { get; set; }
+>>>>>>>> ca9cba49272f2106b726ad178d5f27d5244a152f:Pages/Users/Users.cshtml.cs
         public string createdAt { get; set; }
     }
 }
