@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages
+namespace AgapayAidSystem.Pages.Users
 {
     public class UsersModel : PageModel
     {
@@ -12,11 +12,11 @@ namespace AgapayAidSystem.Pages
             try
             {
                 string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=alsk1207;";
-                
+
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM user";
+                    string sql = "SELECT * FROM user";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -57,6 +57,6 @@ namespace AgapayAidSystem.Pages
         public string password { get; set; }
         public string userType { get; set; }
         public byte[] userPhoto { get; set; }
-        public String createdAt { get; set; }
+        public string createdAt { get; set; }
     }
 }
