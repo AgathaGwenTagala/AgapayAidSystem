@@ -22,11 +22,12 @@ namespace AgapayAidSystem.Pages.Login
     public class Credential
     {
         [Required]
-		[Display(Name = "User Name")]
+		[Display(Name = "Username:")]
 		public string UserName { get; set; }
 
 		[Required]
-        [DataType(DataType.Password)]
+		[Display(Name = "Password:")]
+		[DataType(DataType.Password)]
         public string Password { get; set; }
-    }
+	}
 }
