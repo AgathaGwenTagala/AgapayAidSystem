@@ -36,8 +36,8 @@
                     <td>@item.userPhoto</td>
                     <td>@item.createdAt</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="/Users/Edit?id=">Edit</a>
-                        <a class="btn btn-danger btn-sm" href="/Users/Delete?id=">Delete</a>
+                        <a class="btn btn-primary btn-sm" href="/Users/Edit?id=@item.userID">Edit</a>
+                        <a class="btn btn-danger btn-sm" href="/Users/Delete?id=@item.userID">Delete</a>
                     </td>
                 </tr>
             }

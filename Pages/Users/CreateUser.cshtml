@@ -2,3 +2,41 @@
 @model CreateUserModel
 @{
 }
+
+<h1 class="text-center display-4">New User</h1>
+
+<form method="POST">
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Username</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="username" value="">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">Password</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="password" value="">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">User Type</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="userType" value="">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">User Photo</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="userPhoto" value="">
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<div class="offset-sm-3 col-sm-3 d-grid">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		<div class="col-sm-3 d-grid">
+			<a class="btn btn-outline-primary" href="/" role="button">Cancel</a>
+		</div>
+	</div>
+</form>
