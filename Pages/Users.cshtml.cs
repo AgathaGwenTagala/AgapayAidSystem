@@ -34,7 +34,7 @@ namespace AgapayAidSystem.Pages
                                 {
                                     userInfo.userPhoto = (byte[])reader.GetValue(4);
                                 }
-                                userInfo.registerDate = reader.GetDateTime(5).ToString();
+                                userInfo.createdAt = reader.GetDateTime(5).ToString();
 
                                 listUsers.Add(userInfo);
                             }
@@ -57,6 +57,6 @@ namespace AgapayAidSystem.Pages
         public string password { get; set; }
         public string userType { get; set; }
         public byte[] userPhoto { get; set; }
-        public String registerDate { get; set; }
+        public String createdAt { get; set; }
     }
 }
