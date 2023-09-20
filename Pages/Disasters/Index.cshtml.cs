@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Users
+namespace AgapayAidSystem.Pages.Disasters
 {
-    public class CreateUserModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
