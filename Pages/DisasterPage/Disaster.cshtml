@@ -5,13 +5,13 @@
 
 <div class="container p-3">
 	<div class="row pt-4">
-		<h2 class="text-primary">Disaster</h2>
-	</div>
+		<div class="col-6">
+			<h2 class="text-primary">Disaster</h2>
+		</div>
 
-	<div class="="col-6>
-		<a asp-page="create" class="btn btn-primary">
-			Add Disaster
-		</a>
+		<div class="col-6 text-end">
+			<a asp-page="create" class="btn btn-primary">Add Disaster</a>
+		</div>
 	</div>
 	
 	<br /><br />
@@ -37,11 +37,30 @@
 			</tr>
 		</thead>
 		<tbody>
+			<!--Sample Data-->
 			<tr>
-				<td width="30%">Gaya-gaya</td>
-				<td width="30%">Fire</td>
-				<td width="50%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
-				<td width="30%">11/07/2022</td>
+				<td width="20%">Gaya-gaya</td>
+				<td width="10%">Fire</td>
+				<td width="40%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
+				<td width="10%">11/07/2022</td>
+			</tr>
+			<tr>
+				<td width="20%">San Isidro Landslide</td>
+				<td width="10%">Landslide</td>
+				<td width="40%">Triggered by Heavy Rainfall. Buried a remote village under debris and mud from Mt. Balagbag </td>
+				<td width="10%">06/26/2022</td>
+			</tr>
+			<tr>
+				<td width="20%">Earthquake Magnitude 5.7</td>
+				<td width="10%">Earthquake</td>
+				<td width="40%">Magnitude of 5.7 on District 2nd. Collapsing buildings and infrastructure</td>
+				<td width="10%">03/15/2023</td>
+			</tr>
+			<tr>
+				<td width="20%">Typhoon Pedro</td>
+				<td width="10%">Typhoon</td>
+				<td width="40%">Heavy rainfall accompanied by strong winds.</td>
+				<td width="10%">08/20/2023</td>
 			</tr>
 		</tbody>
 	</table>
