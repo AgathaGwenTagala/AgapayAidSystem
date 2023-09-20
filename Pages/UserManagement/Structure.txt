@@ -1,0 +1,48 @@
+# NEW USER FORM
+Choose User Type:
+ • Admin
+ • EC Staff
+ • LGU Staff
+<Cancel><Next>
+
+# IF ADMIN
+Username: (pwede ba dito na generated based sa name?)
+Admin Name:
+
+// if generated based sa name, breakdown natin yung admin name
+First Name*:
+Middle Name:
+Last Name*:
+Extenstion Name:
+<Cancel> <Submit>
+
+# IF LGU Staff
+First Name*:
+Middle Name:
+Last Name*:
+Extenstion Name:
+Sex*:
+ • M
+ • F
+Birthdate*:
+Mobile Number*:
+Email Address*:
+<Cancel> <Submit>
+
+# IF EC Staff
+First Name*:
+Middle Name:
+Last Name*:
+Extenstion Name:
+Sex*:
+ • M
+ • F
+Birthdate*:
+Mobile Number*:
+Email Address*:
+<Cancel> <Submit>
+
+// Availability Status is automatically set to DEFAULT "Available"
+// username will be generated based on initials of first name + initials of middle name 
+	+ whole last name + whole extension name without period
+// password is automatically set to DEFAULT "agapay123aid"
