@@ -3,9 +3,46 @@
 @{
 }
 
-<body>
-<div class="top">
+<div class="container p-3">
+	<div class="row pt-4">
+		<h2 class="text-primary">Disaster</h2>
+	</div>
 
+	<div class="="col-6>
+		<a asp-page="create" class="btn btn-primary">
+			Add Disaster
+		</a>
+	</div>
 	
+	<br /><br />
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Disaster Name
+				</th>
+				<th>
+					Type
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					Start Date
+				</th>
+				<th>
+					Operations
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td width="30%">Gaya-gaya</td>
+				<td width="30%">Fire</td>
+				<td width="50%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
+				<td width="30%">11/07/2022</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-</body>	
