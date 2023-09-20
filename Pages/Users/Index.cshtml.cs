@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace AgapayAidSystem.Pages.Users
 {
-    public class UsersIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         public List<UserInfo> listUsers = new List<UserInfo>();
         public void OnGet()
