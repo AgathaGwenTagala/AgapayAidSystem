@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgapayAidSystem.Pages.Disaster
 {
-    public class _AddDisasterModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

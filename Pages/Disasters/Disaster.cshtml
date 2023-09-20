@@ -1,0 +1,95 @@
+﻿@page
+@model IndexModel
+@{
+}
+
+<div class="container p-3">
+
+	<div class="row pt-4">
+		<form class="d-flex">
+			<input class="form-control me-sm-2" type="search" placeholder="Search">
+			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+		</form>
+	</div>
+
+	<div class="row pt-5">
+		<div class="col-6">
+			<h2 class="text-primary">Disaster</h2>
+		</div>
+
+		<div class="col-6 text-end">
+			<a asp-page="create" class="btn btn-primary">Add Disaster</a>
+		</div>
+	</div>
+	
+	<br /><br />
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Disaster Name
+				</th>
+				<th>
+					Type
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					Start Date
+				</th>
+				<th>
+					Operations
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--Sample Data-->
+			<tr>
+				<td width="20%">Gaya-gaya</td>
+				<td width="10%">Fire</td>
+				<td width="30%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
+				<td width="10%">11/07/2022</td>
+				<td>
+					<button class="btn btn-secondary">Generate Report</button>
+					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td width="20%">San Isidro Landslide</td>
+				<td width="10%">Landslide</td>
+				<td width="30%">Triggered by Heavy Rainfall. Buried a remote village under debris and mud from Mt. Balagbag </td>
+				<td width="10%">06/26/2022</td>
+				<td>
+					<button class="btn btn-secondary">Generate Report</button>
+					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td width="20%">Earthquake Magnitude 5.7</td>
+				<td width="10%">Earthquake</td>
+				<td width="30%">Magnitude of 5.7 on District 2nd. Collapsing buildings and infrastructure</td>
+				<td width="10%">03/15/2023</td>
+				<td>
+					<button class="btn btn-secondary">Generate Report</button>
+					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+				</td>
+			</tr>
+			<tr>
+				<td width="20%">Typhoon Pedro</td>
+				<td width="10%">Typhoon</td>
+				<td width="30%">Heavy rainfall accompanied by strong winds.</td>
+				<td width="10%">08/20/2023</td>
+				<td>
+					<button class="btn btn-secondary">Generate Report</button>
+					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
