@@ -54,7 +54,7 @@ namespace AgapayAidSystem.Pages.Users
             userInfo.userType = "";
             successMessage = "New user added successfully.";
 
-            Response.Redirect("/Users/UsersIndex");
+            Response.Redirect("/Users/Index");
         }
     }
 }
