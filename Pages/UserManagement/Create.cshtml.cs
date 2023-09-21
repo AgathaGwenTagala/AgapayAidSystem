@@ -27,7 +27,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 			//save the new user into the database
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=alsk1207;";
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();

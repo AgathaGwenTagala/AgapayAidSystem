@@ -12,7 +12,7 @@ namespace AgapayAidSystem.Pages.UserManagement
         {
             try
             {
-                String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=alsk1207;";
+                String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
