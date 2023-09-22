@@ -3,10 +3,10 @@
 @{
 }
 
-<h1 class="text-center display-4">User Management</h1>
+<!-- h1 class="text-center display-4">User Management</!-->
 <div class="container">
     <div class="row">
-        <div class="col"></div> <!-- This empty column pushes the button to the right -->
+        <div class="col">User Management</div>
         <div class="col-auto">
             <a class="btn btn-primary btn-sm" href="/UserManagement/Create">New User</a>
         </div>
@@ -35,7 +35,6 @@
                 <td>@item.createdAt</td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="/UserManagement/Edit?userID=@item.userID">Edit</a>
-                    <!-- a class="btn btn-danger btn-sm" href="/UserManagement/Delete?userID=@item.userID">Delete</!a -->
                     <a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete('@item.userID')">Delete</a>
                 </td>
             </tr>
