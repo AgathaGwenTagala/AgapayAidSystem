@@ -3,93 +3,100 @@
 @{
 }
 
-<div class="container p-3">
-
-	<div class="row pt-4">
-		<form class="d-flex">
-			<input class="form-control me-sm-2" type="search" placeholder="Search">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-		</form>
+<div class="container p-2">
+	<div class="row pt-3">
+		<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a class="nav-link text-muted" asp-area="" asp-page="/Index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>Disaster</strong></li>
+			</ol>
+		</div>
 	</div>
 
 	<div class="row pt-5">
 		<div class="col-6">
-			<h2 class="text-primary">Disaster</h2>
+			<h1>Disaster</h1>
 		</div>
 
-		<div class="col-6 text-end">
-			<a asp-page="create" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Add Disaster</a>
+		<div class="col-6">
+			<a asp-page="create" class="btn btn-primary"><i class="bi bi-plus-circle pt" style="padding:5px;"></i>Add Disaster</a>
+		</div>
+
+		<div class="form-group mx-sm-3 mb-2">
+			<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+			<button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search"></i></button>
 		</div>
 	</div>
 
+	
+
 	<br /><br />
 
-	<table class="table table-bordered table-striped" style="width:100%">
-		<thead>
-			<tr>
-				<th>
-					Disaster Name
-				</th>
-				<th>
-					Type
-				</th>
-				<th>
-					Description
-				</th>
-				<th>
-					Start Date
-				</th>
-				<th>
-					Operations
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!--Sample Data-->
-			<tr>
-				<td width="20%">Gaya-gaya</td>
-				<td width="10%">Fire</td>
-				<td width="35%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
-				<td width="10%">11/07/2022</td>
-				<td width=15%>
-					<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-				</td>
-			</tr>
-			<tr>
-				<td width="20%">San Isidro Landslide</td>
-				<td width="10%">Landslide</td>
-				<td width="35%">Triggered by Heavy Rainfall. Buried a remote village under debris and mud from Mt. Balagbag </td>
-				<td width="10%">06/26/2022</td>
-				<td width=15%>
-					<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-				</td>
-			</tr>
-			<tr>
-				<td width="20%">Earthquake Magnitude 5.7</td>
-				<td width="10%">Earthquake</td>
-				<td width="35%">Magnitude of 5.7 on District 2nd. Collapsing buildings and infrastructure</td>
-				<td width="10%">03/15/2023</td>
-				<td width=15%>
-					<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-				</td>
-			</tr>
-			<tr>
-				<td width="20%">Typhoon Pedro</td>
-				<td width="10%">Typhoon</td>
-				<td width="35%">Heavy rainfall accompanied by strong winds.</td>
-				<td width="10%">08/20/2023</td>
-				<td width=15%>
-					<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-					<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-					<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="table-responsive">
+		<table class="table align-middle table-hover " style="width:100%">
+			<thead>
+				<tr>
+					<th>
+						Disaster Name
+					</th>
+					<th>
+						Type
+					</th>
+					<th>
+						Description
+					</th>
+					<th>
+						Start Date
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--Sample Data-->
+				<tr>
+					<td width="20%">Gaya-gaya</td>
+					<td width="10%">Fire</td>
+					<td width="35%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
+					<td width="10%">11/07/2022</td>
+					<td width=15%>
+						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+					</td>
+				</tr>
+				<tr>
+					<td width="20%">San Isidro Landslide</td>
+					<td width="10%">Landslide</td>
+					<td width="35%">Triggered by Heavy Rainfall. Buried a remote village under debris and mud from Mt. Balagbag </td>
+					<td width="10%">06/26/2022</td>
+					<td width=15%>
+						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+					</td>
+				</tr>
+				<tr>
+					<td width="20%">Earthquake Magnitude 5.7</td>
+					<td width="10%">Earthquake</td>
+					<td width="35%">Magnitude of 5.7 on District 2nd. Collapsing buildings and infrastructure</td>
+					<td width="10%">03/15/2023</td>
+					<td width=15%>
+						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+					</td>
+				</tr>
+				<tr>
+					<td width="20%">Typhoon Pedro</td>
+					<td width="10%">Typhoon</td>
+					<td width="35%">Heavy rainfall accompanied by strong winds.</td>
+					<td width="10%">08/20/2023</td>
+					<td width=15%>
+						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
