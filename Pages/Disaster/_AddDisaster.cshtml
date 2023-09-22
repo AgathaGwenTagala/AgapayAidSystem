@@ -1,0 +1,68 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster._AddDisasterModel
+@{
+}
+
+<div class="container p-2">
+
+	<div class="container mt-4" id="disaster-form-container">
+
+		<div class="row pt-3">
+			<div class="input-group">
+				<a asp-page="/Disaster"><button type="submit" class="btn btn-outline-primary"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</button></a>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Add Disaster</h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form>
+				<!-- Disaster Name -->
+				<div class="mb-3">
+					<label class="form-label" for="InputDisasterName">Disaster Name:</label>
+					<input class="form-control" id="InputDisasterName" type="text" placeholder="e.g. Typhoon Pedro">
+				</div>
+
+				<!-- Disaster Type -->
+				<div class="mb-3 row">
+					<label class="form-label" for="InputDisasterType">Disaster Type:</label>
+					<div class="btn-group">
+						<button class="btn btn-secondary dropdown-toggle text-start text-muted" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+							Select Disaster Type
+						</button>
+
+						<!-- SAMPLE DATA -->
+						<ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+							<li><a class="dropdown-item" href="#">Fire</a></li>
+							<li><a class="dropdown-item" href="#">Flood</a></li>
+							<li><a class="dropdown-item" href="#">Earthquake</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Date Occurred -->
+				<div class="mb-3">
+					<label class="form-label" for="InputDateOccured">Date Occurred:</label>
+					<input class="form-control text-muted" type="date" id="InputDateOccured">
+				</div>
+
+				<!-- Disaster Description -->
+				<div class="mb-3">
+					<label class="form-label" for="InputDisasterDescription">Description:</label>
+					<textarea class="form-control" id="InputDisasterDescription" rows="4" placeholder="e.g. With wind speeds exceeding 160 miles per hour and torrential rains, the typhoon caused widespread flooding, landslides, and destruction of homes and infrastructure. Thousands were evacuated, and relief efforts were quickly mobilized to provide aid and assistance to affected communities."></textarea>
+				</div>
+
+				<!-- Cancel and Save Button -->
+				<div class="button-spacer">
+					<button class="btn btn-outline-secondary mr-10">Cancel</button>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>
