@@ -61,19 +61,9 @@ namespace AgapayAidSystem.Pages.UserManagement
 				return;
 			}
 
-            // Redirect to respective pages based on userType
-            if (userInfo.userType == "Admin")
-            {
-                Response.Redirect("/UserManagement/CreateAdmin");
-            }
-            else if (userInfo.userType == "LGU Staff")
-            {
-                Response.Redirect("/UserManagement/CreateLGUStaff");
-            }
-            else if (userInfo.userType == "EC Staff")
-            {
-                Response.Redirect("/UserManagement/CreateECStaff");
-            }
-        }
+			userInfo.userType = "";
+
+			Response.Redirect("/UserManagement/Index");
+		}
 	}
 }
