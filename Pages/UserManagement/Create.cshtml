@@ -17,12 +17,6 @@
 	<div class="row mb-3">
 		<label class="col-sm-3 col-form-label">User Type</label>
 		<div class="col-sm-6">
-			<!-- select class="form-select" name="userType" value="@Model.userInfo.userType">
-				<option value="">Select user type</option>
-				<option value="Admin">Admin</option>
-				<option value="LGU Staff">LGU Staff</option>
-				<option value="EC Staff">EC Staff</option>
-			</!select -->
 			<div class="form-check">
 				<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
 					@if (Model.userInfo.userType == "Admin") { <text>checked</text> }>
@@ -41,6 +35,9 @@
 		</div>
 	</div>
 
+	<!-- Add hidden field to capture userType -->
+	<input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
+
 	@if (Model.successMessage.Length > 0)
 	{
 		<div class="row-mb-3">
@@ -55,7 +52,7 @@
 
 	<div class="row mb-3">
 		<div class="offset-sm-3 col-sm-3 d-grid">
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Next</button>
 		</div>
 		<div class="col-sm-3 d-grid">
 			<a class="btn btn-outline-primary" href="/UserManagement/Index" role="button">Cancel</a>
