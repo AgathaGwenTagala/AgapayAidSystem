@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options=>options.MySQLServer);
+//builder.Services.AddDbContext<ApplicationDbContext>(options=>options.MySQLServer);
 
 
 var app = builder.Build();

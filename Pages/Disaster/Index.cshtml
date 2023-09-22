@@ -51,51 +51,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!--Sample Data-->
-				<tr>
-					<td width="20%">Gaya-gaya</td>
-					<td width="10%">Fire</td>
-					<td width="35%">Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</td>
-					<td width="10%">11/07/2022</td>
-					<td width=15%>
-						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td width="20%">San Isidro Landslide</td>
-					<td width="10%">Landslide</td>
-					<td width="35%">Triggered by Heavy Rainfall. Buried a remote village under debris and mud from Mt. Balagbag </td>
-					<td width="10%">06/26/2022</td>
-					<td width=15%>
-						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td width="20%">Earthquake Magnitude 5.7</td>
-					<td width="10%">Earthquake</td>
-					<td width="35%">Magnitude of 5.7 on District 2nd. Collapsing buildings and infrastructure</td>
-					<td width="10%">03/15/2023</td>
-					<td width=15%>
-						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-					</td>
-				</tr>
-				<tr>
-					<td width="20%">Typhoon Pedro</td>
-					<td width="10%">Typhoon</td>
-					<td width="35%">Heavy rainfall accompanied by strong winds.</td>
-					<td width="10%">08/20/2023</td>
-					<td width=15%>
-						<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-						<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
-						<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-					</td>
-				</tr>
+				@foreach (var item in Model.listDisaster) {
+					<tr>
+						<td width="20%">@item.disasterName</td>
+						<td width="10%">@item.disasterType</td>
+						<td width="35%">@item.description</td>
+						<td width="10%">@item.dateOccured</td>
+						<td width=15%>
+							<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+							<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+							<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+						</td>
+					</tr>
+				}
 			</tbody>
 		</table>
 	</div>
