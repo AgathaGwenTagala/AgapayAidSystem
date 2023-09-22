@@ -19,18 +19,15 @@
 		</div>
 
 		<div class="col-6">
-			<a asp-page="create" class="btn btn-primary"><i class="bi bi-plus-circle pt" style="padding:5px;"></i>Add Disaster</a>
-		</div>
+			<div class="d-flex justify-content-end">
+				<div class="form-group mx-sm-3 mb-2">
+					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+				</div>
 
-		<div class="form-group mx-sm-3 mb-2">
-			<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-			<button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search"></i></button>
+				<button type="submit" class="btn btn-primary mb-2"><i class="bi bi-search"></i></button>
+			</div>
 		</div>
 	</div>
-
-	
-
-	<br /><br />
 
 	<div class="table-responsive">
 		<table class="table align-middle table-hover " style="width:100%">
@@ -46,7 +43,7 @@
 						Description
 					</th>
 					<th>
-						Start Date
+						Date Occurred
 					</th>
 				</tr>
 			</thead>
