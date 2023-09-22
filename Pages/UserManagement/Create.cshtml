@@ -15,15 +15,14 @@
 
 <form method="POST">
 	<div class="row mb-3">
-		<label class="col-sm-3 col-form-label">Username</label>
-		<div class="col-sm-6">
-			<input type="text" class="form-control" name="username" value="@Model.userInfo.username">
-		</div>
-	</div>
-	<div class="row mb-3">
 		<label class="col-sm-3 col-form-label">User Type</label>
 		<div class="col-sm-6">
-			<input type="text" class="form-control" name="userType" value="@Model.userInfo.userType">
+			<select class="form-select" name="userType" value="@Model.userInfo.userType">
+				<option value="">Select user type</option>
+				<option value="Admin">Admin</option>
+				<option value="LGU Staff">LGU Staff</option>
+				<option value="EC Staff">EC Staff</option>
+			</select>
 		</div>
 	</div>
 
