@@ -5,20 +5,12 @@ using MySql.Data.MySqlClient;
 
 namespace AgapayAidSystem.Pages.UserManagement
 {
-	public enum UserType
-	{
-		Admin,
-		EC_Staff,
-		LGU_Staff
-	}
 	public class CreateModel : PageModel
     {
 		public UserInfo userInfo = new UserInfo();
 		public String errorMessage = "";
 		public String successMessage = "";
 
-		
-		
 		public void OnGet()
 		{
 		}
@@ -35,12 +27,17 @@ namespace AgapayAidSystem.Pages.UserManagement
 			userInfo.userType = Request.Form["userType"];
 
 			// Validate userType
-			if (userInfo.userType != "Admin" && userInfo.userType != "EC Staff" && userInfo.userType != "LGU Staff")
+			if (string.IsNullOrEmpty(userInfo.userType))
+			{
+				errorMessage = "Please select a user type.";
+				return;
+			}
+
+			else if (userInfo.userType != "Admin" && userInfo.userType != "EC Staff" && userInfo.userType != "LGU Staff")
 			{
 				errorMessage = "Invalid user type. Choose from Admin, EC Staff, LGU Staff.";
 				return;
 			}
-
 
 			// Save the new user into the database
 			try
@@ -49,9 +46,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "INSERT INTO user " +
-								 "(userType) VALUES " +
-								 "(@userType);";
+					String sql = "INSERT INTO user (userType) VALUES (@userType);";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -67,7 +62,6 @@ namespace AgapayAidSystem.Pages.UserManagement
 			}
 
 			userInfo.userType = "";
-			successMessage = "New user added successfully.";
 
 			Response.Redirect("/UserManagement/Index");
 		}

@@ -47,12 +47,9 @@ Email Address*:
 	+ whole last name + whole extension name without period
 // password is automatically set to DEFAULT "agapay123aid"
 
-@foreach (var userType in Enum.GetValues(typeof(UserType)).Cast<UserType>())
-				{
-					<option value="@Model.userInfo.userType">@userType.ToString().Replace("_", " ")</option>
-				}
-
-				@foreach (var userType in Model.UserTypesList)
-				{
-					<option value="@userType.Value">@userType.Text</option>
-				}
+<!-- select class="form-select" name="userType" value="@Model.userInfo.userType">
+	<option value="">Select user type</option>
+	<option value="Admin">Admin</option>
+	<option value="LGU Staff">LGU Staff</option>
+	<option value="EC Staff">EC Staff</option>
+</!select -->
