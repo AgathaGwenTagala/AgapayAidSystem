@@ -32,13 +32,21 @@
                 <td>@item.username</td>
                 <td>@item.password</td>
                 <td>@item.userType</td>
-                <!-- td>@item.userPhoto</!-->
                 <td>@item.createdAt</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="/UserManagement/Edit?id=@item.userID">Edit</a>
-                    <a class="btn btn-danger btn-sm" href="/UserManagement/Delete?id=@item.userID">Delete</a>
+                    <a class="btn btn-primary btn-sm" href="/UserManagement/Edit?userID=@item.userID">Edit</a>
+                    <!-- a class="btn btn-danger btn-sm" href="/UserManagement/Delete?userID=@item.userID">Delete</!a -->
+                    <a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete('@item.userID')">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function confirmDelete(userID) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            window.location.href = "/UserManagement/Delete?userID=" + userID;
+        }
+    }
+</script>
