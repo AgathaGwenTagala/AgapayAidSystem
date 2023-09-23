@@ -7,17 +7,25 @@ namespace AgapayAidSystem.Pages.UserManagement
 {
     public class CreateAdminModel : PageModel
     {
-        public UserInfo userInfo { get; set; } = new UserInfo();
+        //public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string adminName { get; set; } = "";
 		public string errorMessage = "";
 		public string successMessage = "";
 
-		public void OnGet(string lastInsertedUserID)
+		public void OnGet(string lastInsertedUserID, string action, string userIDToDelete)
 		{
             // Retrieve and decode the userID from the query string
             string encodedUserID = HttpContext.Request.Query["userID"];
             userID = WebUtility.UrlDecode(encodedUserID);
+
+            // Call the deletion method
+            if (action == "cancel" && !string.IsNullOrEmpty(userIDToDelete))
+            {
+                // Delete the record associated with userIDToDelete
+                DeleteAdminRecord(userIDToDelete);
+                return;
+            }
         }
 
 		public void OnPost()
@@ -66,5 +74,44 @@ namespace AgapayAidSystem.Pages.UserManagement
 
 			Response.Redirect("/UserManagement/Index");
 		}
-	}
+
+        private void DeleteAdminRecord(string userIDToDelete)
+        {
+            try
+            {
+                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Implement code to delete the record with the given userID
+                    String sql = "DELETE FROM user WHERE userID = @userID";
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userID", userID);
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            // User deleted successfully
+                            successMessage = "User deleted successfully.";
+                        }
+                        else
+                        {
+                            // No user found with the provided userID
+                            errorMessage = "User not found with the provided userID.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            // Redirect to the appropriate URL after deletion
+            Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+        }
+
+    }
 }
