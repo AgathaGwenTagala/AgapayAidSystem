@@ -18,18 +18,6 @@ namespace AgapayAidSystem.Pages.UserManagement
             // Retrieve and decode the userID from the query string
             string encodedUserID = HttpContext.Request.Query["userID"];
             userID = WebUtility.UrlDecode(encodedUserID);
-
-            // Ensure that userID is not empty
-            if (string.IsNullOrEmpty(lastInsertedUserID))
-			{
-				errorMessage = "UserID is missing.";
-				return;
-			}
-
-			// Retrieve the userID passed from the Create page
-			// userInfo.userID = lastInsertedUserID;
-
-            
         }
 
 		public void OnPost()

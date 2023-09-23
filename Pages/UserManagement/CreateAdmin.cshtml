@@ -3,13 +3,6 @@
 @{
 }
 
-@if (!string.IsNullOrEmpty(Model.userID))
-{
-    <div class="alert alert-info" role="alert">
-        UserID from previous page: <strong>@Model.userID</strong>
-    </div>
-}
-
 <h1 class="text-center display-4">Create Admin</h1>
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
