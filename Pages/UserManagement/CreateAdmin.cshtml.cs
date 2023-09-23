@@ -8,8 +8,8 @@ namespace AgapayAidSystem.Pages.UserManagement
     public class CreateAdminModel : PageModel
     {
         public UserInfo userInfo { get; set; } = new UserInfo();
+        public string userID { get; set; } = "";
         public string adminName { get; set; } = "";
-		public string userID { get; set; } = "";
 		public string errorMessage = "";
 		public string successMessage = "";
 
