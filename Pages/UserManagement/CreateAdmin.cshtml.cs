@@ -23,7 +23,7 @@ namespace AgapayAidSystem.Pages.UserManagement
             if (action == "cancel" && !string.IsNullOrEmpty(userIDToDelete))
             {
                 // Delete the record associated with userIDToDelete
-                DeleteAdminRecord(userIDToDelete);
+                DeleteUserRecord(userIDToDelete);
                 return;
             }
         }
@@ -36,7 +36,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 				return;
 			}
 
-			// Retrieve the userID from the form
+			// Retrieve the userID and adminName from the form
 			string userID = Request.Form["userID"];
             string adminName = Request.Form["adminName"];
 
@@ -75,7 +75,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 			Response.Redirect("/UserManagement/Index");
 		}
 
-        private void DeleteAdminRecord(string userIDToDelete)
+        private void DeleteUserRecord(string userIDToDelete)
         {
             try
             {
@@ -112,6 +112,5 @@ namespace AgapayAidSystem.Pages.UserManagement
             // Redirect to the appropriate URL after deletion
             Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
-
     }
 }
