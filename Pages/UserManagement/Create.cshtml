@@ -5,7 +5,7 @@
 
 <h1 class="text-center display-4">New User</h1>
 
-@if (Model.errorMessage.Length > 0)
+@if (!string.IsNullOrEmpty(Model.errorMessage))
 {
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
 		<strong>@Model.errorMessage</strong>
@@ -35,10 +35,10 @@
 		</div>
 	</div>
 
-	<!-- Add hidden field to capture userType -->
 	<input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
+	<input type="hidden" name="userInfo.userID" value="@Model.userInfo.userID" />
 
-	@if (Model.successMessage.Length > 0)
+	@if (!string.IsNullOrEmpty(Model.successMessage))
 	{
 		<div class="row-mb-3">
 			<div class="col-sm-9">

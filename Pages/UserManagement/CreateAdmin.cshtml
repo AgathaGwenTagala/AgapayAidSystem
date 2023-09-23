@@ -2,3 +2,55 @@
 @model AgapayAidSystem.Pages.UserManagement.CreateAdminModel
 @{
 }
+
+@if (!string.IsNullOrEmpty(Model.userID))
+{
+    <div class="alert alert-info" role="alert">
+        UserID from previous page: <strong>@Model.userID</strong>
+    </div>
+}
+
+<h1 class="text-center display-4">Create Admin</h1>
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form method="POST">
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">User ID</label>
+        <div class="col-sm-6">
+            <span class="form-control-plaintext">@Model.userID</span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Admin Name</label>
+        <div class="col-sm-6">
+            <input type="text" id="adminName" name="adminName" class="form-control" required />
+        </div>
+    </div>
+
+    <input type="hidden" name="userID" value="@Model.userID"/>
+
+    @if (!string.IsNullOrEmpty(Model.successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Model.successMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-outline-primary" href="/UserManagement/Index" role="button">Cancel</a>
+        </div>
+    </div>
+</form>

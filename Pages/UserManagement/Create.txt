@@ -67,3 +67,83 @@ namespace AgapayAidSystem.Pages.UserManagement
 		}
 	}
 }
+
+
+@page
+@model AgapayAidSystem.Pages.UserManagement.CreateModel
+@{
+}
+
+<h1 class="text-center display-4">New User</h1>
+
+@if (Model.errorMessage.Length > 0)
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<form method="POST">
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">User Type</label>
+		<div class="col-sm-6">
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+					@if (Model.userInfo.userType == "Admin") { <text>checked</text> }>
+				<label class="form-check-label" for="adminRadio">Admin</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+					@if (Model.userInfo.userType == "LGU Staff") { <text>checked</text> }>
+				<label class="form-check-label" for="lguRadio">LGU Staff</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+				@if (Model.userInfo.userType == "EC Staff") { <text>checked</text> }>
+				<label class="form-check-label" for="ecRadio">EC Staff</label>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
+
+	@if (Model.successMessage.Length > 0)
+	{
+		<div class="row-mb-3">
+			<div class="col-sm-9">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>@Model.successMessage</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+		</div>
+	}
+
+	<div class="row mb-3">
+		<div class="offset-sm-3 col-sm-3 d-grid">
+			<!-- button type="submit" class="btn btn-primary">Next</!button -->
+			<button type="button" class="btn btn-primary" onclick="redirectToNextPage()">Next</button>
+		</div>
+		<div class="col-sm-3 d-grid">
+			<a class="btn btn-outline-primary" href="/UserManagement/Index" role="button">Cancel</a>
+		</div>
+	</div>
+</form>
+
+<script>
+	// JavaScript function to redirect based on userType
+	function redirectToNextPage() {
+		var userType = document.querySelector('input[name="userType"]:checked').value;
+		var userID = @Model.userInfo.userID;
+
+		// Redirect based on userType
+		if (userType === "Admin") {
+			window.location.href = "/UserManagement/CreateAdmin?userID=" + userID;
+		} else if (userType === "LGU Staff") {
+			window.location.href = "/UserManagement/CreateLGUStaff?userID=" + userID;
+		} else if (userType === "EC Staff") {
+			window.location.href = "/UserManagement/CreateECStaff?userID=" + userID;
+		}
+	}
+</script>
