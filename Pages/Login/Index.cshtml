@@ -1,0 +1,123 @@
+﻿@page
+@model AgapayAidSystem.Pages.Login.IndexModel
+@{
+}
+
+<style>
+    .wrapper {
+        position: relative;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255,.5);
+        backdrop-filter: blur(20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh; /* This ensures the container takes up the full viewport height */
+    }
+
+    /* Style your form container and form elements as needed */
+    .form-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .form-header {
+        margin-bottom: 20px;
+    }
+
+    .input-box {
+        margin: 10px 0;
+        position: relative;
+     
+    }
+
+	.input-box input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+    }   
+
+    /* Style the labels */
+    .input-box label {
+        color: #000000;
+        top: 1px; /* Adjust the top property to move the label higher */
+        position: absolute;
+        left: 0; /* Align labels to the left */
+    }
+
+    /* Style the icons */
+    .ion-icon {
+        font-size: 40px; /* Adjust the icon size as needed */
+        color: #000000;
+    }
+
+    .labels-container {
+        text-align: left; /* Align the labels and inputs to the left */
+        margin-bottom: 10px; /* Add spacing between the labels and the rest of the form */
+        font-weight: 500;
+    }
+
+    .forgot-password {
+        float: right; /* Float the link to the right */
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+
+    /* Style the password label to be inline-block */
+    .password-label {
+        display: inline-block;
+        vertical-align: middle; /* Vertically align with the input */
+    }
+
+    .btnlogin-popup{
+        width: 100%;
+        height: 45px;
+        background: #3f8f8b;
+        border: none;
+        outline: none;
+        border-radius: 6px;
+        cursor: pointer;
+        color: #ffffff;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+</style>
+
+
+
+
+<body>
+
+	<div class="wrapper">
+		<div class="form-box login">
+            <ion-icon class="ion-icon" name="log-in"></ion-icon>
+            <h2 class="form-header">Log in</h2>
+			<form action="#">
+                <div class="labels-container">
+                    <label>Username</label>
+				        <div class="input-box">
+                            <input text="username" required placeholder="Enter your username">
+				        </div>
+				        
+                        <div class="input-box">
+                    <label class="password-label">Password</label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                            <input id="passwordInput" type="password" required placeholder="Enter your password">
+				        </div>
+                </div>
+
+				<button type="submit" class="btnlogin-popup">Login</button>
+			</form>
+		</div>
+	</div>
+
+
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
