@@ -3,7 +3,7 @@
 @{
 }
 
-<h1 class="text-center display-4">New EC Staff</h1>
+<h1 class="text-center display-4">New LGU Staff</h1>
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
@@ -63,11 +63,11 @@
     </div>
 
     <div class="row mb-3">
-    <label class="col-sm-3 col-form-label">Birthdate *</label>
-    <div class="col-sm-6">
-        <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
+        <label class="col-sm-3 col-form-label">Birthdate *</label>
+        <div class="col-sm-6">
+            <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
+        </div>
     </div>
-</div>
 
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Mobile Number *</label>
@@ -98,6 +98,7 @@
 </form>
 
 <script>
+    // Validate mobile number input
     const mobileNumInput = document.getElementById('mobileNum');
 
     // Initialize with "09" as the default value
