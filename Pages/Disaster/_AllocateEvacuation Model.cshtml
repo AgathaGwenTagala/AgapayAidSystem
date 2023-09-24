@@ -1,0 +1,64 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster._AllocationEvacuationCenterModel
+@{
+}
+
+<style>
+    .search-container {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container p-2">
+    <div class="container mt-4 " id="disaster-form-container">
+        <div class="row pt-4">
+            <div class="col text-center">
+                <h1>Allocate Evacuation Center</h1>
+            </div>
+        </div>
+
+        <div class="row pt-5">
+            <div class="col">
+                <div class="search-container">
+                    <div class="input-group">
+                        <input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-6">
+            <div class="table-responsive">
+                
+                <table class="table align-middle table-hover " style="width:100%">
+                        <tr>
+                            <th> </th>
+                            <th>Evacuation Center</th>
+                            <th>Evacuation Center Type</th>
+                            <th>Max Capacity</th>
+                        </tr>
+
+                        <!-- SAMPLE DATA-->
+                        <tr>
+                            <td width="10%">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="evacuationCenter1">
+                                    <label class="form-check-label" for="evacuationCenter1"></label>
+                                </div>
+                            </td>
+                            <td width="20%">Evacuation Center 1</td>
+                            <td width="10%">Type A</td>
+                            <td width="10%">100</td>
+                        </tr>
+                </table>
+
+                <!-- Cancel and Save Button -->
+                <div class="button-spacer">
+                    <button class="btn btn-outline-secondary mr-10">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,7 @@
     --bs-gray-700: #495057;
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
-    --bs-primary: 3F8F8B; /*CHANGED*/
+    --bs-primary: #3F8F8B; /*CHANGED*/
     --bs-secondary: #fff;
     --bs-success: #2fb380;
     --bs-info: #287bb5;
@@ -2725,7 +2725,8 @@ textarea.form-control-lg {
 }
 
     .form-check-input[type=checkbox] {
-        border-radius: 0.25em;
+        width: 1.4em; /* Adjust the width to make the checkbox larger */
+        height: 1.4em; /* CHANGED Adjust the height to make the checkbox larger */
     }
 
     .form-check-input[type=radio] {
@@ -2743,8 +2744,8 @@ textarea.form-control-lg {
     }
 
     .form-check-input:checked {
-        background-color: #3459e6;
-        border-color: #3459e6;
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
     }
 
         .form-check-input:checked[type=checkbox] {
@@ -13973,6 +13974,6 @@ thead th {
     text-align: center;
 }
 
-  .button-spacer button {
-    margin: 0 10px; /* Add margin to create spacing between buttons */
-  }
+.button-spacer button {
+    margin: 20px 10px; /* Add margin to create spacing between buttons */ /* Add margin-top to create spacing between the "Save" button and checkboxes */
+}
