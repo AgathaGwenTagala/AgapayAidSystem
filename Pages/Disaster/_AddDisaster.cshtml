@@ -9,7 +9,7 @@
 
 		<div class="row pt-3">
 			<div class="input-group">
-				<a class="btn btn-outline-primary" asp-area="" asp-page="/Disaster"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</a>
+				<a class="btn btn-outline-primary" asp-area="" asp-page="/Disaster/Index"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</a>
 			</div>
 		</div>
 
@@ -28,20 +28,14 @@
 				</div>
 
 				<!-- Disaster Type -->
-				<div class="mb-3 row">
+				<div class="mb-3">
 					<label class="form-label" for="InputDisasterType">Disaster Type:</label>
-					<div class="btn-group">
-						<button class="btn btn-secondary dropdown-toggle text-start text-muted" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-							Select Disaster Type
-						</button>
-
-						<!-- SAMPLE DATA -->
-						<ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-							<li><a class="dropdown-item" href="#">Fire</a></li>
-							<li><a class="dropdown-item" href="#">Flood</a></li>
-							<li><a class="dropdown-item" href="#">Earthquake</a></li>
-						</ul>
-					</div>
+					<select class="form-select" id="InputDisasterType">
+						<option value="" selected disabled>Select Disaster Type</option>
+						<option value="Fire">Fire</option>
+						<option value="Flood">Flood</option>
+						<option value="Earthquake">Earthquake</option>
+					</select>
 				</div>
 
 				<!-- Date Occurred -->
