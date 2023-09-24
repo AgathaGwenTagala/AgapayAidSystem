@@ -86,13 +86,21 @@
     <div class="row mb-3">
         <labeL>* Required field</label>
     </div>
+    
+    @if (!string.IsNullOrEmpty(Model.successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Model.successMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
     <div class="row mb-3">
         <div class="offset-sm-3 col-sm-3 d-grid">
             <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
         </div>
         <div class="col-sm-3 d-grid">
-            <a class="btn btn-outline-primary" href="/UserManagement/CreateLGUStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
+            <a class="btn btn-outline-primary" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
         </div>
     </div>
 </form>
