@@ -53,10 +53,30 @@
 
 	<div class="row mb-3">
 		<div class="offset-sm-3 col-sm-3 d-grid">
-			<button type="submit" class="btn btn-primary">Next</button>
+			<button type="submit" class="btn btn-primary id=" submitBtn"">Next</button>
 		</div>
 		<div class="col-sm-3 d-grid">
 			<a class="btn btn-outline-primary" href="/UserManagement/Index" role="button">Cancel</a>
 		</div>
 	</div>
 </form>
+
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	// Disable the submit button by default
+	submitButton.disabled = true;
+
+	// Function to check form validity and enable/disable the submit button
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	// Add an event listener for the input event on form elements
+	form.addEventListener('input', checkFormValidity);
+</script>
