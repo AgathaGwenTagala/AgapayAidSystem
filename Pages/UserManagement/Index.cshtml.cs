@@ -20,7 +20,7 @@ namespace AgapayAidSystem.Pages.UserManagement
                     String sql = "SELECT * FROM user";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
-                        using (MySqlDataReader reader = command.ExecuteReader()) 
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
@@ -29,15 +29,15 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = "" + reader.GetString(1);
                                 userInfo.password = "" + reader.GetString(2);
                                 userInfo.userType = "" + reader.GetString(3);
-                                
+
                                 // Convert the userPhoto BLOB data to a byte[]
                                 if (!reader.IsDBNull(4))
                                 {
                                     userInfo.userPhoto = (byte[])reader.GetValue(4);
                                 }
-                                
+
                                 userInfo.createdAt = reader.GetDateTime(5).ToString();
-								listUsers.Add(userInfo);
+                                listUsers.Add(userInfo);
                             }
                         }
                     }
@@ -59,5 +59,6 @@ namespace AgapayAidSystem.Pages.UserManagement
         public string userType { get; set; }
         public byte[] userPhoto { get; set; }
         public string createdAt { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }
