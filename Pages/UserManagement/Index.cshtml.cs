@@ -59,6 +59,5 @@ namespace AgapayAidSystem.Pages.UserManagement
         public string userType { get; set; }
         public byte[] userPhoto { get; set; }
         public string createdAt { get; set; }
-        public IFormFile Photo { get; set; }
     }
 }
