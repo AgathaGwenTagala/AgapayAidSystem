@@ -143,11 +143,4 @@
 
     // Add an event listener for the input event on form elements
     form.addEventListener('input', checkFormValidity);
-
-    // Function to delete the userID from the Create page when the back button is clicked
-    window.onbeforeunload = function () {
-        const userIDToDelete = "@Model.userID";
-        const url = `/UserManagement/CreateLGUStaff?userID=${userIDToDelete}&action=cancel&userIDToDelete=${userIDToDelete}`;
-        fetch(url, { method: "GET" });
-    };
 </script>
