@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Evacuation
+namespace AgapayAidSystem.Pages.EvacuationCenter
 {
     public class IndexModel : PageModel
     {
@@ -16,7 +16,7 @@ namespace AgapayAidSystem.Pages.Evacuation
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM evacuation_center_log";
+					String sql = "SELECT * FROM evacuation_center";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -25,11 +25,11 @@ namespace AgapayAidSystem.Pages.Evacuation
 							{
 								EvacuationInfo evacuationInfo = new EvacuationInfo();
 
-								evacuationInfo.evacuationID = "" + reader.GetString(0);
-								evacuationInfo.evacuationName = "" + reader.GetString(1);
-								evacuationInfo.barangay = "" + reader.GetString(2);
-								evacuationInfo.capacity = "" + reader.GetString(3);
-								evacuationInfo.status = "" + reader.GetString(4);
+								evacuationInfo.centerID = "" + reader.GetString(0);
+								evacuationInfo.centerName = "" + reader.GetString(1);
+								evacuationInfo.barangayID = "" + reader.GetString(4);
+								evacuationInfo.maxCapacity = "" + reader.GetString(7);
+								evacuationInfo.status = "" + reader.GetString(8);
 								listEvacuation.Add(evacuationInfo);
 							}
 						}
@@ -46,10 +46,10 @@ namespace AgapayAidSystem.Pages.Evacuation
 
 	public class EvacuationInfo
 	{
-		public string evacuationID { get; set; }
-		public string evacuationName { get; set; }
-		public string barangay { get; set; }
-		public string capacity { get; set; }
+		public string centerID { get; set; }
+		public string centerName { get; set; }
+		public string barangayID { get; set; }
+		public string maxCapacity { get; set; }
 		public string status { get; set; }
 	}
 }

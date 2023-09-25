@@ -1,5 +1,5 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Evacuation.IndexModel
+@model AgapayAidSystem.Pages.EvacuationCenter.IndexModel
 @{
 }
 
@@ -27,7 +27,7 @@
 
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
-				<a asp-page="/Evacuation/_AddEvacuation" class="btn btn-primary mb-2"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Evacuation Center</a>
+				<a asp-page="/EvacuationCenter/_AddEvacuationCenter" class="btn btn-primary mb-2"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Evacuation Center</a>
 			</div>
 		</div>
 	</div>
@@ -54,13 +54,14 @@
 				@foreach (var item in Model.listEvacuation)
 				{
 					<tr>
-						<td width="20%">@item.evacuationName</td>
-						<td width="10%">@item.barangay</td>
-						<td width="35%">@item.capacity</td>
-						<td width="10%">@item.status</td>
+						<td width="30%">@item.centerName</td>
+						<td width="15%">@item.barangayID</td>
+						<td width="15%">@item.maxCapacity</td>
+						<td width="15%">@item.status</td>
 						<td width=15%>
-							<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
-							<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
+							<!-- <button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>-->
+							<a asp-page="/EvacuationCenter/_EditEvacuationCenter" button class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>
 							<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
 						</td>
 					</tr>
