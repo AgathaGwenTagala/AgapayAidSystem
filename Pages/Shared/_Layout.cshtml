@@ -4,60 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Agapay Aid System</title>
-
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bootswatch_Zephyr.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary shadow-lg mb-3">
-            <div class="container-fluid">
-                
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
+            <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">
-                    <img src="/white-logo-horizontal.png" alt="" height="30" id="logo" style="margin-left: 15px;">
+                    <img src="/green-logo-horizontal.png" alt="" height="40" id="logo">
                 </a>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <ul class="navbar-nav" style="padding:5px 10px 10px 0;">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Dashboard</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Disaster/Index">Disaster</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Disaster/Index">Disaster</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/EvacuationCenter/Index">Evacuation Center</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Database</a>
-                            <ul class="dropdown-menu" data-bs-theme="light">
-                                <li><a class="nav-link text-dark" asp-area="" asp-page="/Family/Index">Family Database</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-page="/Staff/Index">Staff Database</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Inventory/Index">Inventory</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Evacuation/Index">Evacuation Centers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Users/Index">Users</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Inventory/Index">Inventory</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a asp-area="" asp-page="#">
-                                <img src="~/sample-pic.jpg" alt="User Profile" class="rounded-circle" style="max-height: 35px; width: auto; margin-left:7px;">
-                            </a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="Users/Index">Users</a>
                         </li>
                     </ul>
                 </div>
@@ -66,7 +40,7 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3 pt-3">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>

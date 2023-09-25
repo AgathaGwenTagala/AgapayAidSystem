@@ -1,0 +1,71 @@
+﻿@page
+@model AgapayAidSystem.Pages.Evacuation.IndexModel
+@{
+}
+
+<div class="container p-2">
+	<div class="row pt-3">
+		<div class="col">
+			<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a class="nav-link text-muted" asp-area="" asp-page="/Index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>Evacuation Centers</strong></li>
+				</ol>
+			</div>
+			<div class="input-group">
+				<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+				<button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row pt-4">
+		<div class="col">
+			<h1>Evacuation Center</h1>
+		</div>
+
+		<div class="col-auto">
+			<div class="d-flex justify-content-end align-items-center">
+				<a asp-page="/Evacuation/_AddEvacuation" class="btn btn-primary mb-2"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Evacuation Center</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table align-middle table-hover " style="width:100%">
+			<thead>
+				<tr>
+					<th>
+						Evacuation Center Name
+					</th>
+					<th>
+						Barangay
+					</th>
+					<th>
+						Capacity
+					</th>
+					<th>
+						Status
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model.listEvacuation)
+				{
+					<tr>
+						<td width="20%">@item.evacuationName</td>
+						<td width="10%">@item.barangay</td>
+						<td width="35%">@item.capacity</td>
+						<td width="10%">@item.status</td>
+						<td width=15%>
+							<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+							<button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button>
+							<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
