@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Evacuation
+namespace AgapayAidSystem.Pages.EvacuationCenter
 {
-    public class _AddEvacuationModel : PageModel
+    public class _EditEvacuationCenterModel : PageModel
     {
         public void OnGet()
         {
