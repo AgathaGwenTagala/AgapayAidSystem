@@ -25,12 +25,12 @@
                     if (rowsAffected > 0)
                     {
                         // User deleted successfully
-                        successMessage = "User deleted successfully.";
+                        successMessage = "User deleted successfully";
                     }
                     else
                     {
                         // No user found with the provided userID
-                        errorMessage = "User not found with the provided userID.";
+                        errorMessage = "User not found with the provided userID";
                     }
                 }
             }
@@ -38,12 +38,12 @@
         else
         {
             // userID parameter is missing from the query string
-            errorMessage = "UserID parameter is missing from the query string.";
+            errorMessage = "UserID parameter is missing from the query string";
         }
     }
     catch (Exception ex)
     {
-        errorMessage = "An error occurred while deleting the user: " + ex.Message;
+        errorMessage = ex.Message;
     }
 
     // Redirect to the UserManagement/Index page after deleting or encountering an error
