@@ -21,7 +21,7 @@ namespace AgapayAidSystem.Pages.UserManagement
         public string successMessage = "";
 
 
-        public void OnGet(string lastInsertedUserID, string action, string userIDToDelete)
+        public void OnGet(string action, string userIDToDelete)
         {
             // Retrieve and decode the userID from the query string
             string encodedUserID = HttpContext.Request.Query["userID"];
