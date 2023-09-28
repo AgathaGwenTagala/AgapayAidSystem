@@ -1,0 +1,147 @@
+﻿@page
+@model AgapayAidSystem.Pages.UserManagement.CreateECStaffModel
+@{
+    ViewData["Title"] = "New EC Staff";
+}
+
+<h1 class="text-center display-4">New EC Staff</h1>
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form method="POST">
+    <input type="hidden" name="userID" value="@Model.userID"/>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">User ID</label>
+        <div class="col-sm-6">
+            <span class="form-control-plaintext">@Model.userID</span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">First Name *</label>
+        <div class="col-sm-6">
+            <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
+        </div>
+    </div>
+    
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Middle Name</label>
+        <div class="col-sm-6">
+            <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Last Name *</label>
+        <div class="col-sm-6">
+            <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Extension Name</label>
+        <div class="col-sm-6">
+            <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Sex *</label>
+        <div class="col-sm-6">
+            <select id="sex" name="sex" class="form-select" required>
+                <option value="">Please select</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Birthdate *</label>
+        <div class="col-sm-6">
+            <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Mobile Number *</label>
+        <div class="col-sm-6">
+            <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Email Address *</label>
+        <div class="col-sm-6">
+            <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <labeL>* Required field</label>
+    </div>
+    
+    @if (!string.IsNullOrEmpty(Model.successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Model.successMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-outline-primary" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    // Validate mobile number input
+    const mobileNumInput = document.getElementById('mobileNum');
+
+    // Initialize with "09" as the default value
+    mobileNumInput.value = '09';
+
+    mobileNumInput.addEventListener('input', function () {
+        const inputValue = mobileNumInput.value;
+
+        // Ensure "09" is always at the beginning
+        if (!inputValue.startsWith('09')) {
+            mobileNumInput.value = '09' + inputValue.substring(2);
+        }
+
+        // Limit to a maximum of 11 characters
+        if (inputValue.length > 11) {
+            mobileNumInput.value = inputValue.slice(0, 11);
+        }
+    });
+
+    const submitButton = document.getElementById('submitBtn');
+    const form = document.querySelector('form');
+
+    // Disable the submit button by default
+    submitButton.disabled = true;
+
+    // Function to check form validity and enable/disable the submit button
+    function checkFormValidity() {
+        if (form.checkValidity()) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
+    // Add an event listener for the input event on form elements
+    form.addEventListener('input', checkFormValidity);
+</script>

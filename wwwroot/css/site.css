@@ -33,6 +33,25 @@ h1, .h1 {
     text-align: center;
 }
 
+body {
+    margin-bottom: 60px;
+}
+
+.user-photo {
+    width: 25px;
+    height: 25px;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
 .button-spacer button {
         margin: 20px 10px; /* Add margin to create spacing between buttons */
 }

@@ -1,0 +1,74 @@
+﻿@page
+@model AgapayAidSystem.Pages.UserManagement.CreateAdminModel
+@{
+    ViewData["Title"] = "New Admin";
+}
+
+<h1 class="text-center display-4">New Admin</h1>
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<form method="POST">
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">User ID</label>
+        <div class="col-sm-6">
+            <span class="form-control-plaintext">@Model.userID</span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Admin Name *</label>
+        <div class="col-sm-6">
+            <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" />
+        </div>
+    </div>
+
+    <input type="hidden" name="userID" value="@Model.userID"/>
+
+    <div class="row mb-3">
+        <small class="text-muted">* Required field</small>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Model.successMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-3">
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+        </div>
+        <div class="col-sm-3 d-grid">
+            <a class="btn btn-outline-primary" href="/UserManagement/CreateAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    const submitButton = document.getElementById('submitBtn');
+    const form = document.querySelector('form');
+
+    // Disable the submit button by default
+    submitButton.disabled = true;
+
+    // Function to check form validity and enable/disable the submit button
+    function checkFormValidity() {
+        if (form.checkValidity()) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
+    // Add an event listener for the input event on form elements
+    form.addEventListener('input', checkFormValidity);
+</script>
