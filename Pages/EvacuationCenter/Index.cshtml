@@ -60,9 +60,11 @@
 						<td width="15%">@item.status</td>
 						<td width=15%>
 							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
-							<!-- <button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>-->
 							<a asp-page="/EvacuationCenter/_EditEvacuationCenter" button class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>
-							<button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+							<a href="/EvacuationCenter/_DeleteEvacuationCenter?id=@item.centerID" button class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+							<!--<a class="btn btn-danger btn-sm" href="/EvacuationCenter/_DeleteEvacuationCenter?id=@item.centerID"></a>-->
+							<!-- <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button> -->
+
 						</td>
 					</tr>
 				}

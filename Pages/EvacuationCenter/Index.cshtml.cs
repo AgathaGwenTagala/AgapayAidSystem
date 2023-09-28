@@ -52,4 +52,6 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public string maxCapacity { get; set; }
 		public string status { get; set; }
 	}
+
+
 }
