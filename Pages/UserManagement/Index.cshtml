@@ -44,7 +44,18 @@
                 <td>@item.userType</td>
                 <td>@item.createdAt</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="/UserManagement/Edit?userID=@item.userID">Edit</a>
+                    @if (item.userType == "Admin")
+                    {
+                        <a class="btn btn-primary btn-sm" href="/UserManagement/EditAdmin?userID=@item.userID">Edit</a>
+                    }
+                    else if (item.userType == "EC Staff")
+                    {
+                        <a class="btn btn-primary btn-sm" href="/UserManagement/EditECStaff?userID=@item.userID">Edit</a>
+                    }
+                    else if (item.userType == "LGU Staff")
+                    {
+                        <a class="btn btn-primary btn-sm" href="/UserManagement/EditLGUStaff?userID=@item.userID">Edit</a>
+                    }
                     <a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete('@item.userID')">Delete</a>
                 </td>
             </tr>
