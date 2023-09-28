@@ -1,0 +1,82 @@
+﻿@page
+@model AgapayAidSystem.Pages.UserManagement.CreateModel
+@{
+	ViewData["Title"] = "New User";
+}
+
+<h1 class="text-center display-4">New User</h1>
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<form method="POST">
+	<div class="row mb-3">
+		<label class="col-sm-3 col-form-label">User Type</label>
+		<div class="col-sm-6">
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+					@if (Model.userInfo.userType == "Admin") { <text>checked</text> }>
+				<label class="form-check-label" for="adminRadio">Admin</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+					@if (Model.userInfo.userType == "LGU Staff") { <text>checked</text> }>
+				<label class="form-check-label" for="lguRadio">LGU Staff</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+				@if (Model.userInfo.userType == "EC Staff") { <text>checked</text> }>
+				<label class="form-check-label" for="ecRadio">EC Staff</label>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
+	<input type="hidden" name="userInfo.userID" value="@Model.userInfo.userID" />
+
+	@if (!string.IsNullOrEmpty(Model.successMessage))
+	{
+		<div class="row-mb-3">
+			<div class="col-sm-9">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>@Model.successMessage</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+		</div>
+	}
+
+	<div class="row mb-3">
+		<div class="offset-sm-3 col-sm-3 d-grid">
+			<button type="submit" class="btn btn-primary" id="submitBtn">Next</button>
+		</div>
+		<div class="col-sm-3 d-grid">
+			<a class="btn btn-outline-primary" href="/UserManagement/Index" role="button">Cancel</a>
+		</div>
+	</div>
+</form>
+
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	// Disable the submit button by default
+	submitButton.disabled = true;
+
+	// Function to check form validity and enable/disable the submit button
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	// Add an event listener for the input event on form elements
+	form.addEventListener('input', checkFormValidity);
+</script>

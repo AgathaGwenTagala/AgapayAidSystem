@@ -2,6 +2,8 @@
 
 :root {
     --bs-primary-color: #3F8F8B;
+html {
+    font-size: 14px;
 }
 
 
@@ -27,12 +29,37 @@ h1, .h1 {
     padding: 20px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
 }
 
 .button-spacer {
     text-align: center;
+html {
+    position: relative;
+    min-height: 100%;
 }
 
+body {
+    margin-bottom: 60px;
+}
+
+.user-photo {
+    width: 25px;
+    height: 25px;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+    .user-photo img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+    }
 .button-spacer button {
         margin: 20px 10px; /* Add margin to create spacing between buttons */
 }

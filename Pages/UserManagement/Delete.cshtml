@@ -1,0 +1,51 @@
+﻿@page
+@using MySql.Data.MySqlClient
+@{
+    string errorMessage = "";
+    string successMessage = "";
+    
+    try
+    {
+        // Check if the userID parameter exists in the query string
+        if (Request.Query.ContainsKey("userID"))
+        {
+            String userID = Request.Query["userID"];
+
+            string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM user WHERE userID = @userID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@userID", userID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        // User deleted successfully
+                        successMessage = "User deleted successfully";
+                    }
+                    else
+                    {
+                        // No user found with the provided userID
+                        errorMessage = "User not found with the provided userID";
+                    }
+                }
+            }
+        }
+        else
+        {
+            // userID parameter is missing from the query string
+            errorMessage = "UserID parameter is missing from the query string";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    // Redirect to the UserManagement/Index page after deleting or encountering an error
+    Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+}
