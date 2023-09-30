@@ -1,6 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster._AllocationEvacuationCenterModel
+@model AgapayAidSystem.Pages.Disaster.AllocationEvacuationCenterModel
 @{
+    ViewData["Title"] = "Allocate Evacuation Center";
 }
 
 <style>
@@ -30,27 +31,27 @@
 
         <div class="row pt-6">
             <div class="table-responsive">
-                
-                <table class="table align-middle table-hover " style="width:100%">
-                        <tr>
-                            <th> </th>
-                            <th>Evacuation Center</th>
-                            <th>Evacuation Center Type<i class="bi bi-arrow-down-circle" style="padding: 5px;"></i></th>
-                            <th>Max Capacity<i class="bi bi-arrow-down-circle" style="padding: 5px;"></i></th>
-                        </tr>
 
-                        <!-- SAMPLE DATA-->
-                        <tr>
-                            <td width="10%">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="evacuationCenter1">
-                                    <label class="form-check-label" for="evacuationCenter1"></label>
-                                </div>
-                            </td>
-                            <td width="20%">Bayanihan Gymnasium</td>
-                            <td width="20%">Community-Based Evacuation Center</td>
-                            <td width="10%">800</td>
-                        </tr>
+                <table class="table align-middle table-hover " style="width:100%">
+                    <tr>
+                        <th> </th>
+                        <th>Evacuation Center</th>
+                        <th>Evacuation Center Type<i class="bi bi-arrow-down-circle" style="padding: 5px;"></i></th>
+                        <th>Max Capacity<i class="bi bi-arrow-down-circle" style="padding: 5px;"></i></th>
+                    </tr>
+
+                    <!-- SAMPLE DATA-->
+                    <tr>
+                        <td width="10%">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="evacuationCenter1">
+                                <label class="form-check-label" for="evacuationCenter1"></label>
+                            </div>
+                        </td>
+                        <td width="20%">Bayanihan Gymnasium</td>
+                        <td width="20%">Community-Based Evacuation Center</td>
+                        <td width="10%">800</td>
+                    </tr>
                 </table>
 
                 <!-- Cancel and Save Button -->

@@ -1,0 +1,106 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster.AddDisasterModel
+@{
+	ViewData["Title"] = "New Disaster";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<div class="container p-2">
+
+	<div class="container mt-4" id="disaster-form-container">
+
+		<div class="row pt-3">
+			<div class="input-group">
+				<a class="btn btn-outline-primary" asp-area="" asp-page="/Disaster/Index"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</a>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Add Disaster</h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST">
+				<!-- Disaster Name -->
+				<div class="mb-3">
+					<label class="form-label">Disaster Name: *</label>
+					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="e.g. Typhoon Pedro" required maxlength="65">
+				</div>
+
+				<!-- Disaster Type -->
+				<div class="mb-3">
+					<label class="form-label">Disaster Type: *</label>
+					<select class="form-select" name="disasterType" required>
+						<option value="" selected disabled>Select Disaster Type</option>
+						@if (Model.DisasterTypes != null)
+						{
+							@foreach (var type in Model.DisasterTypes)
+							{
+								<option value="@type">@type</option>
+							}
+						}
+					</select>
+				</div>
+
+				<!-- Date Occurred -->
+				<div class="mb-3">
+					<label class="form-label">Date Occurred: *</label>
+					<input type="date" class="form-control text-muted" name="dateOccured" value="@Model.disasterInfo.dateOccured" required pattern="\d{4}-\d{2}-\d{2}">
+				</div>
+
+				<!-- Disaster Description -->
+				<div class="mb-3">
+					<label class="form-label">Description: *</label>
+					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" placeholder="e.g. With wind speeds exceeding 160 miles per hour and torrential rains, the typhoon caused widespread flooding, landslides, and destruction of homes and infrastructure. Thousands were evacuated, and relief efforts were quickly mobilized to provide aid and assistance to affected communities." required></textarea>
+				</div>
+
+				<div class="mb-3">
+					<small class="text-muted">* Required field</small>
+				</div>
+    
+				@if (!string.IsNullOrEmpty(Model.successMessage))
+				{
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>@Model.successMessage</strong>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				}
+
+				<!-- Cancel and Save Button -->
+				<div class="button-spacer">
+					<a class="btn btn-outline-secondary mr-10" href="/Disaster/Index" role="button">Cancel</a>
+					<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	// Disable the submit button by default
+	submitButton.disabled = true;
+
+	// Function to check form validity and enable/disable the submit button
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	// Add an event listener for the input event on form elements
+	form.addEventListener('input', checkFormValidity);
+</script>
