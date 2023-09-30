@@ -1,6 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster._AddDisasterModel
+@model AgapayAidSystem.Pages.Disaster.AddDisasterModel
 @{
+	ViewData["Title"] = "New Disaster";
 }
 
 <div class="container p-2">
@@ -9,13 +10,13 @@
 
 		<div class="row pt-3">
 			<div class="input-group">
-				<a asp-page="/Disaster" button type="submit" class="btn btn-outline-primary"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</a>
+				<a class="btn btn-outline-primary" asp-area="" asp-page="/Disaster/Index"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Disaster</a>
 			</div>
 		</div>
 
 		<div class="row pt-4">
 			<div class="col text-center">
-				<h1>Edit Disaster</h1>
+				<h1>Add Disaster</h1>
 			</div>
 		</div>
 
@@ -28,20 +29,14 @@
 				</div>
 
 				<!-- Disaster Type -->
-				<div class="mb-3 row">
+				<div class="mb-3">
 					<label class="form-label" for="InputDisasterType">Disaster Type:</label>
-					<div class="btn-group">
-						<button class="btn btn-secondary dropdown-toggle text-start text-muted" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-							Fire
-						</button>
-
-						<!-- SAMPLE DATA -->
-						<ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-							<li><a class="dropdown-item" href="#">Fire</a></li>
-							<li><a class="dropdown-item" href="#">Flood</a></li>
-							<li><a class="dropdown-item" href="#">Earthquake</a></li>
-						</ul>
-					</div>
+					<select class="form-select" id="InputDisasterType">
+						<option value="" selected disabled>Select Disaster Type</option>
+						<option value="Fire">Fire</option>
+						<option value="Flood">Flood</option>
+						<option value="Earthquake">Earthquake</option>
+					</select>
 				</div>
 
 				<!-- Date Occurred -->
@@ -59,7 +54,7 @@
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
 					<button class="btn btn-outline-secondary mr-10">Cancel</button>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</div>
 			</form>
 		</div>
