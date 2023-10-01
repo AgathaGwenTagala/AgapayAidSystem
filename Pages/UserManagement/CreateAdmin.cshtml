@@ -4,54 +4,69 @@
     ViewData["Title"] = "New Admin";
 }
 
-<h1 class="text-center display-4">New Admin</h1>
+<div class="container p-2">
 
-@if (!string.IsNullOrEmpty(Model.errorMessage))
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>@Model.errorMessage</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<div class="container mt-4 disaster-form-container">
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Add New User</h1>
+                <h6 class="text-dark">Admin</h6>
+			</div>
+		</div>
+
+
+        @if (!string.IsNullOrEmpty(Model.errorMessage))
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="POST">
+            <input type="hidden" name="userID" value="@Model.userID" />
+
+            <div class="row mb-3 user-container"> 
+                <div class="row mb-3">
+                    <p class="text-danger text-end">* Required field</p>
+                </div>
+
+                <div class="row mb-3 pb-1">
+                    <label class="col-sm-2 col-form-label">User ID:</label>
+                    <div class="col-sm-10">
+                        <span class="form-control-plaintext form-readonly">@Model.userID</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="InputAdminName">Admin Name:<span class="text-danger" style="padding:5px">*</span></label>
+                    <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" placeholder="adminJohn" />
+                </div>
+
+                <input type="hidden" name="userID" value="@Model.userID" />
+
+                @if (!string.IsNullOrEmpty(Model.successMessage))
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>@Model.successMessage</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- Cancel and Save Button -->
+                <div class="button-spacer">
+                    <button class="btn btn-outline-secondary mr-10" href="#" role="button">
+                        <i class="bi bi-arrow-left" style="padding:5px;"></i>
+                        Previous</button>
+                    <button class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                        Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+                </div>
+            </div>
+        </form> 
     </div>
-}
-
-<form method="POST">
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">User ID</label>
-        <div class="col-sm-6">
-            <span class="form-control-plaintext">@Model.userID</span>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Admin Name *</label>
-        <div class="col-sm-6">
-            <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" />
-        </div>
-    </div>
-
-    <input type="hidden" name="userID" value="@Model.userID"/>
-
-    <div class="row mb-3">
-        <small class="text-muted">* Required field</small>
-    </div>
-
-    @if (!string.IsNullOrEmpty(Model.successMessage))
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>@Model.successMessage</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    <div class="row mb-3">
-        <div class="offset-sm-3 col-sm-3 d-grid">
-            <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
-        </div>
-        <div class="col-sm-3 d-grid">
-            <a class="btn btn-outline-primary" href="/UserManagement/CreateAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
-        </div>
-    </div>
-</form>
+</div>
 
 <script>
     const submitButton = document.getElementById('submitBtn');

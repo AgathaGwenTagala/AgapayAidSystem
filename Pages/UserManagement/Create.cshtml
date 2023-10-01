@@ -5,16 +5,11 @@
 }
 
 <div class="container p-2">
-
-	<div class="progress" style="height: 20px;">
-		<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-	</div>
-
 	<div class="container mt-4 disaster-form-container">
 
 		<div class="row pt-4">
 			<div class="col text-center">
-				<h1>New User</h1>
+				<h1>Add New User</h1>
 			</div>
 		</div>
 
@@ -29,7 +24,7 @@
 		<div class="row pt-4">
 			<form method="POST">
 				<div class="row mb-3 user-container">
-					<label class="form-label" for="InputDisasterName">User :</label>
+					<label class="form-label" for="InputDisasterName">User Type:</label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
 						@if (Model.userInfo.userType == "Admin")
@@ -74,7 +69,7 @@
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
 					<button class="btn btn-outline-secondary mr-10" href="/UserManagement/Index" role="button">Cancel</button>
-					<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+					<button type="submit" class="btn btn-primary" id="submitBtn">Next<i class="bi bi-arrow-right" style="padding:5px"></i></button>
 				</div>
 
 			</form>
