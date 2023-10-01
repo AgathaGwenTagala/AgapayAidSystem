@@ -80,6 +80,10 @@ body {
     margin-left: 30px;
 }
 
+.form-only{
+    padding:30px;
+}
+
 /*DISASTER PROFILE*/
 
 .content {
