@@ -2742,8 +2742,8 @@ textarea.form-control-lg {
     }
 
     .form-check-input:checked {
-        background-color: #3459e6;
-        border-color: #3459e6;
+        background-color: var(--bs-primary); /*CHANGED*/
+        border-color: var(--bs-primary); /*CHANGED*/
     }
 
         .form-check-input:checked[type=checkbox] {
@@ -3458,9 +3458,9 @@ textarea.form-control-lg {
     --bs-btn-active-bg: #3F8F8B; /*CHANGED*/
     --bs-btn-active-border-color: #3F8F8B; /*CHANGED*/
     --bs-btn-active-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #3459e6;
-    --bs-btn-disabled-border-color: #3459e6;
+    --bs-btn-disabled-color: #3F8F8B; /*CHANGED*/
+    --bs-btn-disabled-bg: #D0E8DE; /*CHANGED*/
+    --bs-btn-disabled-border-color: #D0E8DE; /*CHANGED*/
 }
 
 .btn-secondary {
@@ -5578,7 +5578,7 @@ textarea.form-control-lg {
     color: var(--bs-progress-bar-color);
     text-align: center;
     white-space: nowrap;
-    background-color: var(--bs-progress-bar-bg);
+    background-color: var(--bs-primary); /*CHANGED*/
     transition: var(--bs-progress-bar-transition);
 }
 
