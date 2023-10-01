@@ -1,13 +1,20 @@
 ﻿@page
 @model AgapayAidSystem.Pages.EvacuationCenter.AddEvacuationCenterModel
 @{
+	ViewData["Title"] = "New Evacuation Center";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 }
 
 <style>
-
-
 	.input-facility {
-		width: 80px; /* Adjust the width as needed */
+		width: 80px;
 		margin-right: 10px;
 	}
 
@@ -16,7 +23,7 @@
 	}
 
 	.label-container {
-		white-space: nowrap; /* Prevent label from wrapping to a new line */
+		white-space: nowrap;
 	}
 
 	.mx-auto {
@@ -28,12 +35,6 @@
 
 	<div class="container mt-4" id="disaster-form-container">
 
-		<div class="row pt-3">
-			<div class="input-group">
-				<a class="btn btn-outline-primary" asp-area="" asp-page="/EvacuationCenter/Index"><i class="bi bi-arrow-left-circle" style="padding: 5px;"></i>List of Evacuation Center</a>
-			</div>
-		</div>
-
 		<div class="row pt-4">
 			<div class="col text-center">
 				<h1>Add Evacuation Center</h1>
@@ -41,148 +42,195 @@
 		</div>
 
 		<div class="row pt-4">
+			<form method="POST">
+				<!-- Left column: Center Name, Street Address, and Mobile Number -->
+				<div class="col-md-6">
+					<!-- Evacution Center Name -->
+					<div class="mb-3">
+						<label class="form-label">
+							Evacuation Center Name:
+							<span class="text-danger" style="padding: 5px">*</span>
+						</label>
+						<input type="text" class="form-control" name="centerName" value="@Model.evacuationInfo.centerName" required maxlength="65" />
+					</div>
 
-			<!-- Left column: Center Name, Street Address, and Mobile Number -->
-			<div class="col-md-6">
-				<!-- Evacution Center Name -->
-				<div class="mb-3">
-					<label class="form-label" for="InputEvacuationCenterName">Evacuation Center Name:</label>
-					<input class="form-control" id="InputEvacuationCenterName" type="text">
+					<!-- Street Address -->
+					<div class="mb-3">
+						<label class="form-label">
+							Street Address:
+							<span class="text-danger" style="padding: 5px">*</span>
+						</label>
+						<input type="text" class="form-control" name="streetAddress" value="@Model.evacuationInfo.streetAddress" required maxlength="85" />
+					</div>
+
+					<!-- Mobile Number -->
+					<div class="mb-3">
+						<label class="form-label">Mobile Number:</label>
+						<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.evacuationInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
+					</div>
 				</div>
 
-				<!-- Street Address -->
-				<div class="mb-3">
-					<label class="form-label" for="InputStreetAddress">Street Address:</label>
-					<input class="form-control" id="InputStreetAddress" type="text">
+				<!-- Right column: Evacuation Center Type, Barangay, and Telephone Number -->
+				<div class="col-md-6">
+					<!-- Evacuation Center Type -->
+					<div class="mb-3">
+						<label class="form-label">
+							Type of Evacuation Center:
+							<span class="text-danger" style="padding: 5px">*</span>
+						</label>
+						<select class="form-select" name="centerType" required>
+							<option value="" selected disabled>Select Evacuation Center Type</option>
+							<option value="School EC">School EC</option>
+							<option value="Community-based EC">Community-based EC</option>
+						</select>
+					</div>
+
+					<!-- Barangay -->
+					<div class="mb-3">
+						<label class="form-label">
+							Barangay:
+							<span class="text-danger" style="padding: 5px">*</span>
+						</label>
+						<select class="form-select" name="barangayID" id="barangayID" required>
+							<option value="" selected disabled>Select Barangay</option>
+							@if (Model.Barangays != null)
+							{
+								@foreach (var type in Model.Barangays)
+								{
+									<option value="@type.barangayID">@type.barangayName</option>
+								}
+							}
+						</select>
+					</div>
+
+					<!-- Telephone Number -->
+					<div class="mb-3">
+						<label class="form-label">Telephone Number:</label>
+						<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.evacuationInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+					</div>
 				</div>
 
-				<!-- Mobile Number -->
-				<div class="mb-3">
-					<label class="form-label" for="InputMobileNumber">Mobile Number:</label>
-					<input class="form-control" id="InputMobileNumber" type="text" placeholder="e.g. 0987-654-3210">
-				</div>
-			</div>
+				<!-- Available Facilities -->
+				<div class="mb-3 mt-4 text-center">
+					<label class="form-label">Available Facilities:</label>				
+					<div class="row justify-content-center">
+						<div class="col-md-4">
+							<!-- Toilets -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="toilet" value="@Model.evacuationInfo.toilet" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility">Toilets</label>
+								</div>
+							</div>
 
-			<!-- Right column: Evacuation Center Type, Barangay, and Telephone Number -->
-			<div class="col-md-6">
-				<!-- Evacuation Center Type -->
-				<div class="mb-3">
-					<label class="form-label" for="InputEvacuationType">Type of Evacuation Center:</label>
-					<select class="form-select" id="InputEvacuationType">
-						<option value="">Select Evacuation Center Type</option>
-						<option value="School EC">School EC</option>
-						<option value="Community-based EC">Community-based EC</option>
-					</select>
-				</div>
+							<!-- Bathing Cubicle -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="bathingCubicle" value="@Model.evacuationInfo.bathingCubicle" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility">Bathing Cubicle</label>
+								</div>
+							</div>
 
-				<!-- Barangay -->
-				<div class="mb-3">
-					<label class="form-label" for="InputBarangay">Barangay:</label>
-					<select class="form-select" id="InputBarangay">
-						<option value="">Select Barangay</option>
-						<option value="Assumption">Assumption</option>
-						<option value="Bagong Buhay I">Bagong Buhay I</option>
-						<option value="Bagong Buhay II">Bagong Buhay II</option>
-						<option value="Bagong Buhay III">Bagong Buhay III</option>
-					</select>
-				</div>
+							<!-- Community Kitchen -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="communityKitchen" value="@Model.evacuationInfo.communityKitchen" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility">Community Kitchen</label>
+								</div>
+							</div>
 
-				<!-- Telephone Number -->
-				<div class="mb-3">
-					<label class="form-label" for="InputTelephoneNumber">Telephone Number:</label>
-					<input class="form-control" id="InputTelephoneNumber" type="text" placeholder="e.g. 01-2345-67890">
-				</div>
-			</div>
+							<!-- Washing Area -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="washingArea" value="@Model.evacuationInfo.washingArea" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility">Washing Area</label>
+								</div>
+							</div>
 
-			<!-- Available Facilities -->
-			<div class="mb-3 mt-4 text-center">
-				<label class="form-label">Facility/s: Input available quantity, leave blank if none.</label>
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Toilets -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputToilets" type="number" step="1">
-								<label class="form-label label-facility" for="InputToilets">Toilets</label>
+							<!-- Women-Friendly and Child-Friendly spaces -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="womenChildSpace" value="@Model.evacuationInfo.womenChildSpace" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility label-container">Women-Friendly and Child-Friendly spaces</label>
+								</div>
+							</div>
+
+							<!-- Multipurpose Areas -->
+							<div class="mb-3">
+								<div class="d-flex align-items-center">
+									<input type="number" class="form-control input-facility" name="multipurposeArea" value="@Model.evacuationInfo.multipurposeArea" placeholder="0" step="1" min="0" />
+									<label class="form-label label-facility">Multipurpose Areas</label>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Bathing Cubicle -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputBathingCubicle" type="number" step="1">
-								<label class="form-label label-facility" for="InputBathingCubicle">Bathing Cubicle</label>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Community Kitchen -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputCommunityKitchen" type="number" step="1">
-								<label class="form-label label-facility" for="InputCommunityKitchen">Community Kitchen</label>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Washing Area -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputWashingArea" type="number" step="1">
-								<label class="form-label label-facility" for="InputWashingArea">Washing Area</label>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Women-Friendly and Child-Friendly spaces -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputWFandCFSpaces" type="number" step="1">
-								<label class="form-label label-facility label-container" for="InputWFandCFSpaces">Women-Friendly and Child-Friendly spaces</label>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<!-- Multipurpose Areas -->
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input class="form-control input-facility" id="InputMultipurposeAreas" type="number" step="1">
-								<label class="form-label label-facility" for="InputMultipurposeAreas">Multipurpose Areas</label>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
+				<!-- Maximum Capacity -->
 				<div class="mb-3 mt-3 text-center">
-					<label class="form-label">Maximum Capacity of Evacuation Center:</label>
-					<input class="form-control mx-auto" id="InputMaxCapacity" type="number" placeholder="e.g. 1000">
+					<label class="form-label">
+						Maximum Capacity:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="number" class="form-control mx-auto" name="maxCapacity" value="@Model.evacuationInfo.maxCapacity" required min="1" />
 				</div>
-			</div>
 
-		</div>
+				<div class="mb-3">
+					<small class="text-muted">* Required field</small>
+				</div>
 
-		<!-- Cancel and Save Button -->
-		<div class="button-spacer">
-			<button class="btn btn-outline-secondary mr-10">Cancel</button>
-			<button type="submit" class="btn btn-primary">Save</button>
-		</div>
+				@if (!string.IsNullOrEmpty(Model.successMessage))
+				{
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>@Model.successMessage</strong>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				}
+
+				<!-- Cancel and Save Button -->
+				<div class="button-spacer">
+					<a class="btn btn-outline-secondary mr-10" href="/EvacuationCenter/Index" role="button">Cancel</a>
+					<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+				</div>
+			</form>
+		</div>	
 	</div>
 </div>
+
+<script>
+	const mobileInput = document.getElementById('mobileNum');
+
+	// Add an input event listener to restrict input to digits only
+	mobileInput.addEventListener('input', function () {
+		// Remove any non-digit characters
+		this.value = this.value.replace(/[^0-9]/g, '');
+		}
+	});
+
+	const telephoneInput = document.getElementById('telephoneNum');
+
+	// Add an input event listener to restrict input to digits only
+	telephoneInput.addEventListener('input', function () {
+		// Remove any non-digit characters
+		this.value = this.value.replace(/[^0-9]/g, '');
+		}
+	});
+	
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	// Disable the submit button by default
+	submitButton.disabled = true;
+
+	// Function to check form validity and enable/disable the submit button
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	// Add an event listener for the input event on form elements
+	form.addEventListener('input', checkFormValidity);
+</script>

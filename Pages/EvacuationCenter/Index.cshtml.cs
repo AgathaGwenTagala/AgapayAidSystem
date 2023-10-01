@@ -34,6 +34,12 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 								evacuationInfo.telephoneNum = "" + reader.GetString(6);
 								evacuationInfo.maxCapacity = reader.GetInt32(7);
 								evacuationInfo.status = "" + reader.GetString(8);
+								evacuationInfo.toilet = reader.GetInt32(9);
+								evacuationInfo.bathingCubicle = reader.GetInt32(10);
+								evacuationInfo.communityKitchen = reader.GetInt32(11);
+								evacuationInfo.washingArea = reader.GetInt32(12);
+								evacuationInfo.womenChildSpace = reader.GetInt32(13);
+								evacuationInfo.multipurposeArea = reader.GetInt32(14);
 								listEvacuation.Add(evacuationInfo);
 							}
 						}
@@ -59,7 +65,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public string telephoneNum { get; set; }
 		public int maxCapacity { get; set; }
 		public string status { get; set; }
+		public int toilet { get; set; }
+		public int bathingCubicle { get; set; }
+		public int communityKitchen { get; set; }
+		public int washingArea { get; set; }
+		public int womenChildSpace { get; set; }
+		public int multipurposeArea { get; set; }
 	}
-
-
 }

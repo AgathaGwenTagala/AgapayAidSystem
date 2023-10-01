@@ -40,6 +40,9 @@
 						Evacuation Center Name
 					</th>
 					<th>
+						Street Address
+					</th>
+					<th>
 						Barangay
 					</th>
 					<th>
@@ -54,9 +57,10 @@
 				@foreach (var item in Model.listEvacuation)
 				{
 					<tr>
-						<td width="30%">@item.centerName</td>
-						<td width="15%">@item.barangayID</td>
-						<td width="15%">@item.maxCapacity</td>
+						<td width="25%">@item.centerName</td>
+						<td width="15%">@item.streetAddress</td>
+						<td width="10%">@item.barangayID</td>
+						<td width="10%">@item.maxCapacity</td>
 						<td width="15%">@item.status</td>
 						<td width=15%>
 							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
