@@ -27,7 +27,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 								evacuationInfo.centerID = "" + reader.GetString(0);
 								evacuationInfo.centerName = "" + reader.GetString(1);
+								evacuationInfo.centerType = "" + reader.GetString(2);
+								evacuationInfo.streetAddress = "" + reader.GetString(3);
 								evacuationInfo.barangayID = "" + reader.GetString(4);
+								evacuationInfo.mobileNum = "" + reader.GetString(5);
+								evacuationInfo.telephoneNum = "" + reader.GetString(6);
 								evacuationInfo.maxCapacity = "" + reader.GetString(7);
 								evacuationInfo.status = "" + reader.GetString(8);
 								listEvacuation.Add(evacuationInfo);
@@ -48,7 +52,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 	{
 		public string centerID { get; set; }
 		public string centerName { get; set; }
+		public string centerType { get; set; }
+		public string streetAddress { get; set; }
 		public string barangayID { get; set; }
+		public string mobileNum { get; set; }
+		public string telephoneNum { get; set; }
 		public string maxCapacity { get; set; }
 		public string status { get; set; }
 	}

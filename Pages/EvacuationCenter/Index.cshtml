@@ -1,6 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.EvacuationCenter.IndexModel
 @{
+	ViewData["Title"] = "Evacuation Center";
 }
 
 <div class="container p-2">
@@ -18,7 +19,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<div class="row pt-4">
 		<div class="col">
@@ -60,11 +60,8 @@
 						<td width="15%">@item.status</td>
 						<td width=15%>
 							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
-							<a button class="btn btn-success" href="/EvacuationCenter/EditEvacuationCenter?id=@item.centerID"><i class="bi bi-pencil-fill"></i></a>
-							<a button class="btn btn-danger" href="/EvacuationCenter/DeleteEvacuationCenter?id=@item.centerID"><i class="bi bi-trash-fill"></i></a>
-							<!--<a class="btn btn-danger btn-sm" href="/EvacuationCenter/_DeleteEvacuationCenter?id=@item.centerID"></a>-->
-							<!-- <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button> -->
-
+							<a button class="btn btn-success" href="/EvacuationCenter/EditEvacuationCenter?centerID=@item.centerID"><i class="bi bi-pencil-fill"></i></a>
+							<a button class="btn btn-danger" href="/EvacuationCenter/DeleteEvacuationCenter?centerID=@item.centerID"><i class="bi bi-trash-fill"></i></a>
 						</td>
 					</tr>
 				}
