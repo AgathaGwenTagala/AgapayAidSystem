@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgapayAidSystem.Pages.EvacuationCenter
 {
-    public class _AddEvacuationCenterModel : PageModel
+    public class AddEvacuationCenterModel : PageModel
     {
         public void OnGet()
         {
