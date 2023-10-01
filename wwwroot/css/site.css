@@ -57,4 +57,93 @@ body {
 }
 
 
+/*DISASTER PROFILE*/
 
+.content {
+    width: 100%;
+    padding: 36px 24px;
+    max-height: calc(100vh -56px);
+    overflow-y: auto; 
+}
+
+.head-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.left h1{
+    margin-bottom: 1px;
+}
+
+.info-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px; 
+}
+
+.info-label {
+    font-weight: bold;
+}
+
+.box-info{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-top: 36px;
+}
+
+.box-info .info-item {
+    padding: 24px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.box-info .info-item .bi {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-info .info-item h3 {
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden;
+    max-width: 100%; /* Ensure text doesn't overflow */
+}
+
+.box-info .info-item:nth-child(1) .bi {
+    background: #FE83A1;
+    color: #FFFFFF;
+}
+
+.box-info .info-item:nth-child(2) .bi {
+    background: #7ABFFF;
+    color: #FFFFFF;
+}
+
+.box-info .info-item:nth-child(3) .bi {
+    background: #3CD856;
+    color: #FFFFFF;
+}
+
+.box-info .info-item:nth-child(4) .bi {
+    background: #BF83FF;
+    color: #FFFFFF;
+}
