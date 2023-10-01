@@ -32,7 +32,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 								evacuationInfo.barangayID = "" + reader.GetString(4);
 								evacuationInfo.mobileNum = "" + reader.GetString(5);
 								evacuationInfo.telephoneNum = "" + reader.GetString(6);
-								evacuationInfo.maxCapacity = "" + reader.GetString(7);
+								evacuationInfo.maxCapacity = reader.GetInt32(7);
 								evacuationInfo.status = "" + reader.GetString(8);
 								listEvacuation.Add(evacuationInfo);
 							}
@@ -57,7 +57,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public string barangayID { get; set; }
 		public string mobileNum { get; set; }
 		public string telephoneNum { get; set; }
-		public string maxCapacity { get; set; }
+		public int maxCapacity { get; set; }
 		public string status { get; set; }
 	}
 
