@@ -37,6 +37,21 @@ body {
     margin-bottom: 60px;
 }
 
+.button-spacer button {
+        margin: 20px 10px; /* Add margin to create spacing between buttons */
+}
+
+/*USER MANAGEMENT*/
+
+.breadcrumb-item.active {
+    color: #3F8F8B;
+}
+
+#search-bar {
+    position: relative;
+    vertical-align: top;
+}
+
 .user-photo {
     width: 25px;
     height: 25px;
@@ -52,10 +67,9 @@ body {
     border-radius: 50%;
 }
 
-.button-spacer button {
-        margin: 20px 10px; /* Add margin to create spacing between buttons */
+.edit-button .bi {
+    margin-right:5px;
 }
-
 
 /*DISASTER PROFILE*/
 
