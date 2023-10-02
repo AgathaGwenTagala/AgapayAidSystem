@@ -4,107 +4,139 @@
     ViewData["Title"] = "New LGU Staff";
 }
 
-<h1 class="text-center display-4">New LGU Staff</h1>
+<div class="container p-2">
 
-@if (!string.IsNullOrEmpty(Model.errorMessage))
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>@Model.errorMessage</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+    <div class="container mt-4 disaster-form-container">
 
-<form method="POST">
-    <input type="hidden" name="userID" value="@Model.userID"/>
-
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">User ID</label>
-        <div class="col-sm-6">
-            <span class="form-control-plaintext">@Model.userID</span>
+        <div class="row pt-4">
+            <div class="col text-center">
+                <h1>Add New User</h1>
+                <h6 class="text-dark">LGU Staff</h6>
+            </div>
         </div>
-    </div>
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">First Name *</label>
-        <div class="col-sm-6">
-            <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
-        </div>
-    </div>
+        @if (!string.IsNullOrEmpty(Model.errorMessage))
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Middle Name</label>
-        <div class="col-sm-6">
-            <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
-        </div>
-    </div>
+        <form method="POST">
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Last Name *</label>
-        <div class="col-sm-6">
-            <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
-        </div>
-    </div>
+            <div class="row mb-3 user-container">
+                <input type="hidden" name="userID" value="@Model.userID" />
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Extension Name</label>
-        <div class="col-sm-6">
-            <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
-        </div>
-    </div>
+                <div class="row mb-3">
+                    <p class="text-danger text-end">* Required field</p>
+                </div>
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Sex *</label>
-        <div class="col-sm-6">
-            <select id="sex" name="sex" class="form-select" required>
-                <option value="">Please select</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-            </select>
-        </div>
-    </div>
+                <!-- USERNAME -->
+                <div class="row mb-3 pb-1">
+                    <label class="form-label">User ID:</label>
+                    <div class="form-answer">
+                        <span class="form-control-plaintext form-readonly">@Model.userID</span>
+                    </div>
+                </div>
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Birthdate *</label>
-        <div class="col-sm-6">
-            <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
-        </div>
-    </div>
+                <!-- FIRST NAME -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        First Name:
+                        <span class="text-danger" style="padding:5px">*</span>
+                    </label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
+                </div>
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Mobile Number *</label>
-        <div class="col-sm-6">
-            <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" />
-        </div>
-    </div>
+                <!-- MIDDLE NAME -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Middle Name:
+                    </label>
+                    <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
+                </div>
 
-    <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Email Address *</label>
-        <div class="col-sm-6">
-            <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" />
-        </div>
-    </div>
+                <!-- LAST NAME -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Last Name:
+                        <span class="text-danger" style="padding:5px">*</span>
+                    </label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
+                </div>
 
-    <div class="row mb-3">
-        <small class="text-muted">* Required field</small>
-    </div>
+                <!-- EXTENSION NAME -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Ext Name:
+                    </label>
+                    <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
+                </div>
 
-    @if (!string.IsNullOrEmpty(Model.successMessage))
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>@Model.successMessage</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
+                <!-- SEX -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Sex
+                        <span class="text-danger" style="padding:5px">*</span>
+                    </label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" required>
+                        <label class="form-check-label" for="maleRadio">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sex" id="femaleRadio" value="F" required>
+                        <label class="form-check-label" for="femaleRadio">Female</label>
+                    </div>
+                </div>
 
-    <div class="row mb-3">
-        <div class="offset-sm-3 col-sm-3 d-grid">
-            <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
-        </div>
-        <div class="col-sm-3 d-grid">
-            <a class="btn btn-outline-primary" href="/UserManagement/CreateLGUStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">Cancel</a>
-        </div>
+                <!-- BIRTHDATE -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Birthdate
+                        <span class="text-danger" style="padding: 5px">*</span>
+                    </label>
+                    <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
+                </div>
+
+                <!-- MOBILE NUMBER -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Mobile Number
+                        <span class="text-danger" style="padding: 5px">*</span>
+                        <span class="text-muted p-2"><small>09xxxxxxx</small></span>
+                    </label>
+                    <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" placeholder="xxxxxxx" />
+                </div>
+
+                <!-- EMAIL ADDRESS -->
+                <div class="row mb-3">
+                    <label class="form-label">
+                        Email Address
+                        <span class="text-danger" style="padding: 5px">*</span>
+                    </label>
+                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" placeholder="youremail@gmail.com" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.successMessage))
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>@Model.successMessage</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- Cancel and Save Button -->
+                <div class="button-spacer">
+                    <a class="btn btn-outline-primary" href="/UserManagement/CreateLGUStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
+</div>
 
 <script>
     // Validate mobile number input
