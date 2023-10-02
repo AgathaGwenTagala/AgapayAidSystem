@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.Disaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
