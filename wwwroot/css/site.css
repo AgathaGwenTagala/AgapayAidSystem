@@ -43,8 +43,8 @@ body {
 
 /*USER MANAGEMENT*/
 
-.breadcrumb-item.active {
-    color: #3F8F8B;
+.breadcrumb-item active {
+   color: #3F8F8B;
 }
 
 #search-bar {
@@ -82,6 +82,11 @@ body {
 
 .form-only{
     padding:30px;
+}
+
+.form-check-label{
+    margin-top:5px;
+    margin-left:10px;
 }
 
 /*DISASTER PROFILE*/

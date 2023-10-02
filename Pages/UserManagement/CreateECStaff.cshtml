@@ -4,7 +4,6 @@
     ViewData["Title"] = "New EC Staff";
 }
 
-
 <div class="container p-2">
 
 	<div class="container mt-4 disaster-form-container">
@@ -33,35 +32,44 @@
                     <p class="text-danger text-end">* Required field</p>
                 </div>
 
+                <!-- USERNAME -->
                 <div class="row mb-3 pb-1">
-                    <label class="col-sm-2 col-form-label">User ID:</label>
-                    <div class="col-sm-10">
+                    <label class="form-label">User ID:</label>
+                    <div class="form-answer">
                         <span class="form-control-plaintext form-readonly">@Model.userID</span>
                     </div>
                 </div>
 
+                <!-- FIRST NAME -->
                 <div class="row mb-3">
-                    <label class="form-label" for="InputFirstName">First Name:<span class="text-danger" style="padding:5px">*</span></label>
+                    <label class="form-label">First Name:
+                        <span class="text-danger" style="padding:5px">*</span></label>
                     <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
                 </div>
 
+                <!-- MIDDLE NAME -->
                 <div class="row mb-3">
-                    <label class="form-label" for="InputMiddleName">Middle Name:</label>
-                    <input type="text" id="middleName" name="middleName" class="form-control" required maxlength="65" />
+                    <label class="form-label">Middle Name:</label>
+                    <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
                 </div>
 
+                <!-- LAST NAME -->
                 <div class="row mb-3">
-                    <label class="form-label" for="InputLastName">Last Name:<span class="text-danger" style="padding: 5px">*</span></label>
+                    <label class="form-label">Last Name:
+                        <span class="text-danger" style="padding: 5px">*</span></label>
                     <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
                 </div>
 
+                <!-- EXTENSION NAME -->
                 <div class="row mb-3">
-                    <label class="form-label" for="InputExtName">Extension Name:</label>
-                    <input type="text" id="extName" name="extName" class="form-control" required maxlength="65" />
+                    <label class="form-label">Extension Name</label>
+                    <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
                 </div>
 
+                <!-- SEX -->
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">Sex<span class="text-danger" style="padding:5px">*</span></label>
+                    <label class="form-label">Sex
+                        <span class="text-danger" style="padding:5px">*</span></label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" required>
                         <label class="form-check-label" for="maleRadio">Male</label>
@@ -72,19 +80,27 @@
                     </div>
                 </div>
 
+                <!-- BIRTHDATE -->
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">Birthdate *</label>
+                    <label class="form-label">Birthdate
+                        <span class="text-danger" style="padding: 5px">*</span></label>
                     <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
                 </div>
 
+                <!-- MOBILE NUMBER -->
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">Mobile Number *</label>
-                    <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" />
+                    <label class="form-label">Mobile Number
+                        <span class="text-danger" style="padding: 5px">*</span>
+                        <span class="text-muted p-2"><small>09xxxxxxx</small></span>
+                    </label>
+                    <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" placeholder="xxxxxxx" />
                 </div>
 
+                <!-- EMAIL ADDRESS -->
                 <div class="row mb-3">
-                    <label class="col-sm-3 col-form-label">Email Address *</label>
-                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" />
+                    <label class="form-label">Email Address
+                        <span class="text-danger" style="padding: 5px">*</span></label>
+                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" placeholder="youremail@gmail.com" />
                 </div>
 
                 @if (!string.IsNullOrEmpty(Model.successMessage))
@@ -95,24 +111,18 @@
                     </div>
                 }
 
-                <!-- Cancel and Save Button -->
+                <!-- CANCEL AND SAVE BUTTON -->
                 <div class="button-spacer">
-                    <button class="btn btn-outline-secondary mr-10" href="#" role="button">
-                        <i class="bi bi-arrow-left" style="padding:5px;"></i>
-                        Previous
-                    </button>
-                    <button class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
                         Cancel
-                    </button>
+                    </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
                 </div>
+
             </div>
         </form>
-
     </div>
 </div>
-
-
 
 <script>
     // Validate mobile number input
