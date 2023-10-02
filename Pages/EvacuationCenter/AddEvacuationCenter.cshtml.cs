@@ -54,15 +54,6 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			return barangayData;
 		}
 
-		private bool TryParseInt(string formValue, out int result)
-		{
-			if (int.TryParse(formValue, out result))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		public void OnPost()
 		{
 			if (!ModelState.IsValid)
@@ -78,28 +69,13 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			evacuationInfo.barangayID = Request.Form["barangayID"];
 			evacuationInfo.mobileNum = Request.Form["mobileNum"];
 			evacuationInfo.telephoneNum = Request.Form["telephoneNum"];
-
-			if (TryParseInt(Request.Form["maxCapacity"], out int maxCapacity) &&
-				TryParseInt(Request.Form["toilet"], out int toilet) &&
-				TryParseInt(Request.Form["bathingCubicle"], out int bathingCubicle) &&
-				TryParseInt(Request.Form["communityKitchen"], out int communityKitchen) &&
-				TryParseInt(Request.Form["washingArea"], out int washingArea) &&
-				TryParseInt(Request.Form["womenChildSpace"], out int womenChildSpace) &&
-				TryParseInt(Request.Form["multipurposeArea"], out int multipurposeArea))
-			{
-				evacuationInfo.maxCapacity = maxCapacity;
-				evacuationInfo.toilet = toilet;
-				evacuationInfo.bathingCubicle = bathingCubicle;
-				evacuationInfo.communityKitchen = communityKitchen;
-				evacuationInfo.washingArea = washingArea;
-				evacuationInfo.womenChildSpace = womenChildSpace;
-				evacuationInfo.multipurposeArea = multipurposeArea;
-			}
-			else
-			{
-				errorMessage = "Invalid value for one or more fields. Please enter valid integers.";
-				return;
-			}
+			evacuationInfo.maxCapacity = Request.Form["maxCapacity"];
+			evacuationInfo.toilet = Request.Form["toilet"];
+			evacuationInfo.bathingCubicle = Request.Form["bathingCubicle"];
+			evacuationInfo.communityKitchen = Request.Form["communityKitchen"];
+			evacuationInfo.washingArea = Request.Form["washingArea"];
+			evacuationInfo.womenChildSpace = Request.Form["womenChildSpace"];
+			evacuationInfo.multipurposeArea = Request.Form["multipurposeArea"];
 
 			// Check if mobileNum is empty and set it to null
 			if (string.IsNullOrWhiteSpace(evacuationInfo.mobileNum))
