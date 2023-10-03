@@ -1,4 +1,51 @@
 ﻿@page
-@model AgapayAidSystem.Pages.EvacuationCenter.DeleteEvacuationCenterModel
+@using MySql.Data.MySqlClient
 @{
+    string errorMessage = "";
+    string successMessage = "";
+
+    try
+    {
+        // Check if the centerID parameter exists in the query string
+        if (Request.Query.ContainsKey("centerID"))
+        {
+            String centerID = Request.Query["centerID"];
+
+            string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM user WHERE centerID = @centerID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@centerID", centerID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        // Evacuation center deleted successfully
+                        successMessage = "Evacuation center deleted successfully";
+                    }
+                    else
+                    {
+                        // No evacuation center found with the provided centerID
+                        errorMessage = "Evacuation center not found with the provided centerID";
+                    }
+                }
+            }
+        }
+        else
+        {
+            // centerID parameter is missing from the query string
+            errorMessage = "centerID parameter is missing from the query string";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    // Redirect to the EvacuationCenter/Index page after deleting or encountering an error
+    Response.Redirect("/EvacuationCenter/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 }
