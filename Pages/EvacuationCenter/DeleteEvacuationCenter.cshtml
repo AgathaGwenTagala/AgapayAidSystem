@@ -16,7 +16,7 @@
             {
                 connection.Open();
 
-                String sql = "DELETE FROM user WHERE centerID = @centerID";
+                String sql = "DELETE FROM evacuation_center WHERE centerID = @centerID";
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@centerID", centerID);
