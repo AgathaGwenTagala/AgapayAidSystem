@@ -45,6 +45,10 @@
 			<form method="POST">
 				<input type="hidden" name="centerID" value="@Model.evacuationInfo.centerID" />
 
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+
 				<!-- Left column: Center Name, Street Address, and Mobile Number -->
 				<div class="col-md-6">
 					<!-- Evacution Center Name -->
@@ -199,10 +203,6 @@
 						<span class="text-danger" style="padding: 5px">*</span>
 					</label>
 					<input type="number" class="form-control mx-auto" name="maxCapacity" value="@Model.evacuationInfo.maxCapacity" required min="1" />
-				</div>
-
-				<div class="mb-3">
-					<small class="text-muted">* Required field</small>
 				</div>
 
 				@if (!string.IsNullOrEmpty(Model.successMessage))

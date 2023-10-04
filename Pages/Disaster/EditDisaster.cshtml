@@ -32,6 +32,10 @@
 			<form method="POST">
 				<input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
 
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+
 				<!-- Disaster Name -->
 				<div class="mb-3">
 					<label class="form-label">Disaster Name: *</label>
@@ -63,10 +67,6 @@
 				<div class="mb-3">
 					<label class="form-label">Description: *</label>
 					<textarea class="form-control" name="description" rows="4" required>@Model.disasterInfo.description</textarea>
-				</div>
-
-				<div class="mb-3">
-					<small class="text-muted">* Required field</small>
 				</div>
 
 				@if (!string.IsNullOrEmpty(Model.successMessage))

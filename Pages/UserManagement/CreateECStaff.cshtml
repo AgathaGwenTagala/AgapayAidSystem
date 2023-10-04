@@ -25,19 +25,18 @@
 
         <form method="POST">
             <div class="row mb-3 user-container">
-
                 <input type="hidden" name="userID" value="@Model.userID" />
 
                 <div class="row mb-3">
                     <p class="text-danger text-end">* Required field</p>
                 </div>
 
-                <!-- USERNAME -->
+                <!-- User ID -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
                 </div>
 
-                <!-- FIRST NAME -->
+                <!-- First Name -->
                 <div class="row mb-3">
                     <label class="form-label">First Name:
                         <span class="text-danger" style="padding:5px">*</span></label>
@@ -50,20 +49,20 @@
                     <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
                 </div>
 
-                <!-- LAST NAME -->
+                <!-- Last Name -->
                 <div class="row mb-3">
                     <label class="form-label">Last Name:
                         <span class="text-danger" style="padding: 5px">*</span></label>
                     <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
                 </div>
 
-                <!-- EXTENSION NAME -->
+                <!-- Extension Name -->
                 <div class="row mb-3">
                     <label class="form-label">Extension Name</label>
                     <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
                 </div>
 
-                <!-- SEX -->
+                <!-- Sex -->
                 <div class="row mb-3">
                     <label class="form-label">Sex
                         <span class="text-danger" style="padding:5px">*</span></label>
@@ -77,14 +76,14 @@
                     </div>
                 </div>
 
-                <!-- BIRTHDATE -->
+                <!-- Birthdate -->
                 <div class="row mb-3">
                     <label class="form-label">Birthdate
                         <span class="text-danger" style="padding: 5px">*</span></label>
                     <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
                 </div>
 
-                <!-- MOBILE NUMBER -->
+                <!-- Mobile Number -->
                 <div class="row mb-3">
                     <label class="form-label">Mobile Number
                         <span class="text-danger" style="padding: 5px">*</span>
@@ -93,7 +92,7 @@
                     <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" placeholder="xxxxxxx" />
                 </div>
 
-                <!-- EMAIL ADDRESS -->
+                <!-- Email Address -->
                 <div class="row mb-3">
                     <label class="form-label">Email Address
                         <span class="text-danger" style="padding: 5px">*</span></label>
@@ -108,7 +107,7 @@
                     </div>
                 }
 
-                <!-- CANCEL AND SAVE BUTTON -->
+                <!-- Cancel and Save Button -->
                 <div class="button-spacer">
                     <a class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
                         Cancel

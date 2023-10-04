@@ -28,11 +28,16 @@
 
             <div class="row mb-3 user-container"> 
 
-                <!-- USERNAME -->
+                <div class="row mb-3">
+                    <p class="text-danger text-end">* Required field</p>
+                </div>
+
+                <!-- User ID -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
                 </div>
 
+                <!-- Admin Name -->
                 <div class="mb-3">
                     <label class="form-label" for="InputAdminName">Admin Name:<span class="text-danger" style="padding:5px">*</span></label>
                     <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" placeholder="adminJohn"/>

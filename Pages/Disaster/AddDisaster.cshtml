@@ -30,6 +30,10 @@
 
 		<div class="row pt-4">
 			<form method="POST">
+				<div class="row mb-3">
+                    <p class="text-danger text-end">* Required field</p>
+                </div>
+
 				<!-- Disaster Name -->
 				<div class="mb-3">
 					<label class="form-label">Disaster Name: *</label>
@@ -61,10 +65,6 @@
 				<div class="mb-3">
 					<label class="form-label">Description: *</label>
 					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" placeholder="e.g. With wind speeds exceeding 160 miles per hour and torrential rains, the typhoon caused widespread flooding, landslides, and destruction of homes and infrastructure. Thousands were evacuated, and relief efforts were quickly mobilized to provide aid and assistance to affected communities." required /></textarea>
-				</div>
-
-				<div class="mb-3">
-					<small class="text-muted">* Required field</small>
 				</div>
     
 				@if (!string.IsNullOrEmpty(Model.successMessage))

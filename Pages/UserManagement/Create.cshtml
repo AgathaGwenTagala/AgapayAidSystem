@@ -6,7 +6,6 @@
 
 <div class="container p-2">
 	<div class="container mt-4 disaster-form-container">
-
 		<div class="row pt-4">
 			<div class="col text-center">
 				<h1>Add New User</h1>
@@ -23,36 +22,37 @@
 
 		<div class="row pt-4">
 			<form method="POST">
-				<div class="row mb-3 user-container justify-content-center">
-					<div class="col-md-4">
-							<label class="form-label">User Type:</label>
+				<div class="row mb-3 user-container justify-content-center align-items-center">
+					<div class="col-md-4 text-center">
+						<label class="form-label">Select User Type</label>
 
-							<div class="form-check d-flex align-items-center">
-								<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
-								@if (Model.userInfo.userType == "Admin")
-								{
-									<text>checked</text>
-								}>
-								<label class="form-check-label" for="adminRadio">Admin</label>
-							</div>
-
-							<div class="form-check d-flex align-items-center">
-								<input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
-								@if (Model.userInfo.userType == "LGU Staff")
-								{
-									<text>checked</text>
-								}>
-								<label class="form-check-label" for="lguRadio">LGU Staff</label>
-							</div>
-							
-							<div class="form-check d-flex align-items-center">
-								<input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
-								@if (Model.userInfo.userType == "EC Staff")
-								{
-									<text>checked</text>
-								}>
-								<label class="form-check-label" for="ecRadio">EC Staff</label>
-							</div>
+						<div class="form-check d-flex align-items-center">
+							<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+							@if (Model.userInfo.userType == "Admin")
+							{
+								<text>checked</text>
+							}>
+							<label class="form-check-label">Admin</label>
+						</div>
+					
+						<div class="form-check d-flex align-items-center">
+							<input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+							@if (Model.userInfo.userType == "LGU Staff")
+							{
+								<text>checked</text>
+							}>
+							<label class="form-check-label">LGU Staff</label>
+						</div>
+					
+						<div class="form-check d-flex align-items-center">
+							<input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+							@if (Model.userInfo.userType == "EC Staff")
+							{
+								<text>checked</text>
+							}>
+							<label class="form-check-label">EC Staff</label>
+						</div>
+					
 					</div>
 				</div>
 
@@ -71,13 +71,12 @@
 					</div>
 				}
 
-				<!-- Cancel and Save Button -->
+				<!-- Cancel and Next Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/UserManagement/Index" role="button">Cancel</a>
 					<button type="submit" class="btn btn-primary" id="submitBtn">Next
 						<i class="bi bi-arrow-right" style="padding:5px"></i></button>
 				</div>
-
 			</form>
 		</div>
 	</div>
