@@ -225,19 +225,34 @@
 
 <script>
 	const mobileInput = document.getElementById('mobileNum');
-
-	// Add an input event listener to restrict input to digits only
-	mobileInput.addEventListener('input', function () {
-		// Remove any non-digit characters
-		this.value = this.value.replace(/[^0-9]/g, '');
-	});
-
 	const telephoneInput = document.getElementById('telephoneNum');
 
-	// Add an input event listener to restrict input to digits only
+	// Add an input event listener to format the mobile number
+	mobileInput.addEventListener('input', function () {
+		// Remove any non-digit characters
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		// Ensure the mobile number starts with "09" if not null or empty
+		if (cleanedValue.length >= 2) {
+			cleanedValue = '09' + cleanedValue.slice(2);
+		}
+
+		// Update the input field with the formatted value
+		this.value = cleanedValue;
+	});
+
+	// Add an input event listener to format the telephone number
 	telephoneInput.addEventListener('input', function () {
 		// Remove any non-digit characters
-		this.value = this.value.replace(/[^0-9]/g, '');
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		// Ensure the telephone number starts with "044" if not null or empty
+		if (cleanedValue.length >= 3) {
+			cleanedValue = '044' + cleanedValue.slice(3);
+		}
+
+		// Update the input field with the formatted value
+		this.value = cleanedValue;
 	});
 
 	const submitButton = document.getElementById('submitBtn');
