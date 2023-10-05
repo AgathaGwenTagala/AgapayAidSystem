@@ -136,7 +136,7 @@ namespace AgapayAidSystem.Pages.Disaster
 				return;
 			}
 
-			Response.Redirect("/Disaster/Index");
-		}
+            Response.Redirect("/Disaster/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+        }
 	}
 }
