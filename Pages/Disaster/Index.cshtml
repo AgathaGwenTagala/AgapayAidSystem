@@ -4,6 +4,14 @@
 	ViewData["Title"] = "Disaster";
 }
 
+<style>
+	/* Remove underline */
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+</style>
+
 <div class="container p-2">
 	<div class="row pt-3">
 		<div class="col">
@@ -37,10 +45,20 @@
 		<table class="table align-middle table-hover " style="width:100%">
 			<thead>
 				<tr>
-					<th>Disaster Name</th>
+					<th>
+						<a asp-page="./Index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
+							Disaster Name
+							<ion-icon id="disasterNameArrow" name="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
+					</th>
 					<th>Type</th>
 					<th>Description</th>
-					<th>Date Occurred</th>
+					<th>
+						<a asp-page="./Index" asp-route-sortBy="dateOccured" asp-route-sortOrder="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('dateOccured')">
+							Disaster Name
+							<ion-icon id="dateOccuredArrow" name="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
+					</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -77,5 +95,36 @@
 		if (confirm("Are you sure you want to delete this disaster?")) {
 			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterID;
 		}
+	}
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+	let lastClickedHeader = null;
+
+	function toggleArrowIcons(header) {
+		// Get the arrow icons for all headers
+		const centerNameArrow = document.getElementById('centerNameArrow');
+		const maxCapacityArrow = document.getElementById('maxCapacityArrow');
+		const statusArrow = document.getElementById('statusArrow');
+
+		// Determine which header was clicked and toggle the arrow icons accordingly
+		if (header === 'centerName') {
+			centerNameArrow.style.display = centerNameArrow.style.display === 'none' ? 'block' : 'none';
+			maxCapacityArrow.style.display = 'none';
+			statusArrow.style.display = 'none';
+		} else if (header === 'maxCapacity') {
+			centerNameArrow.style.display = 'none';
+			maxCapacityArrow.style.display = maxCapacityArrow.style.display === 'none' ? 'block' : 'none';
+			statusArrow.style.display = 'none';
+		} else if (header === 'status') {
+			centerNameArrow.style.display = 'none';
+			maxCapacityArrow.style.display = 'none';
+			statusArrow.style.display = statusArrow.style.display === 'none' ? 'block' : 'none';
+		}
+
+		// Update the last clicked header
+		lastClickedHeader = header;
 	}
 </script>
