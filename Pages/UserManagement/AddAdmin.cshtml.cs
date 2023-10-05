@@ -5,21 +5,13 @@ using System.Net;
 
 namespace AgapayAidSystem.Pages.UserManagement
 {
-    public class CreateECStaffModel : PageModel
+    public class AddAdminModel : PageModel
     {
         public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
-        public string firstName { get; set; } = "";
-        public string middleName { get; set; } = "";
-        public string lastName { get; set; } = "";
-        public string extName { get; set; } = "";
-        public string sex { get; set; } = "";
-        public string birthdate { get; set; } = "";
-        public string mobileNum { get; set; } = "";
-        public string emailAddress { get; set; } = "";
+        public string adminName { get; set; } = "";
         public string errorMessage = "";
         public string successMessage = "";
-
 
         public void OnGet(string action, string userIDToDelete)
         {
@@ -36,7 +28,7 @@ namespace AgapayAidSystem.Pages.UserManagement
             }
         }
 
-        public void OnPost() 
+        public void OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -44,28 +36,14 @@ namespace AgapayAidSystem.Pages.UserManagement
                 return;
             }
 
-            // Retrieve the userID and other fields from the form
+            // Retrieve the userID and adminName from the form
             string userID = Request.Form["userID"];
-            string firstName = Request.Form["firstName"];
-            string middleName = Request.Form["middleName"];
-            string lastName = Request.Form["lastName"];
-            string extName = Request.Form["extName"];
-            string sex = Request.Form["sex"];
-            string birthdate = Request.Form["birthdate"];
-            string mobileNum = Request.Form["mobileNum"];
-            string emailAddress = Request.Form["emailAddress"];
+            string adminName = Request.Form["adminName"];
 
             // Check if userID is null or empty
             if (string.IsNullOrEmpty(userID))
             {
                 errorMessage = "UserID is missing.";
-                return;
-            }
-
-            // Validate mobile number (should be exactly 11 characters)
-            if (mobileNum.Length != 11)
-            {
-                errorMessage = "Mobile number should be exactly 11 characters long.";
                 return;
             }
 
@@ -76,29 +54,17 @@ namespace AgapayAidSystem.Pages.UserManagement
                 {
                     connection.Open();
 
-                    // Insert data into the 'ec_staff' table
-                    string sql = "INSERT INTO ec_staff" +
-                                 "(userID, firstName, middleName, lastName, extName, " +
-                                 "sex, birthdate, mobileNum, emailAddress )" +
-                                 "VALUES (@userID, @firstName, @middleName, @lastName, @extName ," +
-                                 "@sex, @birthdate, @mobileNum, @emailAddress )";
-
+                    // Insert data into the 'admin' table
+                    string sql = "INSERT INTO admin (userID, adminName) VALUES (@userID, @adminName);";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@userID", userID);
-                        command.Parameters.AddWithValue("@firstName", firstName);
-                        command.Parameters.AddWithValue("@middleName", middleName);
-                        command.Parameters.AddWithValue("@lastName", lastName);
-                        command.Parameters.AddWithValue("@extName", extName);
-                        command.Parameters.AddWithValue("@sex", sex);
-                        command.Parameters.AddWithValue("@birthdate", birthdate);
-                        command.Parameters.AddWithValue("@mobileNum", mobileNum);
-                        command.Parameters.AddWithValue("@emailAddress", emailAddress);
+                        command.Parameters.AddWithValue("@adminName", adminName);
                         command.ExecuteNonQuery();
                     }
                 }
 
-                successMessage = "EC Staff user created successfully!";
+                successMessage = "Admin user created successfully!";
             }
             catch (Exception ex)
             {
@@ -128,12 +94,12 @@ namespace AgapayAidSystem.Pages.UserManagement
                         if (rowsAffected > 0)
                         {
                             // User deleted successfully
-                            successMessage = "User deleted successfully.";
+                            successMessage = "Cancelled";
                         }
                         else
                         {
                             // No user found with the provided userID
-                            errorMessage = "User not found with the provided userID.";
+                            errorMessage = "User not found with the provided userID";
                         }
                     }
                 }
