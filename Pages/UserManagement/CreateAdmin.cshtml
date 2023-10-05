@@ -4,11 +4,11 @@
     ViewData["Title"] = "New Admin";
 }
 
-<div class="container p-2">
+<<div class="container p-2 form-container">
 
-	<div class="container mt-4 disaster-form-container">
+    <div class="container mt-4 form-container-content">
 
-		<div class="row pt-4">
+        <div class="row">
 			<div class="col text-center">
 				<h1>Add New User</h1>
                 <h6 class="text-dark">Admin</h6>
@@ -28,16 +28,11 @@
 
             <div class="row mb-3 user-container"> 
 
-                <div class="row mb-3">
-                    <p class="text-danger text-end">* Required field</p>
-                </div>
-
-                <!-- User ID -->
+                <!-- USERNAME -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
                 </div>
 
-                <!-- Admin Name -->
                 <div class="mb-3">
                     <label class="form-label" for="InputAdminName">Admin Name:<span class="text-danger" style="padding:5px">*</span></label>
                     <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" placeholder="adminJohn"/>
