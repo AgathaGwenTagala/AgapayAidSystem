@@ -2,13 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AgapayAidSystem.Pages.EvacuationCenter
 {
     public class IndexModel : PageModel
     {
 		public List<EvacuationInfo> listEvacuation = new List<EvacuationInfo>();
 
-		public void OnGet()
+		// Properties for sorting
+		public string SortBy { get; set; } // Name, Capacity, Status
+		public string SortOrder { get; set; } // Ascending, Descending
+
+		public void OnGet(string sortBy, string sortOrder)
         {
 			try
 			{
@@ -18,6 +26,15 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 				{
 					connection.Open();
 					string sql = "SELECT * FROM evacuation_center";
+
+					// Apply sorting based on user's selection
+					if (!string.IsNullOrEmpty(sortBy))
+					{
+						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
+						SortBy = sortBy;
+						SortOrder = sortOrder;
+					}
+
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
