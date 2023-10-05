@@ -97,6 +97,7 @@ namespace AgapayAidSystem.Pages.Disaster
 			}
 
 			// Retrieve disaster details from the form
+			disasterInfo.disasterID = Request.Form["disasterID"];
 			disasterInfo.disasterName = Request.Form["disasterName"];
 			disasterInfo.disasterType = Request.Form["disasterType"];
 			disasterInfo.description = Request.Form["description"];

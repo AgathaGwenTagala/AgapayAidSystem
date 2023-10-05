@@ -13,7 +13,7 @@ namespace AgapayAidSystem.Pages.Disaster
 
 		public void OnGet()
         {
-			// Fetch the list of disaster types from your database
+			// Fetch the list of disaster types from database
 			DisasterTypes = GetDisasterTypesFromDatabase();
 		}
 
