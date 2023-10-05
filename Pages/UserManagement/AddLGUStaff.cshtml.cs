@@ -5,7 +5,7 @@ using System.Net;
 
 namespace AgapayAidSystem.Pages.UserManagement
 {
-    public class CreateLGUStaffModel : PageModel
+    public class AddLGUStaffModel : PageModel
     {
         public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
@@ -127,12 +127,12 @@ namespace AgapayAidSystem.Pages.UserManagement
                         if (rowsAffected > 0)
                         {
                             // User deleted successfully
-                            successMessage = "User deleted successfully.";
+                            successMessage = "Cancelled";
                         }
                         else
                         {
                             // No user found with the provided userID
-                            errorMessage = "User not found with the provided userID.";
+                            errorMessage = "User not found with the provided userID";
                         }
                     }
                 }

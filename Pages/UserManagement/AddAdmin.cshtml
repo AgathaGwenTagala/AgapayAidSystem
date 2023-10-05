@@ -1,41 +1,37 @@
 ﻿@page
-@model AgapayAidSystem.Pages.UserManagement.CreateAdminModel
+@model AgapayAidSystem.Pages.UserManagement.AddAdminModel
 @{
-    ViewData["Title"] = "New Admin";
+	ViewData["Title"] = "Add Admin User";
 }
 
-<<div class="container p-2 form-container">
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
+<div class="container p-2 form-container">
     <div class="container mt-4 form-container-content">
-
         <div class="row">
-			<div class="col text-center">
-				<h1>Add New User</h1>
+            <div class="col text-center">
+                <h1>Add New User</h1>
                 <h6 class="text-dark">Admin</h6>
-			</div>
-		</div>
-
-
-        @if (!string.IsNullOrEmpty(Model.errorMessage))
-        {
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>@Model.errorMessage</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        }
-
+        </div>
         <form method="POST">
-
-            <div class="row mb-3 user-container"> 
-
-                <!-- USERNAME -->
+            <div class="row mb-3 user-container">
+                
+                <!-- User ID -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
                 </div>
 
+                <!-- Admin Name -->
                 <div class="mb-3">
                     <label class="form-label" for="InputAdminName">Admin Name:<span class="text-danger" style="padding:5px">*</span></label>
-                    <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" placeholder="adminJohn"/>
+                    <input type="text" id="adminName" name="adminName" class="form-control" required maxlength="65" />
                 </div>
 
                 <input type="hidden" name="userID" value="@Model.userID" />
@@ -50,12 +46,13 @@
 
                 <!-- Cancel and Save Button -->
                 <div class="button-spacer">
-                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
-                        Cancel</a>
+                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/AddAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                        Cancel
+                    </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
                 </div>
             </div>
-        </form> 
+        </form>
     </div>
 </div>
 

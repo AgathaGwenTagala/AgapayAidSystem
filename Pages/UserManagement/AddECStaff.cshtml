@@ -1,28 +1,25 @@
 ﻿@page
-@model AgapayAidSystem.Pages.UserManagement.CreateECStaffModel
+@model AgapayAidSystem.Pages.UserManagement.AddECStaffModel
 @{
-    ViewData["Title"] = "New EC Staff";
+	ViewData["Title"] = "Add EC Staff User";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="container p-2 form-container">
-
     <div class="container mt-4 form-container-content">
-
         <div class="row">
-			<div class="col text-center">
-				<h1>Add New User</h1>
+            <div class="col text-center">
+                <h1>Add New User</h1>
                 <h6 class="text-dark">EC Staff</h6>
-			</div>
-		</div>
-
-        @if (!string.IsNullOrEmpty(Model.errorMessage))
-        {
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>@Model.errorMessage</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        }
-
+        </div>
         <form method="POST">
             <div class="row mb-3 user-container">
 
@@ -32,7 +29,7 @@
                     <p class="text-danger text-end">* Required field</p>
                 </div>
 
-                <!-- USERNAME -->
+                <!-- USER ID -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
                 </div>
@@ -40,7 +37,8 @@
                 <!-- FIRST NAME -->
                 <div class="row mb-3">
                     <label class="form-label">First Name:
-                        <span class="text-danger" style="padding:5px">*</span></label>
+                        <span class="text-danger" style="padding:5px">*</span>
+                    </label>
                     <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
                 </div>
 
@@ -53,7 +51,8 @@
                 <!-- LAST NAME -->
                 <div class="row mb-3">
                     <label class="form-label">Last Name:
-                        <span class="text-danger" style="padding: 5px">*</span></label>
+                        <span class="text-danger" style="padding: 5px">*</span>
+                    </label>
                     <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
                 </div>
 
@@ -66,7 +65,8 @@
                 <!-- SEX -->
                 <div class="row mb-3">
                     <label class="form-label">Sex
-                        <span class="text-danger" style="padding:5px">*</span></label>
+                        <span class="text-danger" style="padding:5px">*</span>
+                    </label>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" required>
                         <label class="form-check-label" for="maleRadio">Male</label>
@@ -80,7 +80,8 @@
                 <!-- BIRTHDATE -->
                 <div class="row mb-3">
                     <label class="form-label">Birthdate
-                        <span class="text-danger" style="padding: 5px">*</span></label>
+                        <span class="text-danger" style="padding: 5px">*</span>
+                    </label>
                     <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
                 </div>
 
@@ -88,16 +89,16 @@
                 <div class="row mb-3">
                     <label class="form-label">Mobile Number
                         <span class="text-danger" style="padding: 5px">*</span>
-                        <span class="text-muted p-2"><small>09xxxxxxx</small></span>
                     </label>
-                    <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="09\d{9}" placeholder="xxxxxxx" />
+                    <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="[0-9]{11}" placeholder="09XXXXXXXXX" title="Enter digits only." />
                 </div>
 
                 <!-- EMAIL ADDRESS -->
                 <div class="row mb-3">
                     <label class="form-label">Email Address
-                        <span class="text-danger" style="padding: 5px">*</span></label>
-                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" placeholder="youremail@gmail.com" />
+                        <span class="text-danger" style="padding: 5px">*</span>
+                    </label>
+                    <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" placeholder="example@email.com" />
                 </div>
 
                 @if (!string.IsNullOrEmpty(Model.successMessage))
@@ -110,7 +111,7 @@
 
                 <!-- CANCEL AND SAVE BUTTON -->
                 <div class="button-spacer">
-                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/CreateECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/AddECStaff?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
@@ -122,24 +123,20 @@
 </div>
 
 <script>
-    // Validate mobile number input
-    const mobileNumInput = document.getElementById('mobileNum');
+    const mobileInput = document.getElementById('mobileNum');
 
-    // Initialize with "09" as the default value
-    mobileNumInput.value = '09';
+    // Add an input event listener to format the mobile number
+    mobileInput.addEventListener('input', function () {
+        // Remove any non-digit characters
+        let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-    mobileNumInput.addEventListener('input', function () {
-        const inputValue = mobileNumInput.value;
-
-        // Ensure "09" is always at the beginning
-        if (!inputValue.startsWith('09')) {
-            mobileNumInput.value = '09' + inputValue.substring(2);
+        // Ensure the mobile number starts with "09" if not null or empty
+        if (cleanedValue.length >= 2) {
+            cleanedValue = '09' + cleanedValue.slice(2);
         }
 
-        // Limit to a maximum of 11 characters
-        if (inputValue.length > 11) {
-            mobileNumInput.value = inputValue.slice(0, 11);
-        }
+        // Update the input field with the formatted value
+        this.value = cleanedValue;
     });
 
     const submitButton = document.getElementById('submitBtn');
