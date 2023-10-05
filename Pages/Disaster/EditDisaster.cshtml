@@ -74,7 +74,7 @@
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/Disaster/Index" role="button">Cancel</a>
-					<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+					<button type="button" class="btn btn-primary" id="submitBtn" onclick="confirmSave()">Save</button>
 				</div>
 			</form>
 		</div>
@@ -110,4 +110,13 @@
 
 	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
+
+	// Function to show the confirmation dialog
+	function confirmSave() {
+		const confirmation = confirm("Are you sure you want to save the changes?");
+		if (confirmation) {
+			// If the user confirms, submit the form
+			form.submit();
+		}
+	}
 </script>
