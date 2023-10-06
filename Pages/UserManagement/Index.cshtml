@@ -80,24 +80,24 @@
                             @if (item.userType == "Admin")
                             {
                                 <a href="/UserManagement/EditAdmin?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
                             else if (item.userType == "EC Staff")
                             {
                                 <a href="/UserManagement/EditECStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
                             else if (item.userType == "LGU Staff")
                             {
                                 <a href="/UserManagement/EditLGUStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
 
                             <a href="#" onclick="confirmDelete('@item.userID')" class="btn btn-danger edit-button">
-                                <i class="bi bi-trash-fill"></i>Delete
+                                <i class="bi bi-trash-fill" style="padding-right:5px"></i>Delete
                             </a>
 
                         </td>

@@ -41,7 +41,7 @@ body {
     margin-bottom: 60px;
 }
 
-.button-spacer button {
+.button-spacer {
         margin: 20px 10px; /* Add margin to create spacing between buttons */
 }
 
@@ -73,10 +73,6 @@ body {
     width: 100%;
     height: auto;
     border-radius: 50%;
-}
-
-.edit-button .bi {
-    margin-right:5px;
 }
 
 .user-container{
