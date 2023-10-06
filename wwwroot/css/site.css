@@ -45,6 +45,10 @@ body {
         margin: 20px 10px; /* Add margin to create spacing between buttons */
 }
 
+.badge {
+    font-size: 0.875rem;
+}
+
 /*USER MANAGEMENT*/
 
 .breadcrumb-item active {
