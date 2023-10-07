@@ -2,10 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AgapayAidSystem.Pages.Disaster
 {
 	public class IndexModel : PageModel
@@ -15,19 +11,18 @@ namespace AgapayAidSystem.Pages.Disaster
 		// Properties for sorting
 		public string SortBy { get; set; } //Disaster Name
 		public string SortOrder { get; set; } // Ascending, Descending
-
-		public DateTime DateOccurrence { get; set; }  // Data Occurenec
+		public DateTime DateOccurrence { get; set; }
 
 		public void OnGet(string sortBy, string sortOrder)
 		{
 			try
 			{
-				String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM disaster";
+					string sql = "SELECT * FROM disaster";
 
 					// Apply sorting based on user's selection
 					if (!string.IsNullOrEmpty(sortBy))
@@ -67,11 +62,11 @@ namespace AgapayAidSystem.Pages.Disaster
 		{
 			try
 			{
-				String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM disaster WHERE disasterName LIKE @query OR disasterType LIKE @query OR description LIKE @query OR dateOccured LIKE @query";
+					string sql = "SELECT * FROM disaster WHERE disasterName LIKE @query OR disasterType LIKE @query OR description LIKE @query OR dateOccured LIKE @query";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
