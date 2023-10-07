@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.EvacuationCenter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
