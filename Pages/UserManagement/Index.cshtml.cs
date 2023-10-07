@@ -12,12 +12,12 @@ namespace AgapayAidSystem.Pages.UserManagement
         {
             try
             {
-                String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM user";
+                    string sql = "SELECT * FROM user";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -25,10 +25,10 @@ namespace AgapayAidSystem.Pages.UserManagement
                             while (reader.Read())
                             {
                                 UserInfo userInfo = new UserInfo();
-                                userInfo.userID = "" + reader.GetString(0);
-                                userInfo.username = "" + reader.GetString(1);
-                                userInfo.password = "" + reader.GetString(2);
-                                userInfo.userType = "" + reader.GetString(3);
+                                userInfo.userID = reader.GetString(0);
+                                userInfo.username = reader.GetString(1);
+                                userInfo.password = reader.GetString(2);
+                                userInfo.userType = reader.GetString(3);
 
                                 // Convert the userPhoto BLOB data to a byte[]
                                 if (!reader.IsDBNull(4))
@@ -70,10 +70,10 @@ namespace AgapayAidSystem.Pages.UserManagement
 							while (reader.Read())
 							{
 								UserInfo userInfo = new UserInfo();
-								userInfo.userID = "" + reader.GetString(0);
-								userInfo.username = "" + reader.GetString(1);
-								userInfo.password = "" + reader.GetString(2);
-								userInfo.userType = "" + reader.GetString(3);
+								userInfo.userID = reader.GetString(0);
+								userInfo.username = reader.GetString(1);
+								userInfo.password = reader.GetString(2);
+								userInfo.userType = reader.GetString(3);
 
 								// Convert the userPhoto BLOB data to a byte[]
 								if (!reader.IsDBNull(4))

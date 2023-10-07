@@ -40,10 +40,10 @@ namespace AgapayAidSystem.Pages.Disaster
 							{
 								DisasterInfo disasterInfo = new DisasterInfo();
 
-								disasterInfo.disasterID = "" + reader.GetString(0);
-								disasterInfo.disasterName = "" + reader.GetString(1);
-								disasterInfo.disasterType = "" + reader.GetString(2);
-								disasterInfo.description = "" + reader.GetString(3);
+								disasterInfo.disasterID = reader.GetString(0);
+								disasterInfo.disasterName = reader.GetString(1);
+								disasterInfo.disasterType = reader.GetString(2);
+								disasterInfo.description = reader.GetString(3);
 								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
 								listDisaster.Add(disasterInfo);
 							}
@@ -78,10 +78,10 @@ namespace AgapayAidSystem.Pages.Disaster
 							while (reader.Read())
 							{
 								DisasterInfo disasterInfo = new DisasterInfo();
-								disasterInfo.disasterID = "" + reader.GetString(0);
-								disasterInfo.disasterName = "" + reader.GetString(1);
-								disasterInfo.disasterType = "" + reader.GetString(2);
-								disasterInfo.description = "" + reader.GetString(3);
+								disasterInfo.disasterID = reader.GetString(0);
+								disasterInfo.disasterName = reader.GetString(1);
+								disasterInfo.disasterType = reader.GetString(2);
+								disasterInfo.description = reader.GetString(3);
 								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
 								searchResults.Add(disasterInfo);
 							}
