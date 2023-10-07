@@ -5,13 +5,11 @@
 }
 
 <style>
-	/* Remove underline */
 	a {
 		text-decoration: none;
 		color: inherit;
 	}
 </style>
-
 
 <div class="container p-2">
 	<div class="row pt-3">
@@ -22,10 +20,14 @@
 					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>Evacuation Center</strong></li>
 				</ol>
 			</div>
-			<div class="input-group">
-				<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-				<button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-			</div>
+
+			<!-- Search Bar -->
+			<form id="search-form">
+				<div class="input-group">
+					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+					<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
+				</div>
+			</form>
 		</div>
 	</div>
 
@@ -43,7 +45,7 @@
 	</div>
 
 	<div class="table-responsive">
-		<table class="table align-middle table-hover " style="width:100%">
+		<table class="table align-middle table-hover" id="evacuation-table" style="width:100%">
 			<thead>
 				<tr>
 					<th>
@@ -126,10 +128,11 @@
 	}
 </script>
 
-<!-- Sorting -->
+
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
+	// Sort by
 	let lastClickedHeader = null;
 
 	function toggleArrowIcons(header) {
@@ -156,5 +159,55 @@
 		// Update the last clicked header
 		lastClickedHeader = header;
 	}
+
+	// Confirm to delete
+	function confirmDelete(centerID) {
+		if (confirm("Are you sure you want to delete this evacuation center?")) {
+			window.location.href = "/EvacuationCenter/DeleteEvacuationCenter?centerID=" + centerID;
+		}
+	}
+
+	// Search function
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("search-form").addEventListener("submit", function (e) {
+			e.preventDefault();
+			const query = document.getElementById("search-bar").value;
+			fetch(`/EvacuationCenter?handler=Search&query=${query}`)
+				.then(response => response.json())
+				.then(data => {
+					// Clear existing table rows
+					const tableBody = document.querySelector("table tbody");
+					tableBody.innerHTML = "";
+
+					// Iterate through the search results and add new rows to the table
+					data.forEach(result => {
+						const newRow = `<tr>
+									<td width="30%">${result.centerName}</td>
+									<td width="15%">${result.barangayID}</td>
+									<td width="15%">${result.maxCapacity}</td>
+									<td width="15%">${result.status}</td>
+									<td width="20%">
+										<!-- Disaster Log button -->
+										<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
+
+										<!-- Edit button -->
+											<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=${result.centerID}">
+											<i class="bi bi-pencil-fill"></i>
+										</a>
+
+										<!-- Delete button -->
+											<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete(${result.centerID})">
+											<i class="bi bi-trash-fill"></i>
+										</a>
+									</td>
+								</tr>`;
+						tableBody.innerHTML += newRow;
+					});
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+		});
+	});
 </script>
 
