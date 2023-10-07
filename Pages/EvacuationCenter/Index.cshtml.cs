@@ -70,11 +70,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		{
 			try
 			{
-				String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM evacuation_center WHERE centerName LIKE @query OR barangayID LIKE @query OR maxCapacity LIKE @query OR status LIKE @query";
+					string sql = "SELECT * FROM evacuation_center WHERE centerName LIKE @query OR barangayID LIKE @query OR maxCapacity LIKE @query OR status LIKE @query";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
