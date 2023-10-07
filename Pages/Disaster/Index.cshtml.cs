@@ -70,7 +70,6 @@ namespace AgapayAidSystem.Pages.Disaster
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
-						// Add query parameter with wildcard
 						command.Parameters.AddWithValue("@query", $"%{query}%");
 
 						using (MySqlDataReader reader = command.ExecuteReader())
