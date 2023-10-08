@@ -2,13 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AgapayAidSystem.Pages.ECStaffDatabase
 {
     public class IndexModel : PageModel
     {
 		public List<ECStaffDatabaseInfo> listECStaffDatabase = new List<ECStaffDatabaseInfo>();
 
-		public void OnGet()
+		// Properties for sorting
+		public string SortBy { get; set; } 
+		public string SortOrder { get; set; } // Ascending, Descending
+
+		public void OnGet(string sortBy, string sortOrder)
         {
             try
             {
@@ -18,6 +26,15 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
                 {
 					connection.Open();
 					String sql = "SELECT * FROM ec_staff";
+
+					// Apply sorting based on user's selection
+					if (!string.IsNullOrEmpty(sortBy))
+					{
+						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
+						SortBy = sortBy;
+						SortOrder = sortOrder;
+					}
+
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -27,12 +44,12 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
 
 								ecstaffdatabaseInfo.ecStaffID = "" + reader.GetString(0);
-								ecstaffdatabaseInfo.firstName = "" + reader.GetString(3);
-								ecstaffdatabaseInfo.middleName = "" + reader.GetString(4);
-								ecstaffdatabaseInfo.lastName = "" + reader.GetString(5);
+								ecstaffdatabaseInfo.firstName = "" + reader.GetString(2);
+								ecstaffdatabaseInfo.middleName = "" + reader.GetString(3);
+								ecstaffdatabaseInfo.lastName = "" + reader.GetString(4);
 								ecstaffdatabaseInfo.sex = "" + reader.GetString(6);
 								ecstaffdatabaseInfo.mobileNum = "" + reader.GetString(8);
-								ecstaffdatabaseInfo.birthdate = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
+								ecstaffdatabaseInfo.birthdate = "" + reader.GetDateTime(7).ToString("yyyy-MM-dd");
 								ecstaffdatabaseInfo.availabilityStatus = "" + reader.GetString(10);
 								listECStaffDatabase.Add(ecstaffdatabaseInfo);
 							}
@@ -58,6 +75,6 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 		public string birthdate { get; set; }
 		public string availabilityStatus { get; set; }
 
-		public string FullName => $"{firstName} {middleName} {lastName}";
+		public string FullName => $"{firstName} {(string.IsNullOrEmpty(middleName) ? string.Empty : middleName[0] + ".")} {lastName}";
 	}
 }
