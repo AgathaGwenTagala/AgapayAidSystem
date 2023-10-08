@@ -81,7 +81,8 @@
 							</a>
 							
 							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.disasterID">
+							<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('@item.disasterID')"
+							   data-deleteid="@item.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 								<i class="bi bi-trash-fill"></i>
 							</a>
 						</td>
@@ -174,7 +175,8 @@
 										</a>
 
 										<!-- Delete button -->
-												<a href="#" class="btn btn-danger edit-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.disasterID}">
+										<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.disasterID}')"
+											data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 											<i class="bi bi-trash-fill"></i>
 										</a>
 									</td>
@@ -191,27 +193,30 @@
 
 <!-- Confirm Delete -->
 <script>
-	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-	const tableBody = document.querySelector("table tbody");
-
+	const deleteButtons = document.querySelectorAll('.edit-button');
 	let disasterIdToDelete = null;
 
-	tableBody.addEventListener('click', function (event) {
-		const target = event.target;
-
-		if (target.classList.contains('delete-button')) {
-			disasterIdToDelete = target.getAttribute('data-deleteid');
-			console.log("Clicked delete button. Disaster ID to delete: " + disasterIdToDelete);
-
-			const deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-			deleteConfirmationModal.show();
-		}
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			disasterIdToDelete = this.getAttribute('data-deleteid');
+		});
 	});
 
+	// Function to prepare for delete action
+	function prepareDelete(disasterID) {
+		if (disasterID === null || disasterID === undefined) {
+			// Retrieve disasterID from the button's data-deleteid attribute
+			disasterIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+		} else {
+			disasterIdToDelete = disasterID;
+		}
+	}
+
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
 	confirmDeleteButton.addEventListener('click', function () {
-		console.log("Confirm delete button clicked. Disaster ID to delete: " + disasterIdToDelete);
-		if (centerIdToDelete !== null) {
-			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + centerIdToDelete;
+		if (disasterIdToDelete !== null) {
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
 		}
 	});
 </script>
