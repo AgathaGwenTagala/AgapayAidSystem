@@ -75,29 +75,30 @@
                         <td width="10%">@item.userType</td>
                         <td width="20%">@item.createdAt</td>
                         <td width="15%">
+                            <!-- Edit buttons -->
                             @if (item.userType == "Admin")
                             {
                                 <a href="/UserManagement/EditAdmin?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
                                 </a>
                             }
                             else if (item.userType == "EC Staff")
                             {
                                 <a href="/UserManagement/EditECStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
                                 </a>
                             }
                             else if (item.userType == "LGU Staff")
                             {
                                 <a href="/UserManagement/EditLGUStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
                                 </a>
                             }
 
+                            <!-- Delete button -->
                             <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.userID">
-                                <i class="bi bi-trash-fill"></i>Delete
+                                <i class="bi bi-trash-fill"></i>
                             </a>
-
                         </td>
                     </tr>
                 }
@@ -115,7 +116,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this disaster?
+                Are you sure you want to delete this user?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -124,26 +125,6 @@
         </div>
     </div>
 </div>
-
-<!-- Confirm Delete -->
-<script>
-    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-    const deleteButtons = document.querySelectorAll('.edit-button');
-
-    let userIdToDelete = null;
-
-    deleteButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            userIdToDelete = this.getAttribute('data-deleteid');
-        });
-    });
-
-    confirmDeleteButton.addEventListener('click', function () {
-        if (userIdToDelete != null) {
-            window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
-        }
-    });
-</script>
 
 <!-- Search -->
 <script>
@@ -207,5 +188,25 @@
                     console.error("Error:", error);
                 });
         });
+    });
+</script>
+
+<!-- Confirm Delete -->
+<script>
+    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+    const deleteButtons = document.querySelectorAll('.edit-button');
+
+    let userIdToDelete = null;
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            userIdToDelete = this.getAttribute('data-deleteid');
+        });
+    });
+
+    confirmDeleteButton.addEventListener('click', function () {
+        if (userIdToDelete != null) {
+            window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
+        }
     });
 </script>
