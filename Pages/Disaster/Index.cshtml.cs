@@ -2,10 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AgapayAidSystem.Pages.Disaster
 {
 	public class IndexModel : PageModel
@@ -15,19 +11,18 @@ namespace AgapayAidSystem.Pages.Disaster
 		// Properties for sorting
 		public string SortBy { get; set; } //Disaster Name
 		public string SortOrder { get; set; } // Ascending, Descending
-
-		public DateTime DateOccurrence { get; set; }  // Data Occurenec
+		public DateTime DateOccurrence { get; set; }
 
 		public void OnGet(string sortBy, string sortOrder)
 		{
 			try
 			{
-				String connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM disaster";
+					string sql = "SELECT * FROM disaster";
 
 					// Apply sorting based on user's selection
 					if (!string.IsNullOrEmpty(sortBy))
@@ -45,10 +40,10 @@ namespace AgapayAidSystem.Pages.Disaster
 							{
 								DisasterInfo disasterInfo = new DisasterInfo();
 
-								disasterInfo.disasterID = "" + reader.GetString(0);
-								disasterInfo.disasterName = "" + reader.GetString(1);
-								disasterInfo.disasterType = "" + reader.GetString(2);
-								disasterInfo.description = "" + reader.GetString(3);
+								disasterInfo.disasterID = reader.GetString(0);
+								disasterInfo.disasterName = reader.GetString(1);
+								disasterInfo.disasterType = reader.GetString(2);
+								disasterInfo.description = reader.GetString(3);
 								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
 								listDisaster.Add(disasterInfo);
 							}
@@ -62,6 +57,46 @@ namespace AgapayAidSystem.Pages.Disaster
 				Console.WriteLine("Exception: " + ex.ToString());
 			}
 		}
+
+		public JsonResult OnGetSearch(string query)
+		{
+			try
+			{
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					string sql = "SELECT * FROM disaster WHERE disasterName LIKE @query OR disasterType LIKE @query OR description LIKE @query OR dateOccured LIKE @query";
+
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@query", $"%{query}%");
+
+						using (MySqlDataReader reader = command.ExecuteReader())
+						{
+							List<DisasterInfo> searchResults = new List<DisasterInfo>();
+							while (reader.Read())
+							{
+								DisasterInfo disasterInfo = new DisasterInfo();
+								disasterInfo.disasterID = reader.GetString(0);
+								disasterInfo.disasterName = reader.GetString(1);
+								disasterInfo.disasterType = reader.GetString(2);
+								disasterInfo.description = reader.GetString(3);
+								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
+								searchResults.Add(disasterInfo);
+							}
+							return new JsonResult(searchResults);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.ToString());
+				return new JsonResult(new List<DisasterInfo>());
+			}
+		}
+
 	}
 
 	public class DisasterInfo
