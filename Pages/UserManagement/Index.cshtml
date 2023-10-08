@@ -94,10 +94,11 @@
                                 </a>
                             }
 
-                            <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.userID">
-                                <i class="bi bi-trash-fill"></i>Delete
+                            <!-- Delete button -->
+                            <a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('@item.userID')"
+                               data-deleteid="@item.userID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                                <i class="bi bi-trash-fill"></i>
                             </a>
-
                         </td>
                     </tr>
                 }
@@ -195,7 +196,8 @@
                                             }
 
                                             <!-- Delete button -->
-                                            <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.userID}">
+                                                <a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.userID}')"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
                                                 <i class="bi bi-trash-fill"></i>
                                             </a>
                                         </td>
@@ -207,5 +209,35 @@
                     console.error("Error:", error);
                 });
         });
+    });
+</script>
+
+<!-- Confirm Delete -->
+<script>
+    const deleteButtons = document.querySelectorAll('.edit-button');
+    let userIdToDelete = null;
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            userIdToDelete = this.getAttribute('data-deleteid');
+        });
+    });
+
+    // Function to prepare for delete action
+    function prepareDelete(userID) {
+        if (userID === null || userID === undefined) {
+            // Retrieve userID from the button's data-deleteid attribute
+            userIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+        } else {
+            userIdToDelete = userID;
+        }
+    }
+
+    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+    confirmDeleteButton.addEventListener('click', function () {
+        if (userIdToDelete !== null) {
+            window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
+        }
     });
 </script>

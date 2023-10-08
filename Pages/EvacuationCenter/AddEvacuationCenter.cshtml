@@ -116,13 +116,16 @@
 				</div>
 				<!-- Available Facilities -->
 				<div class="mb-3 mt-4 text-center">
-					<label class="form-label">Available Facilities:</label>				
+					<label class="form-label">
+						Available Facilities:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>				
 					<div class="row justify-content-center">
 						<div class="col-md-4">
 							<!-- Toilets -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="toilet" value="@Model.evacuationInfo.toilet" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="toilet" value="@Model.evacuationInfo.toilet" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility">Toilets</label>
 								</div>
 							</div>
@@ -130,7 +133,7 @@
 							<!-- Bathing Cubicle -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="bathingCubicle" value="@Model.evacuationInfo.bathingCubicle" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="bathingCubicle" value="@Model.evacuationInfo.bathingCubicle" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility">Bathing Cubicle</label>
 								</div>
 							</div>
@@ -138,7 +141,7 @@
 							<!-- Community Kitchen -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="communityKitchen" value="@Model.evacuationInfo.communityKitchen" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="communityKitchen" value="@Model.evacuationInfo.communityKitchen" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility">Community Kitchen</label>
 								</div>
 							</div>
@@ -146,7 +149,7 @@
 							<!-- Washing Area -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="washingArea" value="@Model.evacuationInfo.washingArea" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="washingArea" value="@Model.evacuationInfo.washingArea" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility">Washing Area</label>
 								</div>
 							</div>
@@ -154,7 +157,7 @@
 							<!-- Women-Friendly and Child-Friendly spaces -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="womenChildSpace" value="@Model.evacuationInfo.womenChildSpace" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="womenChildSpace" value="@Model.evacuationInfo.womenChildSpace" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility label-container">Women-Friendly and Child-Friendly spaces</label>
 								</div>
 							</div>
@@ -162,7 +165,7 @@
 							<!-- Multipurpose Areas -->
 							<div class="mb-3">
 								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="multipurposeArea" value="@Model.evacuationInfo.multipurposeArea" placeholder="0" step="1" min="0" />
+									<input type="number" class="form-control input-facility" name="multipurposeArea" value="@Model.evacuationInfo.multipurposeArea" placeholder="0" step="1" min="0" required />
 									<label class="form-label label-facility">Multipurpose Areas</label>
 								</div>
 							</div>

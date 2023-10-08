@@ -97,7 +97,8 @@
 							</a>
 
 							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-centerid="@item.centerID">
+							<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('@item.centerID')"
+							   data-deleteid="@item.centerID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 								<i class="bi bi-trash-fill"></i>
 							</a>
 						</td>
@@ -210,7 +211,8 @@
 											</a>
 
 											<!-- Delete button -->
-											<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete(${result.disasterName})">
+											<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.centerID}')"
+												data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 												<i class="bi bi-trash-fill"></i>
 											</a>
 										</td>
@@ -222,5 +224,35 @@
 					console.error("Error:", error);
 				});
 		});
+	});
+</script>
+
+<!-- Confirm Delete -->
+<script>
+	const deleteButtons = document.querySelectorAll('.edit-button');
+	let centerIdToDelete = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			centerIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	// Function to prepare for delete action
+	function prepareDelete(centerID) {
+		if (centerID === null || centerID === undefined) {
+			// Retrieve centerID from the button's data-deleteid attribute
+			centerIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+		} else {
+			centerIdToDelete = centerID;
+		}
+	}
+
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (centerIdToDelete !== null) {
+			window.location.href = "/EvacuationCenter/DeleteEvacuationCenter?centerID=" + centerIdToDelete;
+		}
 	});
 </script>

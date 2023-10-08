@@ -81,7 +81,8 @@
 							</a>
 							
 							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.disasterID">
+							<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('@item.disasterID')"
+							   data-deleteid="@item.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 								<i class="bi bi-trash-fill"></i>
 							</a>
 						</td>
@@ -188,7 +189,8 @@
 										</a>
 
 										<!-- Delete button -->
-											<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.disasterID}">
+										<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.disasterID}')"
+											data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 											<i class="bi bi-trash-fill"></i>
 										</a>
 									</td>
@@ -200,5 +202,36 @@
 					console.error("Error:", error);
 				});
 		});
+	});
+
+</script>
+
+<!-- Confirm Delete -->
+<script>
+	const deleteButtons = document.querySelectorAll('.edit-button');
+	let disasterIdToDelete = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			disasterIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	// Function to prepare for delete action
+	function prepareDelete(disasterID) {
+		if (disasterID === null || disasterID === undefined) {
+			// Retrieve disasterID from the button's data-deleteid attribute
+			disasterIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+		} else {
+			disasterIdToDelete = disasterID;
+		}
+	}
+
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (disasterIdToDelete !== null) {
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
+		}
 	});
 </script>
