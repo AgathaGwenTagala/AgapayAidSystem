@@ -75,23 +75,22 @@
                         <td width="10%">@item.userType</td>
                         <td width="20%">@item.createdAt</td>
                         <td width="15%">
-                            <!-- Edit buttons -->
                             @if (item.userType == "Admin")
                             {
                                 <a href="/UserManagement/EditAdmin?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
                             else if (item.userType == "EC Staff")
                             {
                                 <a href="/UserManagement/EditECStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
                             else if (item.userType == "LGU Staff")
                             {
                                 <a href="/UserManagement/EditLGUStaff?userID=@item.userID" class="btn btn-success edit-button">
-                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>
+                                    <i class="bi bi-pencil-fill" style="padding-right:5px"></i>Edit
                                 </a>
                             }
 
@@ -117,7 +116,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this user?
+                Are you sure you want to delete this disaster?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -126,6 +125,26 @@
         </div>
     </div>
 </div>
+
+<!-- Confirm Delete -->
+<script>
+    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+    const deleteButtons = document.querySelectorAll('.edit-button');
+
+    let userIdToDelete = null;
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            userIdToDelete = this.getAttribute('data-deleteid');
+        });
+    });
+
+    confirmDeleteButton.addEventListener('click', function () {
+        if (userIdToDelete != null) {
+            window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
+        }
+    });
+</script>
 
 <!-- Search -->
 <script>

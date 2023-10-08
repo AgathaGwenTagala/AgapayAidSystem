@@ -5,6 +5,15 @@
 	ViewData["Title"] = "EC Staff Database";
 }
 
+<style>
+	/* Remove underline */
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+</style>
+
+
 <div class="container p-2">
 	<div class="row pt-3">
 		<div class="col">
@@ -33,10 +42,16 @@
 			<thead>
 				<tr>
 					<th>
-						ID
+						<a asp-page="./Index" asp-route-sortBy="ecStaffID" asp-route-sortOrder="@(Model.SortBy == "ecStaffID" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('ecStaffID')">
+							ID
+							<ion-icon id="ecStaffIDArrow" name="@(Model.SortBy == "ecStaffID" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
 					</th>
 					<th>
-						Name
+						<a asp-page="./Index" asp-route-sortBy="firstName" asp-route-sortOrder="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('firstName')">
+							Name
+							<ion-icon id="firstNameArrow" name="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
 					</th>
 					<th>
 						Sex
@@ -45,10 +60,16 @@
 						Mobile Number
 					</th>
 					<th>
-						Birthdate
+						<a asp-page="./Index" asp-route-sortBy="birthDate" asp-route-sortOrder="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('birthDate')">
+							Birthdate
+							<ion-icon id="birthDateArrow" name="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
 					</th>
 					<th>
-						Availability Status
+						<a asp-page="./Index" asp-route-sortBy="availabilityStatus" asp-route-sortOrder="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('availabilityStatus')">
+							Availability Status
+							<ion-icon id="availabilityStatusArrow" name="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						</a>
 					</th>
 					<th>
 
@@ -58,15 +79,21 @@
 			<tbody>
 				@foreach (var item in Model.listECStaffDatabase) {
 					<tr>
-						<td width="20%">@item.ecStaffID</td>
-						<td width="20%">@item.FullName</td>
-						<td width="20%">@item.sex</td>
-						<td width="20%">@item.mobileNum</td>
-						<td width="20%">@item.birthdate</td>
-						<td width="20%">@item.availabilityStatus</td>
-						<td width=15%>
-							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
-							<a asp-page="/EvacuationCenter/_EditEvacuationCenter" button class="btn btn-success"><i class="bi bi-pencil-fill"></i></a>
+						<td width="10%">@item.ecStaffID</td>
+						<td width="25%">@item.FullName</td>
+						<td width="8%">@item.sex</td>
+						<td width="15%">@item.mobileNum</td>
+						<td width="13%">@item.birthdate</td>
+						<td width="17%">@item.availabilityStatus</td>
+						<td width=20%>
+							<!-- Edit button -->
+							<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=@item.ecStaffID">
+								<i class="bi bi-pencil-fill"></i>
+
+							<!-- Delete button -->
+							<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete('@item.ecStaffID')">
+								<i class="bi bi-trash-fill"></i>
+
 
 						</td>
 					</tr>
@@ -75,3 +102,53 @@
 		</table>
 	</div>
 </div>
+
+
+<script>
+	function confirmDelete(centerID) {
+		if (confirm("Are you sure you want to delete this ec staff?")) {
+			window.location.href = "/EvacuationCenter/DeleteEvacuationCenter?centerID=" + centerID;
+		}
+	}
+</script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+	let lastClickedHeader = null;
+
+	function toggleArrowIcons(header) {
+		// Get the arrow icons for all headers
+		const ecStaffIDArrow = document.getElementById('ecStaffIDArrow');
+		const FullNameArrow = document.getElementById('FullNameArrow');
+		const birthdateArrow = document.getElementById('birthdateArrow');
+		const availabilityStatusArrow = document.getElementById('availabilityStatusArrow');
+
+		// Determine which header was clicked and toggle the arrow icons accordingly
+		if (header === 'ecStaffID') {
+			ecStaffIDArrow.style.display = ecStaffIDArrow.style.display === 'none' ? 'block' : 'none';
+			FullNameArrow.style.display = 'none';
+			birthdateArrow.style.display = 'none';
+			availabilityStatusArrow.style.display = 'none';
+		} else if (header === 'FullName') {
+			ecStaffIDArrow.style.display = 'none';
+			FullNameArrow.style.display = FullNameArrow.style.display === 'none' ? 'block' : 'none';
+			birthdateArrow.style.display = 'none';
+			availabilityStatusArrow.style.display = 'none';
+		} else if (header === 'birthDate') {
+			ecStaffIDArrow.style.display = 'none';
+			FullNameArrow.style.display = 'none';
+			birthdateArrow.style.display = birthdateArrow.style.display === 'none' ? 'block' : 'none';
+			availabilityStatusArrow.style.display = 'none';
+		} else if (header === 'availabilityStatus') {
+			ecStaffIDArrow.style.display = 'none';
+			FullNameArrow.style.display = 'none';
+			birthDateArrow.style.display = 'none';
+			availabilityStatusArrow.style.display = availabilityStatusArrow.style.display === 'none' ? 'block' : 'none';
+		}
+
+
+		// Update the last clicked header
+		lastClickedHeader = header;
+	}
+</script>

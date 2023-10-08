@@ -112,6 +112,26 @@
 	</div>
 </div>
 
+<!-- Confirm Delete -->
+<script>
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+	const deleteButtons = document.querySelectorAll('.edit-button');
+
+	let disasterIdToDelete = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			disasterIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (disasterIdToDelete != null) {
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
+		}
+	});
+</script>
+
 <!-- Sorting -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -126,18 +146,12 @@
 		const statusArrow = document.getElementById('statusArrow');
 
 		// Determine which header was clicked and toggle the arrow icons accordingly
-		if (header === 'centerName') {
-			centerNameArrow.style.display = centerNameArrow.style.display === 'none' ? 'block' : 'none';
-			maxCapacityArrow.style.display = 'none';
-			statusArrow.style.display = 'none';
-		} else if (header === 'maxCapacity') {
-			centerNameArrow.style.display = 'none';
-			maxCapacityArrow.style.display = maxCapacityArrow.style.display === 'none' ? 'block' : 'none';
-			statusArrow.style.display = 'none';
-		} else if (header === 'status') {
-			centerNameArrow.style.display = 'none';
-			maxCapacityArrow.style.display = 'none';
-			statusArrow.style.display = statusArrow.style.display === 'none' ? 'block' : 'none';
+		if (header === 'disasterName') {
+			disasterNameArrow.style.display = disasterNameArrow.style.display === 'none' ? 'block' : 'none';
+			dateOccuredArrow.style.display = 'none';
+		} else if (header === 'dateOccured') {
+			disasterNameArrow.style.display = 'none';
+			dateOccuredArrow.style.display = statusArrow.style.display === 'none' ? 'block' : 'none';
 		}
 
 		// Update the last clicked header
@@ -189,6 +203,7 @@
 				});
 		});
 	});
+
 </script>
 
 <!-- Confirm Delete -->
