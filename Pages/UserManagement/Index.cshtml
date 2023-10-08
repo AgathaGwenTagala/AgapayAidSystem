@@ -94,7 +94,7 @@
                                 </a>
                             }
 
-                            <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-userid="@item.userID">
+                            <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.userID">
                                 <i class="bi bi-trash-fill"></i>Delete
                             </a>
 
@@ -106,16 +106,16 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal: Confirm Delete -->
 <div class="modal" id="deleteConfirmationModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete this user</h5>
+                <h5 class="modal-title">Confirm Delete</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this user?
+                Are you sure you want to delete this disaster?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -125,6 +125,7 @@
     </div>
 </div>
 
+<!-- Confirm Delete -->
 <script>
     const confirmDeleteButton = document.getElementById('confirmDeleteButton');
     const deleteButtons = document.querySelectorAll('.edit-button');
@@ -133,17 +134,19 @@
 
     deleteButtons.forEach(function (button) {
         button.addEventListener('click', function () {
-            userIdToDelete = this.getAttribute('data-userid');
+            userIdToDelete = this.getAttribute('data-deleteid');
         });
     });
 
     confirmDeleteButton.addEventListener('click', function () {
-        if (userIdToDelete !== null) {
+        if (userIdToDelete != null) {
             window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
         }
     });
+</script>
 
-    // Search function
+<!-- Search -->
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("search-form").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -190,10 +193,10 @@
                                                     </a>`
                                                 : ""
                                             }
-                                            
+
                                             <!-- Delete button -->
-                                            <a class="btn btn-danger edit-button" href="#" onclick="confirmDelete('${result.userID}')">
-                                                <i class="bi bi-trash-fill"></i>Delete
+                                            <a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.userID}">
+                                                <i class="bi bi-trash-fill"></i>
                                             </a>
                                         </td>
                                     </tr>`;

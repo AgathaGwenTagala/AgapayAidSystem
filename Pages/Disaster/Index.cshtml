@@ -81,9 +81,8 @@
 							</a>
 							
 							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-disasterid="@item.disasterID">
+							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.disasterID">
 								<i class="bi bi-trash-fill"></i>
-
 							</a>
 						</td>
 					</tr>
@@ -121,12 +120,12 @@
 
 	deleteButtons.forEach(function (button) {
 		button.addEventListener('click', function () {
-			disasterIdToDelete = this.getAttribute('data-disasterid');
+			disasterIdToDelete = this.getAttribute('data-deleteid');
 		});
 	});
 
 	confirmDeleteButton.addEventListener('click', function () {
-		if (disasterIdToDelete !== null) {
+		if (disasterIdToDelete != null) {
 			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
 		}
 	});
@@ -195,7 +194,7 @@
 										</a>
 
 										<!-- Delete button -->
-										<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete(${result.disasterName})">
+											<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.disasterID}">
 											<i class="bi bi-trash-fill"></i>
 										</a>
 									</td>
