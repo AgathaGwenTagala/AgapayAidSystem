@@ -38,9 +38,9 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
 
 								ecstaffdatabaseInfo.ecStaffID = reader.GetString(0);
-								ecstaffdatabaseInfo.firstName = reader.GetString(3);
-								ecstaffdatabaseInfo.middleName = reader.GetString(4);
-								ecstaffdatabaseInfo.lastName = reader.GetString(5);
+								ecstaffdatabaseInfo.firstName = reader.GetString(2);
+								ecstaffdatabaseInfo.middleName = reader.GetString(3);
+								ecstaffdatabaseInfo.lastName = reader.GetString(4);
 								ecstaffdatabaseInfo.sex = reader.GetString(6);
 								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
 								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
@@ -68,6 +68,6 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 		public string mobileNum { get; set; }
 		public string birthdate { get; set; }
 		public string availabilityStatus { get; set; }
-		public string FullName => $"{firstName} {middleName} {lastName}";
+		public string FullName => $"{firstName} {(string.IsNullOrEmpty(middleName) ? string.Empty : middleName[0] + ".")} {lastName}";
 	}
 }

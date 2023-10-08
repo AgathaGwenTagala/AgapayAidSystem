@@ -120,29 +120,29 @@
 	function toggleArrowIcons(header) {
 		// Get the arrow icons for all headers
 		const ecStaffIDArrow = document.getElementById('ecStaffIDArrow');
-		const firstNameArrow = document.getElementById('firstNameArrow');
-		const birthDateArrow = document.getElementById('birthDateArrow');
+		const FullNameArrow = document.getElementById('FullNameArrow');
+		const birthdateArrow = document.getElementById('birthdateArrow');
 		const availabilityStatusArrow = document.getElementById('availabilityStatusArrow');
 
 		// Determine which header was clicked and toggle the arrow icons accordingly
 		if (header === 'ecStaffID') {
 			ecStaffIDArrow.style.display = ecStaffIDArrow.style.display === 'none' ? 'block' : 'none';
-			firstNameArrow.style.display = 'none';
-			birthDateArrow.style.display = 'none';
+			FullNameArrow.style.display = 'none';
+			birthdateArrow.style.display = 'none';
 			availabilityStatusArrow.style.display = 'none';
-		} else if (header === 'firstName') {
+		} else if (header === 'FullName') {
 			ecStaffIDArrow.style.display = 'none';
-			firstNameArrow.style.display = firstNameArrow.style.display === 'none' ? 'block' : 'none';
-			birthDateArrow.style.display = 'none';
+			FullNameArrow.style.display = FullNameArrow.style.display === 'none' ? 'block' : 'none';
+			birthdateArrow.style.display = 'none';
 			availabilityStatusArrow.style.display = 'none';
 		} else if (header === 'birthDate') {
 			ecStaffIDArrow.style.display = 'none';
-			firstNameArrow.style.display = 'none';
-			birthDateArrow.style.display = birthDateArrow.style.display === 'none' ? 'block' : 'none';
+			FullNameArrow.style.display = 'none';
+			birthdateArrow.style.display = birthdateArrow.style.display === 'none' ? 'block' : 'none';
 			availabilityStatusArrow.style.display = 'none';
 		} else if (header === 'availabilityStatus') {
 			ecStaffIDArrow.style.display = 'none';
-			firstNameArrow.style.display = 'none';
+			FullNameArrow.style.display = 'none';
 			birthDateArrow.style.display = 'none';
 			availabilityStatusArrow.style.display = availabilityStatusArrow.style.display === 'none' ? 'block' : 'none';
 		}
