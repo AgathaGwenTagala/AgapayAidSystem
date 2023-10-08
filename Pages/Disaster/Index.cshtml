@@ -111,6 +111,26 @@
 	</div>
 </div>
 
+<!-- Confirm Delete -->
+<script>
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+	const deleteButtons = document.querySelectorAll('.edit-button');
+
+	let disasterIdToDelete = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			disasterIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (disasterIdToDelete != null) {
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
+		}
+	});
+</script>
+
 <!-- Sorting -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -180,25 +200,5 @@
 					console.error("Error:", error);
 				});
 		});
-	});
-</script>
-
-<!-- Confirm Delete -->
-<script>
-	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-	const deleteButtons = document.querySelectorAll('.edit-button');
-
-	let disasterIdToDelete = null;
-
-	deleteButtons.forEach(function (button) {
-		button.addEventListener('click', function () {
-			disasterIdToDelete = this.getAttribute('data-deleteid');
-		});
-	});
-
-	confirmDeleteButton.addEventListener('click', function () {
-		if (disasterIdToDelete != null) {
-			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
-		}
 	});
 </script>
