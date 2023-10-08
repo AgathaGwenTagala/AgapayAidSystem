@@ -13,7 +13,7 @@
 
 <div class="container p-2">
 	<div class="row pt-3">
-		<div class="col">
+		<div class="col">	
 			<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a class="nav-link text-muted" asp-area="" asp-page="/Index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
@@ -75,9 +75,18 @@
 				{
 					<tr>
 						<td width="30%">@item.centerName</td>
-						<td width="15%">@item.barangayID</td>
+						<td width="10%">@item.barangayID</td>
 						<td width="15%">@item.maxCapacity</td>
-						<td width="15%">@item.status</td>
+						<td width="15%">
+							@if (@item.status == "Active")
+							{
+								<span class="badge bg-success">Active</span>
+							}
+							else if (@item.status == "Inactive")
+							{
+								<span class="badge rounded-pill bg-light">Inactive</span>
+							}
+						</td>
 						<td width="20%">
 							<!-- Disaster Log button -->
 							<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
@@ -91,7 +100,6 @@
 							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteEvacuationCenterModal" data-centerid="@item.centerID">
 								<i class="bi bi-trash-fill"></i>Delete
 							</a>
-
 						</td>
 					</tr>
 				}

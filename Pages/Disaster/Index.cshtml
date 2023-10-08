@@ -68,8 +68,8 @@
 				@foreach (var item in Model.listDisaster) {
 					<tr>
 						<td width="20%">@item.disasterName</td>
-						<td width="15%">@item.disasterType</td>
-						<td width="25%">@item.description</td>
+						<td width="10%">@item.disasterType</td>
+						<td width="30%">@item.description</td>
 						<td width="15%">@item.dateOccured</td>
 						<td width="20%">
 							<!-- Generate Report button -->
@@ -83,8 +83,8 @@
 							<!-- Delete button -->
 							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-disasterid="@item.disasterID">
 								<i class="bi bi-trash-fill"></i>
-              </a>
-              
+
+							</a>
 						</td>
 					</tr>
 				}
