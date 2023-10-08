@@ -81,7 +81,7 @@
 							</a>
 							
 							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.disasterID">
+							<a href="#" class="btn btn-danger edit-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="@item.disasterID">
 								<i class="bi bi-trash-fill"></i>
 							</a>
 						</td>
@@ -174,7 +174,7 @@
 										</a>
 
 										<!-- Delete button -->
-											<a href="#" class="btn btn-danger edit-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.disasterID}">
+												<a href="#" class="btn btn-danger edit-button delete-button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-deleteid="${result.disasterID}">
 											<i class="bi bi-trash-fill"></i>
 										</a>
 									</td>
@@ -192,19 +192,26 @@
 <!-- Confirm Delete -->
 <script>
 	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-	const deleteButtons = document.querySelectorAll('.edit-button');
+	const tableBody = document.querySelector("table tbody");
 
 	let disasterIdToDelete = null;
 
-	deleteButtons.forEach(function (button) {
-		button.addEventListener('click', function () {
-			disasterIdToDelete = this.getAttribute('data-deleteid');
-		});
+	tableBody.addEventListener('click', function (event) {
+		const target = event.target;
+
+		if (target.classList.contains('delete-button')) {
+			disasterIdToDelete = target.getAttribute('data-deleteid');
+			console.log("Clicked delete button. Disaster ID to delete: " + disasterIdToDelete);
+
+			const deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+			deleteConfirmationModal.show();
+		}
 	});
 
 	confirmDeleteButton.addEventListener('click', function () {
-		if (disasterIdToDelete != null) {
-			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
+		console.log("Confirm delete button clicked. Disaster ID to delete: " + disasterIdToDelete);
+		if (centerIdToDelete !== null) {
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + centerIdToDelete;
 		}
 	});
 </script>
