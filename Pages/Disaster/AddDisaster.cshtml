@@ -24,15 +24,24 @@
 
 		<div class="row pt-4">
 			<form method="POST">
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
 				<!-- Disaster Name -->
 				<div class="mb-3">
-					<label class="form-label">Disaster Name: *</label>
-					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="e.g. Typhoon Pedro" required maxlength="65">
+					<label class="form-label">
+						Disaster Name:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="ex. Typhoon Pedro" required maxlength="65">
 				</div>
 
 				<!-- Disaster Type -->
 				<div class="mb-3">
-					<label class="form-label">Disaster Type: *</label>
+					<label class="form-label">
+						Disaster Type:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<select class="form-select" name="disasterType" required>
 						<option value="" selected disabled>Select Disaster Type</option>
 						@if (Model.DisasterTypes != null)
@@ -47,18 +56,20 @@
 
 				<!-- Date Occurred -->
 				<div class="mb-3">
-					<label class="form-label">Date Occurred: *</label>
+					<label class="form-label">
+						Date Occurred:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<input type="date" class="form-control text-muted" name="dateOccured" value="@Model.disasterInfo.dateOccured" required pattern="\d{4}-\d{2}-\d{2}">
 				</div>
 
 				<!-- Disaster Description -->
 				<div class="mb-3">
-					<label class="form-label">Description: *</label>
-					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" placeholder="e.g. With wind speeds exceeding 160 miles per hour and torrential rains, the typhoon caused widespread flooding, landslides, and destruction of homes and infrastructure. Thousands were evacuated, and relief efforts were quickly mobilized to provide aid and assistance to affected communities." required></textarea>
-				</div>
-
-				<div class="mb-3">
-					<small class="text-muted">* Required field</small>
+					<label class="form-label">
+						Description:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" required></textarea>
 				</div>
     
 				@if (!string.IsNullOrEmpty(Model.successMessage))
