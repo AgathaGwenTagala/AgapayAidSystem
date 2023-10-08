@@ -8,7 +8,10 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
     {
 		public List<ECStaffDatabaseInfo> listECStaffDatabase = new List<ECStaffDatabaseInfo>();
 
-		public void OnGet()
+		public string SortBy { get; set; } //Disaster Name
+		public string SortOrder { get; set; } // Ascending, Descending
+		public DateTime Birthdate { get; set; }
+		public void OnGet(string sortBy, string sortOrder)
         {
             try
             {
@@ -18,6 +21,14 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
                 {
 					connection.Open();
 					string sql = "SELECT * FROM ec_staff";
+
+					// Apply sorting based on user's selection
+					if (!string.IsNullOrEmpty(sortBy))
+					{
+						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
+						SortBy = sortBy;
+						SortOrder = sortOrder;
+					}
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -32,7 +43,7 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 								ecstaffdatabaseInfo.lastName = reader.GetString(5);
 								ecstaffdatabaseInfo.sex = reader.GetString(6);
 								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
-								ecstaffdatabaseInfo.birthdate = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
+								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
 								ecstaffdatabaseInfo.availabilityStatus = reader.GetString(10);
 								listECStaffDatabase.Add(ecstaffdatabaseInfo);
 							}
