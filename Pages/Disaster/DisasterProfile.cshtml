@@ -2,3 +2,128 @@
 @model AgapayAidSystem.Pages.Disaster.DisasterProfileModel
 @{
 }
+
+<div class="content">
+    <div class="row">
+        <div class="col">
+            <h1>Gaya Gaya Fire</h1>
+        </div>
+
+        <div class="col-auto button-spacer">
+            <!-- Button with text and icon (visible on larger screens) -->
+            <button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
+                <i class="bi bi-info-circle-fill"></i> Info
+            </button>
+
+            <!-- Button with only the icon (collapsed on smaller screens) -->
+            <button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
+                <i class="bi bi-info-circle-fill"></i>
+            </button>
+
+            <!-- Button with text (visible on larger screens) -->
+            <a class="btn btn-dark d-none d-md-inline-block" style="padding:5px">
+                <i class="bi bi-file-earmark-post"></i> Generate Report
+            </a>
+
+            <!-- Button with only the icon (collapsed on smaller screens) -->
+            <a class="btn btn-dark d-inline-block d-md-none">
+                <i class="bi bi-file-earmark-post"></i>
+            </a>
+        </div>
+
+    </div>
+   
+    <div class="description">
+        <p><strong>Type:</strong>
+            Fire</p>
+        <p><strong>Description:</strong> 
+            Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</p>
+        <p><strong>Date Occurred:</strong> 
+            11/02/2023</p>
+    </div>
+
+    <div class="box-info">
+        <div class="info-item">
+            <i class="bi bi-person-circle"></i>
+            <div class="text">
+                <h3>2000</h3>
+                <p>Total Check-in Evacuees</p>
+                <div class="box-stat">
+                    <small>Male: <span>100</span></small>
+                    <small>Female: <span>100</span></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="bi bi-box-seam-fill"></i>
+            <div class="text">
+                <h3>300</h3>
+                <p>Total Distributed Relief Goods</p>
+                <div class="box-stat">
+                    <small>Relief Pack Left: <span>100</span></small>
+                </div>
+            </div>
+        </div>  
+        
+        <div class="info-item">
+            <i class="bi bi-people"></i>
+            <div class="text">
+                <h3>4</h3>
+                <p>Total Active Evacuation Center</p>
+                <div class="box-stat">
+                    <small>Assigned EC Staff: <span>100</span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="head-title">
+        <h1>Evacuation Center</h1>
+
+        <div class="d-flex justify-content-end align-items-center">
+            <a class="btn btn-primary mb-2" href="/Disaster/AllocationEvacuationCenter">
+                <i class="bi bi-building-add"></i>Allocate Evacuation Center
+            </a>
+        </div>
+    </div>
+
+	<div class="table-responsive">
+		<table class="table align-middle table-hover " style="width:100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Evacuation Center Name</th>
+					<th>Occupancy</th>
+					<th>Opening Date</th>
+					<th>Closing Date</th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr>
+						<td width="10%">1</td>
+						<td width="30%">Sagip Relief Center</td>
+						<td width="25%">200/500</td>
+                        <td width="15%">11/09/2022</td>
+                        <td width="10%">12/01/2022</td>
+					</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- FOR INFO BUTTON -->
+<script>
+    const toggleButton = document.getElementById('toggleButton');
+    const description = document.querySelector('.description');
+
+    toggleButton.addEventListener('click', () => {
+        if (description.style.display === 'none') {
+            description.style.display = 'block';
+        } else {
+            description.style.display = 'none';
+        }
+    });
+</script>
