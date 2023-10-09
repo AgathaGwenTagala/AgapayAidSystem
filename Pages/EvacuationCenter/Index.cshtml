@@ -75,7 +75,7 @@
 				{
 					<tr>
 						<td width="30%">@item.centerName</td>
-						<td width="10%">@item.barangayID</td>
+						<td width="20%">@item.barangayName</td>
 						<td width="15%">@item.maxCapacity</td>
 						<td width="15%">
 							@if (@item.status == "Active")
@@ -161,13 +161,14 @@
 	}
 </script>
 
-<!-- Search -->
+<!-- Search Center -->
 <script>
+	// Search function
 	document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("search-form").addEventListener("submit", function (e) {
 			e.preventDefault();
 			const query = document.getElementById("search-bar").value;
-			fetch(`/Disaster?handler=Search&query=${query}`)
+			fetch(`/EvacuationCenter?handler=Search&query=${query}`)
 				.then(response => response.json())
 				.then(data => {
 					// Clear existing table rows
@@ -176,27 +177,31 @@
 
 					// Iterate through the search results and add new rows to the table
 					data.forEach(result => {
+						const statusBadge = result.status === "Active" ?
+							`<span class="badge bg-success">Active</span>` :
+							`<span class="badge rounded-pill bg-light">Inactive</span>`;
+
 						const newRow = `<tr>
-										<td width="20%">${result.disasterName}</td>
-										<td width="15%">${result.disasterType}</td>
-										<td width="25%">${result.description}</td>
-										<td width="15%">${result.dateOccured}</td>
-										<td width="20%">
-											<!-- Generate Report button -->
-											<button class="btn btn-primary"><i class="bi bi-file-earmark-post"></i></button>
+											<td width="30%">${result.centerName}</td>
+											<td width="20%">${result.barangayID}</td>
+											<td width="15%">${result.maxCapacity}</td>
+											<td width="15%">${statusBadge}</td>
+											<td width="20%">
+												<!-- Disaster Log button -->
+												<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
 
-											<!-- Edit button -->
-											<a class="btn btn-success edit-button" href="/Disaster/EditDisaster?disasterID=${result.disasterID}">
-												<i class="bi bi-pencil-fill"></i>
-											</a>
+												<!-- Edit button -->
+												<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=${result.centerID}">
+													<i class="bi bi-pencil-fill"></i>
+												</a>
 
-											<!-- Delete button -->
-											<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.centerID}')"
-												data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-												<i class="bi bi-trash-fill"></i>
-											</a>
-										</td>
-									</tr>`;
+												<!-- Delete button -->
+												<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.centerID}')"
+													data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+													<i class="bi bi-trash-fill"></i>
+												</a>
+											</td>
+										</tr>`;
 						tableBody.innerHTML += newRow;
 					});
 				})
@@ -206,6 +211,7 @@
 		});
 	});
 </script>
+
 
 <!-- Confirm Delete -->
 <script>

@@ -21,10 +21,12 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM evacuation_center";
+                    string sql = "SELECT ec.*, b.barangayName " +
+								 "FROM evacuation_center AS ec " +
+								 "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID";
 
-					// Apply sorting based on user's selection
-					if (!string.IsNullOrEmpty(sortBy))
+                    // Apply sorting based on user's selection
+                    if (!string.IsNullOrEmpty(sortBy))
 					{
 						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
 						SortBy = sortBy;
@@ -53,7 +55,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 								evacuationInfo.washingArea = reader.GetInt32(12).ToString();
 								evacuationInfo.womenChildSpace = reader.GetInt32(13).ToString();
 								evacuationInfo.multipurposeArea = reader.GetInt32(14).ToString();
-								listEvacuation.Add(evacuationInfo);
+                                evacuationInfo.barangayName = reader.GetString(15);
+                                listEvacuation.Add(evacuationInfo);
 							}
 						}
 					}
@@ -134,6 +137,6 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public string washingArea { get; set; }
 		public string womenChildSpace { get; set; }
 		public string multipurposeArea { get; set; }
-
-	}
+        public string barangayName { get; set; }
+    }
 }
