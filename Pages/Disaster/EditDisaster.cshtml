@@ -23,18 +23,28 @@
 		</div>
 
 		<div class="row pt-4">
-			<form method="POST">
+			<form method="POST" id="editDisasterForm">
 				<input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
+
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
 
 				<!-- Disaster Name -->
 				<div class="mb-3">
-					<label class="form-label">Disaster Name: *</label>
+					<label class="form-label">
+						Disaster Name:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="e.g. Typhoon Pedro" required maxlength="65">
 				</div>
 
 				<!-- Disaster Type -->
 				<div class="mb-3">
-					<label class="form-label">Disaster Type: *</label>
+					<label class="form-label">
+						Disaster Type:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<select class="form-select" name="disasterType" required>
 						<option value="" selected disabled>Select Disaster Type</option>
 						@if (Model.DisasterTypes != null)
@@ -49,18 +59,20 @@
 
 				<!-- Date Occurred -->
 				<div class="mb-3">
-					<label class="form-label">Date Occurred: *</label>
+					<label class="form-label">
+						Date Occurred:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<input type="date" class="form-control text-muted" name="dateOccured" value="@Model.disasterInfo.dateOccured" required pattern="\d{4}-\d{2}-\d{2}">
 				</div>
 
 				<!-- Disaster Description -->
 				<div class="mb-3">
-					<label class="form-label">Description: *</label>
+					<label class="form-label">
+						Description:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
 					<textarea class="form-control" name="description" rows="4" required>@Model.disasterInfo.description</textarea>
-				</div>
-
-				<div class="mb-3">
-					<small class="text-muted">* Required field</small>
 				</div>
 
 				@if (!string.IsNullOrEmpty(Model.successMessage))
@@ -74,9 +86,28 @@
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/Disaster/Index" role="button">Cancel</a>
-					<button type="button" class="btn btn-primary" id="submitBtn" onclick="confirmSave()">Save</button>
+					<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Modal: Confirm Save -->
+<div class="modal" id="editConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Edit</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to save the changes?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="saveChangesButton">Save Changes</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -112,14 +143,9 @@
 	form.addEventListener('input', checkFormValidity);
 </script>
 
-<!-- Confirm Save -->
+<!-- Save Changes -->
 <script>
-	// Function to show the confirmation dialog
-	function confirmSave() {
-		const confirmation = confirm("Are you sure you want to save the changes?");
-		if (confirmation) {
-			// If the user confirms, submit the form
-			form.submit();
-		}
-	}
+	document.getElementById('saveChangesButton').addEventListener('click', function () {
+		document.getElementById('editDisasterForm').submit();
+	});
 </script>
