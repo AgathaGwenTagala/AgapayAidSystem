@@ -18,7 +18,7 @@
 
 		<div class="row">
 			<div class="col text-center">
-				<h1>Add Disaster</h1>
+				<h1>Edit Disaster</h1>
 			</div>
 		</div>
 
@@ -81,8 +81,8 @@
 	</div>
 </div>
 
+<!-- Selected option: disasterType --> 
 <script>
-	// Set the selected option based on the disasterType
 	var selectedDisasterType = "@Model.disasterInfo.disasterType";
 	var select = document.querySelector('select[name="disasterType"]');
 
@@ -92,14 +92,15 @@
 			break;
 		}
 	}
-	
+</script>
+
+<!-- Enable/disable "Submit" button -->
+<script>
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 
-	// Disable the submit button by default
 	submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
 	function checkFormValidity() {
 		if (form.checkValidity()) {
 			submitButton.disabled = false;
@@ -108,9 +109,11 @@
 		}
 	}
 
-	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
+</script>
 
+<!-- Confirm Save -->
+<script>
 	// Function to show the confirmation dialog
 	function confirmSave() {
 		const confirmation = confirm("Are you sure you want to save the changes?");

@@ -15,8 +15,7 @@
                             <i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <strong>User Management</strong></li>
+                    <li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>User Management</strong></li>
                 </ol>
             </nav>
 
@@ -125,26 +124,6 @@
         </div>
     </div>
 </div>
-
-<!-- Confirm Delete -->
-<script>
-    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-    const deleteButtons = document.querySelectorAll('.edit-button');
-
-    let userIdToDelete = null;
-
-    deleteButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            userIdToDelete = this.getAttribute('data-deleteid');
-        });
-    });
-
-    confirmDeleteButton.addEventListener('click', function () {
-        if (userIdToDelete != null) {
-            window.location.href = "/UserManagement/DeleteUser?userID=" + userIdToDelete;
-        }
-    });
-</script>
 
 <!-- Search -->
 <script>
