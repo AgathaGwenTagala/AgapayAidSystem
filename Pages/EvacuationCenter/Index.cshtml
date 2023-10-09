@@ -180,13 +180,10 @@
 
 						const newRow = `<tr>
 											<td width="30%">${result.centerName}</td>
-											<td width="20%">${result.barangayID}</td>
+											<td width="20%">${result.barangayName}</td>
 											<td width="15%">${result.maxCapacity}</td>
 											<td width="15%">${statusBadge}</td>
 											<td width="20%">
-												<!-- Disaster Log button -->
-												<button class="btn btn-dark"><i class="bi bi-card-list"></i></button>
-
 												<!-- Edit button -->
 												<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=${result.centerID}">
 													<i class="bi bi-pencil-fill"></i>
