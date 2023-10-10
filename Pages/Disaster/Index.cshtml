@@ -9,6 +9,10 @@
 		text-decoration: none;
 		color: inherit;
 	}
+
+	.clickable-row:hover {
+		cursor: pointer;
+	}
 </style>
 
 <div class="container p-2">
@@ -66,7 +70,7 @@
 			</thead>
 			<tbody>
 				@foreach (var item in Model.listDisaster) {
-					<tr>
+					<tr data-id="@item.disasterID" class="data-row clickable-row">
 						<td width="20%">@item.disasterName</td>
 						<td width="10%">@item.disasterType</td>
 						<td width="30%">@item.description</td>
@@ -151,7 +155,7 @@
 
 					// Iterate through the search results and add new rows to the table
 					data.forEach(result => {
-						const newRow = `<tr>
+						const newRow = `<tr data-id="${result.disasterID}" class="data-row clickable-row">
 									<td width="20%">${result.disasterName}</td>
 									<td width="10%">${result.disasterType}</td>
 									<td width="30%">${result.description}</td>
@@ -179,6 +183,23 @@
 	});
 
 </script>
+
+<!-- Row Click -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const rows = document.querySelectorAll(".data-row");
+
+		rows.forEach(function (row) {
+			row.addEventListener("click", function () {
+				const disasterId = this.getAttribute("data-id");
+				if (disasterId) {
+					window.location.href = `/Disaster/DisasterProfile?disasterID=${disasterId}`;
+				}
+			});
+		});
+	});
+</script>
+
 
 <!-- Confirm Delete -->
 <script>
