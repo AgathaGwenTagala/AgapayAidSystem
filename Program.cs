@@ -12,7 +12,7 @@ var configuration = new ConfigurationBuilder()
 	.Build();
 
 // Get the connection string from appsettings.json or use the default one if not found
-string connectionString = configuration.GetConnectionString("MySqlConnection") ??
+string connectionString = configuration.GetConnectionString("DefaultConnection") ??
 						   "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
 
 var app = builder.Build();
