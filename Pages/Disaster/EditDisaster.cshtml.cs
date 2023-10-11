@@ -6,7 +6,9 @@ namespace AgapayAidSystem.Pages.Disaster
 {
     public class EditDisasterModel : PageModel
     {
-		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+        private readonly IConfiguration _configuration;
+        public EditDisasterModel(IConfiguration configuration) => _configuration = configuration;
+        public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
 		public List<string> DisasterTypes { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
@@ -21,12 +23,11 @@ namespace AgapayAidSystem.Pages.Disaster
 			// Fetch info of selected disaster from the database
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM disaster where disasterID = @disasterID";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@disasterID", disasterID);
@@ -57,9 +58,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
@@ -105,8 +105,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
