@@ -54,6 +54,11 @@
 		<div class="col">
 			<h1>Family Database</h1>
 		</div>
+		<div class="col-auto">
+			<div class="d-flex justify-content-end align-items-center">
+				<a class="btn btn-primary mb-2" href="/Family/AddFamily"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family Record</a>
+			</div>
+		</div>
 	</div>
 
 	<div class="table-responsive">
@@ -74,10 +79,24 @@
 							Barangay
 							<ion-icon id="barangayFilterArrow" name="filter"></ion-icon>
 						</a>
+						<div id="barangayFilter" class="filter-box" style="display: none;">
+							<label>
+								<input type="checkbox" name="barangayFilterValue" value="Select All" onchange="selectAll('barangayFilter')"> Select All
+							</label>
+							<br />
+							@foreach (var barangay in Model.UniqueBarangays)
+							{
+								<label>
+									<input type="checkbox" name="barangayFilterValue" value="@barangay"> @barangay
+								</label>
+								<br />
+							}
+							<button class="rounded-button" onclick="applyFilter('barangayFilter')">Apply</button>
+						</div>
 					</th>
 					<th>
-						<a href="#" onclick="toggleFilter('livingInGidaFilter')">
-							Living in GIDA
+						<a href="#" id="livingInGidaFilterLink" onclick="toggleFilter('livingInGidaFilter')">
+							Living in GIDA 
 							<ion-icon name="filter"></ion-icon>
 						</a>
 						<div id="livingInGidaFilter" class="filter-box" style="display: none;">
@@ -89,7 +108,7 @@
 								<input type="checkbox" name="livingInGidaFilterValue" value="No"> No
 							</label>
 							<br />
-							<button class="rounded-button" onclick="applyFilter('livingInGidaFilter')">Apply</button>
+							<button class="rounded-button" onclick="applyLivingInGidaFilter()">Apply</button>
 						</div>
 					</th>
 					<th>
@@ -109,7 +128,7 @@
 					<tr>
 						<td width="10%">@item.familyID</td>
 						<td width="25%">@item.streetAddress</td>
-						<td width="8%">@item.barangayID</td>
+						<td width="20%">@item.barangayName</td>
 						<td width="12%">@item.livingInGida</td>
 						<td width="15%">@item.serialNum</td>
 						<td width=20%>
@@ -140,6 +159,7 @@
 
 <script type="module" src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" ></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 	let lastClickedHeader = null;
@@ -163,22 +183,19 @@
 </script>
 
 <script>
-	// Function to toggle the display of the filter checklist
+	// Function to toggle the display of the filter box
 	function toggleFilter(filterId) {
 		const filterBox = document.getElementById(filterId);
-		filterBox.style.display = filterBox.style.display === 'none' ? 'block' : 'none';
+		filterBox.style.display = filterBox.style.display === 'block' ? 'none' : 'block';
 	}
+	
+	// Function to apply the Living in GIDA filter
+	function applyLivingInGidaFilter() {
+		const selectedValues = Array.from(document.querySelectorAll('input[name="livingInGidaFilterValue"]:checked')).map(input => input.value);
 
-	// Function to apply the filter
-	function applyFilter(filterId) {
-		const filterBox = document.getElementById(filterId);
-		const selectedValues = Array.from(filterBox.querySelectorAll('input:checked')).map(input => input.value);
+		document.querySelectorAll('tbody tr').forEach(row => {
+			const livingInGidaValue = row.querySelector('td:nth-child(4)').textContent.trim();
 
-		// You can use the selectedValues array to filter the data in your table
-		// For example, you can hide rows that don't match the selected filter values
-		const tableRows = document.querySelectorAll('tbody tr');
-		tableRows.forEach(row => {
-			const livingInGidaValue = row.querySelector('td:nth-child(4)').textContent.trim(); // Assuming "Living in GIDA" is the 4th column
 			if (selectedValues.length === 0 || selectedValues.includes(livingInGidaValue)) {
 				row.style.display = 'table-row';
 			} else {
@@ -187,6 +204,50 @@
 		});
 
 		// Close the filter checklist
+		toggleFilter('livingInGidaFilter');
+	}
+</script>
+
+<script>
+	function toggleFilterChecklist(filterId) {
+		const filterBox = document.getElementById(filterId);
+		filterBox.style.display = filterBox.style.display === 'none' ? 'block' : 'none';
+	}
+
+	function applyFilter(filterId) {
+		const filterBox = document.getElementById(filterId);
+		const selectedValues = Array.from(filterBox.querySelectorAll('input:checked')).map(input => input.value);
+
+		const tableRows = document.querySelectorAll('tbody tr');
+		tableRows.forEach(row => {
+			const barangayValue = row.querySelector('td:nth-child(3)').textContent.trim();
+
+			if (selectedValues.length === 0 || selectedValues.includes(barangayValue)) {
+				row.style.display = 'table-row';
+			} else {
+				row.style.display = 'none';
+			}
+		});
+
+		// Close the filter checklist
 		filterBox.style.display = 'none';
+	}
+</script>
+
+
+<script>
+	//to select or deselect all checkboxes
+	// Function to select or deselect all checkboxes in a filter box
+	function selectAll(filterId) {
+		const filterBox = document.getElementById(filterId);
+		const checkboxes = filterBox.querySelectorAll('input[type="checkbox"]');
+		const selectAllCheckbox = checkboxes[0];
+
+		// Check or uncheck all checkboxes based on the "Select All" checkbox
+		checkboxes.forEach(checkbox => {
+			if (checkbox !== selectAllCheckbox) {
+				checkbox.checked = selectAllCheckbox.checked;
+			}
+		});
 	}
 </script>

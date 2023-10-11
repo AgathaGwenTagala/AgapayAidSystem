@@ -1,0 +1,89 @@
+﻿@page
+@model AgapayAidSystem.Pages.Family.AddFamilyModel
+@{
+	ViewData["Title"] = "New Family";
+}
+
+
+
+
+<div class="container p-2 form-container">
+
+	<div class="container mt-4" id="disaster-form-container">
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Add Family Record<h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST">
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+				<div class="row">
+					<!-- Family ID -->
+					<div class="col-md-2">
+						<div class="mb-3">
+							<label class="form-label">
+								Family ID:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.familyID" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Serial Number -->
+					<div class="col-md-2">
+						<div class="mb-3">
+							<label class="form-label">
+								Serial Number:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.serialNum" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Street Address -->
+					<div class="col-md-4">
+						<div class="mb-3">
+							<label class="form-label">
+								Street Address:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.streetAddress" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Barangay -->
+					<div class="col-md-4">
+						<div class="mb-3">
+							<label class="form-label">
+								Barangay:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<select class="form-select" name="barangayID" id="barangayID" required>
+								<option value="" selected disabled>Select Barangay</option>
+								@if (Model.Barangays != null)
+								{
+									@foreach (var type in Model.Barangays)
+									{
+										<option value="@type.barangayID">@type.barangayName</option>
+									}
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+	
+
+				<!-- Cancel and Save Button -->
+				<div class="button-spacer">
+					<a class="btn btn-outline-secondary mr-10" href="/EvacuationCenter/Index" role="button">Cancel</a>
+					<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

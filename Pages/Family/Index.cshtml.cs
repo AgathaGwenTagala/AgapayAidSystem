@@ -8,6 +8,7 @@ namespace AgapayAidSystem.Pages.Family
     public class IndexModel : PageModel
     {
 		public List<FamilyInfo> listFamily = new List<FamilyInfo>();
+		public List<string> UniqueBarangays { get; set; }
 		public string SortBy { get; set; } //Disaster Name
 		public string SortOrder { get; set; } // Ascending, Descending
 		public void OnGet(string sortBy, string sortOrder)
@@ -19,7 +20,9 @@ namespace AgapayAidSystem.Pages.Family
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM family";
+					string sql = "SELECT fam.*, b.barangayName " +
+								 "FROM family AS fam " +
+								 "INNER JOIN barangay AS b ON fam.barangayID = b.barangayID";
 
 					// Apply sorting based on user's selection
 					if (!string.IsNullOrEmpty(sortBy))
@@ -41,6 +44,7 @@ namespace AgapayAidSystem.Pages.Family
 								familyInfo.barangayID = reader.GetString(2);
 								familyInfo.livingInGida = reader.GetString(5);
 								familyInfo.serialNum = reader.GetString(7);
+								familyInfo.barangayName = reader.GetString(8);
 								listFamily.Add(familyInfo);
 							}
 						}
@@ -52,9 +56,48 @@ namespace AgapayAidSystem.Pages.Family
 			{
 				Console.WriteLine("Exception: " + ex.ToString());
 			}
+
+			UniqueBarangays = GetUniqueBarangaysFromDatabase();
 		}
 
-    }
+		private List<string> GetUniqueBarangaysFromDatabase()
+		{
+			List<string> uniqueBarangays = new List<string>();
+
+			try
+			{
+				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+
+					string sql = "SELECT DISTINCT b.barangayName " +
+								 "FROM family AS fam " +
+								 "INNER JOIN barangay AS b ON fam.barangayID = b.barangayID";
+
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						using (MySqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								string barangayName = reader.GetString(0);
+								uniqueBarangays.Add(barangayName);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.ToString());
+			}
+
+			return uniqueBarangays;
+		}
+
+	}
 	public class FamilyInfo
 	{
 		public string familyID { get; set; }
@@ -62,6 +105,7 @@ namespace AgapayAidSystem.Pages.Family
 		public string barangayID { get; set; }
 		public string livingInGida { get; set; }
 		public string serialNum { get; set; }
+		public string barangayName { get; set; }
 
 	}
 }
