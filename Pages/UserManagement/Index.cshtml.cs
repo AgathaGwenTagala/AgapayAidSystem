@@ -1,20 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace AgapayAidSystem.Pages.UserManagement
 {
     public class IndexModel : PageModel
     {
-        public List<UserInfo> listUsers = new List<UserInfo>();
+		private readonly IConfiguration _configuration;
+
+		public IndexModel(IConfiguration configuration)
+		{
+			_configuration = configuration;
+		}
+
+		public List<UserInfo> listUsers = new List<UserInfo>();
 
         public void OnGet()
         {
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "SELECT * FROM user";
@@ -54,7 +62,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 		{
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
