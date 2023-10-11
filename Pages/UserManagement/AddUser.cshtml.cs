@@ -7,10 +7,17 @@ namespace AgapayAidSystem.Pages.UserManagement
 {
     public class AddUserModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+
+		public AddUserModel(IConfiguration configuration)
+		{
+			_configuration = configuration;
+		}
+
 		public UserInfo userInfo { get; set; } = new UserInfo();
 		public string userID { get; set; } = "";
-		public String errorMessage = "";
-		public String successMessage = "";
+		public string errorMessage = "";
+		public string successMessage = "";
 
 		public void OnGet()
 		{
@@ -46,13 +53,13 @@ namespace AgapayAidSystem.Pages.UserManagement
 			// Save the new user into the database
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
 					// Insert the userType into the 'user' table
-					String sql = "INSERT INTO user (userType) VALUES (@userType);";
+					string sql = "INSERT INTO user (userType) VALUES (@userType);";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@userType", userInfo.userType);

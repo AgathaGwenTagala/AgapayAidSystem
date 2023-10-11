@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace AgapayAidSystem.Pages.UserManagement
 {
@@ -21,7 +20,6 @@ namespace AgapayAidSystem.Pages.UserManagement
             try
             {
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
@@ -67,7 +65,6 @@ namespace AgapayAidSystem.Pages.UserManagement
 				{
 					connection.Open();
 					string sql = "SELECT * FROM user WHERE username LIKE @query OR userType LIKE @query OR createdAt LIKE @query";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@query", $"%{query}%");
