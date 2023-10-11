@@ -7,12 +7,7 @@ namespace AgapayAidSystem.Pages.UserManagement
     public class IndexModel : PageModel
     {
 		private readonly IConfiguration _configuration;
-
-		public IndexModel(IConfiguration configuration)
-		{
-			_configuration = configuration;
-		}
-
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<UserInfo> listUsers = new List<UserInfo>();
 
         public void OnGet()

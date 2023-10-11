@@ -6,6 +6,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 {
     public class EditEvacuationCenterModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+		public EditEvacuationCenterModel(IConfiguration configuration) => _configuration = configuration;
 		public EvacuationInfo evacuationInfo { get; set; } = new EvacuationInfo();
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
@@ -21,12 +23,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			// Fetch info of selected evacuation center from the database
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM evacuation_center where centerID = @centerID";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@centerID", centerID);
@@ -67,13 +68,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-
 					string sql = "SELECT barangayID, barangayName FROM barangay";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -136,7 +135,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();

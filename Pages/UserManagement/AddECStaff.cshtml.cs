@@ -8,12 +8,7 @@ namespace AgapayAidSystem.Pages.UserManagement
     public class AddECStaffModel : PageModel
     {
 		private readonly IConfiguration _configuration;
-
-		public AddECStaffModel(IConfiguration configuration)
-		{
-			_configuration = configuration;
-		}
-
+		public AddECStaffModel(IConfiguration configuration) => _configuration = configuration;
 		public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string firstName { get; set; } = "";

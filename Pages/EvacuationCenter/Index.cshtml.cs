@@ -6,6 +6,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 {
     public class IndexModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<EvacuationInfo> listEvacuation = new List<EvacuationInfo>();
 
 		// Properties for sorting
@@ -16,8 +18,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
         {
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -73,11 +74,14 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		{
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM evacuation_center WHERE centerName LIKE @query OR barangayID LIKE @query OR maxCapacity LIKE @query OR status LIKE @query";
+					string sql = "SELECT ec.*, b.barangayName " +
+								 "FROM evacuation_center AS ec " +
+								 "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
+								 "WHERE ec.centerName LIKE @query OR ec.maxCapacity LIKE @query OR ec.status LIKE @query OR b.barangayName LIKE @query;";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -104,7 +108,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 								evacuationInfo.washingArea = reader.GetInt32(12).ToString();
 								evacuationInfo.womenChildSpace = reader.GetInt32(13).ToString();
 								evacuationInfo.multipurposeArea = reader.GetInt32(14).ToString();
-
+								evacuationInfo.barangayName = reader.GetString(15);
 								searchResults.Add(evacuationInfo);
 							}
 							return new JsonResult(searchResults);
