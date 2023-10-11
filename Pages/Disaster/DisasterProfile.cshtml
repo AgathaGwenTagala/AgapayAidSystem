@@ -1,12 +1,22 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.DisasterProfileModel
 @{
+    ViewData["Title"] = "Disaster Profile";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="content">
+    <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
     <div class="row">
         <div class="col">
-            <h1>Gaya Gaya Fire</h1>
+            <h1>@Model.disasterInfo.disasterName</h1>
         </div>
 
         <div class="col-auto button-spacer">
@@ -35,11 +45,14 @@
    
     <div class="description">
         <p><strong>Type:</strong>
-            Fire</p>
+            @Model.disasterInfo.disasterType
+        </p>
         <p><strong>Description:</strong> 
-            Started on LPG explosion. Engulfing several high-rise buildings and residential areas.</p>
+            @Model.disasterInfo.description
+        </p>
         <p><strong>Date Occurred:</strong> 
-            11/02/2023</p>
+            @Model.disasterInfo.dateOccured
+        </p>
     </div>
 
     <div class="box-info">
@@ -81,7 +94,7 @@
 
 <div class="content">
     <div class="head-title">
-        <h1>Evacuation Center</h1>
+        <h1>Evacuation Center Log</h1>
 
         <div class="d-flex justify-content-end align-items-center">
             <a class="btn btn-primary mb-2" href="/Disaster/AllocationEvacuationCenter">
@@ -96,19 +109,25 @@
 				<tr>
 					<th>#</th>
 					<th>Evacuation Center Name</th>
+                    <th>Barangay</th>
 					<th>Occupancy</th>
 					<th>Opening Date</th>
 					<th>Closing Date</th>
 				</tr>
 			</thead>
 			<tbody>
-					<tr>
-						<td width="10%">1</td>
-						<td width="30%">Sagip Relief Center</td>
-						<td width="25%">200/500</td>
-                        <td width="15%">11/09/2022</td>
-                        <td width="10%">12/01/2022</td>
-					</tr>
+                @for (int i = 0; i < Model.listCenterLog.Count; i++)
+                {
+                    var logInfo = Model.listCenterLog[i];
+                    <tr>
+                        <td width="5%">@(i + 1)</td>
+                        <td width="25%">@logInfo.centerName</td>
+                        <td width="20%">@logInfo.barangayName</td>
+                        <td width="10%">@logInfo.occupancy/@logInfo.maxCapacity</td>
+                        <td width="20%">@logInfo.openingDateTime</td>
+                        <td width="20%">@logInfo.closingDateTime</td>
+                    </tr>
+                }
 			</tbody>
 		</table>
 	</div>
