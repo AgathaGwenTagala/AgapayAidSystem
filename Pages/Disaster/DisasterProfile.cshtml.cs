@@ -60,13 +60,12 @@ namespace AgapayAidSystem.Pages.Disaster
                                 logInfo.centerLogID = logReader.GetString(0);
                                 logInfo.disasterID = logReader.GetString(1);
                                 logInfo.centerID = logReader.GetString(2);
-                                logInfo.lguStaffID = logReader.GetString(3);
-                                logInfo.occupancy = logReader.GetInt32(4).ToString();
-                                logInfo.openingDateTime = logReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                logInfo.closingDateTime = logReader.IsDBNull(6) ? null : logReader.GetDateTime(6).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                logInfo.centerName = logReader.GetString(7);
-                                logInfo.maxCapacity = logReader.GetInt32(8).ToString();
-                                logInfo.barangayName = logReader.GetString(9);
+                                logInfo.occupancy = logReader.GetInt32(3).ToString();
+                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(6).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.centerName = logReader.GetString(6);
+                                logInfo.maxCapacity = logReader.GetInt32(7).ToString();
+                                logInfo.barangayName = logReader.GetString(8);
                                 listCenterLog.Add(logInfo);
                             }
                         }
@@ -86,7 +85,6 @@ namespace AgapayAidSystem.Pages.Disaster
         public string centerLogID { get; set; }
         public string disasterID { get; set; }
         public string centerID { get; set; }
-        public string lguStaffID { get; set; }
         public string occupancy { get; set; }
         public string openingDateTime { get; set; }
         public string closingDateTime { get; set; }
