@@ -1,50 +1,63 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.Entry_LogModel
 @{
+	Layout = "_DisasterProfile";
 }
 
+<div class="container p-2">
 
-<div class="row pt-4">
-    <div class="col">
-        <h1>Evacuation Center</h1>
-        <span class="badge bg-success">Active</span>
-    </div>
-</div>
+	<!-- Search Bar -->
+	<form id="search-form" class="pb-5">
+		<div class="input-group">
+			<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+			<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
+		</div>
+	</form>
 
-<ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Entry Log</a>
+	<div class="row">
+		<div class="title col d-flex align-items-center">
+			<h1 class="me-3">Typhoon Pedro</h1>
+			<span class="badge bg-success d-none d-sm-block">Active</span>
+		</div>
 
+		<div class="col-auto d-flex justify-content-between align-items-center">
+			<a class="btn btn-primary mb-2" href="/Disaster/AddEntryLog">
+				<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Entry Log
+			</a>
+		</div>
+	</div>
 
+	<!--INSERT BREADCRUMB-->
 
-    </li>
-
-    <li class="nav-item nav-justified">
-        <a class="nav-link" href="#">Staff Assignment</a>
-
-
-    </li>
-
-    <li class="nav-item nav-justified">
-        <a class="nav-link" href="#">Relief Goods Pack</a>
-    </li>
-    
-    <li class="nav-item nav-justified">
-        <a class="nav-link" href="#">Distribution</a>
-    </li>
-
-    <li class="nav-item nav-justified">
-        <a class="nav-link" href="#">Vulnerability Assessments</a>
-    </li>
-
-</ul>
-
-<div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade show active" id="home" role="tabpanel">
-    <p>
-        dafdfadf
-    </p>
-    </div>
-
-
+	<div class="table-responsive pt-3">
+		<table class="table align-middle table-hover" style="width:100%">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Check-in Date</th>
+					<th>Check-out Date</th>
+					<th>Status</th>
+					<th>      </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="data-row clickable-row">
+					<td width="15%">EVC0000001</td>
+					<td width="30%">Juanito Santos</td>
+					<td width="15%">08/21/2023</td>
+					<td width="15%">08/30/2023</td>
+					<td width="15%">
+							<span class="badge bg-success">Active</span>
+					</td>
+					<td width="10%">
+						<!-- Edit button -->
+						<a class="btn btn-success edit-button">
+							<i class="bi bi-pencil-fill"></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

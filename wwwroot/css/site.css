@@ -226,3 +226,10 @@ body {
         overflow-x: auto;
     }
 
+
+/*ENTRY LOG*/
+
+#sidebar .nav .nav-item .active {
+    font-weight: bold;
+    color: var(--bs-primary-color);
+}
