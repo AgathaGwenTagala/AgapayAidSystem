@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgapayAidSystem.Pages.Disaster
 {
-    public class AllocationEvacuationCenterModel : PageModel
+    public class AllocateECModel : PageModel
     {
         public void OnGet()
         {
