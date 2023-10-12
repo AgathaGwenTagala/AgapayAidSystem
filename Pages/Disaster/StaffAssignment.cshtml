@@ -1,5 +1,5 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.Entry_LogModel
+@model AgapayAidSystem.Pages.Disaster.StaffAssignmentModel
 @{
 	Layout = "_DisasterProfile";
 }
@@ -21,13 +21,11 @@
 		</div>
 
 		<div class="col-auto d-flex justify-content-between align-items-center">
-			<a class="btn btn-primary mb-2" href="/Disaster/AddEntryLog">
-				<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Entry Log
+			<a class="btn btn-primary mb-2" href="/Disaster/AssignStaff">
+				<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> AssignStaff
 			</a>
 		</div>
 	</div>
-
-	<!--INSERT BREADCRUMB-->
 
 	<div class="table-responsive pt-3">
 		<table class="table align-middle table-hover" style="width:100%">
@@ -35,26 +33,29 @@
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
-					<th>Check-in Date</th>
-					<th>Check-out Date</th>
-					<th>Status</th>
+					<th>Mobile No.</th>
+					<th>Role</th>
+					<th>Date</th>
 					<th>      </th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="data-row clickable-row">
-					<td width="15%">EVC0000001</td>
+					<td width="15%">ECS0000001</td>
 					<td width="30%">Juanito Santos</td>
-					<td width="15%">08/21/2023</td>
-					<td width="15%">08/30/2023</td>
-					<td width="15%">
-							<span class="badge bg-success">Active</span>
-					</td>
+					<td width="15%">0912-345-6789</td>
+					<td width="15%">EC Manager</td>
+					<td width="15%">08/20/2023</td>
 					<td width="10%">
-						<!-- Edit button -->
-						<a class="btn btn-success edit-button">
-							<i class="bi bi-pencil-fill"></i>
-						</a>
+						<div class="d-inline position-relative">
+							<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-three-dots-vertical"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="recordOptions">
+								<li><a class="dropdown-item" href="#">Edit</a></li>
+								<li><a class="dropdown-item" href="#" onclick="confirmDelete();">Delete</a></li>
+							</ul>
+						</div>
 					</td>
 				</tr>
 			</tbody>

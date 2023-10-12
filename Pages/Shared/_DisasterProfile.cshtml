@@ -69,23 +69,24 @@
                 <div class="position-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/Disaster/Entry Log">Entry Log</a>
+                            <a class="nav-link" href="/Disaster/EntryLog">Entry Log</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Staff Assignment</a>
+                            <a class="nav-link" href="/Disaster/StaffAssignment">Staff Assignment</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Relief Goods Pack</a>
+                            <a class="nav-link" href="/Disaster/ReliefGoodsPack">Relief Goods Pack</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Distribution</a>
+                            <a class="nav-link" href="/Disaster/Distribution">Distribution</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Vulnerability Assessments</a>
+                            <a class="nav-link" href="/Disaster/VulnerabilityAssessments">Vulnerability Assessments</a>
                         </li>
                     </ul>
                 </div>
             </nav>
+
 
             <!-- Sidebar (mobile) -->
             <div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
@@ -107,3 +108,14 @@
     </div>
 </body>
 </html>
+
+<script>
+    // JavaScript function to set the "active" class on the clicked item
+    function setActiveItem(item) {
+        const sidebarItems = document.querySelectorAll('.nav-item');
+        sidebarItems.forEach((sidebarItem) => {
+            sidebarItem.classList.remove('active');
+        });
+        item.parentElement.classList.add('active');
+    }
+</script>
