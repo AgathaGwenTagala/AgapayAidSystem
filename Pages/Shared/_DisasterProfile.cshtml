@@ -14,7 +14,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
-
     <!-- Top Navigation Bar -->
     <div id="top-nav">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary shadow-lg mb-3">
@@ -50,6 +49,9 @@
                             <a class="nav-link text-light" asp-area="" asp-page="/UserManagement/Index">Users</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/Inventory/Index">Inventory</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="profile">
                                 <img src="~/sample-pic.jpg" alt="User Profile">
                             </a>
@@ -60,16 +62,60 @@
         </nav>
     </div>
 
-    <main role="main" class="pb-3 pt-3 px-3 px-md-4">
-        @RenderBody()
-    </main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar (desktop) -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disaster/EntryLog">Entry Log</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disaster/StaffAssignment">Staff Assignment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disaster/ReliefGoodsPack">Relief Goods Pack</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disaster/Distribution">Distribution</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Disaster/VulnerabilityAssessments">Vulnerability Assessments</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - AgapayAidSystem - <a asp-area="" asp-page="/Privacy">Privacy</a>
+
+            <!-- Sidebar (mobile) -->
+            <div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+                <select class="form-select">
+                    <option value="#" selected>Select a Page</option>
+                    <option value="#">Entry Log</option>
+                    <option value="#">Staff Assignment</option>
+                    <option value="#">Relief Goods Pack</option>
+                    <option value="#">Distribution</option>
+                    <option value="#">Vulnerability Assessments</option>
+                </select>
+            </div>
+
+            <!-- Page Content -->
+            <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    </div>
 </body>
 </html>
+
+<script>
+    // JavaScript function to set the "active" class on the clicked item
+    function setActiveItem(item) {
+        const sidebarItems = document.querySelectorAll('.nav-item');
+        sidebarItems.forEach((sidebarItem) => {
+            sidebarItem.classList.remove('active');
+        });
+        item.parentElement.classList.add('active');
+    }
+</script>
