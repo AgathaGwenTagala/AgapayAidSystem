@@ -43,8 +43,11 @@ namespace AgapayAidSystem.Pages.Family
 								familyInfo.streetAddress = reader.GetString(1);
 								familyInfo.barangayID = reader.GetString(2);
 								familyInfo.livingInGida = reader.GetString(5);
+								familyInfo.beneficiary = reader.GetString(6);
 								familyInfo.serialNum = reader.GetString(7);
 								familyInfo.barangayName = reader.GetString(8);
+								familyInfo.mobileNum = reader.GetString(3);
+								familyInfo.telephoneNum = reader.GetString(4);
 								listFamily.Add(familyInfo);
 							}
 						}
@@ -106,6 +109,10 @@ namespace AgapayAidSystem.Pages.Family
 		public string livingInGida { get; set; }
 		public string serialNum { get; set; }
 		public string barangayName { get; set; }
+		public string beneficiary { get; set; }
+		public string mobileNum { get; set; }
+		public string telephoneNum { get; set; }
+
 
 	}
 }

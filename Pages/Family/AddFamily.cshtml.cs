@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.EvacuationCenter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -65,6 +64,8 @@ namespace AgapayAidSystem.Pages.Family
 			familyInfo.serialNum = Request.Form["serialNum"];
 			familyInfo.streetAddress = Request.Form["streetAddress"];
 			familyInfo.barangayID = Request.Form["barangayID"];
+			familyInfo.mobileNum = Request.Form["mobileNum"];
+			familyInfo.telephoneNum = Request.Form["telephoneNum"];
 
 			try
 			{
@@ -75,8 +76,8 @@ namespace AgapayAidSystem.Pages.Family
 
 					// Insert data into the 'evacuation_center' table
 					string sql = "INSERT INTO family " +
-								 "(familyID, serialNum, streetAddress, barangayID) " +
-								 "VALUES (@familyID, @serialNum, @streetAddress, @barangayID)";
+								 "(familyID, serialNum, streetAddress, barangayID, mobileNum, telephoneNum) " +
+								 "VALUES (@familyID, @serialNum, @streetAddress, @barangayID, @mobileNum, @telephoneNum)";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -84,6 +85,8 @@ namespace AgapayAidSystem.Pages.Family
 						command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
 						command.Parameters.AddWithValue("@streetAddress", familyInfo.streetAddress);
 						command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
+						command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
+						command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
 						command.ExecuteNonQuery();
 					}
 				}

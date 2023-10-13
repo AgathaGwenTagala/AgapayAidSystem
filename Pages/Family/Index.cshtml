@@ -36,6 +36,10 @@
 		color: #3f8f8b;
 		border: 1px solid #3f8f8b;
 	}
+
+	.button-spacing {
+		margin-right: 10px; /* Adjust the margin value as needed */
+	}
 </style>
 
 
@@ -56,6 +60,7 @@
 		</div>
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
+				<a class="btn btn-primary mb-2 button-spacing" href="/Family"><ion-icon name="download-outline"></ion-icon> Import .CSV File</a>
 				<a class="btn btn-primary mb-2" href="/Family/AddFamily"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family Record</a>
 			</div>
 		</div>
@@ -133,7 +138,7 @@
 						<td width="15%">@item.serialNum</td>
 						<td width=20%>
 							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=@item.familyID">
+							<a class="btn btn-success edit-button" href="/Family/EditFamily?familyID=@item.familyID">
 								<i class="bi bi-pencil-fill"></i>
 
 								<!-- Delete button -->
