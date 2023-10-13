@@ -97,7 +97,7 @@
         <h1>Evacuation Center Log</h1>
 
         <div class="d-flex justify-content-end align-items-center">
-            <a class="btn btn-primary mb-2" href="/Disaster/AllocationEvacuationCenter">
+            <a class="btn btn-primary mb-2" href="/Disaster/AllocateEC?disasterID=@Model.disasterInfo.disasterID">
                 <i class="bi bi-building-add"></i>Allocate Evacuation Center
             </a>
         </div>
@@ -116,17 +116,26 @@
 				</tr>
 			</thead>
 			<tbody>
-                @for (int i = 0; i < Model.listCenterLog.Count; i++)
+                @if (Model.listCenterLog.Count == 0)
                 {
-                    var logInfo = Model.listCenterLog[i];
                     <tr>
-                        <td width="5%">@(i + 1)</td>
-                        <td width="25%">@logInfo.centerName</td>
-                        <td width="20%">@logInfo.barangayName</td>
-                        <td width="10%">@logInfo.occupancy/@logInfo.maxCapacity</td>
-                        <td width="20%">@logInfo.openingDateTime</td>
-                        <td width="20%">@logInfo.closingDateTime</td>
+                        <td class="text-center" colspan="6">No allocated evacuation center</td>
                     </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.listCenterLog.Count; i++)
+                    {
+                        var logInfo = Model.listCenterLog[i];
+                        <tr>
+                            <td width="5%">@(i + 1)</td>
+                            <td width="25%">@logInfo.centerName</td>
+                            <td width="20%">@logInfo.barangayName</td>
+                            <td width="10%">@logInfo.occupancy/@logInfo.maxCapacity</td>
+                            <td width="20%">@logInfo.openingDateTime</td>
+                            <td width="20%">@logInfo.closingDateTime</td>
+                        </tr>
+                    }
                 }
 			</tbody>
 		</table>
