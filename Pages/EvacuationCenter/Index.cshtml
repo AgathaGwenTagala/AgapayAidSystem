@@ -9,6 +9,10 @@
 		text-decoration: none;
 		color: inherit;
 	}
+
+	.clickable-row:hover {
+		cursor: pointer;
+	}
 </style>
 
 <div class="container p-2">
@@ -24,7 +28,7 @@
 			<!-- Search Bar -->
 			<form id="search-form">
 				<div class="input-group">
-					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
+					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search evacuation center" aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
 					<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
 				</div>
 			</form>
@@ -48,6 +52,7 @@
 		<table class="table align-middle table-hover" id="evacuation-table" style="width:100%">
 			<thead>
 				<tr>
+					<th>#</th>
 					<th>
 						<a asp-page="./Index" asp-route-sortBy="centerName" asp-route-sortOrder="@(Model.SortBy == "centerName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('centerName')">
 							Evacuation Center Name
@@ -71,10 +76,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var item in Model.listEvacuation)
-				{
-					<tr>
-						<td width="30%">@item.centerName</td>
+				@{ var counter = 1; }
+				@foreach (var item in Model.listEvacuation) {
+					<tr data-id="@item.centerID" class="data-row clickable-row">
+						<td width="5%">@counter</td>
+						<td width="25%">@item.centerName</td>
 						<td width="20%">@item.barangayName</td>
 						<td width="15%">@item.maxCapacity</td>
 						<td width="15%">
@@ -100,6 +106,7 @@
 							</a>
 						</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>
@@ -158,7 +165,7 @@
 	}
 </script>
 
-<!-- Search Center -->
+<!-- Search -->
 <script>
 	// Search function
 	document.addEventListener("DOMContentLoaded", function () {
@@ -168,18 +175,18 @@
 			fetch(`/EvacuationCenter?handler=Search&query=${query}`)
 				.then(response => response.json())
 				.then(data => {
-					// Clear existing table rows
 					const tableBody = document.querySelector("table tbody");
 					tableBody.innerHTML = "";
-
-					// Iterate through the search results and add new rows to the table
+					let counter = 1;
+					
 					data.forEach(result => {
 						const statusBadge = result.status === "Active" ?
 							`<span class="badge bg-success">Active</span>` :
 							`<span class="badge rounded-pill bg-light">Inactive</span>`;
 
-						const newRow = `<tr>
-											<td width="30%">${result.centerName}</td>
+						const newRow = `<tr data-id="${result.centerID}" class="data-row clickable-row">
+											<td width="5%">${counter}</td>
+											<td width="25%">${result.centerName}</td>
 											<td width="20%">${result.barangayName}</td>
 											<td width="15%">${result.maxCapacity}</td>
 											<td width="15%">${statusBadge}</td>
@@ -197,7 +204,11 @@
 											</td>
 										</tr>`;
 						tableBody.innerHTML += newRow;
+						counter++;
 					});
+
+					// Add click event listener to the new rows
+					addClickEventToRows();
 				})
 				.catch(error => {
 					console.error("Error:", error);
@@ -206,8 +217,26 @@
 	});
 </script>
 
+<!-- Clickable Row for Evacuation Center -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const table = document.getElementById('evacuation-table');
 
-<!-- Confirm Delete -->
+		table.addEventListener('click', function (event) {
+			const clickedRow = event.target.closest('.data-row');
+
+			if (clickedRow) {
+				const centerId = clickedRow.getAttribute("data-id");
+				if (centerId) {
+					window.location.href = `/EvacuationCenter/EvacuationCenterProfile?centerID=${centerId}`;
+				}
+			}
+		});
+	});
+</script>
+
+
+<!-- Confirm Delete button in Modal -->
 <script>
 	const deleteButtons = document.querySelectorAll('.edit-button');
 	let centerIdToDelete = null;
