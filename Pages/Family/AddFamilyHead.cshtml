@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Family.AddFamilyMemberModel
+@model AgapayAidSystem.Pages.Family.AddFamilyHeadModel
 @{
-	ViewData["Title"] = "Add Family Member";
+	ViewData["Title"] = "Add Family Head";
 }
 
 
@@ -37,7 +37,7 @@
 
 		<div class="row pt-4">
 			<div class="col text-center">
-				<h1>Add Family Member</h1>
+				<h1>Add Family Head</h1>
 			</div>
 		</div>
 
@@ -49,35 +49,35 @@
 				<div class="row">
 					@*<!-- Family ID-->
 					<div class="col-md-3">
-						<div class="mb-3">
-							<label class="form-label">
-								Family ID:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="familyID" value="@Model.familyInfo.familyID" required maxlength="65" />
-						</div>
+					<div class="mb-3">
+					<label class="form-label">
+					Family ID:
+					<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="familyID" value="@Model.familyInfo.familyID" required maxlength="65" />
+					</div>
 					</div>
 
 					<!-- Member ID -->
 					<div class="col-md-3">
-						<div class="mb-3">
-							<label class="form-label">
-								Member ID:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-								<input type="text" class="form-control" name="memberID" value="@Model.addfamilymemberInfo.memberID" required maxlength="85" />
-						</div>
+					<div class="mb-3">
+					<label class="form-label">
+					Member ID:
+					<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="memberID" value="@Model.addfamilymemberInfo.memberID" required maxlength="85" />
+					</div>
 					</div>
 
 					<!--Serial No. -->
 					<div class="col-md-3">
-						<div class="mb-3">
-							<label class="form-label">
-								Serial No.:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-								<input type="text" class="form-control" name="serialNum" value="@Model.familyInfo.serialNum" required maxlength="85" />
-						</div>
+					<div class="mb-3">
+					<label class="form-label">
+					Serial No.:
+					<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="serialNum" value="@Model.familyInfo.serialNum" required maxlength="85" />
+					</div>
 					</div>*@
 
 					<!-- Relationship -->
@@ -98,7 +98,7 @@
 								First Name:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="firstName" value="@Model.addfamilymemberInfo.firstName" required maxlength="65" />
+							<input type="text" class="form-control" name="firstName" value="@Model.addfamilyheadInfo.firstName" required maxlength="65" />
 						</div>
 					</div>
 
@@ -109,7 +109,7 @@
 								Middle Name:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="middleName" value="@Model.addfamilymemberInfo.middleName" required maxlength="65" />
+							<input type="text" class="form-control" name="middleName" value="@Model.addfamilyheadInfo.middleName" required maxlength="65" />
 						</div>
 					</div>
 
@@ -120,7 +120,7 @@
 								Last Name:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="lastName" value="@Model.addfamilymemberInfo.lastName" required maxlength="65" />
+							<input type="text" class="form-control" name="lastName" value="@Model.addfamilyheadInfo.lastName" required maxlength="65" />
 						</div>
 					</div>
 
@@ -130,7 +130,7 @@
 							<label class="form-label">
 								Extension Name:
 							</label>
-							<input type="text" class="form-control" name="extensionName" value="@Model.addfamilymemberInfo.extName" maxlength="45" />
+							<input type="text" class="form-control" name="extensionName" value="@Model.addfamilyheadInfo.extName" maxlength="45" />
 						</div>
 					</div>
 				</div>
@@ -144,7 +144,7 @@
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
 							<div class="form-check radio1x2">
-								<input class="form-check-input" type="radio" name="sex" id="M" value="M" @if (Model.addfamilymemberInfo.sex == "M")
+								<input class="form-check-input" type="radio" name="sex" id="M" value="M" @if (Model.addfamilyheadInfo.sex == "M")
 								{
 									<text>checked</text>
 								}>
@@ -153,7 +153,7 @@
 								</label>
 							</div>
 							<div class="form-check radio1x2">
-								<input class="form-check-input" type="radio" name="sex" id="F" value="F" @if (Model.addfamilymemberInfo.sex == "F")
+								<input class="form-check-input" type="radio" name="sex" id="F" value="F" @if (Model.addfamilyheadInfo.sex == "F")
 								{
 									<text>checked</text>
 								}>
@@ -171,7 +171,7 @@
 								Birthdate:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="date" class="form-control text-muted" name="birthdate" value="@Model.addfamilymemberInfo.birthdate" required pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" class="form-control text-muted" name="birthdate" value="@Model.addfamilyheadInfo.birthdate" required pattern="\d{4}-\d{2}-\d{2}">
 						</div>
 					</div>
 
@@ -199,7 +199,7 @@
 								Religion:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="extName" value="@Model.addfamilymemberInfo.religion" maxlength="45" />
+							<input type="text" class="form-control" name="extName" value="@Model.addfamilyheadInfo.religion" maxlength="45" />
 						</div>
 					</div>
 				</div>
@@ -212,7 +212,7 @@
 								Education:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="education" value="@Model.addfamilymemberInfo.education" required maxlength="45" />
+							<input type="text" class="form-control" name="education" value="@Model.addfamilyheadInfo.education" required maxlength="45" />
 						</div>
 					</div>
 
@@ -223,7 +223,7 @@
 								Occupation:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="occupation" value="@Model.addfamilymemberInfo.occupation" required maxlength="45" />
+							<input type="text" class="form-control" name="occupation" value="@Model.addfamilyheadInfo.occupation" required maxlength="45" />
 						</div>
 					</div>
 
@@ -234,7 +234,7 @@
 								Ethnicity:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilymemberInfo.ethnicity" required maxlength="45" />
+							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilyheadInfo.ethnicity" required maxlength="45" />
 						</div>
 					</div>
 					<!-- Health Condition -->
@@ -244,7 +244,7 @@
 								Health Condition:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilymemberInfo.healthCondition" required maxlength="45" />
+							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilyheadInfo.healthCondition" required maxlength="45" />
 						</div>
 					</div>
 				</div>
@@ -255,7 +255,7 @@
 						<label class="form-label">
 							Remarks:
 						</label>
-						<textarea class="form-control" name="description" value="@Model.addfamilymemberInfo.remarks" rows="3" required></textarea>
+						<textarea class="form-control" name="description" value="@Model.addfamilyheadInfo.remarks" rows="3" required></textarea>
 					</div>
 				</div>
 			</form>
@@ -267,5 +267,3 @@
 		</div>
 	</div>
 </div>
-
-

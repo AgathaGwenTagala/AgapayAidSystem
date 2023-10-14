@@ -149,17 +149,17 @@
 					</div>
 
 					<!-- beneficiary -->
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<div class="mb-3">
 							<label class="form-label">
 								Beneficiary:
 							</label>
-							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" required maxlength="45" />
+							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" placeholder="4P's"  required maxlength="45" />
 						</div>
 					</div>
 				</div>
 
-				<div class="row mt-3">
+				@*<div class="row mt-3">
 					<div class="col text-center">
 						<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
 						<div class="d-flex flex-column justify-content-center flex-md-row">
@@ -168,14 +168,17 @@
 							<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
 						</div>
 					</div>
-				</div>
+				</div>*@
 	
 			</form>
 		</div>
 		<!-- Cancel and Save Button -->
 		<div class="button-spacer">
 			<a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Cancel</a>
-			<button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+			<button type="submit" class="btn btn-primary" id="submitBtn">
+				Next
+				<i class="bi bi-arrow-right" style="padding:5px"></i>
+			</button>
 		</div>
 	</div>
 </div>

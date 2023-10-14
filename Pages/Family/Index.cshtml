@@ -70,10 +70,11 @@
 		<table class="table align-middle table-hover " style="width:100%">
 			<thead>
 				<tr>
+					<th>#</th>
 					<th>
-						<a asp-page="./Index" asp-route-sortBy="familyID" asp-route-sortOrder="@(Model.SortBy == "familyID" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('familyID')">
-							ID
-							<ion-icon id="familyIDArrow" name="@(Model.SortBy == "familyID" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
+						<a asp-page="./Index" asp-route-sortBy="serialNum" asp-route-sortOrder="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('serialNum')">
+							Serial Number
+							<ion-icon id="serialNumArrow" name="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
 					</th>
 					<th>
@@ -100,27 +101,7 @@
 						</div>
 					</th>
 					<th>
-						<a href="#" id="livingInGidaFilterLink" onclick="toggleFilter('livingInGidaFilter')">
-							Living in GIDA 
-							<ion-icon name="filter"></ion-icon>
-						</a>
-						<div id="livingInGidaFilter" class="filter-box" style="display: none;">
-							<label>
-								<input type="checkbox" name="livingInGidaFilterValue" value="Yes"> Yes
-							</label>
-							<br />
-							<label>
-								<input type="checkbox" name="livingInGidaFilterValue" value="No"> No
-							</label>
-							<br />
-							<button class="rounded-button" onclick="applyLivingInGidaFilter()">Apply</button>
-						</div>
-					</th>
-					<th>
-						<a asp-page="./Index" asp-route-sortBy="serialNum" asp-route-sortOrder="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('serialNum')">
-							Serial Number
-							<ion-icon id="serialNumArrow" name="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
+						Family Size
 					</th>
 					<th>
 
@@ -128,14 +109,15 @@
 				</tr>
 			</thead>
 			<tbody>
+				@{ var counter = 1; }
 				@foreach (var item in Model.listFamily)
 				{
 					<tr>
-						<td width="10%">@item.familyID</td>
+						<td width="5%">@counter</td>
+						<td width="15%">@item.serialNum</td>
 						<td width="25%">@item.streetAddress</td>
 						<td width="20%">@item.barangayName</td>
-						<td width="12%">@item.livingInGida</td>
-						<td width="15%">@item.serialNum</td>
+						<td width="12%">
 						<td width=20%>
 							<!-- Edit button -->
 							<a class="btn btn-success edit-button" href="/Family/EditFamily?familyID=@item.familyID">
@@ -144,10 +126,9 @@
 								<!-- Delete button -->
 								<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete('@item.familyID')">
 									<i class="bi bi-trash-fill"></i>
-
-
 						</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>
