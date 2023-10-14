@@ -59,11 +59,26 @@ body {
     margin: 20px 10px; /* Add margin to create spacing between buttons */
 }
 
-/*USER MANAGEMENT*/
-
-.breadcrumb-item active {
-    color: #3F8F8B;
+.breadcrumbs {
+    display: flex;
+    grid-gap: 6px;
 }
+
+    .breadcrumbs li a {
+        color: var(--bs-primary-color);
+    }
+
+        .breadcrumbs li a.active, .breadcrumbs li.divider {
+            color: grey;
+            pointer-events: none;
+        }
+
+/*ALLOCATE CENTER*/
+.search-container {
+    margin-bottom: 20px;
+}
+
+/*USER MANAGEMENT*/
 
 #search-bar {
     position: relative;
@@ -225,7 +240,7 @@ body {
 
 /*ENTRY LOG*/
 
-.nav-link.active {
-    font-weight: bold;
-    color: var(--bs-primary-color);
+.dropdown-menu .dropdown-item:hover {
+    background-color: var(--bs-primary-color);
 }
+
