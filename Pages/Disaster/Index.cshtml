@@ -51,6 +51,7 @@
 		<table class="table align-middle table-hover" id="disaster-table" style="width:100%">
 			<thead>
 				<tr>
+					<th>#</th>
 					<th>
 						<a asp-page="./Index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
 							Disaster Name
@@ -69,11 +70,13 @@
 				</tr>
 			</thead>
 			<tbody>
+				@{ var counter = 1; }
 				@foreach (var item in Model.listDisaster) {
 					<tr data-id="@item.disasterID" class="data-row clickable-row">
+						<td width="5%">@counter</td>
 						<td width="20%">@item.disasterName</td>
 						<td width="10%">@item.disasterType</td>
-						<td width="30%">@item.description</td>
+						<td width="25%">@item.description</td>
 						<td width="15%">@item.dateOccured</td>
 						<td width="20%">
 							<!-- Edit button -->
@@ -88,6 +91,7 @@
 							</a>
 						</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>
@@ -152,28 +156,29 @@
 					// Clear existing table rows
 					const tableBody = document.querySelector("table tbody");
 					tableBody.innerHTML = "";
-
-					// Iterate through the search results and add new rows to the table
+					let counter = 1;
 					data.forEach(result => {
 						const newRow = `<tr data-id="${result.disasterID}" class="data-row clickable-row">
-									<td width="20%">${result.disasterName}</td>
-									<td width="10%">${result.disasterType}</td>
-									<td width="30%">${result.description}</td>
-									<td width="15%">${result.dateOccured}</td>
-									<td width="20%">
-										<!-- Edit button -->
-										<a class="btn btn-success edit-button" href="/Disaster/EditDisaster?disasterID=${result.disasterID}">
-											<i class="bi bi-pencil-fill"></i>
-										</a>
+										<td width="5%">${counter}</td>
+										<td width="20%">${result.disasterName}</td>
+										<td width="10%">${result.disasterType}</td>
+										<td width="25%">${result.description}</td>
+										<td width="15%">${result.dateOccured}</td>
+										<td width="20%">
+											<!-- Edit button -->
+											<a class="btn btn-success edit-button" href="/Disaster/EditDisaster?disasterID=${result.disasterID}">
+												<i class="bi bi-pencil-fill"></i>
+											</a>
 
-										<!-- Delete button -->
-										<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.disasterID}')"
-											data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-											<i class="bi bi-trash-fill"></i>
-										</a>
-									</td>
-								</tr>`;
+											<!-- Delete button -->
+											<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.disasterID}')"
+												data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+												<i class="bi bi-trash-fill"></i>
+											</a>
+										</td>
+									</tr>`;
 						tableBody.innerHTML += newRow;
+						counter++;
 					});
 				})
 				.catch(error => {
@@ -201,7 +206,7 @@
 </script>
 
 
-<!-- Confirm Delete -->
+<!-- Confirm Delete button in Modal -->
 <script>
 	const deleteButtons = document.querySelectorAll('.edit-button');
 	let disasterIdToDelete = null;
