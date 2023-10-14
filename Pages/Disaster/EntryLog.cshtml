@@ -4,6 +4,10 @@
 	Layout = "_DisasterProfile";
 }
 
+<style>
+
+</style>
+
 <div class="container p-2">
 
 	<!-- Search Bar -->
@@ -15,9 +19,14 @@
 	</form>
 
 	<div class="row">
-		<div class="title col d-flex align-items-center">
-			<h1 class="me-3">Typhoon Pedro</h1>
-			<span class="badge bg-success d-none d-sm-block">Active</span>
+		<ul class="breadcrumbs">
+			<li><a href="#">Disaster</a></li>
+			<li class="divider">/</li>
+			<li><a href="#" class="active">Typhoon Pedro</a></li>
+		</ul>
+
+		<div class="col d-flex align-items-center">
+			<h1>Entry Log</h1>
 		</div>
 
 		<div class="col-auto d-flex justify-content-between align-items-center">
@@ -26,8 +35,6 @@
 			</a>
 		</div>
 	</div>
-
-	<!--INSERT BREADCRUMB-->
 
 	<div class="table-responsive pt-3">
 		<table class="table align-middle table-hover" style="width:100%">
