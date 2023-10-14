@@ -30,14 +30,8 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-
-                                // Convert the userPhoto BLOB data to a byte[]
-                                if (!reader.IsDBNull(4))
-                                {
-                                    userInfo.userPhoto = (byte[])reader.GetValue(4);
-                                }
-
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt");
+                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
+                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
                                 listUsers.Add(userInfo);
                             }
                         }
@@ -74,15 +68,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 								userInfo.username = reader.GetString(1);
 								userInfo.password = reader.GetString(2);
 								userInfo.userType = reader.GetString(3);
-
-								// Convert the userPhoto BLOB data to a byte[]
-								if (!reader.IsDBNull(4))
-								{
-									userInfo.userPhoto = (byte[])reader.GetValue(4);
-								}
-
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt");
-
+                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
+                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
                                 searchResults.Add(userInfo);
 							}
 							return new JsonResult(searchResults);

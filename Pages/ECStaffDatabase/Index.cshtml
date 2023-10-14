@@ -1,15 +1,17 @@
 ﻿@page
 @model AgapayAidSystem.Pages.ECStaffDatabase.IndexModel
 @{
-
 	ViewData["Title"] = "EC Staff Database";
 }
 
 <style>
-	/* Remove underline */
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+
+	.clickable-row:hover {
+		cursor: pointer;
 	}
 </style>
 
@@ -23,10 +25,16 @@
 					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>EC Staff Database</strong></li>
 				</ol>
 			</div>
-			<div class="input-group">
-				<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-				<button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-			</div>
+			
+			<!-- Search Bar -->
+			<form id="search-form">
+				<div class="input-group">
+					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search EC staff" aria-label="Search..." 
+						autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" 
+						dir="auto" style="position: relative; vertical-align: top;">
+					<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
+				</div>
+			</form>
 		</div>
 	</div>
 
@@ -38,80 +46,53 @@
 	</div>
 
 	<div class="table-responsive">
-		<table class="table align-middle table-hover " style="width:100%">
+		<table class="table align-middle table-hover" id="ecstaff-table" style="width:100%">
 			<thead>
 				<tr>
-					<th>
-						<a asp-page="./Index" asp-route-sortBy="ecStaffID" asp-route-sortOrder="@(Model.SortBy == "ecStaffID" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('ecStaffID')">
-							ID
-							<ion-icon id="ecStaffIDArrow" name="@(Model.SortBy == "ecStaffID" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
+					<th>#</th>
 					<th>
 						<a asp-page="./Index" asp-route-sortBy="firstName" asp-route-sortOrder="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('firstName')">
 							Name
 							<ion-icon id="firstNameArrow" name="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
 					</th>
-					<th>
-						Sex
-					</th>
-					<th>
-						Mobile Number
-					</th>
+					<th>Sex</th>
 					<th>
 						<a asp-page="./Index" asp-route-sortBy="birthDate" asp-route-sortOrder="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('birthDate')">
 							Birthdate
 							<ion-icon id="birthDateArrow" name="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
 					</th>
+					<th>Mobile Number</th>
+					<th>Email Address</th>
 					<th>
 						<a asp-page="./Index" asp-route-sortBy="availabilityStatus" asp-route-sortOrder="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('availabilityStatus')">
 							Availability Status
 							<ion-icon id="availabilityStatusArrow" name="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
 					</th>
-					<th>
-
-					</th>
 				</tr>
 			</thead>
 			<tbody>
+				@{ var counter = 1; }
 				@foreach (var item in Model.listECStaffDatabase) {
-					<tr>
-						<td width="10%">@item.ecStaffID</td>
-						<td width="25%">@item.FullName</td>
-						<td width="8%">@item.sex</td>
+					<tr data-id="@item.ecStaffID" class="data-row clickable-row">
+						<td width="5%">@counter</td>
+						<td width="25%">@item.fullName</td>
+						<td width="5%">@item.sex</td>
+						<td width="12%">@item.birthdate</td>
 						<td width="15%">@item.mobileNum</td>
-						<td width="13%">@item.birthdate</td>
-						<td width="17%">@item.availabilityStatus</td>
-						<td width=20%>
-							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/EvacuationCenter/EditEvacuationCenter?centerID=@item.ecStaffID">
-								<i class="bi bi-pencil-fill"></i>
-
-							<!-- Delete button -->
-							<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete('@item.ecStaffID')">
-								<i class="bi bi-trash-fill"></i>
-
-
-						</td>
+						<td width="15%">@item.emailAddress</td>
+						<td width="23%">@item.availabilityStatus</td>
 					</tr>
+					counter++;
 				}
 			</tbody>
 		</table>
 	</div>
 </div>
 
-
-<script>
-	function confirmDelete(centerID) {
-		if (confirm("Are you sure you want to delete this ec staff?")) {
-			window.location.href = "/EvacuationCenter/DeleteEvacuationCenter?centerID=" + centerID;
-		}
-	}
-</script>
-
+<!-- Sorting -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
@@ -120,35 +101,79 @@
 	function toggleArrowIcons(header) {
 		// Get the arrow icons for all headers
 		const ecStaffIDArrow = document.getElementById('ecStaffIDArrow');
-		const FullNameArrow = document.getElementById('FullNameArrow');
+		const fullNameArrow = document.getElementById('fullNameArrow');
 		const birthdateArrow = document.getElementById('birthdateArrow');
 		const availabilityStatusArrow = document.getElementById('availabilityStatusArrow');
 
 		// Determine which header was clicked and toggle the arrow icons accordingly
-		if (header === 'ecStaffID') {
-			ecStaffIDArrow.style.display = ecStaffIDArrow.style.display === 'none' ? 'block' : 'none';
-			FullNameArrow.style.display = 'none';
-			birthdateArrow.style.display = 'none';
-			availabilityStatusArrow.style.display = 'none';
-		} else if (header === 'FullName') {
+		if (header === 'fullName') {
 			ecStaffIDArrow.style.display = 'none';
-			FullNameArrow.style.display = FullNameArrow.style.display === 'none' ? 'block' : 'none';
+			fullNameArrow.style.display = fullNameArrow.style.display === 'none' ? 'block' : 'none';
 			birthdateArrow.style.display = 'none';
 			availabilityStatusArrow.style.display = 'none';
 		} else if (header === 'birthDate') {
 			ecStaffIDArrow.style.display = 'none';
-			FullNameArrow.style.display = 'none';
+			fullNameArrow.style.display = 'none';
 			birthdateArrow.style.display = birthdateArrow.style.display === 'none' ? 'block' : 'none';
 			availabilityStatusArrow.style.display = 'none';
 		} else if (header === 'availabilityStatus') {
 			ecStaffIDArrow.style.display = 'none';
-			FullNameArrow.style.display = 'none';
+			fullNameArrow.style.display = 'none';
 			birthDateArrow.style.display = 'none';
 			availabilityStatusArrow.style.display = availabilityStatusArrow.style.display === 'none' ? 'block' : 'none';
 		}
 
-
-		// Update the last clicked header
 		lastClickedHeader = header;
 	}
+</script>
+
+<!-- Search -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("search-form").addEventListener("submit", function (e) {
+			e.preventDefault();
+			const query = document.getElementById("search-bar").value;
+			fetch(`/ECStaffDatabase?handler=Search&query=${query}`)
+				.then(response => response.json())
+				.then(data => {
+					const tableBody = document.querySelector("table tbody");
+					tableBody.innerHTML = "";
+					let counter = 1;
+					data.forEach(result => {
+						const newRow = `<tr data-id="${result.ecStaffID}" class="data-row clickable-row">
+											<td width="5%">${counter}</td>
+											<td width="25%">${result.fullName}</td>
+											<td width="5%">${result.sex}</td>
+											<td width="12%">${result.birthdate}</td>
+											<td width="15%">${result.mobileNum}</td>
+											<td width="15%">${result.emailAddress}</td>
+											<td width="23%">${result.availabilityStatus}</td>
+										</tr>`;
+						tableBody.innerHTML += newRow;
+						counter++;
+					});
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+		});
+	});
+</script>
+
+<!-- Clickable Row for EC Staff Profile -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const table = document.getElementById('ecstaff-table');
+
+		table.addEventListener('click', function (event) {
+			const clickedRow = event.target.closest('.data-row');
+
+			if (clickedRow) {
+				const ecStaffId = clickedRow.getAttribute("data-id");
+				if (ecStaffId) {
+					window.location.href = `/ECStaffDatabase/ECStaffProfile?ecStaffID=${ecStaffId}`;
+				}
+			}
+		});
+	});
 </script>
