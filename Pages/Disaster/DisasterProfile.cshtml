@@ -116,25 +116,22 @@
 				</tr>
 			</thead>
 			<tbody>
-                @if (Model.listCenterLog.Count == 0)
-                {
+                @{ var counter = 1; }
+                @if (Model.listCenterLog.Count == 0) {
                     <tr>
                         <td class="text-center" colspan="6">No allocated evacuation center</td>
                     </tr>
-                }
-                else
-                {
-                    @for (int i = 0; i < Model.listCenterLog.Count; i++)
-                    {
-                        var logInfo = Model.listCenterLog[i];
+                } else {   
+                    @foreach (var item in Model.listCenterLog) {
                         <tr>
-                            <td width="5%">@(i + 1)</td>
-                            <td width="25%">@logInfo.centerName</td>
-                            <td width="20%">@logInfo.barangayName</td>
-                            <td width="10%">@logInfo.occupancy/@logInfo.maxCapacity</td>
-                            <td width="20%">@logInfo.openingDateTime</td>
-                            <td width="20%">@logInfo.closingDateTime</td>
+                            <td width="5%">@counter</td>
+                            <td width="25%">@item.centerName</td>
+                            <td width="20%">@item.barangayName</td>
+                            <td width="10%">@item.occupancy/@item.maxCapacity</td>
+                            <td width="20%">@item.openingDateTime</td>
+                            <td width="20%">@item.closingDateTime</td>
                         </tr>
+                        counter++;
                     }
                 }
 			</tbody>

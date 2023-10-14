@@ -31,7 +31,7 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
                                 userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MMM-dd hh:mm:ss tt").ToUpper();
+                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
                                 listUsers.Add(userInfo);
                             }
                         }
