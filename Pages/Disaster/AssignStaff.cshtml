@@ -1,7 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.AssignStaffModel
 @{
-	ViewData["Title"] = "Add Vulnerability Assessments";
+	ViewData["Title"] = "Assign Staff";
 	Layout = "_DisasterProfile";
 }
 
@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="col text-center">
-                <h1>Add Entry Log</h1>
+                <h1>Assign Staff</h1>
             </div>
         </div>
         <form method="POST" action="/YourServerEndpoint">
@@ -37,7 +37,7 @@
                                 <th>Name</th>
                                 <th>Sex</th>
                                 <th>Birthdate</th>
-                                <th>Barangay</th>
+                                <th>Assign a Role</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +53,14 @@
                                 <td>Juanito Santos</td>
                                 <td>F</td>
                                 <td>08/30/2023</td>
-                                <td>Barangay 1</td>
+                                <td>
+                                    <select class="form-select" name="ecroleType" required>
+                                        <option value="" selected disabled>Select a role</option>
+                                        <option value="#">Assistant Manager</option>
+                                        <option value="#">EC Staff</option>
+                                        <option value="#">Manager</option>
+                                    </select>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,6 +73,5 @@
                 </div>
             </div>
         </form>
-
     </div>
 </div>

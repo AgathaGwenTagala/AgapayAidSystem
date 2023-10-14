@@ -69,34 +69,32 @@
                 <div class="position-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="/Disaster/EntryLog">Entry Log</a>
+                            <a class="nav-link" asp-area="" asp-page="/Disaster/EntryLog">Entry Log</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Disaster/StaffAssignment">Staff Assignment</a>
+                            <a class="nav-link" asp-area="" asp-page="/Disaster/StaffAssignment">Staff Assignment</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Disaster/ReliefGoodsPack">Relief Goods Pack</a>
+                            <a class="nav-link" asp-area="" asp-page="/Disaster/ReliefGoodsPack">Relief Goods Pack</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Disaster/Distribution">Distribution</a>
+                            <a class="nav-link" asp-area="" asp-page="/Disaster/Distribution">Distribution</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Disaster/VulnerabilityAssessments">Vulnerability Assessments</a>
+                            <a class="nav-link" asp-area="" asp-page="/Disaster/VulnerabilityAssessments">Vulnerability Assessments</a>
                         </li>
                     </ul>
                 </div>
             </nav>
 
-
             <!-- Sidebar (mobile) -->
             <div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
                 <select class="form-select">
-                    <option value="#" selected>Select a Page</option>
-                    <option value="#">Entry Log</option>
-                    <option value="#">Staff Assignment</option>
-                    <option value="#">Relief Goods Pack</option>
-                    <option value="#">Distribution</option>
-                    <option value="#">Vulnerability Assessments</option>
+                    <option value="/Disaster/EntryLog">Entry Log</option>
+                    <option value="/Disaster/StaffAssignment">Staff Assignment</option>
+                    <option value="/Disaster/ReliefGoodsPack">Relief Goods Pack</option>
+                    <option value="/Disaster/Distribution">Distribution</option>
+                    <option value="/Disaster/VulnerabilityAssessments">Vulnerability Assessments</option>
                 </select>
             </div>
 
@@ -109,13 +107,3 @@
 </body>
 </html>
 
-<script>
-    // JavaScript function to set the "active" class on the clicked item
-    function setActiveItem(item) {
-        const sidebarItems = document.querySelectorAll('.nav-item');
-        sidebarItems.forEach((sidebarItem) => {
-            sidebarItem.classList.remove('active');
-        });
-        item.parentElement.classList.add('active');
-    }
-</script>
