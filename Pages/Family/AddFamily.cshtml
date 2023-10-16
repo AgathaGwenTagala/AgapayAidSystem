@@ -155,7 +155,7 @@
 		<!-- Cancel and Save Button -->
 		<div class="button-spacer">
 			<a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Cancel</a>
-			<button type="submit" class="btn btn-primary" id="submitBtn">
+			<button type="submit" class="btn btn-primary" id="submitBtn" onclick="redirectToNextPage()">
 				Next
 				<i class="bi bi-arrow-right" style="padding:5px"></i>
 			</button>
@@ -164,6 +164,13 @@
 </div>
 
 <script>
+	// Function to redirect to the "AddFamilyHead" page
+	function redirectToNextPage() {
+		// You can specify the URL of the "AddFamilyHead" page here
+		window.location.href = '/Family/AddFamilyHead';
+	}
+
+
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
 
