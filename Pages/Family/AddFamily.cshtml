@@ -1,0 +1,215 @@
+﻿@page
+@model AgapayAidSystem.Pages.Family.AddFamilyModel
+@{
+	ViewData["Title"] = "New Family";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<style>
+	.radio1x2:nth-child(1) {
+		display: block;
+		width: 100%;
+		clear: both;
+	}
+
+	.radio1x2 {
+		width: 50%;
+		display: block;
+		float: left;
+	}
+</style>
+
+
+<div class="container p-2 form-container">
+
+	<div class="container mt-4" id="disaster-form-container">
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Add Family Record<h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST">
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+				<div class="row">
+					<!-- Street Address -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Street Address:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.streetAddress" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Barangay -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Barangay:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<select class="form-select" name="barangayID" id="barangayID" required>
+								<option value="" selected disabled>Select Barangay</option>
+								@if (Model.Barangays != null)
+								{
+									@foreach (var type in Model.Barangays)
+									{
+										<option value="@type.barangayID">@type.barangayName</option>
+									}
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- Mobile No. -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Mobile Number:
+							</label>
+							<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
+						</div>
+					</div>
+
+					<!-- Tel No. -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Telephone Number:
+							</label>
+							<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- living in GIDA -->
+					<div class="col-md-6 living-in-gida">
+						<div class="mb-3">
+							<label class="form-label radio1x2">
+								Living in Geographically
+								Isolated and Disadvantaged Area
+								(GIDA):
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<div class="form-check radio1x2">
+								<input class="form-check-input" type="radio" name="livingInGida" id="Yes" value="Yes" @if (Model.familyInfo.livingInGida == "Yes")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="Yes">
+									Yes
+								</label>
+							</div>
+							<div class="form-check radio1x2">
+								<input class="form-check-input" type="radio" name="livingInGida" id="No" value="No" @if (Model.familyInfo.livingInGida == "No")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="No">
+									No
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- beneficiary -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Beneficiary:
+							</label>
+							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" placeholder="4P's" required maxlength="45" />
+						</div>
+					</div>
+				</div>
+
+				@*<div class="row mt-3">
+					<div class="col text-center">
+						<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
+						<div class="d-flex flex-column justify-content-center flex-md-row">
+							<button type="button" class="btn btn-primary mx-3 my-2">Vulnerability Assessment Forms</button>
+							<button type="button" class="btn btn-primary mx-3 my-2" onclick="window.location.href='/Family/AddFamilyMember'">Add Family Member</button>
+							<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
+						</div>
+					</div>
+				</div>*@
+	
+			</form>
+		</div>
+		<!-- Cancel and Save Button -->
+		<div class="button-spacer">
+			<a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Cancel</a>
+			<button type="submit" class="btn btn-primary" id="submitBtn">
+				Next
+				<i class="bi bi-arrow-right" style="padding:5px"></i>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	const mobileInput = document.getElementById('mobileNum');
+	const telephoneInput = document.getElementById('telephoneNum');
+
+	// Add an input event listener to format the mobile number
+	mobileInput.addEventListener('input', function () {
+		// Remove any non-digit characters
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		// Ensure the mobile number starts with "09" if not null or empty
+		if (cleanedValue.length >= 2) {
+			cleanedValue = '09' + cleanedValue.slice(2);
+		}
+
+		// Update the input field with the formatted value
+		this.value = cleanedValue;
+	});
+
+	// Add an input event listener to format the telephone number
+	telephoneInput.addEventListener('input', function () {
+		// Remove any non-digit characters
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		// Ensure the telephone number starts with "044" if not null or empty
+		if (cleanedValue.length >= 3) {
+			cleanedValue = '044' + cleanedValue.slice(3);
+		}
+
+		// Update the input field with the formatted value
+		this.value = cleanedValue;
+	});
+	
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	// Disable the submit button by default
+	submitButton.disabled = true;
+
+	// Function to check form validity and enable/disable the submit button
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	// Add an event listener for the input event on form elements
+	form.addEventListener('input', checkFormValidity);
+</script>
