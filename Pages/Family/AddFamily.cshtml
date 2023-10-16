@@ -43,30 +43,8 @@
 					<p class="text-danger text-end">* Required field</p>
 				</div>
 				<div class="row">
-					<!-- Family ID -->
-					<div class="col-md-2">
-						<div class="mb-3">
-							<label class="form-label">
-								Family ID:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.familyID" required maxlength="65" />
-						</div>
-					</div>
-
-					<!-- Serial Number -->
-					<div class="col-md-2">
-						<div class="mb-3">
-							<label class="form-label">
-								Serial Number:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="centerName" value="@Model.familyInfo.serialNum" required maxlength="65" />
-						</div>
-					</div>
-
 					<!-- Street Address -->
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">
 								Street Address:
@@ -77,7 +55,7 @@
 					</div>
 
 					<!-- Barangay -->
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">
 								Barangay:
@@ -99,7 +77,7 @@
 
 				<div class="row mt-3">
 					<!-- Mobile No. -->
-					<div class="col-md-2">
+					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">
 								Mobile Number:
@@ -109,7 +87,7 @@
 					</div>
 
 					<!-- Tel No. -->
-					<div class="col-md-2">
+					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">
 								Telephone Number:
@@ -117,13 +95,15 @@
 							<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
 						</div>
 					</div>
+				</div>
 
+				<div class="row mt-3">
 					<!-- living in GIDA -->
-					<div class="col-md-4 living-in-gida">
+					<div class="col-md-6 living-in-gida">
 						<div class="mb-3">
 							<label class="form-label radio1x2">
-								Living in Geographically 
-								Isolated and Disadvantaged Area 
+								Living in Geographically
+								Isolated and Disadvantaged Area
 								(GIDA):
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
@@ -149,12 +129,12 @@
 					</div>
 
 					<!-- beneficiary -->
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="mb-3">
 							<label class="form-label">
 								Beneficiary:
 							</label>
-							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" placeholder="4P's"  required maxlength="45" />
+							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" placeholder="4P's" required maxlength="45" />
 						</div>
 					</div>
 				</div>
