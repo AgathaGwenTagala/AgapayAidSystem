@@ -201,23 +201,23 @@
 	}
 
 	function applyFilter(filterId) {
-		const filterBox = document.getElementById(filterId);
-		const selectedValues = Array.from(filterBox.querySelectorAll('input:checked')).map(input => input.value);
+        const filterBox = document.getElementById(filterId);
+        const selectedValues = Array.from(filterBox.querySelectorAll('input[name="barangayFilterValue"]:checked')).map(input => input.value);
 
-		const tableRows = document.querySelectorAll('tbody tr');
-		tableRows.forEach(row => {
-			const barangayValue = row.querySelector('td:nth-child(3)').textContent.trim();
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            const barangayValue = row.querySelector('td:nth-child(4)').textContent.trim();
 
-			if (selectedValues.length === 0 || selectedValues.includes(barangayValue)) {
-				row.style.display = 'table-row';
-			} else {
-				row.style.display = 'none';
-			}
-		});
+            if (selectedValues.length === 0 || selectedValues.includes(barangayValue)) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
 
-		// Close the filter checklist
-		filterBox.style.display = 'none';
-	}
+        // Close the filter checklist
+        filterBox.style.display = 'none';
+    }
 </script>
 
 
