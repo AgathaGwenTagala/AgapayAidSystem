@@ -111,7 +111,6 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </td>
                     </tr>
                 }
@@ -165,34 +164,50 @@
                                                 <img src="${userPhotoSrc}" alt="User Photo" width="50" />
                                             </div>
                                         </td>
-                                        <td width="20%">${result.username}</td>
-                                        <td width="10%">${result.userType}</td>
-                                        <td width="20%">${result.createdAt}</td>
-                                        <td width="15%">
-                                            <!-- Edit buttons -->
+                                        <td>${result.username}</td>
+                                        <td>${result.userType}</td>
+                                        <td>${result.createdAt}</td>
+                                        <td>
+                                            <div class="d-inline position-relative">
+                                                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                            <!-- Buttons -->
                                             ${
                                                 result.userType === "Admin"
-                                                    ? `<a class="btn btn-success edit-button" href="/UserManagement/EditAdmin?userID=${result.userID}">
-                                                        <i class="bi bi-pencil-fill"></i>Edit
-                                                    </a>`
+                                                    ? `<li>
+                                                            <a class="dropdown-item" href="/UserManagement/EditAdmin?userID=${result.userID}">
+                                                                Edit
+                                                            </a>
+                                                       </li>`
 
                                                 : result.userType === "EC Staff"
-                                                    ? `<a class="btn btn-success edit-button" href="/UserManagement/EditECStaff?userID=${result.userID}">
-                                                        <i class="bi bi-pencil-fill"></i>Edit
-                                                    </a>`
+                                                    ? `<li>
+                                                            <a class="dropdown-item" href="/UserManagement/EditECStaff?userID=${result.userID}">
+                                                                Edit
+                                                            </a>
+                                                       </li>`
 
-                                                : result.userType === "LGU Staff"
-                                                    ? `<a class="btn btn-success edit-button" href="/UserManagement/EditLGUStaff?userID=${result.userID}">
-                                                        <i class="bi bi-pencil-fill"></i>Edit
-                                                    </a>`
-                                                : ""
-                                            }
+                                                    : result.userType === "LGU Staff"
+                                                        ? `<li>
+                                                                <a class="dropdown-item" href="/UserManagement/EditLGUStaff?userID=${result.userID}">
+                                                                    Edit
+                                                                </a>
+                                                           </li>`
 
-                                            <!-- Delete button -->
-                                                <a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.userID}')"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </a>
+                                                    : ""
+                                                }
+
+                                                <!-- Delete button -->
+                                                <li>
+                                                    <a href="#" class="dropdown-item" onclick="prepareDelete('${result.userID}')"
+                                                        data-deleteid="${result.userID}" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>`;
                         tableBody.innerHTML += newRow;
