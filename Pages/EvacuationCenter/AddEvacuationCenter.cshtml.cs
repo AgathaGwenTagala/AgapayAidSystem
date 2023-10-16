@@ -6,6 +6,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 {
     public class AddEvacuationCenterModel : PageModel
     {
+        private readonly IConfiguration _configuration;
+        public AddEvacuationCenterModel(IConfiguration configuration) => _configuration = configuration;
         public EvacuationInfo evacuationInfo { get; set; } = new EvacuationInfo();
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
@@ -23,13 +25,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-
 					string sql = "SELECT barangayID, barangayName FROM barangay";
-					
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -91,8 +91,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 

@@ -1,14 +1,10 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.AllocationEvacuationCenterModel
+@model AgapayAidSystem.Pages.Disaster.AssignStaffModel
 @{
-    ViewData["Title"] = "Allocate Evacuation Center";
+	ViewData["Title"] = "Assign Staff";
+	Layout = "_DisasterProfile";
 }
 
-<style>
-    .search-container {
-        margin-bottom: 20px;
-    }
-</style>
 
 <div class="container p-2 form-container">
 
@@ -16,7 +12,7 @@
 
         <div class="row">
             <div class="col text-center">
-                <h1>Allocate Evacuation Center</h1>
+                <h1>Assign Staff</h1>
             </div>
         </div>
         <form method="POST" action="/YourServerEndpoint">
@@ -37,9 +33,11 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Evacuation Center</th>
-                                <th>Evacuation Center Type</th>
-                                <th>Max Capacity</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Sex</th>
+                                <th>Birthdate</th>
+                                <th>Assign a Role</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,16 +45,23 @@
                             <tr>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="evacuationCenter" name="selectedEvacuationCenters[]">
-                                        <!--selectedEvacuationCenters[] to collect selected centers as an array when the form is submitted.-->
+                                        <input class="form-check-input" type="checkbox" value="">
                                         <label class="form-check-label"></label>
                                     </div>
                                 </td>
-                                <td>Bayanihan Gymnasium</td>
-                                <td>Community-Based Evacuation Center</td>
-                                <td>800</td>
+                                <td>EVC0000001</td>
+                                <td>Juanito Santos</td>
+                                <td>F</td>
+                                <td>08/30/2023</td>
+                                <td>
+                                    <select class="form-select" name="ecroleType" required>
+                                        <option value="" selected disabled>Select a role</option>
+                                        <option value="#">Assistant Manager</option>
+                                        <option value="#">EC Staff</option>
+                                        <option value="#">Manager</option>
+                                    </select>
+                                </td>
                             </tr>
-                            <!-- Add more rows as needed -->
                         </tbody>
                     </table>
 
@@ -68,6 +73,5 @@
                 </div>
             </div>
         </form>
-
     </div>
 </div>

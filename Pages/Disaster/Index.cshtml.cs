@@ -6,7 +6,9 @@ namespace AgapayAidSystem.Pages.Disaster
 {
 	public class IndexModel : PageModel
 	{
-		public List<DisasterInfo> listDisaster = new List<DisasterInfo>();
+        private readonly IConfiguration _configuration;
+        public IndexModel(IConfiguration configuration) => _configuration = configuration;
+        public List<DisasterInfo> listDisaster = new List<DisasterInfo>();
 
 		// Properties for sorting
 		public string SortBy { get; set; } //Disaster Name
@@ -17,9 +19,8 @@ namespace AgapayAidSystem.Pages.Disaster
 		{
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM disaster";
@@ -62,12 +63,11 @@ namespace AgapayAidSystem.Pages.Disaster
 		{
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM disaster WHERE disasterName LIKE @query OR disasterType LIKE @query OR description LIKE @query OR dateOccured LIKE @query";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@query", $"%{query}%");

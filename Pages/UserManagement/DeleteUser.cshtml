@@ -1,5 +1,6 @@
 ﻿@page
 @using MySql.Data.MySqlClient
+@using Microsoft.Extensions.Configuration
 @{
     string errorMessage = "";
     string successMessage = "";
@@ -11,7 +12,13 @@
         {
             string userID = Request.Query["userID"];
 
-            string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+            // Inject IConfiguration
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();

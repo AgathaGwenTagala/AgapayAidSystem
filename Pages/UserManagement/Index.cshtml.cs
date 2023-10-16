@@ -6,15 +6,16 @@ namespace AgapayAidSystem.Pages.UserManagement
 {
     public class IndexModel : PageModel
     {
-        public List<UserInfo> listUsers = new List<UserInfo>();
+		private readonly IConfiguration _configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
+		public List<UserInfo> listUsers = new List<UserInfo>();
 
         public void OnGet()
         {
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "SELECT * FROM user";
@@ -29,14 +30,8 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-
-                                // Convert the userPhoto BLOB data to a byte[]
-                                if (!reader.IsDBNull(4))
-                                {
-                                    userInfo.userPhoto = (byte[])reader.GetValue(4);
-                                }
-
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt");
+                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
+                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
                                 listUsers.Add(userInfo);
                             }
                         }
@@ -54,12 +49,11 @@ namespace AgapayAidSystem.Pages.UserManagement
 		{
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM user WHERE username LIKE @query OR userType LIKE @query OR createdAt LIKE @query";
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@query", $"%{query}%");
@@ -74,15 +68,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 								userInfo.username = reader.GetString(1);
 								userInfo.password = reader.GetString(2);
 								userInfo.userType = reader.GetString(3);
-
-								// Convert the userPhoto BLOB data to a byte[]
-								if (!reader.IsDBNull(4))
-								{
-									userInfo.userPhoto = (byte[])reader.GetValue(4);
-								}
-
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt");
-
+                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
+                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
                                 searchResults.Add(userInfo);
 							}
 							return new JsonResult(searchResults);

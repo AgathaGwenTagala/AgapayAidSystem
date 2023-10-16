@@ -6,6 +6,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 {
     public class EditAdminModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+		public EditAdminModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string adminID { get; set; } = "";
@@ -20,8 +22,8 @@ namespace AgapayAidSystem.Pages.UserManagement
             // Fetch info of selected user from the database
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "SELECT * FROM admin where userID = @userID";
@@ -62,8 +64,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 

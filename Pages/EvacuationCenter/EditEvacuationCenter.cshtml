@@ -42,12 +42,13 @@
 		</div>
 
 		<div class="row pt-4">
-			<form method="POST">
+			<form method="POST" id="editEvacuationForm">
 				<input type="hidden" name="centerID" value="@Model.evacuationInfo.centerID" />
 
 				<div class="row mb-3">
 					<p class="text-danger text-end">* Required field</p>
 				</div>
+
 				<div class="row">
 					<!-- Left column: Center Name, Street Address, and Mobile Number -->
 					<div class="col-md-6">
@@ -216,52 +217,65 @@
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/EvacuationCenter/Index" role="button">Cancel</a>
-					<button type="button" class="btn btn-primary" id="submitBtn" onclick="confirmSave()">Save</button>
+					<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
+<!-- Modal: Confirm Save -->
+<div class="modal" id="editConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Edit</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to save the changes?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="saveChangesButton">Save Changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Format Mobile and Telephone Number -->
 <script>
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
 
-	// Add an input event listener to format the mobile number
 	mobileInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the mobile number starts with "09" if not null or empty
 		if (cleanedValue.length >= 2) {
 			cleanedValue = '09' + cleanedValue.slice(2);
 		}
 
-		// Update the input field with the formatted value
 		this.value = cleanedValue;
 	});
 
-	// Add an input event listener to format the telephone number
 	telephoneInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the telephone number starts with "044" if not null or empty
 		if (cleanedValue.length >= 3) {
 			cleanedValue = '044' + cleanedValue.slice(3);
 		}
 
-		// Update the input field with the formatted value
 		this.value = cleanedValue;
 	});
+</script>
 
+<!-- Enable/disable "Submit" button -->
+<script>
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 
-	// Disable the submit button by default
 	submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
 	function checkFormValidity() {
 		if (form.checkValidity()) {
 			submitButton.disabled = false;
@@ -270,15 +284,12 @@
 		}
 	}
 
-	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
+</script>
 
-	// Function to show the confirmation dialog
-	function confirmSave() {
-		const confirmation = confirm("Are you sure you want to save the changes?");
-		if (confirmation) {
-			// If the user confirms, submit the form
-			form.submit();
-		}
-	}
+<!-- Save Changes -->
+<script>
+	document.getElementById('saveChangesButton').addEventListener('click', function () {
+		document.getElementById('editEvacuationForm').submit();
+	});
 </script>

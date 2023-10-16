@@ -6,7 +6,9 @@ namespace AgapayAidSystem.Pages.Disaster
 {
     public class AddDisasterModel : PageModel
     {
-		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+        private readonly IConfiguration _configuration;
+        public AddDisasterModel(IConfiguration configuration) => _configuration = configuration;
+        public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
 		public List<string> DisasterTypes { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
@@ -23,9 +25,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
@@ -70,8 +71,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
