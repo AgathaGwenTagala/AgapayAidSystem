@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.UserManagement.EditAdminModel
+@model AgapayAidSystem.Pages.UserManagement.Admin.EditModel
 @{
-	ViewData["Title"] = "Edit Admin User";
+	ViewData["Title"] = "Edit User - Admin";
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -16,14 +16,14 @@
     <div class="container mt-4 form-container-content">
         <div class="row">
             <div class="col text-center">
-                <h1>Edit Admin User</h1>
+                <h1>Edit User</h1>
                 <h6 class="text-dark">Admin</h6>
             </div>
         </div>
         <form method="POST" id="editUserForm">
             <div class="row mb-3 user-container">
                 <input type="hidden" name="userID" value="@Model.userID" />
-                
+
                 <div class="row mb-3">
                     <p class="text-danger text-end">* Required field</p>
                 </div>
