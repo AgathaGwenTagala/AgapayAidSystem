@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.UserManagement
+namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
 {
-    public class EditLGUStaffModel : PageModel
+    public class EditModel : PageModel
     {
-		private readonly IConfiguration _configuration;
-		public EditLGUStaffModel(IConfiguration configuration) => _configuration = configuration;
+        private readonly IConfiguration _configuration;
+        public EditModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string lguStaffID { get; set; } = "";
@@ -29,8 +29,8 @@ namespace AgapayAidSystem.Pages.UserManagement
             // Fetch info of selected user from the database
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "SELECT * FROM lgu_staff where userID = @userID";
@@ -84,8 +84,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 

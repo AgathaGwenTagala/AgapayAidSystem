@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 using System.Net;
 
-namespace AgapayAidSystem.Pages.UserManagement
+namespace AgapayAidSystem.Pages.UserManagement.ECStaff
 {
-    public class AddLGUStaffModel : PageModel
+    public class AddModel : PageModel
     {
-		private readonly IConfiguration _configuration;
-		public AddLGUStaffModel(IConfiguration configuration) => _configuration = configuration;
-		public UserInfo userInfo { get; set; } = new UserInfo();
+        private readonly IConfiguration _configuration;
+        public AddModel(IConfiguration configuration) => _configuration = configuration;
+        public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string firstName { get; set; } = "";
         public string middleName { get; set; } = "";
@@ -59,26 +59,26 @@ namespace AgapayAidSystem.Pages.UserManagement
             // Check if userID is null or empty
             if (string.IsNullOrEmpty(userID))
             {
-                errorMessage = "UserID is missing.";
+                errorMessage = "UserID is missing";
                 return;
             }
 
             // Validate mobile number (should be exactly 11 characters)
             if (mobileNum.Length != 11)
             {
-                errorMessage = "Mobile number should be exactly 11 characters long.";
+                errorMessage = "Mobile number should be exactly 11 characters long";
                 return;
             }
 
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // Insert data into the 'lgu_staff' table
-                    string sql = "INSERT INTO lgu_staff" +
+                    // Insert data into the 'ec_staff' table
+                    string sql = "INSERT INTO ec_staff" +
                                  "(userID, firstName, middleName, lastName, extName, " +
                                  "sex, birthdate, mobileNum, emailAddress )" +
                                  "VALUES (@userID, @firstName, @middleName, @lastName, @extName ," +
@@ -99,7 +99,7 @@ namespace AgapayAidSystem.Pages.UserManagement
                     }
                 }
 
-                successMessage = "LGU Staff user created successfully!";
+                successMessage = "EC Staff user created successfully!";
             }
             catch (Exception ex)
             {
@@ -114,8 +114,8 @@ namespace AgapayAidSystem.Pages.UserManagement
         {
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
