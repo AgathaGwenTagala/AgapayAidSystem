@@ -1,5 +1,5 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.EditDisasterModel
+@model AgapayAidSystem.Pages.Disaster.EditModel
 @{
 	ViewData["Title"] = "Edit Disaster";
 }
@@ -112,7 +112,7 @@
 	</div>
 </div>
 
-<!-- Selected option: disasterType --> 
+<!-- Selected option: disasterType -->
 <script>
 	var selectedDisasterType = "@Model.disasterInfo.disasterType";
 	var select = document.querySelector('select[name="disasterType"]');

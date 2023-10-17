@@ -4,17 +4,17 @@ using MySql.Data.MySqlClient;
 
 namespace AgapayAidSystem.Pages.Disaster
 {
-    public class EditDisasterModel : PageModel
+    public class EditModel : PageModel
     {
-        private readonly IConfiguration _configuration;
-        public EditDisasterModel(IConfiguration configuration) => _configuration = configuration;
-        public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+		private readonly IConfiguration _configuration;
+		public EditModel(IConfiguration configuration) => _configuration = configuration;
+		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
 		public List<string> DisasterTypes { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
 
 		public void OnGet()
-        {
+		{
 			string disasterID = Request.Query["disasterID"];
 
 			// Fetch the list of disaster types from your database
@@ -23,8 +23,8 @@ namespace AgapayAidSystem.Pages.Disaster
 			// Fetch info of selected disaster from the database
 			try
 			{
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 					string sql = "SELECT * FROM disaster where disasterID = @disasterID";
@@ -58,8 +58,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
@@ -105,8 +105,8 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			try
 			{
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
 
@@ -136,7 +136,7 @@ namespace AgapayAidSystem.Pages.Disaster
 				return;
 			}
 
-            Response.Redirect("/Disaster/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
-        }
+			Response.Redirect("/Disaster/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+		}
 	}
 }
