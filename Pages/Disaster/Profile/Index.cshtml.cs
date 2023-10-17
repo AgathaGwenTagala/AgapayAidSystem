@@ -2,21 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Disaster
+namespace AgapayAidSystem.Pages.Disaster.Profile
 {
-    public class DisasterProfileModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IConfiguration _configuration;
-        public DisasterProfileModel(IConfiguration configuration) => _configuration = configuration;
+        public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
         public string errorMessage = "";
         public string successMessage = "";
-        
+
         public void OnGet()
         {
             string disasterID = Request.Query["disasterID"];
-            
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
