@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 using System.Net;
 
-namespace AgapayAidSystem.Pages.UserManagement
+namespace AgapayAidSystem.Pages.UserManagement.Admin
 {
-    public class AddAdminModel : PageModel
+    public class AddModel : PageModel
     {
-		private readonly IConfiguration _configuration;
-		public AddAdminModel(IConfiguration configuration) => _configuration = configuration;
-		public UserInfo userInfo { get; set; } = new UserInfo();
+        private readonly IConfiguration _configuration;
+        public AddModel(IConfiguration configuration) => _configuration = configuration;
+        public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
         public string adminName { get; set; } = "";
         public string errorMessage = "";
@@ -51,8 +51,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -81,8 +81,8 @@ namespace AgapayAidSystem.Pages.UserManagement
         {
             try
             {
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 

@@ -82,7 +82,7 @@
                                     @if (item.userType == "Admin")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/EditAdmin?userID=@item.userID">
+                                            <a class="dropdown-item" href="/UserManagement/Admin/Edit?userID=@item.userID">
                                                Edit
                                             </a>
                                         </li>
@@ -90,7 +90,7 @@
                                     else if (item.userType == "EC Staff")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/EditECStaff?userID=@item.userID">
+                                            <a class="dropdown-item" href="/UserManagement/ECStaff/Edit?userID=@item.userID">
                                                Edit
                                             </a>
                                         </li>
@@ -98,7 +98,7 @@
                                     else if (item.userType == "LGU Staff")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/EditLGUStaff?userID=@item.userID">
+                                            <a class="dropdown-item" href="/UserManagement/LGUStaff/Edit?userID=@item.userID">
                                                 Edit
                                             </a>
                                         </li>
@@ -177,21 +177,21 @@
                                             ${
                                                 result.userType === "Admin"
                                                     ? `<li>
-                                                            <a class="dropdown-item" href="/UserManagement/EditAdmin?userID=${result.userID}">
+                                                            <a class="dropdown-item" href="/UserManagement/Admin/Edit?userID=${result.userID}">
                                                                 Edit
                                                             </a>
                                                        </li>`
 
                                                 : result.userType === "EC Staff"
                                                     ? `<li>
-                                                            <a class="dropdown-item" href="/UserManagement/EditECStaff?userID=${result.userID}">
+                                                            <a class="dropdown-item" href="/UserManagement/ECStaff/Edit?userID=${result.userID}">
                                                                 Edit
                                                             </a>
                                                        </li>`
 
                                                     : result.userType === "LGU Staff"
                                                         ? `<li>
-                                                                <a class="dropdown-item" href="/UserManagement/EditLGUStaff?userID=${result.userID}">
+                                                                <a class="dropdown-item" href="/UserManagement/LGUStaff/Edit?userID=${result.userID}">
                                                                     Edit
                                                                 </a>
                                                            </li>`

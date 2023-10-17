@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.UserManagement.AddAdminModel
+@model AgapayAidSystem.Pages.UserManagement.Admin.AddModel
 @{
-	ViewData["Title"] = "Add Admin User";
+    ViewData["Title"] = "Add Admin";
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -22,7 +22,7 @@
         </div>
         <form method="POST">
             <div class="row mb-3 user-container">
-                
+
                 <!-- User ID -->
                 <div class="row mb-3 pb-1">
                     <label class="form-label">User ID: @Model.userID</label>
@@ -46,7 +46,7 @@
 
                 <!-- Cancel and Save Button -->
                 <div class="button-spacer">
-                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/AddAdmin?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
+                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/Admin/Add?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
@@ -60,10 +60,8 @@
     const submitButton = document.getElementById('submitBtn');
     const form = document.querySelector('form');
 
-    // Disable the submit button by default
     submitButton.disabled = true;
 
-    // Function to check form validity and enable/disable the submit button
     function checkFormValidity() {
         if (form.checkValidity()) {
             submitButton.disabled = false;
@@ -72,6 +70,5 @@
         }
     }
 
-    // Add an event listener for the input event on form elements
     form.addEventListener('input', checkFormValidity);
 </script>

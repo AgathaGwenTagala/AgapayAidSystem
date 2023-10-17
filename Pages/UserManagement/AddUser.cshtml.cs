@@ -85,15 +85,15 @@ namespace AgapayAidSystem.Pages.UserManagement
 			{
 				if (userInfo.userType == "Admin")
 				{
-					Response.Redirect($"/UserManagement/AddAdmin?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
+					Response.Redirect($"/UserManagement/Admin/Add?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
 				}
 				else if (userInfo.userType == "LGU Staff")
 				{
-					Response.Redirect($"/UserManagement/AddLGUStaff?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
+					Response.Redirect($"/UserManagement/LGUStaff/Add?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
 				}
 				else if (userInfo.userType == "EC Staff")
 				{
-					Response.Redirect($"/UserManagement/AddECStaff?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
+					Response.Redirect($"/UserManagement/ECStaff/Add?userID={WebUtility.UrlEncode(lastInsertedUserID)}");
 				}
 			}
 			else
