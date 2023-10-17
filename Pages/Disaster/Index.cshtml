@@ -187,23 +187,6 @@
 	});
 </script>
 
-<!-- Clickable Row for Disaster Profile -->
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const table = document.getElementById('disaster-table');
-
-		table.addEventListener('click', function (event) {
-			const clickedRow = event.target.closest('.data-row');
-
-			if (clickedRow) {
-				const disasterId = clickedRow.getAttribute("data-id");
-				if (disasterId) {
-					window.location.href = `/Disaster/Profile/Index?disasterID=${disasterId}`;
-				}
-			}
-		});
-	});
-</script>
 
 <!-- Confirm Delete button in Modal -->
 <script>
@@ -230,7 +213,7 @@
 
 	confirmDeleteButton.addEventListener('click', function () {
 		if (disasterIdToDelete !== null) {
-			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
+			window.location.href = "/Disaster/Delete?disasterID=" + disasterIdToDelete;
 		}
 	});
 </script>
