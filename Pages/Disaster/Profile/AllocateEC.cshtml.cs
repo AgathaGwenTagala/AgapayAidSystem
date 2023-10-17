@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Disaster
+namespace AgapayAidSystem.Pages.Disaster.Profile
 {
     public class AllocateECModel : PageModel
     {
         private readonly IConfiguration _configuration;
-        public AllocateECModel(IConfiguration configuration) => _configuration = configuration;        
+        public AllocateECModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public List<EvacuationInfo> listEvacuation = new List<EvacuationInfo>();
         public List<string> SelectedEvacuationCenters { get; set; } = new List<string>();
@@ -31,7 +31,7 @@ namespace AgapayAidSystem.Pages.Disaster
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    
+
                     // Fetch inactive evacuation centers
                     string sql = "SELECT ec.*, b.barangayName " +
                                  "FROM evacuation_center AS ec " +
@@ -155,7 +155,7 @@ namespace AgapayAidSystem.Pages.Disaster
             }
 
             // Redirect to the /Disaster/DisasterProfile page after allocating or encountering an error
-            Response.Redirect("/Disaster/DisasterProfile?disasterID="+ disasterID +"&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/Disaster/Profile/Index?disasterID=" + disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

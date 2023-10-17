@@ -1,7 +1,8 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.Profile.IndexModel
 @{
-    ViewData["Title"] = "Disaster Profile";
+    string pageTitle = $"{Model.disasterInfo.disasterName}";
+    ViewData["Title"] = pageTitle;
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -11,6 +12,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+
+<style>
+    .clickable-row:hover {
+        cursor: pointer;
+    }
+</style>
 
 <div class="content">
     <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
@@ -104,7 +111,7 @@
     </div>
 
 	<div class="table-responsive">
-		<table class="table align-middle table-hover " style="width:100%">
+        <table class="table align-middle table-hover" id="eclog-table" style="width:100%">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -123,7 +130,7 @@
                     </tr>
                 } else {   
                     @foreach (var item in Model.listCenterLog) {
-                        <tr>
+                        <tr data-id="@item.centerLogID" class="data-row clickable-row">
                             <td width="5%">@counter</td>
                             <td width="25%">@item.centerName</td>
                             <td width="20%">@item.barangayName</td>
@@ -150,5 +157,23 @@
         } else {
             description.style.display = 'none';
         }
+    });
+</script>
+
+<!-- Clickable Row for EC Log Table -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.getElementById('eclog-table');
+
+        table.addEventListener('click', function (event) {
+            const clickedRow = event.target.closest('.data-row');
+
+            if (clickedRow) {
+                const centerLogId = clickedRow.getAttribute("data-id");
+                if (centerLogId) {
+                    window.location.href = `/Disaster/Profile/EntryLog?centerLogID=${centerLogId}`;
+                }
+            }
+        });
     });
 </script>

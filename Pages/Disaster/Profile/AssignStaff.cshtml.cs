@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Disaster
+namespace AgapayAidSystem.Pages.Disaster.Profile
 {
-    public class AddEntryLogModel : PageModel
+    public class AssignStaffModel : PageModel
     {
         public void OnGet()
         {

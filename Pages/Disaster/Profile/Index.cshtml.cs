@@ -44,10 +44,10 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 
                     // Fetch evacuation center log data related to the selected disaster
                     string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName " +
-                                                    "FROM evacuation_center_log AS log " +
-                                                    "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
-                                                    "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
-                                                    "WHERE disasterID = @disasterID";
+                                    "FROM evacuation_center_log AS log " +
+                                    "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+                                    "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
+                                    "WHERE disasterID = @disasterID";
                     using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
                     {
                         logCommand.Parameters.AddWithValue("@disasterID", disasterID);
