@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.AddDisasterModel
+@model AgapayAidSystem.Pages.Disaster.AddModel
 @{
-	ViewData["Title"] = "New Disaster";
+	ViewData["Title"] = "Add Disaster";
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -71,7 +71,7 @@
 					</label>
 					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" required></textarea>
 				</div>
-    
+
 				@if (!string.IsNullOrEmpty(Model.successMessage))
 				{
 					<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -94,10 +94,8 @@
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 
-	// Disable the submit button by default
 	submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
 	function checkFormValidity() {
 		if (form.checkValidity()) {
 			submitButton.disabled = false;
@@ -106,6 +104,5 @@
 		}
 	}
 
-	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
 </script>
