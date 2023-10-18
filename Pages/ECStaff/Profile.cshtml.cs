@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.ECStaffDatabase
+namespace AgapayAidSystem.Pages.ECStaff
 {
-    public class ECStaffProfileModel : PageModel
+    public class ProfileModel : PageModel
     {
         public void OnGet()
         {

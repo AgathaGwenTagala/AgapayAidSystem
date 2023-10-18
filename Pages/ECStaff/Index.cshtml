@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.ECStaffDatabase.IndexModel
+@model AgapayAidSystem.Pages.ECStaff.IndexModel
 @{
-	ViewData["Title"] = "EC Staff Database";
+	ViewData["Title"] = "EC Staff";
 }
 
 <style>
@@ -15,23 +15,22 @@
 	}
 </style>
 
-
 <div class="container p-2">
 	<div class="row pt-3">
 		<div class="col">
 			<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a class="nav-link text-muted" asp-area="" asp-page="/Index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>EC Staff Database</strong></li>
+					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>EC Staff</strong></li>
 				</ol>
 			</div>
-			
+
 			<!-- Search Bar -->
 			<form id="search-form">
 				<div class="input-group">
-					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search EC staff" aria-label="Search..." 
-						autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" 
-						dir="auto" style="position: relative; vertical-align: top;">
+					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search EC staff" aria-label="Search..."
+						   autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0"
+						   dir="auto" style="position: relative; vertical-align: top;">
 					<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
 				</div>
 			</form>
@@ -74,8 +73,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				@{ var counter = 1; }
-				@foreach (var item in Model.listECStaffDatabase) {
+				@{
+					var counter = 1;
+				}
+				@foreach (var item in Model.listECStaff)
+				{
 					<tr data-id="@item.ecStaffID" class="data-row clickable-row">
 						<td width="5%">@counter</td>
 						<td width="25%">@item.fullName</td>
@@ -142,14 +144,14 @@
 					let counter = 1;
 					data.forEach(result => {
 						const newRow = `<tr data-id="${result.ecStaffID}" class="data-row clickable-row">
-											<td width="5%">${counter}</td>
-											<td width="25%">${result.fullName}</td>
-											<td width="5%">${result.sex}</td>
-											<td width="12%">${result.birthdate}</td>
-											<td width="15%">${result.mobileNum}</td>
-											<td width="15%">${result.emailAddress}</td>
-											<td width="23%">${result.availabilityStatus}</td>
-										</tr>`;
+												<td width="5%">${counter}</td>
+												<td width="25%">${result.fullName}</td>
+												<td width="5%">${result.sex}</td>
+												<td width="12%">${result.birthdate}</td>
+												<td width="15%">${result.mobileNum}</td>
+												<td width="15%">${result.emailAddress}</td>
+												<td width="23%">${result.availabilityStatus}</td>
+											</tr>`;
 						tableBody.innerHTML += newRow;
 						counter++;
 					});
@@ -172,7 +174,7 @@
 			if (clickedRow) {
 				const ecStaffId = clickedRow.getAttribute("data-id");
 				if (ecStaffId) {
-					window.location.href = `/ECStaffDatabase/Profile?ecStaffID=${ecStaffId}`;
+					window.location.href = `/ECStaff/Profile?ecStaffID=${ecStaffId}`;
 				}
 			}
 		});

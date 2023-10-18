@@ -3,25 +3,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.ECStaffDatabase
+namespace AgapayAidSystem.Pages.ECStaff
 {
     public class IndexModel : PageModel
     {
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 
-		public List<ECStaffDatabaseInfo> listECStaffDatabase = new List<ECStaffDatabaseInfo>();
-
+		public List<ECStaffInfo> listECStaff = new List<ECStaffInfo>();
 		public string SortBy { get; set; }
 		public string SortOrder { get; set; }
-		
+
 		public void OnGet(string sortBy, string sortOrder)
-        {
-            try
-            {
+		{
+			try
+			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
+				{
 					connection.Open();
 					string sql = "SELECT * FROM ec_staff_view";
 
@@ -38,19 +37,19 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 						{
 							while (reader.Read())
 							{
-								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
-								ecstaffdatabaseInfo.ecStaffID = reader.GetString(0);
-								ecstaffdatabaseInfo.firstName = reader.GetString(2);
-								ecstaffdatabaseInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
-								ecstaffdatabaseInfo.lastName = reader.GetString(4);
-								ecstaffdatabaseInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
-								ecstaffdatabaseInfo.sex = reader.GetString(6);
-								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
-								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
-								ecstaffdatabaseInfo.emailAddress = reader.GetString(9);
-								ecstaffdatabaseInfo.availabilityStatus = reader.GetString(10);
-								ecstaffdatabaseInfo.fullName = reader.GetString(11);
-								listECStaffDatabase.Add(ecstaffdatabaseInfo);
+								ECStaffInfo ECStaffInfo = new ECStaffInfo();
+								ECStaffInfo.ecStaffID = reader.GetString(0);
+								ECStaffInfo.firstName = reader.GetString(2);
+								ECStaffInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
+								ECStaffInfo.lastName = reader.GetString(4);
+								ECStaffInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
+								ECStaffInfo.sex = reader.GetString(6);
+								ECStaffInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
+								ECStaffInfo.mobileNum = reader.GetString(8);
+								ECStaffInfo.emailAddress = reader.GetString(9);
+								ECStaffInfo.availabilityStatus = reader.GetString(10);
+								ECStaffInfo.fullName = reader.GetString(11);
+								listECStaff.Add(ECStaffInfo);
 							}
 						}
 					}
@@ -72,29 +71,29 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 				{
 					connection.Open();
 					string sql = "SELECT * FROM ec_staff_view " +
-                                 "WHERE fullName LIKE @query OR sex LIKE @query OR birthdate LIKE @query " +
+								 "WHERE fullName LIKE @query OR sex LIKE @query OR birthdate LIKE @query " +
 								 "OR mobileNum LIKE @query OR availabilityStatus LIKE @query";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@query", $"%{query}%");
 						using (MySqlDataReader reader = command.ExecuteReader())
 						{
-							List<ECStaffDatabaseInfo> searchResults = new List<ECStaffDatabaseInfo>();
+							List<ECStaffInfo> searchResults = new List<ECStaffInfo>();
 							while (reader.Read())
 							{
-								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
-								ecstaffdatabaseInfo.ecStaffID = reader.GetString(0);
-								ecstaffdatabaseInfo.firstName = reader.GetString(2);
-                                ecstaffdatabaseInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
-                                ecstaffdatabaseInfo.lastName = reader.GetString(4);
-                                ecstaffdatabaseInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
-                                ecstaffdatabaseInfo.sex = reader.GetString(6);
-								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
-								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
-								ecstaffdatabaseInfo.emailAddress = reader.GetString(9);
-								ecstaffdatabaseInfo.availabilityStatus = reader.GetString(10);
-								ecstaffdatabaseInfo.fullName = reader.GetString(11);
-								searchResults.Add(ecstaffdatabaseInfo);
+								ECStaffInfo ECStaffInfo = new ECStaffInfo();
+								ECStaffInfo.ecStaffID = reader.GetString(0);
+								ECStaffInfo.firstName = reader.GetString(2);
+								ECStaffInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
+								ECStaffInfo.lastName = reader.GetString(4);
+								ECStaffInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
+								ECStaffInfo.sex = reader.GetString(6);
+								ECStaffInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
+								ECStaffInfo.mobileNum = reader.GetString(8);
+								ECStaffInfo.emailAddress = reader.GetString(9);
+								ECStaffInfo.availabilityStatus = reader.GetString(10);
+								ECStaffInfo.fullName = reader.GetString(11);
+								searchResults.Add(ECStaffInfo);
 							}
 							return new JsonResult(searchResults);
 						}
@@ -108,7 +107,8 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 			}
 		}
 	}
-	public class ECStaffDatabaseInfo
+
+	public class ECStaffInfo
 	{
 		public string ecStaffID { get; set; }
 		public string firstName { get; set; }
