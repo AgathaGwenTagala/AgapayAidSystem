@@ -1,0 +1,179 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster.Profile.IndexModel
+@{
+    string pageTitle = $"{Model.disasterInfo.disasterName}";
+    ViewData["Title"] = pageTitle;
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<style>
+    .clickable-row:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="content">
+    <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
+    <div class="row">
+        <div class="col">
+            <h1>@Model.disasterInfo.disasterName</h1>
+        </div>
+
+        <div class="col-auto button-spacer">
+            <!-- Button with text and icon (visible on larger screens) -->
+            <button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
+                <i class="bi bi-info-circle-fill"></i> Info
+            </button>
+
+            <!-- Button with only the icon (collapsed on smaller screens) -->
+            <button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
+                <i class="bi bi-info-circle-fill"></i>
+            </button>
+
+            <!-- Button with text (visible on larger screens) -->
+            <a class="btn btn-dark d-none d-md-inline-block" style="padding:5px">
+                <i class="bi bi-file-earmark-post"></i> Generate Report
+            </a>
+
+            <!-- Button with only the icon (collapsed on smaller screens) -->
+            <a class="btn btn-dark d-inline-block d-md-none">
+                <i class="bi bi-file-earmark-post"></i>
+            </a>
+        </div>
+
+    </div>
+   
+    <div class="description">
+        <p><strong>Type:</strong>
+            @Model.disasterInfo.disasterType
+        </p>
+        <p><strong>Description:</strong> 
+            @Model.disasterInfo.description
+        </p>
+        <p><strong>Date Occurred:</strong> 
+            @Model.disasterInfo.dateOccured
+        </p>
+    </div>
+
+    <div class="box-info">
+        <div class="info-item">
+            <i class="bi bi-person-circle"></i>
+            <div class="text">
+                <h3>2000</h3>
+                <p>Total Check-in Evacuees</p>
+                <div class="box-stat">
+                    <small>Male: <span>100</span></small>
+                    <small>Female: <span>100</span></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <i class="bi bi-box-seam-fill"></i>
+            <div class="text">
+                <h3>300</h3>
+                <p>Total Distributed Relief Goods</p>
+                <div class="box-stat">
+                    <small>Relief Pack Left: <span>100</span></small>
+                </div>
+            </div>
+        </div>  
+        
+        <div class="info-item">
+            <i class="bi bi-people"></i>
+            <div class="text">
+                <h3>4</h3>
+                <p>Total Active Evacuation Center</p>
+                <div class="box-stat">
+                    <small>Assigned EC Staff: <span>100</span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="head-title">
+        <h1>Evacuation Center Log</h1>
+
+        <div class="d-flex justify-content-end align-items-center">
+            <a class="btn btn-primary mb-2" href="/Disaster/Profile/AllocateEC?disasterID=@Model.disasterInfo.disasterID">
+                <i class="bi bi-building-add"></i>Allocate Evacuation Center
+            </a>
+        </div>
+    </div>
+
+	<div class="table-responsive">
+        <table class="table align-middle table-hover" id="eclog-table" style="width:100%">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Evacuation Center Name</th>
+                    <th>Barangay</th>
+					<th>Occupancy</th>
+					<th>Opening Date</th>
+					<th>Closing Date</th>
+				</tr>
+			</thead>
+			<tbody>
+                @{ var counter = 1; }
+                @if (Model.listCenterLog.Count == 0) {
+                    <tr>
+                        <td class="text-center" colspan="6">No allocated evacuation center</td>
+                    </tr>
+                } else {   
+                    @foreach (var item in Model.listCenterLog) {
+                        <tr data-id="@item.centerLogID" class="data-row clickable-row">
+                            <td width="5%">@counter</td>
+                            <td width="25%">@item.centerName</td>
+                            <td width="20%">@item.barangayName</td>
+                            <td width="10%">@item.occupancy/@item.maxCapacity</td>
+                            <td width="20%">@item.openingDateTime</td>
+                            <td width="20%">@item.closingDateTime</td>
+                        </tr>
+                        counter++;
+                    }
+                }
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- FOR INFO BUTTON -->
+<script>
+    const toggleButton = document.getElementById('toggleButton');
+    const description = document.querySelector('.description');
+
+    toggleButton.addEventListener('click', () => {
+        if (description.style.display === 'none') {
+            description.style.display = 'block';
+        } else {
+            description.style.display = 'none';
+        }
+    });
+</script>
+
+<!-- Clickable Row for EC Log Table -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.getElementById('eclog-table');
+
+        table.addEventListener('click', function (event) {
+            const clickedRow = event.target.closest('.data-row');
+
+            if (clickedRow) {
+                const centerLogId = clickedRow.getAttribute("data-id");
+                if (centerLogId) {
+                    window.location.href = `/Disaster/Profile/EntryLog?centerLogID=${centerLogId}`;
+                }
+            }
+        });
+    });
+</script>

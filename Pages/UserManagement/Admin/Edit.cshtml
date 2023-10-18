@@ -1,0 +1,102 @@
+﻿@page
+@model AgapayAidSystem.Pages.UserManagement.Admin.EditModel
+@{
+	ViewData["Title"] = "Edit User - Admin";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>@Model.errorMessage</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container p-2 form-container">
+    <div class="container mt-4 form-container-content">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Edit User</h1>
+                <h6 class="text-dark">Admin</h6>
+            </div>
+        </div>
+        <form method="POST" id="editUserForm">
+            <div class="row mb-3 user-container">
+                <input type="hidden" name="userID" value="@Model.userID" />
+
+                <div class="row mb-3">
+                    <p class="text-danger text-end">* Required field</p>
+                </div>
+
+                <!-- User ID -->
+                <div class="row mb-3 pb-1">
+                    <label class="form-label">User ID: @Model.userID</label>
+                </div>
+
+                <!-- Admin Name -->
+                <div class="mb-3">
+                    <label class="form-label">Admin Name:<span class="text-danger" style="padding:5px">*</span></label>
+                    <input type="text" id="adminName" name="adminName" class="form-control" value="@Model.adminName" required maxlength="65" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.successMessage))
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>@Model.successMessage</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- Cancel and Save Button -->
+                <div class="button-spacer">
+                    <a class="btn btn-outline-secondary mr-10" href="/UserManagement/Index" role="button">Cancel</a>
+                    <button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal: Confirm Save -->
+<div class="modal" id="editConfirmationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to save the changes?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enable/disable "Submit" button -->
+<script>
+    const submitButton = document.getElementById('submitBtn');
+    const form = document.querySelector('form');
+
+    submitButton.disabled = true;
+
+    function checkFormValidity() {
+        if (form.checkValidity()) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
+    form.addEventListener('input', checkFormValidity);
+</script>
+
+<!-- Save Changes -->
+<script>
+    document.getElementById('saveChangesButton').addEventListener('click', function () {
+        document.getElementById('editUserForm').submit();
+    });
+</script>
