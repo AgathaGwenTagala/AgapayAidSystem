@@ -1,0 +1,106 @@
+﻿@page
+@model AgapayAidSystem.Pages.Family.Profile.IndexModel
+@{
+}
+
+<div class="container p-2 form-container">
+	<div class="container mt-4">
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Family Profile<h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST">
+				<div class="row">
+					<!-- Street Address -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Street Address:
+							</label>
+						</div>
+					</div>
+
+					<!-- Barangay -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Barangay:
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- Mobile No. -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Mobile Number:
+							</label>
+						</div>
+					</div>
+
+					<!-- Tel No. -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Telephone Number:
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- living in GIDA -->
+					<div class="col-md-6 living-in-gida">
+						<div class="mb-3">
+							<label class="form-label radio1x2">
+								Living in Geographically
+								Isolated and Disadvantaged Area
+								(GIDA):
+							</label>
+						</div>
+					</div>
+
+					<!-- beneficiary -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Beneficiary:
+							</label>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row mt-5">
+					<h6 class="text-dark">Family Head:</h6>
+				</div>
+
+
+				<div class="row mt-5">
+					<h6 class="text-dark">Family Member/s:</h6>
+				</div>
+				@*<div class="row mt-3">
+				<div class="col text-center">
+				<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
+				<div class="d-flex flex-column justify-content-center flex-md-row">
+				<button type="button" class="btn btn-primary mx-3 my-2">Vulnerability Assessment Forms</button>
+				<button type="button" class="btn btn-primary mx-3 my-2" onclick="window.location.href='/Family/AddFamilyMember'">Add Family Member</button>
+				<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
+				</div>
+				</div>
+				</div>*@
+
+			</form>
+		</div>
+		<!-- Cancel and Save Button -->
+		<div class="button-spacer">
+			<a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Back</a>
+		</div>
+	</div>
+</div>
