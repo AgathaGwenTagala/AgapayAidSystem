@@ -4,6 +4,33 @@
 	ViewData["Title"] = "Disaster";
 }
 
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed end-0 p-3" style="z-index: 1000; top: 70px;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
 <style>
 	a {
 		text-decoration: none;
@@ -42,7 +69,7 @@
 
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2" href="/Disaster/Add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Disaster</a>
+				<a class="btn btn-primary mb-2" href="/disaster/add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Disaster</a>
 			</div>
 		</div>
 	</div>
@@ -80,7 +107,7 @@
 						<td width="15%">@item.dateOccured</td>
 						<td width="20%">
 							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/Disaster/Edit?disasterID=@item.disasterID">
+							<a class="btn btn-success edit-button" href="/disaster/edit?disasterID=@item.disasterID">
 								<i class="bi bi-pencil-fill"></i>
 							</a>
 							
@@ -165,7 +192,7 @@
 											<td width="15%">${result.dateOccured}</td>
 											<td width="20%">
 												<!-- Edit button -->
-												<a class="btn btn-success edit-button" href="/Disaster/Edit?disasterID=${result.disasterID}">
+												<a class="btn btn-success edit-button" href="/disaster/edit?disasterID=${result.disasterID}">
 													<i class="bi bi-pencil-fill"></i>
 												</a>
 
@@ -213,7 +240,7 @@
 
 	confirmDeleteButton.addEventListener('click', function () {
 		if (disasterIdToDelete !== null) {
-			window.location.href = "/Disaster/Delete?disasterID=" + disasterIdToDelete;
+			window.location.href = "/disaster/delete?disasterID=" + disasterIdToDelete;
 		}
 	});
 </script>

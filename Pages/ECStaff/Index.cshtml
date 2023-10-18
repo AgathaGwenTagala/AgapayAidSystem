@@ -40,7 +40,7 @@
 
 	<div class="row pt-4">
 		<div class="col">
-			<h1>EC Staff Database</h1>
+			<h1>EC Staff</h1>
 		</div>
 	</div>
 
@@ -174,7 +174,7 @@
 			if (clickedRow) {
 				const ecStaffId = clickedRow.getAttribute("data-id");
 				if (ecStaffId) {
-					window.location.href = `/ECStaff/Profile?ecStaffID=${ecStaffId}`;
+					window.location.href = `/ecstaff/profile?ecStaffID=${ecStaffId}`;
 				}
 			}
 		});

@@ -13,6 +13,8 @@ namespace AgapayAidSystem.Pages.ECStaff
 		public List<ECStaffInfo> listECStaff = new List<ECStaffInfo>();
 		public string SortBy { get; set; }
 		public string SortOrder { get; set; }
+		public string errorMessage = "";
+		public string successMessage = "";
 
 		public void OnGet(string sortBy, string sortOrder)
 		{
