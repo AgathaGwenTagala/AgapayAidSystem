@@ -2,26 +2,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Family
+namespace AgapayAidSystem.Pages.Family.Add
 {
-    public class AddFamilyModel : PageModel
+    public class IndexModel : PageModel
     {
-		public  FamilyInfo familyInfo { get; set; } = new FamilyInfo();
+		private readonly IConfiguration _configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
+		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+
 		public void OnGet()
-        {
+		{
 			// Fetch the list of barangays from database
 			Barangays = GetBarangaysFromDatabase();
 		}
+
 		private List<BarangayInfo> GetBarangaysFromDatabase()
 		{
 			var barangayData = new List<BarangayInfo>();
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -51,6 +55,7 @@ namespace AgapayAidSystem.Pages.Family
 
 			return barangayData;
 		}
+		
 		public void OnPost()
 		{
 			if (!ModelState.IsValid)
@@ -69,7 +74,7 @@ namespace AgapayAidSystem.Pages.Family
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -91,7 +96,7 @@ namespace AgapayAidSystem.Pages.Family
 					}
 				}
 
-				successMessage = "Family record added successfully!";
+				successMessage = "Family added successfully!";
 			}
 
 			catch (Exception ex)
@@ -100,9 +105,10 @@ namespace AgapayAidSystem.Pages.Family
 				return;
 			}
 
-			Response.Redirect("/Family/Index");
+			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
 	}
+
 	public class BarangayInfo
 	{
 		public string barangayID { get; set; }

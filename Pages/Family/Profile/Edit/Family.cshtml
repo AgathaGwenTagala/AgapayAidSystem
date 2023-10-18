@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Family.EditFamilyModel
+@model AgapayAidSystem.Pages.Family.Profile.Edit.FamilyModel
 @{
-	ViewData["Title"] = "New Family";
+	ViewData["Title"] = "Edit Family";
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -13,17 +13,17 @@
 }
 
 <style>
-	.radio1x2:nth-child(1) {
-		display: block;
-		width: 100%;
-		clear: both;
-	}
+    .radio1x2:nth-child(1) {
+        display: block;
+        width: 100%;
+        clear: both;
+    }
 
-	.radio1x2 {
-		width: 50%;
-		display: block;
-		float: left;
-	}
+    .radio1x2 {
+        width: 50%;
+        display: block;
+        float: left;
+    }
 </style>
 
 <div class="container p-2 form-container">
@@ -75,7 +75,7 @@
                             </label>
                             <input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="65" />
                         </div>
-                    </div>  
+                    </div>
 
                     <!-- Barangay -->
                     <div class="col-md-4">
@@ -177,7 +177,7 @@
                     </div>
                 }
                 <div class="button-spacer">
-                    <a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Cancel</a>
+                    <a class="btn btn-outline-secondary mr-10" href="/family/profile/index" role="button">Cancel</a>
                     <button type="button" class="btn btn-primary" id="submitBtn" onclick="confirmSave()">Save</button>
                 </div>
             </form>
@@ -189,41 +189,31 @@
     const mobileInput = document.getElementById('mobileNum');
     const telephoneInput = document.getElementById('telephoneNum');
 
-    // Add an input event listener to format the mobile number
     mobileInput.addEventListener('input', function () {
-        // Remove any non-digit characters
         let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-        // Ensure the mobile number starts with "09" if not null or empty
         if (cleanedValue.length >= 2) {
             cleanedValue = '09' + cleanedValue.slice(2);
         }
 
-        // Update the input field with the formatted value
         this.value = cleanedValue;
     });
 
-    // Add an input event listener to format the telephone number
     telephoneInput.addEventListener('input', function () {
-        // Remove any non-digit characters
         let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-        // Ensure the telephone number starts with "044" if not null or empty
         if (cleanedValue.length >= 3) {
             cleanedValue = '044' + cleanedValue.slice(3);
         }
 
-        // Update the input field with the formatted value
         this.value = cleanedValue;
     });
 
     const submitButton = document.getElementById('submitBtn');
     const form = document.querySelector('form');
 
-    // Disable the submit button by default
     submitButton.disabled = true;
 
-    // Function to check form validity and enable/disable the submit button
     function checkFormValidity() {
         if (form.checkValidity()) {
             submitButton.disabled = false;
@@ -232,14 +222,11 @@
         }
     }
 
-    // Add an event listener for the input event on form elements
     form.addEventListener('input', checkFormValidity);
 
-    // Function to show the confirmation dialog
     function confirmSave() {
         const confirmation = confirm("Are you sure you want to save the changes?");
         if (confirmation) {
-            // If the user confirms, submit the form
             form.submit();
         }
     }

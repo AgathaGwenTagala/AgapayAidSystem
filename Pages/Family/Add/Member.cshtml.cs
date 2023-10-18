@@ -1,14 +1,15 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Family
+namespace AgapayAidSystem.Pages.Family.Add
 {
-    public class AddFamilyMemberModel : PageModel
+    public class MemberModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+		public MemberModel(IConfiguration configuration) => _configuration = configuration;
 		public AddFamilyMemberInfo addfamilymemberInfo { get; set; } = new AddFamilyMemberInfo();
-		public  FamilyInfo familyInfo { get; set; } = new FamilyInfo();
+		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
 
@@ -38,7 +39,7 @@ namespace AgapayAidSystem.Pages.Family
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -77,9 +78,9 @@ namespace AgapayAidSystem.Pages.Family
 				return;
 			}
 
-			Response.Redirect("/AddFamily/AddFamilyMember");
+			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
-    }
+	}
 
 	public class AddFamilyMemberInfo
 	{

@@ -6,7 +6,6 @@
 }
 
 <style>
-	/* Remove underline */
 	a {
 		text-decoration: none;
 		color: inherit;
@@ -56,12 +55,12 @@
 
 	<div class="row pt-4">
 		<div class="col">
-			<h1>Family Database</h1>
+			<h1>Family</h1>
 		</div>
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2 button-spacing" href="/Family"><ion-icon name="download-outline"></ion-icon> Import .CSV File</a>
-				<a class="btn btn-primary mb-2" href="/Family/AddFamily"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family Record</a>
+				<a class="btn btn-primary mb-2 button-spacing" href="/family"><ion-icon name="download-outline"></ion-icon> Import .CSV File</a>
+				<a class="btn btn-primary mb-2" href="/family/add/index"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family</a>
 			</div>
 		</div>
 	</div>
@@ -72,7 +71,7 @@
 				<tr>
 					<th>#</th>
 					<th>
-						<a asp-page="./Index" asp-route-sortBy="serialNum" asp-route-sortOrder="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('serialNum')">
+						<a asp-page="./index" asp-route-sortBy="serialNum" asp-route-sortOrder="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('serialNum')">
 							Serial Number
 							<ion-icon id="serialNumArrow" name="@(Model.SortBy == "serialNum" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
@@ -103,9 +102,7 @@
 					<th>
 						Family Size
 					</th>
-					<th>
-
-					</th>
+					@*<th></th>*@
 				</tr>
 			</thead>
 			<tbody>
@@ -118,15 +115,15 @@
 						<td width="25%">@item.streetAddress</td>
 						<td width="20%">@item.barangayName</td>
 						<td width="12%">
-						<td width=20%>
+						@*<td width=20%>
 							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/Family/EditFamily?familyID=@item.familyID">
+							<a class="btn btn-success edit-button" href="/family/edit/index?familyID=@item.familyID">
 								<i class="bi bi-pencil-fill"></i>
 
 								<!-- Delete button -->
 								<a class="btn btn-danger edit-button" href="#" onclick="confirmDelete('@item.familyID')">
 									<i class="bi bi-trash-fill"></i>
-						</td>
+						</td>*@
 					</tr>
 					counter++;
 				}
@@ -138,7 +135,7 @@
 <script>
 	function confirmDelete(familyID) {
 		if (confirm("Are you sure you want to delete this family?")) {
-			window.location.href = "/Family/DeleteFamily?familyID=" + familyID;
+			window.location.href = "/family/delete?familyID=" + familyID;
 		}
 	}
 </script>

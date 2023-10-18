@@ -6,6 +6,8 @@ namespace AgapayAidSystem.Pages.Family
 {
     public class IndexModel : PageModel
     {
+		private readonly IConfiguration _configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<FamilyInfo> listFamily = new List<FamilyInfo>();
 		public List<string> UniqueBarangays { get; set; }
 		public string SortBy { get; set; } //Disaster Name
@@ -14,8 +16,7 @@ namespace AgapayAidSystem.Pages.Family
         {
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -68,8 +69,7 @@ namespace AgapayAidSystem.Pages.Family
 
 			try
 			{
-				string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
@@ -111,7 +111,5 @@ namespace AgapayAidSystem.Pages.Family
 		public string beneficiary { get; set; }
 		public string mobileNum { get; set; }
 		public string telephoneNum { get; set; }
-
-
 	}
 }

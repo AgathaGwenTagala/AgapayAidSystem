@@ -1,12 +1,15 @@
+using AgapayAidSystem.Pages.Family.Add;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Family
+namespace AgapayAidSystem.Pages.Family.Profile.Edit
 {
-    public class EditFamilyModel : PageModel
+    public class FamilyModel : PageModel
     {
-        public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
+		private readonly IConfiguration _configuration;
+		public FamilyModel(IConfiguration configuration) => _configuration = configuration;
+		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
         public List<BarangayInfo> Barangays { get; set; }
         public string errorMessage = "";
         public string successMessage = "";
@@ -21,8 +24,8 @@ namespace AgapayAidSystem.Pages.Family
             // Fetch info of selected evacuation center from the database
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "SELECT * FROM family where familyID = @familyID";
@@ -39,7 +42,7 @@ namespace AgapayAidSystem.Pages.Family
                                 familyInfo.barangayID = reader.GetString(2);
                                 familyInfo.livingInGida = reader.GetString(5);
                                 familyInfo.serialNum = reader.GetString(7);
-								familyInfo.beneficiary = reader.GetString(6);
+                                familyInfo.beneficiary = reader.GetString(6);
                                 familyInfo.mobileNum = reader.IsDBNull(3) ? null : reader.GetString(3);
                                 familyInfo.telephoneNum = reader.IsDBNull(4) ? null : reader.GetString(4);
                             }
@@ -60,8 +63,8 @@ namespace AgapayAidSystem.Pages.Family
 
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -105,7 +108,7 @@ namespace AgapayAidSystem.Pages.Family
             familyInfo.barangayID = Request.Form["barangayID"];
             familyInfo.livingInGida = Request.Form["livingInGida"];
             familyInfo.serialNum = Request.Form["serialNum"];
-			familyInfo.beneficiary = Request.Form["beneficiary"];
+            familyInfo.beneficiary = Request.Form["beneficiary"];
             familyInfo.mobileNum = Request.Form["mobileNum"];
             familyInfo.telephoneNum = Request.Form["telephoneNum"];
 
@@ -123,8 +126,8 @@ namespace AgapayAidSystem.Pages.Family
 
             try
             {
-                string connectionString = "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -141,7 +144,7 @@ namespace AgapayAidSystem.Pages.Family
                         command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
                         command.Parameters.AddWithValue("@livingInGida", familyInfo.livingInGida);
                         command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
-						command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
+                        command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
                         command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
                         command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
                         command.ExecuteNonQuery();
@@ -157,7 +160,7 @@ namespace AgapayAidSystem.Pages.Family
                 return;
             }
 
-            Response.Redirect("/Family/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/family/profile/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

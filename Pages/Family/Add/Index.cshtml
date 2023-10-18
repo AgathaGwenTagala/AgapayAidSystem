@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Family.AddFamilyModel
+@model AgapayAidSystem.Pages.Family.Add.IndexModel
 @{
-	ViewData["Title"] = "New Family";
+	ViewData["Title"] = "Add Family";
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -26,14 +26,13 @@
 	}
 </style>
 
-
 <div class="container p-2 form-container">
 
 	<div class="container mt-4" id="disaster-form-container">
 
 		<div class="row pt-4">
 			<div class="col text-center">
-				<h1>Add Family Record<h1>
+				<h1>Add Family</h1>
 			</div>
 		</div>
 
@@ -140,21 +139,21 @@
 				</div>
 
 				@*<div class="row mt-3">
-					<div class="col text-center">
-						<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
-						<div class="d-flex flex-column justify-content-center flex-md-row">
-							<button type="button" class="btn btn-primary mx-3 my-2">Vulnerability Assessment Forms</button>
-							<button type="button" class="btn btn-primary mx-3 my-2" onclick="window.location.href='/Family/AddFamilyMember'">Add Family Member</button>
-							<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
-						</div>
-					</div>
+				<div class="col text-center">
+				<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
+				<div class="d-flex flex-column justify-content-center flex-md-row">
+				<button type="button" class="btn btn-primary mx-3 my-2">Vulnerability Assessment Forms</button>
+				<button type="button" class="btn btn-primary mx-3 my-2" onclick="window.location.href='/Family/AddFamilyMember'">Add Family Member</button>
+				<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
+				</div>
+				</div>
 				</div>*@
-	
+
 			</form>
 		</div>
 		<!-- Cancel and Save Button -->
 		<div class="button-spacer">
-			<a class="btn btn-outline-secondary mr-10" href="/Family/Index" role="button">Cancel</a>
+			<a class="btn btn-outline-secondary mr-10" href="/family/index" role="button">Cancel</a>
 			<button type="submit" class="btn btn-primary" id="submitBtn">
 				Next
 				<i class="bi bi-arrow-right" style="padding:5px"></i>
@@ -167,41 +166,31 @@
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
 
-	// Add an input event listener to format the mobile number
 	mobileInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the mobile number starts with "09" if not null or empty
 		if (cleanedValue.length >= 2) {
 			cleanedValue = '09' + cleanedValue.slice(2);
 		}
 
-		// Update the input field with the formatted value
 		this.value = cleanedValue;
 	});
 
-	// Add an input event listener to format the telephone number
 	telephoneInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the telephone number starts with "044" if not null or empty
 		if (cleanedValue.length >= 3) {
 			cleanedValue = '044' + cleanedValue.slice(3);
 		}
 
-		// Update the input field with the formatted value
 		this.value = cleanedValue;
 	});
-	
+
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 
-	// Disable the submit button by default
 	submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
 	function checkFormValidity() {
 		if (form.checkValidity()) {
 			submitButton.disabled = false;
@@ -210,6 +199,5 @@
 		}
 	}
 
-	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
 </script>

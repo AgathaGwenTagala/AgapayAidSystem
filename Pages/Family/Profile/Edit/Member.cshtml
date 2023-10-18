@@ -1,0 +1,346 @@
+﻿@page
+@model AgapayAidSystem.Pages.Family.Profile.Edit.MemberModel
+@{
+	ViewData["Title"] = "Edit Family Member";
+}
+
+<style>
+	.radioAlign:nth-child(1) {
+		display: block;
+		width: 100%;
+		clear: both;
+	}
+
+	.radioAlign {
+		width: 50%;
+		display: block;
+		float: left;
+	}
+
+	.radio1x2:nth-child(1) {
+		display: block;
+		width: 100%;
+		clear: both;
+	}
+
+	.radio1x2 {
+		width: 50%;
+		display: block;
+		float: left;
+	}
+</style>
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>@Model.errorMessage</strong>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
+<div class="container p-2 form-container">
+
+	<div class="container mt-4" id="disaster-form-container">
+
+		<div class="row pt-4">
+			<div class="col text-center">
+				<h1>Edit Family Member</h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST">
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+				<div class="row">
+					<!-- Family ID-->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Family ID:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="familyID" value="@Model.familyInfo.familyID" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Member ID -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Member ID:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="memberID" value="@Model.addfamilymemberInfo.memberID" required maxlength="85" />
+						</div>
+					</div>
+
+					<!--Serial No. -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Serial No.:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="serialNum" value="@Model.familyInfo.serialNum" required maxlength="85" />
+						</div>
+					</div>
+
+					<!-- Relationship -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Relationship:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="relationship" id="familyHead" value="Family Head" @if (Model.addfamilymemberInfo.relationship == "Family Head")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="familyHead">
+									Family Head
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="relationship" id="familyMember" value="Family Member" @if (Model.addfamilymemberInfo.relationship == "Family Member")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="familyMember">
+									Family Member
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- First Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								First Name:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="firstName" value="@Model.addfamilymemberInfo.firstName" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Middle Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Middle Name:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="middleName" value="@Model.addfamilymemberInfo.middleName" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Last Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Last Name:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="lastName" value="@Model.addfamilymemberInfo.lastName" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Extension Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Extension Name:
+							</label>
+							<input type="text" class="form-control" name="extensionName" value="@Model.addfamilymemberInfo.extName" maxlength="45" />
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- Sex -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label radio1x2">
+								Sex:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<div class="form-check radio1x2">
+								<input class="form-check-input" type="radio" name="sex" id="M" value="M" @if (Model.addfamilymemberInfo.sex == "M")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="male">
+									Male
+								</label>
+							</div>
+							<div class="form-check radio1x2">
+								<input class="form-check-input" type="radio" name="sex" id="F" value="F" @if (Model.addfamilymemberInfo.sex == "F")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="female">
+									Female
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- Birthdate -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Birthdate:
+							</label>
+							<input type="date" class="form-control text-muted" name="birthdate" value="@Model.addfamilymemberInfo.birthdate" required pattern="\d{4}-\d{2}-\d{2}">
+						</div>
+					</div>
+
+					<!-- Civil Status -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label radioAlign">
+								Civil Status:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<div class="form-check radioAlign">
+								<input class="form-check-input" type="radio" name="civilStatus" id="single" value="Single" @if (Model.addfamilymemberInfo.civilStatus == "Single")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="single">
+									Single
+								</label>
+							</div>
+							<div class="form-check radioAlign">
+								<input class="form-check-input" type="radio" name="civilStatus" id="married" value="Married" @if (Model.addfamilymemberInfo.civilStatus == "Married")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="married">
+									Married
+								</label>
+							</div>
+							<div class="form-check radioAlign">
+								<input class="form-check-input" type="radio" name="civilStatus" id="widowed" value="Widowed" @if (Model.addfamilymemberInfo.civilStatus == "Widowed")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="widowed">
+									Widowed
+								</label>
+							</div>
+							<div class="form-check radioAlign">
+								<input class="form-check-input" type="radio" name="civilStatus" id="annulled" value="Annulled" @if (Model.addfamilymemberInfo.civilStatus == "Annulled")
+								{
+									<text>checked</text>
+								}>
+								<label class="form-check-label" for="annulled">
+									Annulled
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- Religion -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Religion:
+							</label>
+							<input type="text" class="form-control" name="extName" value="@Model.addfamilymemberInfo.religion" maxlength="45" />
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- Education -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Education:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="education" value="@Model.addfamilymemberInfo.education" required maxlength="45" />
+						</div>
+					</div>
+
+					<!-- Occupation -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Occupation:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="occupation" value="@Model.addfamilymemberInfo.occupation" required maxlength="45" />
+						</div>
+					</div>
+
+					<!-- Ethnicity -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Ethnicity:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilymemberInfo.ethnicity" required maxlength="45" />
+						</div>
+					</div>
+					<!-- Health Condition -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Health Condition:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="ethnicity" value="@Model.addfamilymemberInfo.healthCondition" required maxlength="45" />
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Remarks -->
+					<div class="mb-3">
+						<label class="form-label">
+							Remarks:
+						</label>
+						<textarea class="form-control" name="description" value="@Model.addfamilymemberInfo.remarks" rows="4" required></textarea>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- Cancel and Save Button -->
+		<div class="button-spacer">
+			<a class="btn btn-outline-secondary mr-10" href="/family/profile/index" role="button">Cancel</a>
+			<button type="button" class="btn btn-primary" id="submitBtn" onclick="confirmSave()">Save</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	submitButton.disabled = true;
+
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	form.addEventListener('input', checkFormValidity);
+
+	function confirmSave() {
+		const confirmation = confirm("Are you sure you want to save the changes?");
+		if (confirmation) {
+			form.submit();
+		}
+	}
+</script>
