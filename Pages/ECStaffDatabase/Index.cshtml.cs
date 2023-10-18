@@ -23,7 +23,9 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
 					connection.Open();
-					string sql = "SELECT * FROM ec_staff_view";
+					string sql = "SELECT *, " +
+								 "CONCAT(`firstName`,' ',LEFT(`middleName`, 1),'. ',`lastName`,' ', `extName`) AS `fullName` " +
+								 "FROM ec_staff;";
 
 					// Apply sorting based on user's selection
 					if (!string.IsNullOrEmpty(sortBy))
@@ -41,9 +43,9 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
 								ecstaffdatabaseInfo.ecStaffID = reader.GetString(0);
 								ecstaffdatabaseInfo.firstName = reader.GetString(2);
-								ecstaffdatabaseInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
+								ecstaffdatabaseInfo.middleName = reader.GetString(3);
 								ecstaffdatabaseInfo.lastName = reader.GetString(4);
-								ecstaffdatabaseInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
+								ecstaffdatabaseInfo.extName = reader.GetString(5);
 								ecstaffdatabaseInfo.sex = reader.GetString(6);
 								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
 								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
@@ -71,9 +73,11 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM ec_staff_view " +
-                                 "WHERE fullName LIKE @query OR sex LIKE @query OR birthdate LIKE @query " +
-								 "OR mobileNum LIKE @query OR availabilityStatus LIKE @query";
+					string sql = "SELECT *, " +
+								 "CONCAT(`firstName`,' ',LEFT(`middleName`, 1),'. ',`lastName`,' ', `extName`) AS `fullName` " +
+								 "FROM ec_staff " +
+								 "WHERE CONCAT(`firstName`,' ',LEFT(`middleName`, 1),'. ',`lastName`,' ', `extName`)  LIKE @query " +
+								 "OR sex LIKE @query OR birthdate LIKE @query OR mobileNum LIKE @query OR availabilityStatus LIKE @query";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@query", $"%{query}%");
@@ -85,10 +89,10 @@ namespace AgapayAidSystem.Pages.ECStaffDatabase
 								ECStaffDatabaseInfo ecstaffdatabaseInfo = new ECStaffDatabaseInfo();
 								ecstaffdatabaseInfo.ecStaffID = reader.GetString(0);
 								ecstaffdatabaseInfo.firstName = reader.GetString(2);
-                                ecstaffdatabaseInfo.middleName = reader.IsDBNull(3) ? null : reader.GetString(3);
-                                ecstaffdatabaseInfo.lastName = reader.GetString(4);
-                                ecstaffdatabaseInfo.extName = reader.IsDBNull(5) ? null : reader.GetString(5);
-                                ecstaffdatabaseInfo.sex = reader.GetString(6);
+								ecstaffdatabaseInfo.middleName = reader.GetString(3);
+								ecstaffdatabaseInfo.lastName = reader.GetString(4);
+								ecstaffdatabaseInfo.extName = reader.GetString(5);
+								ecstaffdatabaseInfo.sex = reader.GetString(6);
 								ecstaffdatabaseInfo.birthdate = reader.GetDateTime(7).ToString("yyyy-MM-dd");
 								ecstaffdatabaseInfo.mobileNum = reader.GetString(8);
 								ecstaffdatabaseInfo.emailAddress = reader.GetString(9);

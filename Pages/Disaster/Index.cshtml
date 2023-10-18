@@ -42,7 +42,7 @@
 
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2" href="/Disaster/Add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Disaster</a>
+				<a class="btn btn-primary mb-2" href="/Disaster/AddDisaster"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Disaster</a>
 			</div>
 		</div>
 	</div>
@@ -80,7 +80,7 @@
 						<td width="15%">@item.dateOccured</td>
 						<td width="20%">
 							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/Disaster/Edit?disasterID=@item.disasterID">
+							<a class="btn btn-success edit-button" href="/Disaster/EditDisaster?disasterID=@item.disasterID">
 								<i class="bi bi-pencil-fill"></i>
 							</a>
 							
@@ -165,7 +165,7 @@
 											<td width="15%">${result.dateOccured}</td>
 											<td width="20%">
 												<!-- Edit button -->
-												<a class="btn btn-success edit-button" href="/Disaster/Edit?disasterID=${result.disasterID}">
+												<a class="btn btn-success edit-button" href="/Disaster/EditDisaster?disasterID=${result.disasterID}">
 													<i class="bi bi-pencil-fill"></i>
 												</a>
 
@@ -187,6 +187,23 @@
 	});
 </script>
 
+<!-- Clickable Row for Disaster Profile -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const table = document.getElementById('disaster-table');
+
+		table.addEventListener('click', function (event) {
+			const clickedRow = event.target.closest('.data-row');
+
+			if (clickedRow) {
+				const disasterId = clickedRow.getAttribute("data-id");
+				if (disasterId) {
+					window.location.href = `/Disaster/DisasterProfile?disasterID=${disasterId}`;
+				}
+			}
+		});
+	});
+</script>
 
 <!-- Confirm Delete button in Modal -->
 <script>
@@ -213,7 +230,7 @@
 
 	confirmDeleteButton.addEventListener('click', function () {
 		if (disasterIdToDelete !== null) {
-			window.location.href = "/Disaster/Delete?disasterID=" + disasterIdToDelete;
+			window.location.href = "/Disaster/DeleteDisaster?disasterID=" + disasterIdToDelete;
 		}
 	});
 </script>
