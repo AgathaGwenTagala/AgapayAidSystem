@@ -136,7 +136,7 @@
 		document.getElementById("search-form").addEventListener("submit", function (e) {
 			e.preventDefault();
 			const query = document.getElementById("search-bar").value;
-			fetch(`/ECStaffDatabase?handler=Search&query=${query}`)
+			fetch(`/ecstaffdatabase?handler=Search&query=${query}`)
 				.then(response => response.json())
 				.then(data => {
 					const tableBody = document.querySelector("table tbody");

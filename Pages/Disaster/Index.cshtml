@@ -6,7 +6,7 @@
 
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
 {
-	<div id="success-notification" class="position-fixed end-0 p-3" style="z-index: 1000; top: 70px;">
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
 		<div class="alert alert-success alert-dismissible fade show" role="alert">
 			<strong>@Request.Query["successMessage"]</strong>
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -177,7 +177,7 @@
 		document.getElementById("search-form").addEventListener("submit", function (e) {
 			e.preventDefault();
 			const query = document.getElementById("search-bar").value;
-			fetch(`/Disaster?handler=Search&query=${query}`)
+			fetch(`/disaster?handler=Search&query=${query}`)
 				.then(response => response.json())
 				.then(data => {
 					const tableBody = document.querySelector("table tbody");

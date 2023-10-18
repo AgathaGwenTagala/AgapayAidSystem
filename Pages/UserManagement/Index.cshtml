@@ -82,7 +82,7 @@
                                     @if (item.userType == "Admin")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/Admin/Edit?userID=@item.userID">
+                                            <a class="dropdown-item" href="/usermanagement/admin/edit?userID=@item.userID">
                                                Edit
                                             </a>
                                         </li>
@@ -90,7 +90,7 @@
                                     else if (item.userType == "EC Staff")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/ECStaff/Edit?userID=@item.userID">
+                                            <a class="dropdown-item" href="/usermanagement/ecstaff/edit?userID=@item.userID">
                                                Edit
                                             </a>
                                         </li>
@@ -98,7 +98,7 @@
                                     else if (item.userType == "LGU Staff")
                                     {
                                         <li>
-                                            <a class="dropdown-item" href="/UserManagement/LGUStaff/Edit?userID=@item.userID">
+                                            <a class="dropdown-item" href="/usermanagement/lgustaff/edit?userID=@item.userID">
                                                 Edit
                                             </a>
                                         </li>
@@ -144,7 +144,7 @@
         document.getElementById("search-form").addEventListener("submit", function (e) {
             e.preventDefault();
             const query = document.getElementById("search-bar").value;
-            fetch(`/UserManagement?handler=Search&query=${query}`)
+            fetch(`/usermanagement?handler=Search&query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     // Clear existing table rows
@@ -177,21 +177,21 @@
                                             ${
                                                 result.userType === "Admin"
                                                     ? `<li>
-                                                            <a class="dropdown-item" href="/UserManagement/Admin/Edit?userID=${result.userID}">
+                                                            <a class="dropdown-item" href="/usermanagement/admin/edit?userID=${result.userID}">
                                                                 Edit
                                                             </a>
                                                        </li>`
 
                                                 : result.userType === "EC Staff"
                                                     ? `<li>
-                                                            <a class="dropdown-item" href="/UserManagement/ECStaff/Edit?userID=${result.userID}">
+                                                            <a class="dropdown-item" href="/usermanagement/ecstaff/edit?userID=${result.userID}">
                                                                 Edit
                                                             </a>
                                                        </li>`
 
                                                     : result.userType === "LGU Staff"
                                                         ? `<li>
-                                                                <a class="dropdown-item" href="/UserManagement/LGUStaff/Edit?userID=${result.userID}">
+                                                                <a class="dropdown-item" href="/usermanagement/lgustaff/edit?userID=${result.userID}">
                                                                     Edit
                                                                 </a>
                                                            </li>`
@@ -245,7 +245,7 @@
 
     confirmDeleteButton.addEventListener('click', function () {
         if (userIdToDelete !== null) {
-            window.location.href = "/UserManagement/Delete?userID=" + userIdToDelete;
+            window.location.href = "/usermanagement/delete?userID=" + userIdToDelete;
         }
     });
 </script>
