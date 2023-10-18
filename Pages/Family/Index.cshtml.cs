@@ -10,8 +10,9 @@ namespace AgapayAidSystem.Pages.Family
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<FamilyInfo> listFamily = new List<FamilyInfo>();
 		public List<string> UniqueBarangays { get; set; }
-		public string SortBy { get; set; } //Disaster Name
-		public string SortOrder { get; set; } // Ascending, Descending
+		public string SortBy { get; set; }
+		public string SortOrder { get; set; }
+		
 		public void OnGet(string sortBy, string sortOrder)
         {
 			try
@@ -38,16 +39,15 @@ namespace AgapayAidSystem.Pages.Family
 							while (reader.Read())
 							{
 								FamilyInfo familyInfo = new FamilyInfo();
-
 								familyInfo.familyID = reader.GetString(0);
 								familyInfo.streetAddress = reader.GetString(1);
 								familyInfo.barangayID = reader.GetString(2);
+								familyInfo.mobileNum = reader.GetString(3);
+								familyInfo.telephoneNum = reader.IsDBNull(4) ? null : reader.GetString(4);
 								familyInfo.livingInGida = reader.GetString(5);
 								familyInfo.beneficiary = reader.GetString(6);
 								familyInfo.serialNum = reader.GetString(7);
 								familyInfo.barangayName = reader.GetString(8);
-								familyInfo.mobileNum = reader.GetString(3);
-								familyInfo.telephoneNum = reader.GetString(4);
 								listFamily.Add(familyInfo);
 							}
 						}
@@ -105,11 +105,11 @@ namespace AgapayAidSystem.Pages.Family
 		public string familyID { get; set; }
 		public string streetAddress { get; set; }
 		public string barangayID { get; set; }
-		public string livingInGida { get; set; }
-		public string serialNum { get; set; }
-		public string barangayName { get; set; }
-		public string beneficiary { get; set; }
 		public string mobileNum { get; set; }
 		public string telephoneNum { get; set; }
+		public string livingInGida { get; set; }
+		public string beneficiary { get; set; }
+		public string serialNum { get; set; }
+		public string barangayName { get; set; }
 	}
 }

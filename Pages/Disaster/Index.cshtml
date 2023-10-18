@@ -80,7 +80,7 @@
 				<tr>
 					<th>#</th>
 					<th>
-						<a asp-page="./Index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
+						<a asp-page="./index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
 							Disaster Name
 							<ion-icon id="disasterNameArrow" name="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
@@ -88,7 +88,7 @@
 					<th>Type</th>
 					<th>Description</th>
 					<th>
-						<a asp-page="./Index" asp-route-sortBy="dateOccured" asp-route-sortOrder="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('dateOccured')">
+						<a asp-page="./index" asp-route-sortBy="dateOccured" asp-route-sortOrder="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('dateOccured')">
 							Date Occured
 							<ion-icon id="dateOccuredArrow" name="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
@@ -214,6 +214,23 @@
 	});
 </script>
 
+<!-- Clickable Row for Disaster Profile -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const table = document.getElementById('disaster-table');
+
+		table.addEventListener('click', function (event) {
+			const clickedRow = event.target.closest('.data-row');
+
+			if (clickedRow) {
+				const disasterId = clickedRow.getAttribute("data-id");
+				if (disasterId) {
+					window.location.href = `/disaster/profile/index?disasterID=${disasterId}`;
+				}
+			}
+		});
+	});
+</script>
 
 <!-- Confirm Delete button in Modal -->
 <script>
