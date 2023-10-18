@@ -43,7 +43,7 @@
 
 		<div class="col-auto">
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2" href="/EvacuationCenter/Add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Evacuation Center</a>
+				<a class="btn btn-primary mb-2" href="/evacuationcenter/add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Evacuation Center</a>
 			</div>
 		</div>
 	</div>
@@ -95,7 +95,7 @@
 						</td>
 						<td width="20%">						
 							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/EvacuationCenter/Edit?centerID=@item.centerID">
+							<a class="btn btn-success edit-button" href="/evacuationcenter/edit?centerID=@item.centerID">
 								<i class="bi bi-pencil-fill"></i>
 							</a>
 
@@ -172,7 +172,7 @@
 		document.getElementById("search-form").addEventListener("submit", function (e) {
 			e.preventDefault();
 			const query = document.getElementById("search-bar").value;
-			fetch(`/EvacuationCenter?handler=Search&query=${query}`)
+			fetch(`/evacuationcenter?handler=Search&query=${query}`)
 				.then(response => response.json())
 				.then(data => {
 					const tableBody = document.querySelector("table tbody");
@@ -192,7 +192,7 @@
 											<td width="15%">${statusBadge}</td>
 											<td width="20%">
 												<!-- Edit button -->
-												<a class="btn btn-success edit-button" href="/EvacuationCenter/Edit?centerID=${result.centerID}">
+												<a class="btn btn-success edit-button" href="/evacuationcenter/edit?centerID=${result.centerID}">
 													<i class="bi bi-pencil-fill"></i>
 												</a>
 
@@ -228,7 +228,7 @@
 			if (clickedRow) {
 				const centerId = clickedRow.getAttribute("data-id");
 				if (centerId) {
-					window.location.href = `/EvacuationCenter/Profile?centerID=${centerId}`;
+					window.location.href = `/evacuationcenter/profile?centerID=${centerId}`;
 				}
 			}
 		});
@@ -261,7 +261,7 @@
 
 	confirmDeleteButton.addEventListener('click', function () {
 		if (centerIdToDelete !== null) {
-			window.location.href = "/EvacuationCenter/Delete?centerID=" + centerIdToDelete;
+			window.location.href = "/evacuationcenter/delete?centerID=" + centerIdToDelete;
 		}
 	});
 </script>

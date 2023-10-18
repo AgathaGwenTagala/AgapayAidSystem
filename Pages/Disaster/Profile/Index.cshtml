@@ -104,7 +104,7 @@
         <h1>Evacuation Center Log</h1>
 
         <div class="d-flex justify-content-end align-items-center">
-            <a class="btn btn-primary mb-2" href="/Disaster/Profile/AllocateEC?disasterID=@Model.disasterInfo.disasterID">
+            <a class="btn btn-primary mb-2" href="/disaster/profile/allocateeC?disasterID=@Model.disasterInfo.disasterID">
                 <i class="bi bi-building-add"></i>Allocate Evacuation Center
             </a>
         </div>
@@ -171,7 +171,7 @@
             if (clickedRow) {
                 const centerLogId = clickedRow.getAttribute("data-id");
                 if (centerLogId) {
-                    window.location.href = `/Disaster/Profile/EntryLog?centerLogID=${centerLogId}`;
+                    window.location.href = `/disaster/profile/entrylog?centerLogID=${centerLogId}`;
                 }
             }
         });
