@@ -5,16 +5,47 @@
 	Layout = "_DisasterProfile";
 }
 
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
-	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-		<strong>@Model.errorMessage</strong>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 	</div>
 }
 
 <div class="container p-2">
-
 	<!-- Search Bar -->
 	<form id="search-form" class="pb-5">
 		<div class="input-group">
@@ -27,7 +58,9 @@
 		<ul class="breadcrumbs">
 			<li><a href="#">Disaster</a></li>
 			<li class="divider">/</li>
-			<li><a href="#" class="active">Typhoon Pedro</a></li>
+			<li><a href="#">Typhoon Pedro</a></li>
+			<li class="divider">/</li>
+			<li><a href="#" class="active">Insert Evacuation Center</a></li>
 		</ul>
 
 		<div class="col d-flex align-items-center">
@@ -36,11 +69,10 @@
 
 		<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
 			<a class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin">
-				<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check In Evacuee
+				<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-In Evacuee
 			</a>
-
 			<button type="button" class="btn btn-primary mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-				Check Out Evacuees
+				Check-Out Evacuee
 			</button>
 		</div>
 	</div>
@@ -49,18 +81,18 @@
 		<table class="table align-middle table-hover" style="width:100%">
 			<thead>
 				<tr>
-					<th>     </th>
-					<th>ID</th>
+					<th></th>
+					<th>Family</th>
 					<th>Name</th>
 					<th>Check-in Date</th>
 					<th>Check-out Date</th>
 					<th>Status</th>
-					<th>      </th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="data-row clickable-row">
-					<td>
+					<td width="5%">
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox">
 							<label class="form-check-label"></label>
