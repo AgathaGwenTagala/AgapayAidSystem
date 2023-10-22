@@ -113,8 +113,8 @@
 					<tr data-id="@item.disasterID" class="data-row clickable-row">
 						<td width="5%">@counter</td>
 						<td width="20%">@item.disasterName</td>
-						<td width="20%">@item.disasterType</td>
-						<td width="35%">@item.description</td>
+						<td width="15%">@item.disasterType</td>
+						<td width="40%">@item.description</td>
 						<td width="20%">@item.dateOccured</td>
 					</tr>
 					counter++;
@@ -186,8 +186,8 @@
 						const newRow = `<tr data-id="${result.disasterID}" class="data-row clickable-row">
 											<td width="5%">${counter}</td>
 											<td width="20%">${result.disasterName}</td>
-											<td width="20%">${result.disasterType}</td>
-											<td width="35%">${result.description}</td>
+											<td width="15%">${result.disasterType}</td>
+											<td width="40%">${result.description}</td>
 											<td width="20%">${result.dateOccured}</td>
 										</tr>`;
 						tableBody.innerHTML += newRow;

@@ -9,8 +9,8 @@ namespace AgapayAidSystem.Pages.Disaster
         private readonly IConfiguration _configuration;
         public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public List<DisasterInfo> listDisaster = new List<DisasterInfo>();
-		public string SortBy { get; set; } //Disaster Name
-		public string SortOrder { get; set; } // Ascending, Descending
+		public string SortBy { get; set; }
+		public string SortOrder { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
 

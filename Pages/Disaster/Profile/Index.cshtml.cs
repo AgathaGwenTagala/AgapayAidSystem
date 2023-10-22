@@ -10,7 +10,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
-        public string errorMessage = "";
+		public string errorMessage = "";
         public string successMessage = "";
 
         public void OnGet()
@@ -43,11 +43,13 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                     }
 
                     // Fetch evacuation center log data related to the selected disaster
-                    string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName " +
-                                    "FROM evacuation_center_log AS log " +
-                                    "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
-                                    "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
-                                    "WHERE disasterID = @disasterID";
+                    string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName, " +
+                                    "(SELECT COUNT(assignmentID) FROM ec_staff_assignment " +
+									"WHERE centerLogID = log.centerLogID) AS totalStaff " +
+									"FROM evacuation_center_log AS log " +
+									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+									"INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
+									"WHERE log.disasterID = @disasterID";
                     using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
                     {
                         logCommand.Parameters.AddWithValue("@disasterID", disasterID);
@@ -65,6 +67,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 logInfo.centerName = logReader.GetString(6);
                                 logInfo.maxCapacity = logReader.GetInt32(7).ToString();
                                 logInfo.barangayName = logReader.GetString(8);
+                                logInfo.totalStaff = logReader.GetInt32(9).ToString();
                                 listCenterLog.Add(logInfo);
                             }
                         }
@@ -77,9 +80,90 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                 errorMessage = ex.Message;
             }
         }
-    }
 
-    public class EvacuationCenterLogInfo
+		public int GetTotalEvacueesCount()
+		{
+			string disasterID = Request.Query["disasterID"];
+			string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
+						 "FROM entry_log e " +
+						 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
+						 "WHERE el.disasterID = @disasterID";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@disasterID", disasterID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+		public int GetTotalCheckInCount()
+		{
+			string disasterID = Request.Query["disasterID"];
+			string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
+						 "FROM entry_log e " +
+						 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
+						 "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-in'";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@disasterID", disasterID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+		public int GetTotalCheckOutCount()
+		{
+			string disasterID = Request.Query["disasterID"];
+			string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
+						 "FROM entry_log e " +
+						 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
+						 "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-out'";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@disasterID", disasterID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+	}
+
+	public class EvacuationCenterLogInfo
     {
         public string centerLogID { get; set; }
         public string disasterID { get; set; }
@@ -90,5 +174,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public string centerName { get; set; }
         public string maxCapacity { get; set; }
         public string barangayName { get; set; }
+        public string totalStaff { get; set; }
     }
 }
