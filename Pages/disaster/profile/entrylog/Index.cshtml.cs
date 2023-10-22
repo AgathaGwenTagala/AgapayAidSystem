@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Disaster.Profile
+namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 {
-    public class EntryLogModel : PageModel
+    public class IndexModel : PageModel
     {
 		private readonly IConfiguration _configuration;
-		public EntryLogModel(IConfiguration configuration) => _configuration = configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public string errorMessage = "";
 		public string successMessage = "";
 

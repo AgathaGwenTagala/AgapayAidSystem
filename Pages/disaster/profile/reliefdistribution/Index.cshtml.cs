@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Disaster.Profile
+namespace AgapayAidSystem.Pages.disaster.profile.reliefdistribution
 {
-    public class CheckInEvacueeModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
