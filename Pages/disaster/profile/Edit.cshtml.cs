@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using AgapayAidSystem.Pages.Disaster;
 
-namespace AgapayAidSystem.Pages.Disaster
+namespace AgapayAidSystem.Pages.disaster.profile
 {
-    public class EditModel : PageModel
-    {
+	public class EditModel : PageModel
+	{
 		private readonly IConfiguration _configuration;
 		public EditModel(IConfiguration configuration) => _configuration = configuration;
 		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
@@ -136,7 +137,7 @@ namespace AgapayAidSystem.Pages.Disaster
 				return;
 			}
 
-			Response.Redirect("/disaster/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+			Response.Redirect("/disaster/profile/index?disasterID=" + disasterInfo.disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
 	}
 }

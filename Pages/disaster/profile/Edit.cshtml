@@ -1,7 +1,8 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.EditModel
+@model AgapayAidSystem.Pages.disaster.profile.EditModel
 @{
-	ViewData["Title"] = "Edit Disaster";
+	string pageTitle = $"Edit {Model.disasterInfo.disasterName}";
+	ViewData["Title"] = pageTitle;
 }
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -85,7 +86,7 @@
 
 				<!-- Cancel and Save Button -->
 				<div class="button-spacer">
-					<a class="btn btn-outline-secondary mr-10" href="/disaster/index" role="button">Cancel</a>
+					<a class="btn btn-outline-secondary mr-10" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" role="button">Cancel</a>
 					<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
 				</div>
 			</form>

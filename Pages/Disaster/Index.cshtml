@@ -31,6 +31,16 @@
 	</div>
 }
 
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
 <style>
 	a {
 		text-decoration: none;
@@ -93,7 +103,6 @@
 							<ion-icon id="dateOccuredArrow" name="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
 						</a>
 					</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -102,21 +111,9 @@
 					<tr data-id="@item.disasterID" class="data-row clickable-row">
 						<td width="5%">@counter</td>
 						<td width="20%">@item.disasterName</td>
-						<td width="10%">@item.disasterType</td>
-						<td width="25%">@item.description</td>
-						<td width="15%">@item.dateOccured</td>
-						<td width="20%">
-							<!-- Edit button -->
-							<a class="btn btn-success edit-button" href="/disaster/edit?disasterID=@item.disasterID">
-								<i class="bi bi-pencil-fill"></i>
-							</a>
-							
-							<!-- Delete button -->
-							<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('@item.disasterID')"
-							   data-deleteid="@item.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-								<i class="bi bi-trash-fill"></i>
-							</a>
-						</td>
+						<td width="20%">@item.disasterType</td>
+						<td width="35%">@item.description</td>
+						<td width="20%">@item.dateOccured</td>
 					</tr>
 					counter++;
 				}
@@ -187,21 +184,9 @@
 						const newRow = `<tr data-id="${result.disasterID}" class="data-row clickable-row">
 											<td width="5%">${counter}</td>
 											<td width="20%">${result.disasterName}</td>
-											<td width="10%">${result.disasterType}</td>
-											<td width="25%">${result.description}</td>
-											<td width="15%">${result.dateOccured}</td>
-											<td width="20%">
-												<!-- Edit button -->
-												<a class="btn btn-success edit-button" href="/disaster/edit?disasterID=${result.disasterID}">
-													<i class="bi bi-pencil-fill"></i>
-												</a>
-
-												<!-- Delete button -->
-												<a href="#" class="btn btn-danger edit-button" onclick="prepareDelete('${result.disasterID}')"
-													data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-													<i class="bi bi-trash-fill"></i>
-												</a>
-											</td>
+											<td width="20%">${result.disasterType}</td>
+											<td width="35%">${result.description}</td>
+											<td width="20%">${result.dateOccured}</td>
 										</tr>`;
 						tableBody.innerHTML += newRow;
 						counter++;
