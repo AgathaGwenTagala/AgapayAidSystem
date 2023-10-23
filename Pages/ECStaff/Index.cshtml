@@ -9,10 +9,6 @@
 		text-decoration: none;
 		color: inherit;
 	}
-
-	.clickable-row:hover {
-		cursor: pointer;
-	}
 </style>
 
 <div class="container p-2">
@@ -45,7 +41,7 @@
 	</div>
 
 	<div class="table-responsive">
-		<table class="table align-middle table-hover" id="ecstaff-table" style="width:100%">
+		<table class="table align-middle table-hover" style="width:100%">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -78,7 +74,7 @@
 				}
 				@foreach (var item in Model.listECStaff)
 				{
-					<tr data-id="@item.ecStaffID" class="data-row clickable-row">
+					<tr data-id="@item.ecStaffID">
 						<td width="5%">@counter</td>
 						<td width="25%">@item.fullName</td>
 						<td width="5%">@item.sex</td>
@@ -143,7 +139,7 @@
 					tableBody.innerHTML = "";
 					let counter = 1;
 					data.forEach(result => {
-						const newRow = `<tr data-id="${result.ecStaffID}" class="data-row clickable-row">
+						const newRow = `<tr data-id="${result.ecStaffID}">
 												<td width="5%">${counter}</td>
 												<td width="25%">${result.fullName}</td>
 												<td width="5%">${result.sex}</td>
@@ -159,24 +155,6 @@
 				.catch(error => {
 					console.error("Error:", error);
 				});
-		});
-	});
-</script>
-
-<!-- Clickable Row for EC Staff Profile -->
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const table = document.getElementById('ecstaff-table');
-
-		table.addEventListener('click', function (event) {
-			const clickedRow = event.target.closest('.data-row');
-
-			if (clickedRow) {
-				const ecStaffId = clickedRow.getAttribute("data-id");
-				if (ecStaffId) {
-					window.location.href = `/ecstaff/profile?ecStaffID=${ecStaffId}`;
-				}
-			}
 		});
 	});
 </script>
