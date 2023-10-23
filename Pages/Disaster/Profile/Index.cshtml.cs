@@ -370,6 +370,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public string openingDateTime { get; set; }
         public string closingDateTime { get; set; }
         public string status { get; set; }
+        public string disasterName { get; set; }
         public string centerName { get; set; }
         public string maxCapacity { get; set; }
         public string barangayName { get; set; }

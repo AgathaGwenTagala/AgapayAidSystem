@@ -50,9 +50,9 @@
 		<ul class="breadcrumbs">
 			<li><a href="/disaster/index">Disaster</a></li>
 			<li class="divider">/</li>
-			<li><a href="#">Typhoon Pedro</a></li>
+			<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
 			<li class="divider">/</li>
-			<li><a href="#" class="active">Insert Evacuation Center</a></li>
+			<li><a href="#" class="active">@Model.logInfo.centerName</a></li>
 		</ul>
 	</div>
 
