@@ -127,7 +127,8 @@
                 <p><b>Total Affected Barangays</b></p>
                 <div class="box-stat">
                     <small>Families: <span>100</span></small>
-                    <small>Persons: <span>100</span></small>
+                    <small>Male: <span>100</span></small>
+                    <small>Female: <span>100</span></small>
                 </div>
             </div>
         </div>  
@@ -135,11 +136,11 @@
         <div class="info-item">
             <i class="bi bi-people"></i>
             <div class="text">
-                <h3>4</h3>
+                <h3>@Model.GetTotalCenterCount()</h3>
                 <p><b>Total Evacuation Centers</b></p>
                 <div class="box-stat">
-                    <small>Open: <span>100</span></small>
-                    <small>Closed: <span>100</span></small>
+                    <small>Open: <span>@Model.GetTotalOpenCenterCount()</span></small>
+                    <small>Closed: <span>@Model.GetTotalClosedCenterCount()</span></small>
                 </div>
             </div>
         </div>
@@ -240,7 +241,7 @@
             if (clickedRow) {
                 const centerLogId = clickedRow.getAttribute("data-id");
                 if (centerLogId) {
-                    window.location.href = `/disaster/profile/entrylog/index?centerLogID=${centerLogId}`;
+                    window.location.href = `/disaster/profile/informationboard?centerLogID=${centerLogId}`;
                 }
             }
         });

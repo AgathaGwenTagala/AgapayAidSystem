@@ -64,10 +64,11 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 logInfo.occupancy = logReader.GetInt32(3).ToString();
                                 logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
                                 logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                logInfo.centerName = logReader.GetString(6);
-                                logInfo.maxCapacity = logReader.GetInt32(7).ToString();
-                                logInfo.barangayName = logReader.GetString(8);
-                                logInfo.totalStaff = logReader.GetInt32(9).ToString();
+                                logInfo.status = logReader.GetString(6);
+                                logInfo.centerName = logReader.GetString(7);
+                                logInfo.maxCapacity = logReader.GetInt32(8).ToString();
+                                logInfo.barangayName = logReader.GetString(9);
+                                logInfo.totalStaff = logReader.GetInt32(10).ToString();
                                 listCenterLog.Add(logInfo);
                             }
                         }
@@ -161,7 +162,85 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 				return 0;
 			}
 		}
-	}
+
+        public int GetTotalCenterCount()
+        {
+            string disasterID = Request.Query["disasterID"];
+            string sql = "SELECT COUNT(centerLogID) AS totalCenter " +
+                         "FROM evacuation_center_log " +
+                         "WHERE disasterID = @disasterID";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalOpenCenterCount()
+        {
+            string disasterID = Request.Query["disasterID"];
+            string sql = "SELECT COUNT(centerLogID) AS totalOpenCenter " +
+                         "FROM evacuation_center_log " +
+                         "WHERE disasterID = @disasterID AND status = 'Open'";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalClosedCenterCount()
+        {
+            string disasterID = Request.Query["disasterID"];
+            string sql = "SELECT COUNT(centerLogID) AS totalClosedCenter " +
+                         "FROM evacuation_center_log " +
+                         "WHERE disasterID = @disasterID AND status = 'Closed'";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+    }
 
 	public class EvacuationCenterLogInfo
     {
@@ -171,6 +250,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public string occupancy { get; set; }
         public string openingDateTime { get; set; }
         public string closingDateTime { get; set; }
+        public string status { get; set; }
         public string centerName { get; set; }
         public string maxCapacity { get; set; }
         public string barangayName { get; set; }
