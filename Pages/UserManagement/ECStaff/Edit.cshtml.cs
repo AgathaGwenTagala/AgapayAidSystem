@@ -112,7 +112,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                     }
                 }
 
-                successMessage = "EC staff user updated successfully";
+                successMessage = "EC staff user updated successfully!";
             }
 
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                 return;
             }
 
-            Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

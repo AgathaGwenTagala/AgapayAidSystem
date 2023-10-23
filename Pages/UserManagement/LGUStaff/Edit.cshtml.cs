@@ -110,7 +110,7 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
                     }
                 }
 
-                successMessage = "LGU staff user updated successfully";
+                successMessage = "LGU staff user updated successfully!";
             }
 
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
                 return;
             }
 
-            Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

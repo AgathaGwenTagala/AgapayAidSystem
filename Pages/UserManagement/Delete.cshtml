@@ -32,7 +32,7 @@
                     if (rowsAffected > 0)
                     {
                         // User deleted successfully
-                        successMessage = "User deleted successfully";
+                        successMessage = "User deleted successfully!";
                     }
                     else
                     {
@@ -54,5 +54,5 @@
     }
 
     // Redirect to the UserManagement/Index page after deleting or encountering an error
-    Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+    Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 }

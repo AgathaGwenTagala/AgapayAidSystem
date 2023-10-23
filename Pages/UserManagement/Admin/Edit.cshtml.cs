@@ -82,7 +82,7 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
                     }
                 }
 
-                successMessage = "Admin user updated successfully";
+                successMessage = "Admin user updated successfully!";
             }
 
             catch (Exception ex)
@@ -91,7 +91,7 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
                 return;
             }
 
-            Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

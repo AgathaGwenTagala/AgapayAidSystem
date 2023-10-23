@@ -9,6 +9,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<UserInfo> listUsers = new List<UserInfo>();
+        public string successMessage = "";
+        public string errorMessage = "";
 
         public void OnGet()
         {

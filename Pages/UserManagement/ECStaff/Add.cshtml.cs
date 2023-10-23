@@ -107,7 +107,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                 return;
             }
 
-            Response.Redirect("/UserManagement/Index");
+            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
 
         private void DeleteUserRecord(string userIDToDelete)
@@ -129,7 +129,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                         if (rowsAffected > 0)
                         {
                             // User deleted successfully
-                            successMessage = "Cancelled";
+                            successMessage = "User addition aborted";
                         }
                         else
                         {
@@ -145,7 +145,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
             }
 
             // Redirect to the appropriate URL after deletion
-            Response.Redirect("/UserManagement/Index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }

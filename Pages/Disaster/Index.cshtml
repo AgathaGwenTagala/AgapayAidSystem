@@ -87,11 +87,11 @@
 	</div>
 
 	<div class="table-responsive">
-		<table class="table align-middle table-hover" id="disaster-table" style="width:100%">
+		<table class="table align-middle table-hover" id="disaster-table" style="width:100%; text-align: center;">
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>
+					<th style="text-align: left;">
 						<a asp-page="./index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
 							Disaster Name
 							<ion-icon id="disasterNameArrow" name="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
@@ -112,9 +112,9 @@
 				@foreach (var item in Model.listDisaster) {
 					<tr data-id="@item.disasterID" class="data-row clickable-row">
 						<td width="5%">@counter</td>
-						<td width="20%">@item.disasterName</td>
+						<td width="20%" style="text-align: left;">@item.disasterName</td>
 						<td width="15%">@item.disasterType</td>
-						<td width="40%">@item.description</td>
+						<td width="40%" style="text-align: left; justify-content: left;">@item.description</td>
 						<td width="20%">@item.dateOccured</td>
 					</tr>
 					counter++;
