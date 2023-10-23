@@ -45,7 +45,6 @@
         <table class="table align-middle table-hover" style="width:100%">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Username</th>
                     <th>User Type</th>
                     <th>Created At</th>
@@ -56,20 +55,6 @@
                 @foreach (var item in Model.listUsers)
                 {
                     <tr>
-                        <td width="5%">
-                            @if (item.userPhoto != null && item.userPhoto.Length > 0)
-                            {
-                                <div class="user-photo">
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(item.userPhoto)" alt="User Photo" width="50" />
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="user-photo">
-                                    <img src="~/images/default_userPhoto.jpg" alt="Default User Photo" width="50" />
-                                </div>
-                            }
-                        </td>
                         <td>@item.username</td>
                         <td>@item.userType</td>
                         <td>@item.createdAt</td>
@@ -154,17 +139,7 @@
 
                     // Iterate through the search results and add new rows to the table
                     data.forEach(result => {
-                        // Determine the user photo source based on the presence of a userPhoto
-                        const userPhotoSrc = result.userPhoto
-                            ? `data:image/png;base64,${result.userPhoto}`
-                            : '/images/default_userPhoto.jpg';
-
                         const newRow = `<tr>
-                                        <td width="5%">
-                                            <div class="user-photo">
-                                                <img src="${userPhotoSrc}" alt="User Photo" width="50" />
-                                            </div>
-                                        </td>
                                         <td>${result.username}</td>
                                         <td>${result.userType}</td>
                                         <td>${result.createdAt}</td>

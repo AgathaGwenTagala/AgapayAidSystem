@@ -30,8 +30,7 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
+                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
                                 listUsers.Add(userInfo);
                             }
                         }
@@ -68,8 +67,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 								userInfo.username = reader.GetString(1);
 								userInfo.password = reader.GetString(2);
 								userInfo.userType = reader.GetString(3);
-                                userInfo.userPhoto = reader.IsDBNull(4) ? null : (byte[])reader.GetValue(4);
-                                userInfo.createdAt = reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
                                 searchResults.Add(userInfo);
 							}
 							return new JsonResult(searchResults);
@@ -91,8 +89,6 @@ namespace AgapayAidSystem.Pages.UserManagement
         public string username { get; set; }
         public string password { get; set; }
         public string userType { get; set; }
-        public byte[] userPhoto { get; set; }
         public string createdAt { get; set; }
-        public IFormFile Photo { get; set; }
     }
 }
