@@ -155,7 +155,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             }
 
             // Redirect to the /Disaster/DisasterProfile page after allocating or encountering an error
-            Response.Redirect("/Disaster/Profile/Index?disasterID=" + disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
 }
