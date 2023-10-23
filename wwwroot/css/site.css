@@ -257,3 +257,11 @@ body {
 form {
     padding: 30px;
 }
+
+/* For screens with a minimum width of 768px (adjust as needed for your desktop breakpoint) */
+@media (min-width: 768px) {
+    .dataTables_filter {
+        float: right;
+    }
+}
+
