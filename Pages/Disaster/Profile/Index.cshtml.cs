@@ -82,13 +82,15 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             }
         }
 
-		public int GetTotalEvacueesCount()
+		public int GetTotalDistinctEvacueesCount()
 		{
 			string disasterID = Request.Query["disasterID"];
-			string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
-						 "FROM entry_log e " +
-						 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
-						 "WHERE el.disasterID = @disasterID";
+			string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctEvacueesPerDisaster " +
+                         "FROM disaster d " +
+                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE d.disasterID = @disasterID;";
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -240,7 +242,124 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                 return 0;
             }
         }
-    }
+
+        public int GetTotalDistinctBarangaysCount()
+        {
+            string disasterID = Request.Query["disasterID"];
+            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctBarangaysPerDisaster " +
+                         "FROM disaster d " +
+                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "LEFT JOIN family f ON fm.familyID = f.familyID " +
+                         "WHERE d.disasterID = @disasterID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctFamiliesCount()
+        {
+            string disasterID = Request.Query["disasterID"];
+            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctFamiliesPerDisaster " +
+                         "FROM disaster d " +
+                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE d.disasterID = @disasterID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctFemaleCount()
+		{
+			string disasterID = Request.Query["disasterID"];
+			string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctFemalePerDisaster " +
+						 "FROM disaster d " +
+						 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+						 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+						 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+						 "WHERE d.disasterID = @disasterID AND fm.sex = 'F';";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@disasterID", disasterID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+		public int GetTotalDistinctMaleCount()
+		{
+			string disasterID = Request.Query["disasterID"];
+			string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctMalePerDisaster " +
+						 "FROM disaster d " +
+						 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+						 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+						 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+						 "WHERE d.disasterID = @disasterID AND fm.sex = 'M';";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@disasterID", disasterID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+	}
 
 	public class EvacuationCenterLogInfo
     {
