@@ -54,7 +54,7 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace AgapayAidSystem.Pages.Disaster
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 				return new JsonResult(new List<DisasterInfo>());
 			}
 		}

@@ -4,6 +4,45 @@
 	ViewData["Title"] = "Evacuation Center";
 }
 
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
 <style>
 	a {
 		text-decoration: none;

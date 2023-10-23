@@ -9,10 +9,10 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<EvacuationInfo> listEvacuation = new List<EvacuationInfo>();
-
-		// Properties for sorting
-		public string SortBy { get; set; } // Name, Capacity, Status
-		public string SortOrder { get; set; } // Ascending, Descending
+		public string SortBy { get; set; }
+		public string SortOrder { get; set; }
+		public string successMessage = "";
+		public string errorMessage = "";
 
 		public void OnGet(string sortBy, string sortOrder)
         {
@@ -66,7 +66,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 				return new JsonResult(new List<EvacuationInfo>());
 			}
 		}

@@ -42,8 +42,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 
             catch (Exception ex)
             {
-                Console.WriteLine("Exception: " + ex.ToString());
-            }
+				errorMessage = ex.Message;
+			}
         }
 
 		public JsonResult OnGetSearch(string query)
@@ -79,7 +79,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 				return new JsonResult(new List<UserInfo>());
 			}
 		}
