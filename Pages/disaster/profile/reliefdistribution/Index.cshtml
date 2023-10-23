@@ -1,16 +1,8 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.reliefdistribution.IndexModel
 @{
-	Layout = "_DisasterProfile";
+	ViewData["Title"] = "Relief Distribution";
 }
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-<script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script defer src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-<script defer src="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"></script>
-<script defer src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
 <div class="container p-2">
 
@@ -102,13 +94,6 @@
 	</div>
 </div>
 
-<style>
-	.dataTables_length, .dataTables_filter {
-		margin-bottom: 15px;
-	}
-
-</style>
-
 <script>
 	$(document).ready(function () {
 		$('#distribution-table').DataTable({
@@ -120,5 +105,4 @@
 
 		});
 	});
-
 </script>

@@ -43,86 +43,73 @@
 	</div>
 }
 
-<style>
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.clickable-row:hover {
-		cursor: pointer;
-	}
-</style>
-
 <div class="container p-2">
-	<div class="row pt-3">
-		<div class="col">
-			<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a class="nav-link text-muted" asp-area="" asp-page="/Index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;"><strong>Disaster</strong></li>
-				</ol>
-			</div>
 
-			<!-- Search Bar -->
-			<form id="search-form">
-				<div class="input-group">
-					<input type="search" class="form-control ds-input" id="search-bar" placeholder="Search disaster" aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-					<button type="submit" class="btn btn-primary" id="search-button"><i class="bi bi-search"></i></button>
-				</div>
-			</form>
-		</div>
-	</div>
+	<div class="row">
+		<ul class="breadcrumbs">
+			<li><a href="#">Disaster</a></li>
+			<li class="divider">/</li>
+			<li><a href="#" class="active">Typhoon Pedro</a></li>
+		</ul>
 
-	<div class="row pt-4">
-		<div class="col">
-			<h1>Disaster</h1>
+		<div class="col d-flex align-items-center">
+			<h1><i class="bi bi-fire"></i>Disaster</h1>
 		</div>
 
-		<div class="col-auto">
+		<div class="col-auto d-flex justify-content-between align-items-center">
 			<div class="d-flex justify-content-end align-items-center">
 				<a class="btn btn-primary mb-2" href="/disaster/add"><i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Disaster</a>
 			</div>
 		</div>
 	</div>
 
-	<div class="table-responsive">
-		<table class="table align-middle table-hover" id="disaster-table" style="width:100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>
-						<a asp-page="./index" asp-route-sortBy="disasterName" asp-route-sortOrder="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('disasterName')">
-							Disaster Name
-							<ion-icon id="disasterNameArrow" name="@(Model.SortBy == "disasterName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
-					<th>Type</th>
-					<th>Description</th>
-					<th>
-						<a asp-page="./index" asp-route-sortBy="dateOccured" asp-route-sortOrder="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('dateOccured')">
-							Date Occured
-							<ion-icon id="dateOccuredArrow" name="@(Model.SortBy == "dateOccured" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				@{ var counter = 1; }
-				@foreach (var item in Model.listDisaster) {
-					<tr data-id="@item.disasterID" class="data-row clickable-row">
-						<td width="5%">@counter</td>
-						<td width="20%">@item.disasterName</td>
-						<td width="15%">@item.disasterType</td>
-						<td width="40%">@item.description</td>
-						<td width="20%">@item.dateOccured</td>
+
+	<div class="row p-2">
+		<div class="col-lg-12">
+			<table id="disaster-table" class="table display nowrap compact order-column" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Disaster</th>
+						<th>Type</th>
+						<th>Description</th>
+						<th>Date Occured</th>
 					</tr>
-					counter++;
-				}
-			</tbody>
-		</table>
+				</thead>
+
+				<tbody>
+					@{
+						var counter = 1;
+					}
+					@foreach (var item in Model.listDisaster)
+					{
+						<tr data-id="@item.disasterID" class="data-row clickable-row">
+							<td>@counter</td>
+							<td>@item.disasterName</td>
+							<td>@item.disasterType</td>
+							<td>@item.description</td>
+							<td>@item.dateOccured</td>
+						</tr>
+						counter++;
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
+
+<!-- Making the table responsive -->
+<script>
+	$(document).ready(function () {
+		$('#disaster-table').DataTable({
+			responsive: true,
+			columnDefs: [
+				{ "orderable": true, "targets": [1, 2, 4] }, // Make the first five columns sortable
+				{ "orderable": false, "targets": [0, 3] } // Make the sixth column non-sortable
+			]
+		});
+	});
+</script>
 
 <!-- Modal: Confirm Delete -->
 <div class="modal" id="deleteConfirmationModal" tabindex="-1">
@@ -142,64 +129,6 @@
 		</div>
 	</div>
 </div>
-
-<!-- Sorting -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
-	// Sort by
-	let lastClickedHeader = null;
-
-	function toggleArrowIcons(header) {
-		// Get the arrow icons for all headers
-		const centerNameArrow = document.getElementById('centerNameArrow');
-		const maxCapacityArrow = document.getElementById('maxCapacityArrow');
-		const statusArrow = document.getElementById('statusArrow');
-
-		// Determine which header was clicked and toggle the arrow icons accordingly
-		if (header === 'disasterName') {
-			disasterNameArrow.style.display = disasterNameArrow.style.display === 'none' ? 'block' : 'none';
-			dateOccuredArrow.style.display = 'none';
-		} else if (header === 'dateOccured') {
-			disasterNameArrow.style.display = 'none';
-			dateOccuredArrow.style.display = statusArrow.style.display === 'none' ? 'block' : 'none';
-		}
-
-		// Update the last clicked header
-		lastClickedHeader = header;
-	}
-</script>
-
-<!-- Search -->
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		document.getElementById("search-form").addEventListener("submit", function (e) {
-			e.preventDefault();
-			const query = document.getElementById("search-bar").value;
-			fetch(`/disaster?handler=Search&query=${query}`)
-				.then(response => response.json())
-				.then(data => {
-					const tableBody = document.querySelector("table tbody");
-					tableBody.innerHTML = "";
-					let counter = 1;
-					data.forEach(result => {
-						const newRow = `<tr data-id="${result.disasterID}" class="data-row clickable-row">
-											<td width="5%">${counter}</td>
-											<td width="20%">${result.disasterName}</td>
-											<td width="15%">${result.disasterType}</td>
-											<td width="40%">${result.description}</td>
-											<td width="20%">${result.dateOccured}</td>
-										</tr>`;
-						tableBody.innerHTML += newRow;
-						counter++;
-					});
-				})
-				.catch(error => {
-					console.error("Error:", error);
-				});
-		});
-	});
-</script>
 
 <!-- Clickable Row for Disaster Profile -->
 <script>
