@@ -1,0 +1,87 @@
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.informationboard.IndexModel
+@{
+	ViewData["Title"] = "Information Board";
+}
+
+<!-- Alert Banners -->
+
+<div class="container-fluid">
+	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+	<div class="row">
+		<!-- Sidebar (desktop) -->
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<style>
+			#sidebar {
+				padding-top: 30px;
+				padding-left: 20px;
+			}
+		</style>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
+				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+			</select>
+		</div>
+
+		<!-- Page Content -->
+		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+		</div>
+	</div>
+</div>
+
+<script>
+	// Get the current page URL
+	var currentPage = window.location.pathname.toLowerCase();
+
+	// Get the select element
+	var pageSelect = document.getElementById('pageSelect');
+
+	// Loop through the options and set the selected attribute if it matches the current page
+	for (var i = 0; i < pageSelect.options.length; i++) {
+		if (pageSelect.options[i].value.toLowerCase().includes(currentPage)) {
+			pageSelect.options[i].selected = true;
+			break; // Exit the loop once the first match is found
+		}
+	}
+
+	// Function to handle page redirection
+	function redirectToSelectedPage() {
+		var selectedOption = pageSelect.options[pageSelect.selectedIndex];
+		var selectedValue = selectedOption.value;
+		window.location.href = selectedValue;
+	}
+
+	// Attach the onchange event to the select element
+	pageSelect.addEventListener('change', redirectToSelectedPage);
+</script>

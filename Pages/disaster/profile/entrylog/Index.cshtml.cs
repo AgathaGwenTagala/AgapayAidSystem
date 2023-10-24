@@ -65,10 +65,18 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                     }
 
 					// Fetch entry log data related to the selected center log
-					string entrySql = "SELECT * FROM entry_log WHERE centerLogID = @centerLogID";
+					string entrySql = "SELECT e.*, CONCAT(`family_member`.`firstName`, " +
+									  "(CASE WHEN (`family_member`.`middleName` IS NOT NULL) " +
+									  "THEN CONCAT(' ', LEFT(`family_member`.`middleName`, 1), '.') ELSE '' END), " +
+									  "(CASE WHEN (`family_member`.`middleName` IS NOT NULL) THEN ' ' ELSE ' ' END),  `family_member`.`lastName`, " +
+									  "(CASE WHEN (`family_member`.`extName` IS NOT NULL) " +
+									  "THEN CONCAT(' ', `family_member`.`extName`) ELSE '' END)) AS `fullName` " +
+									  "FROM entry_log e " +
+									  "INNER JOIN family_member ON e.memberID = family_member.memberID " +
+									  "WHERE centerLogID = @centerLogID;";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
-						entryCommand.Parameters.AddWithValue("@centerLogID", disasterID);
+						entryCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
 						using (MySqlDataReader entryReader = entryCommand.ExecuteReader())
 						{
 							while (entryReader.Read())
@@ -78,8 +86,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								entryInfo.memberID = entryReader.GetString(1);
 								entryInfo.centerLogID = entryReader.GetString(2);
 								entryInfo.checkInDate = entryReader.GetDateTime(3).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-								entryInfo.checkOutDate = entryReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								entryInfo.checkOutDate = entryReader.IsDBNull(4) ? null : entryReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								entryInfo.entryStatus = entryReader.GetString(5);
+								entryInfo.fullName = entryReader.GetString(6);
 								listEntryLog.Add(entryInfo);
 							}
 						}
@@ -92,7 +101,71 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                 errorMessage = ex.Message;
             }
         }
-    }
+
+		public void OnPost(string[] selectedEvacuees)
+		{
+			if (!ModelState.IsValid)
+			{
+				errorMessage = "Please correct the errors below.";
+				return;
+			}
+
+			if (selectedEvacuees == null || selectedEvacuees.Length == 0)
+			{
+				errorMessage = "Please select at least one evacuee to check-out.";
+				return;
+			}
+
+			string centerLogID = Request.Form["centerLogID"];
+
+			if (string.IsNullOrEmpty(centerLogID))
+			{
+				errorMessage = "Missing centerLogID";
+				return;
+			}
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					foreach (string entryLogID in selectedEvacuees)
+					{
+						string insertSql = "UPDATE entry_log " +
+										   "SET checkOutDate = CURRENT_TIMESTAMP(), entryStatus = 'Check-out' " +
+										   "WHERE entryLogID = @entryLogID";
+
+						using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
+						{
+							insertCommand.Parameters.AddWithValue("@entryLogID", entryLogID);
+
+							int rowsInserted = insertCommand.ExecuteNonQuery();
+							if (rowsInserted == 1)
+							{
+								successMessage = "Evacuee checked-out.";
+							}
+							else
+							{
+								errorMessage = "Failed to check-out one or more evacuees.";
+								return;
+							}
+						}
+					}
+
+					// If all selected centers were successfully allocated
+					successMessage = "Selected evacuee(s) checked-out successfully!";
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+			}
+
+			// Redirect to the Entry Log page after check-out or encountering an error
+			Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+		}
+	}
 
 	public class EntryLogInfo
 	{
@@ -102,5 +175,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public string checkInDate { get; set; }
 		public string checkOutDate { get; set; }
 		public string entryStatus { get; set; }
+		public string fullName { get; set; }
 	}
 }
