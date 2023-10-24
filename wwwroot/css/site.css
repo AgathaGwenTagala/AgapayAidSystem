@@ -66,6 +66,7 @@ body {
 
     .breadcrumbs li a {
         color: var(--bs-primary-color);
+        text-decoration: none;
     }
 
         .breadcrumbs li a.active, .breadcrumbs li.divider {
