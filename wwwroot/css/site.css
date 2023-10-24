@@ -9,7 +9,6 @@
     transition: 0.3s linear;
 }
 
-
 :root {
     --bs-primary-color: #3F8F8B;
 }
@@ -271,3 +270,7 @@ form {
 }
 
 
+/*INVENTORY*/
+#disaster-table td {
+    vertical-align: middle;
+}
