@@ -1,0 +1,86 @@
+﻿@page
+@model AgapayAidSystem.Pages.Inventory.ViewModel
+@{
+	ViewData["Title"] = "View Batch";
+}
+
+<div class="container p-2">
+
+	<div class="row">
+		<ul class="breadcrumbs">
+			<li><a href="#">Inventory</a></li>
+			<li><a href="#" class="active">INV0000001</a></li>
+		</ul>
+	</div>
+
+	<div class="row description p-2">
+		<p>
+			<strong>Inventory ID:</strong>
+			INV0000001
+		</p>
+		<p>
+			<strong>LGU ID:</strong>
+			LGU0000001
+		</p>
+		<p>
+			<strong>Center Log ID:</strong>
+			CLG0000001
+		</p>
+	</div>
+
+    <div class="row p-2">
+        <div class="col-lg-12">
+            <table id="inventory-inclusion" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="20%">Item Name</th>
+                        <th width="15%">Type</th>
+                        <th width="15%">Qty</th>
+                        <th width="15%">Packaged/th>
+                        <th width="15%">Not Packaged</th>
+                        <th width="15%">Unit Measure</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="5%">1</td>
+                        <th width="15%">Canned Goods</th>
+                        <td width="15%">Food</td>
+                        <td width="15%">500</td>
+                        <td width="15%">500</td>
+                        <td width="15%">0</td>
+                        <td width="15%">Piece</td>
+                        <td>
+                            <div class="d-flex align-items-center" style="gap: 5px">
+                                <div class="d-inline position-relative">
+                                    <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                        <li><a class="dropdown-item" href="#">Edit</a> </li>
+                                        <li><a href="#" class="dropdown-item">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        $('#inventory-inclusion').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
+                { "orderable": false, "targets": [7] } // Non-sortable columns
+            ]
+        });
+    });
+</script>
