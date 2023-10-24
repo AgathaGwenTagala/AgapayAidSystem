@@ -186,8 +186,17 @@
 														<i class="bi bi-three-dots-vertical"></i>
 													</a>
 													<ul class="dropdown-menu" aria-labelledby="recordOptions">
-														<li><a class="dropdown-item" href="/family/index">View Family Profile</a></li>
-														<li><a class="dropdown-item" href="#" onclick="confirmDelete();">Delete Entry Log</a></li>
+														<li>
+															<a class="dropdown-item" href="/family/index">
+																View Family Profile
+															</a>
+														</li>
+														<li>
+															<a href="#" class="dropdown-item" onclick="prepareDelete('@item.entryLogID')"
+															   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																Delete
+															</a>
+														</li>
 													</ul>
 												</div>
 											</td>
@@ -203,7 +212,7 @@
 	</div>
 </div>
 
-<!-- Modal: Confirm Delete -->
+<!-- Modal: Confirm Check-out -->
 <div class="modal" id="confirmSaveModal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -217,6 +226,26 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 				<button type="button" class="btn btn-primary" id="confirmSaveButton">Check-out</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal: Confirm Delete -->
+<div class="modal" id="deleteConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to delete this entry log?</p>
+				<p><strong class="text-danger">This cannot be undone.</strong></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -275,9 +304,44 @@
 	});
 </script>
 
-<!-- Save Changes button in Modal -->
+<!-- Save Selection button in Modal -->
 <script>
 	document.getElementById('confirmSaveButton').addEventListener('click', function () {
 		document.getElementById('checkOut').submit();
+	});
+</script>
+
+<!-- Confirm Delete -->
+<script>
+	const deleteButtons = document.querySelectorAll('.edit-button');
+	let entryLogIdToDelete = null;
+	let centerLogID = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			entryLogIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	// Function to prepare for delete action
+	function prepareDelete(entryLogID) {
+		if (entryLogID === null || entryLogID === undefined) {
+			// Retrieve entryLogID from the button's data-deleteid attribute
+			entryLogIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+		} else {
+			entryLogIdToDelete = entryLogID;
+		}
+
+		// Retrieve centerLogID from the query string
+		const urlParams = new URLSearchParams(window.location.search);
+		centerLogID = urlParams.get("centerLogID");
+	}
+
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (entryLogIdToDelete !== null) {
+			window.location.href = "/disaster/profile/entrylog/delete?entryLogID=" + entryLogIdToDelete + "&centerLogID=" + centerLogID;
+		}
 	});
 </script>

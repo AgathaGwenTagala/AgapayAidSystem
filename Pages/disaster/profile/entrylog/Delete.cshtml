@@ -1,0 +1,53 @@
+﻿@page
+@using MySql.Data.MySqlClient;
+@using Microsoft.Extensions.Configuration
+@{
+    string errorMessage = "";
+    string successMessage = "";
+    string centerLogID = Request.Query["centerLogID"];
+
+    try
+    {
+        if (Request.Query.ContainsKey("entryLogID"))
+        {
+            string entryLogID = Request.Query["entryLogID"];
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM entry_log WHERE entryLogID = @entryLogID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@entryLogID", entryLogID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        successMessage = "Entry log deleted successfully!";
+                    }
+                    else
+                    {
+                        errorMessage = "Entry log not found with the provided entryLogID.";
+                    }
+                }
+            }
+        }
+        else
+        {
+            errorMessage = "entryLogID parameter is missing from the query string.";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+}
