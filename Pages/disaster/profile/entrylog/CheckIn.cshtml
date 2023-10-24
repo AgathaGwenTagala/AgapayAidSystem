@@ -1,7 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.entrylog.CheckInModel
 @{
-	ViewData["Title"] = "Check-In Evacuee";
+	ViewData["Title"] = "Check-in Evacuee";
 }
 
 <div class="container p-2 form-container">
@@ -10,59 +10,88 @@
 
         <div class="row">
             <div class="col text-center">
-                <h1>Add Entry Log</h1>
+                <h1>Check-in Evacuee</h1>
             </div>
         </div>
-        <form method="POST" action="/YourServerEndpoint">
-            <div class="row pt-4">
-                <div class="col">
-                    <div class="search-container">
-                        <div class="input-group">
-                            <input type="search" class="form-control ds-input" id="search-bar" name="search" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <form method="POST" id="checkIn">
+            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
             <div class="row pt-4">
                 <div class="table-responsive">
                     <table class="table align-middle table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>ID</th>
                                 <th>Name</th>
-                                <th>Sex</th>
+                                <th style="text-align: center;">Sex</th>
                                 <th>Birthdate</th>
                                 <th>Barangay</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- SAMPLE DATA-->
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="">
-                                        <label class="form-check-label"></label>
-                                    </div>
-                                </td>
-                                <td>EVC0000001</td>
-                                <td>Juanito Santos</td>
-                                <td>F</td>
-                                <td>08/30/2023</td>
-                                <td>Barangay 1</td>
-                            </tr>
+                            @foreach (var item in Model.listLatestEntry)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                            <label class="form-check-label"></label>
+                                        </div>
+                                    </td>
+                                    <td>@item.fullName</td>
+                                    <td style="text-align: center;">@item.sex</td>
+                                    <td>@item.birthdate</td>
+                                    <td>@item.barangayName</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
 
                     <!-- Cancel and Save Button -->
                     <div class="button-spacer">
-                        <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/entrylog/index">Cancel</a>
-                        <button type="submit" class="btn btn-primary" name="saveSelection">Save Selection</button>
+                        <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
+                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Save Selection</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Modal: Confirm Selection -->
+<div class="modal" id="confirmSaveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Selection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to check-in the selected individuals as evacuees at @Model.logInfo.centerName?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Save Selection</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enable/disable "Save Selection" button -->
+<script>
+    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+    const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            saveSelectionButton.disabled = !atLeastOneChecked;
+        });
+    });
+</script>
+
+<!-- Save Changes button in Modal -->
+<script>
+    document.getElementById('confirmSaveButton').addEventListener('click', function () {
+        document.getElementById('checkIn').submit();
+    });
+</script>

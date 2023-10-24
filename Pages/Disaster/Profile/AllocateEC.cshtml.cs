@@ -120,12 +120,10 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-
                     foreach (string centerID in selectedEvacuationCenters)
                     {
                         string insertSql = "INSERT INTO evacuation_center_log (disasterID, centerID) " +
-                                          "VALUES (@disasterID, @centerID)";
-
+                                           "VALUES (@disasterID, @centerID)";
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@disasterID", disasterID);

@@ -67,7 +67,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 					// Fetch entry log data related to the selected center log
 					string entrySql = "SELECT e.*, CONCAT(mem.firstName, " +
 									  "(CASE WHEN (mem.middleName IS NOT NULL) " +
-									  "THEN CONCAT(' ', LEFT(mem.middleName, 1), '.') ELSE '' END), " +
+									  "THEN CONCAT(' ', mem.middleName) ELSE '' END), " +
 									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END),  mem.lastName, " +
 									  "(CASE WHEN (mem.extName IS NOT NULL) " +
 									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName " +
@@ -153,8 +153,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 						}
 					}
 
-					// If all selected centers were successfully allocated
-					successMessage = "Selected evacuee(s) checked-out successfully!";
+					// If all selected evacuees were successfully allocated
+					successMessage = "Selected evacuees checked-out successfully!";
 				}
 			}
 			catch (Exception ex)
