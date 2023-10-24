@@ -54,6 +54,15 @@
 <div class="content">
     <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
     <div class="row">
+        <ul class="breadcrumbs">
+            <li><a href="/disaster/index">Disaster</a></li>
+            <li class="divider">/</li>
+            <li><a href="#" class="active">@Model.disasterInfo.disasterName</a></li>
+        </ul>
+    </div>
+
+
+    <div class="row">
         <div class="col">
             <h1>@Model.disasterInfo.disasterName</h1>
         </div>
@@ -162,42 +171,71 @@
         </div>
     </div>
 
-	<div class="table-responsive">
-        <table class="table align-middle table-hover" id="eclog-table" style="width:100%; text-align: center;">
-			<thead>
-				<tr>
-					<th>#</th>
-                    <th style="text-align: left;">Evacuation Center Name</th>
-                    <th style="text-align: left;">Barangay</th>
-                    <th>Occupancy</th>
-                    <th>Assigned Staff</th>
-					<th>Opening Date</th>
-					<th>Closing Date</th>
-				</tr>
-			</thead>
-			<tbody>
-                @{ var counter = 1; }
-                @if (Model.listCenterLog.Count == 0) {
-                    <tr>
-                        <td class="text-center" colspan="7">There are no evacuation centers allocated to this disaster.</td>
-                    </tr>
-                } else {   
-                    @foreach (var item in Model.listCenterLog) {
-                        <tr data-id="@item.centerLogID" class="data-row clickable-row">
-                            <td width="5%">@counter</td>
-                            <td width="20%" style="text-align: left;">@item.centerName</td>
-                            <td width="15%" style="text-align: left;">@item.barangayName</td>
-                            <td width="15%">@item.occupancy/@item.maxCapacity</td>
-                            <td width="15%">@item.totalStaff</td>
-                            <td width="15%">@item.openingDateTime</td>
-                            <td width="15%">@item.closingDateTime</td>
+    <div class="row p-2">
+        <div class="col-lg-12">
+            @if (Model.listCenterLog.Count == 0)
+            {
+                <table class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Evacuation Center</th>
+                            <th>Barangay</th>
+                            <th style="text-align: center;">Occupancy</th>
+                            <th style="text-align: center;">Assigned Staff</th>
+                            <th>Opening Date</th>
+                            <th>Closing Date</th>
+                            <th></th>
                         </tr>
-                        counter++;
-                    }
-                }
-			</tbody>
-		</table>
-	</div>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center" colspan="8">There are no evacuation centers allocated to this disaster.</td>
+                            <td class="text-center" colspan="6">There are no evacuees checked-in at this evacuation center.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Evacuation Center</th>
+                            <th>Barangay</th>
+                            <th style="text-align: center;">Occupancy</th>
+                            <th style="text-align: center;">Assigned Staff</th>
+                            <th>Opening Date</th>
+                            <th>Closing Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var counter = 1; }
+                        @foreach (var item in Model.listCenterLog)
+                        {
+                            <tr data-id="@item.centerLogID">
+                                <td width="5%">@counter</td>
+                                <td width="20%">@item.centerName</td>
+                                <td width="15%">@item.barangayName</td>
+                                <td width="15%" style="text-align: center;">@item.occupancy/@item.maxCapacity</td>
+                                <td width="15%" style="text-align: center;">@item.totalStaff</td>
+                                <td width="15%">@item.openingDateTime</td>
+                                <td width="15%">@item.closingDateTime</td>
+                                <td width="10%">
+                                    <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Confirm Delete -->
@@ -220,7 +258,7 @@
     </div>
 </div>
 
-<!-- FOR INFO BUTTON -->
+<!-- For Info Button -->
 <script>
     const toggleButton = document.getElementById('toggleButton');
     const description = document.querySelector('.description');
@@ -234,20 +272,15 @@
     });
 </script>
 
-<!-- Clickable Row for EC Log Table -->
+<!-- Making the table responsive -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.getElementById('eclog-table');
-
-        table.addEventListener('click', function (event) {
-            const clickedRow = event.target.closest('.data-row');
-
-            if (clickedRow) {
-                const centerLogId = clickedRow.getAttribute("data-id");
-                if (centerLogId) {
-                    window.location.href = `/disaster/profile/informationboard/index?centerLogID=${centerLogId}`;
-                }
-            }
+    $(document).ready(function () {
+        $('#eclog-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 5, 6] }, // Sortable columns
+                { "orderable": false, "targets": [3, 4, 7] } // Non-sortable columns
+            ]
         });
     });
 </script>
