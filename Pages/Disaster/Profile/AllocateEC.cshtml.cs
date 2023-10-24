@@ -132,7 +132,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             insertCommand.Parameters.AddWithValue("@centerID", centerID);
 
                             int rowsInserted = insertCommand.ExecuteNonQuery();
-
                             if (rowsInserted == 1)
                             {
                                 successMessage = "Evacuation center allocated";
@@ -154,7 +153,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                 errorMessage = ex.Message;
             }
 
-            // Redirect to the /Disaster/DisasterProfile page after allocating or encountering an error
+            // Redirect to the Disaster Profile page after allocating or encountering an error
             Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
