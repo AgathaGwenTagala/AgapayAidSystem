@@ -65,14 +65,14 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                     }
 
 					// Fetch entry log data related to the selected center log
-					string entrySql = "SELECT e.*, CONCAT(`family_member`.`firstName`, " +
-									  "(CASE WHEN (`family_member`.`middleName` IS NOT NULL) " +
-									  "THEN CONCAT(' ', LEFT(`family_member`.`middleName`, 1), '.') ELSE '' END), " +
-									  "(CASE WHEN (`family_member`.`middleName` IS NOT NULL) THEN ' ' ELSE ' ' END),  `family_member`.`lastName`, " +
-									  "(CASE WHEN (`family_member`.`extName` IS NOT NULL) " +
-									  "THEN CONCAT(' ', `family_member`.`extName`) ELSE '' END)) AS `fullName` " +
+					string entrySql = "SELECT e.*, CONCAT(mem.firstName, " +
+									  "(CASE WHEN (mem.middleName IS NOT NULL) " +
+									  "THEN CONCAT(' ', LEFT(mem.middleName, 1), '.') ELSE '' END), " +
+									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END),  mem.lastName, " +
+									  "(CASE WHEN (mem.extName IS NOT NULL) " +
+									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName " +
 									  "FROM entry_log e " +
-									  "INNER JOIN family_member ON e.memberID = family_member.memberID " +
+									  "INNER JOIN family_member mem ON e.memberID = mem.memberID " +
 									  "WHERE centerLogID = @centerLogID;";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
