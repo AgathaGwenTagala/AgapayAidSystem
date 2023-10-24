@@ -265,3 +265,8 @@ form {
     }
 }
 
+.dataTables_length, .dataTables_filter {
+    margin-bottom: 15px;
+}
+
+
