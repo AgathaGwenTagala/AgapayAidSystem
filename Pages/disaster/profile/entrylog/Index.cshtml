@@ -114,10 +114,10 @@
 
 						<!-- Check-In and Check-Out Buttons -->
 						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-							<a class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+							<a id="checkInButton"class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
 							</a>
-							<button type="button" class="btn btn-primary mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+							<button type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
 								Check-out Evacuee</button>
 						</div>
 					</div>
@@ -232,7 +232,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-primary" id="confirmSaveButton">Check-out</button>
+				<button type="button" class="btn btn-danger" id="confirmSaveButton">Check-out</button>
 			</div>
 		</div>
 	</div>
@@ -300,6 +300,7 @@
 	});
 </script>
 
+
 <!-- Select All checkboxes and Enable/disable "Check-out" button -->
 <script>
 	const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
@@ -314,6 +315,7 @@
 			}
 		});
 		updateSaveSelectionButtonState();
+		updateCheckOutButtonVisibility();
 	});
 
 	// Event listener for individual checkboxes
@@ -321,9 +323,11 @@
 		checkbox.addEventListener('change', function () {
 			updateSelectAllCheckboxState();
 			updateSaveSelectionButtonState();
+			updateCheckOutButtonVisibility();
 		});
 	});
 
+	// Function to update state of Select All checkbox
 	function updateSelectAllCheckboxState() {
 		const allEnabledCheckboxesChecked = Array.from(checkboxes)
 			.filter(checkbox => !checkbox.disabled)
@@ -331,12 +335,38 @@
 		selectAllCheckbox.checked = allEnabledCheckboxesChecked;
 	}
 
+	// Function to update state of Save Selection button
 	function updateSaveSelectionButtonState() {
 		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
 			.filter(checkbox => !checkbox.disabled)
 			.some(checkbox => checkbox.checked);
 		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
 	}
+</script>
+
+<!-- Show/hide Check-in & Check-out buttons -->
+<script>
+	function updateButtonVisibility() {
+		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.some(checkbox => checkbox.checked);
+
+		const checkOutButton = document.querySelector('button[name="saveSelection"]');
+		const checkInButton = document.getElementById('checkInButton');
+
+		if (atLeastOneEnabledCheckboxChecked) {
+			checkOutButton.style.display = 'block'; // Show the "Check-out Evacuee" button
+			checkInButton.style.display = 'none'; // Hide the "Check-in Evacuee" button
+		} else {
+			checkOutButton.style.display = 'none'; // Hide the "Check-out Evacuee" button
+			checkInButton.style.display = 'block'; // Show the Check-in Evacuee button
+		}
+	}
+
+	// Hide the "Check-out Evacuee" button on page load
+	window.onload = function () {
+		updateButtonVisibility();
+	};
 </script>
 
 <!-- Save Selection button in Modal -->
