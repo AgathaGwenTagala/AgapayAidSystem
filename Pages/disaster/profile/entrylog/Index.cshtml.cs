@@ -65,10 +65,10 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                     }
 
 					// Fetch entry log data related to the selected center log
-					string entrySql = "SELECT e.*, CONCAT(mem.firstName, " +
+					string entrySql = "SELECT e.*, CONCAT(mem.lastName, ', ', mem.firstName, " +
 									  "(CASE WHEN (mem.middleName IS NOT NULL) " +
 									  "THEN CONCAT(' ', mem.middleName) ELSE '' END), " +
-									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END),  mem.lastName, " +
+									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END), " +
 									  "(CASE WHEN (mem.extName IS NOT NULL) " +
 									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName " +
 									  "FROM entry_log e " +

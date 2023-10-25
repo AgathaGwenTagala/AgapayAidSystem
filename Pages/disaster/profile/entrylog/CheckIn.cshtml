@@ -159,7 +159,9 @@
             columnDefs: [
                 { "orderable": true, "targets": [1, 3, 4] }, // Sortable columns
                 { "orderable": false, "targets": [0, 2] } // Non-sortable columns
-            ]
+            ],
+            // Set initial sorting
+            order: [[1, 'asc']]
         });
     });
 </script>

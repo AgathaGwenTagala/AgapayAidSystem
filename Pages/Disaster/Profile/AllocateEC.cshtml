@@ -24,22 +24,16 @@
         <form method="POST" id="saveAllocateEC">
             <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
             <div class="row pt-4">
-                <div class="col">
-                    <div class="search-container">
-                        <div class="input-group">
-                            <input type="search" class="form-control ds-input" id="search-bar" name="search" placeholder="Search here..." aria-label="Search..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row pt-4">
-                <div class="table-responsive">
-                    <table class="table align-middle table-hover" style="width:100%">
+                <div class="col-lg-12">
+                    <table id="allocate-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </th>
                                 <th>Evacuation Center</th>
                                 <th>Type</th>
                                 <th>Barangay</th>
@@ -76,7 +70,10 @@
                     <!-- Cancel and Save Selection Button -->
                     <div class="button-spacer">
                         <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID">Cancel</a>
-                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Save Selection</button>
+                        <button type="button" class="btn btn-primary" name="saveSelection" 
+                            data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+                            Allocate
+                        </button>
                     </div>
                 </div>
             </div>
@@ -93,33 +90,73 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to allocate the selected evacuation centers?</p>
-                <strong class="text-danger">This cannot be undone.</strong>
+                <p>Are you sure you want to allocate the selected evacuation centers to @Model.disasterInfo.disasterName?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmSaveButton">Save Selection</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Allocate</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Enable/disable "Save Selection" button -->
-<script>
-    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
-    const checkboxes = document.querySelectorAll('input[name="selectedEvacuationCenters[]"]');
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
-            const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-            saveSelectionButton.disabled = !atLeastOneChecked;
-        });
-    });
-</script>
 
 <!-- Save Changes button in Modal -->
 <script>
     document.getElementById('confirmSaveButton').addEventListener('click', function () {
         document.getElementById('saveAllocateEC').submit();
     });
+</script>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        $('#allocate-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [1, 2, 3, 4] }, // Sortable columns
+                { "orderable": false, "targets": [0] } // Non-sortable columns
+            ],
+            // Set initial sorting
+            order: [[1, 'asc']]
+        });
+    });
+</script>
+
+<!-- Select All checkboxes and Enable/disable "Allocate" button -->
+<script>
+    const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
+    const checkboxes = document.querySelectorAll('input[name="selectedEvacuationCenters[]"]');
+    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+
+    // Event listener for the "Select All" checkbox
+    selectAllCheckbox.addEventListener('change', function () {
+        checkboxes.forEach(checkbox => {
+            if (!checkbox.disabled) {
+                checkbox.checked = selectAllCheckbox.checked;
+            }
+        });
+        updateSaveSelectionButtonState();
+    });
+
+    // Event listener for individual checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            updateSelectAllCheckboxState();
+            updateSaveSelectionButtonState();
+        });
+    });
+
+    function updateSelectAllCheckboxState() {
+        const allEnabledCheckboxesChecked = Array.from(checkboxes)
+            .filter(checkbox => !checkbox.disabled)
+            .every(checkbox => checkbox.checked);
+        selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+    }
+
+    function updateSaveSelectionButtonState() {
+        const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+            .filter(checkbox => !checkbox.disabled)
+            .some(checkbox => checkbox.checked);
+        saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+    }
 </script>
