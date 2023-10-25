@@ -113,7 +113,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			if (selectedEvacuees == null || selectedEvacuees.Length == 0)
 			{
 				errorMessage = "Please select at least one evacuee to check-out.";
-				return;
 			}
 
 			string centerLogID = Request.Form["centerLogID"];
@@ -121,7 +120,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			if (string.IsNullOrEmpty(centerLogID))
 			{
 				errorMessage = "Missing centerLogID";
-				return;
 			}
 
 			try
@@ -148,7 +146,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 							else
 							{
 								errorMessage = "Failed to check-out one or more evacuees.";
-								return;
 							}
 						}
 					}

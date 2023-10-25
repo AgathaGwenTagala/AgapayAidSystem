@@ -16,40 +16,69 @@
         <form method="POST" id="checkIn">
             <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
             <div class="row pt-4">
-                <div class="table-responsive">
-                    <table class="table align-middle table-hover" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th style="text-align: center;">Sex</th>
-                                <th>Birthdate</th>
-                                <th>Barangay</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.listLatestEntry)
-                            {
+                <div class="col-lg-12">
+                    @if (Model.listLatestEntry.Count == 0)
+                    {
+                        <table  class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                            <thead>
                                 <tr>
-                                    <td>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th style="text-align: center;">Sex</th>
+                                    <th>Birthdate</th>
+                                    <th>Barangay</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center" colspan="5">
+                                        There are no evacuees to check-in.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                            <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
                                             <label class="form-check-label"></label>
                                         </div>
-                                    </td>
-                                    <td>@item.fullName</td>
-                                    <td style="text-align: center;">@item.sex</td>
-                                    <td>@item.birthdate</td>
-                                    <td>@item.barangayName</td>
+                                    </th>
+                                    <th>Name</th>
+                                    <th style="text-align: center;">Sex</th>
+                                    <th>Birthdate</th>
+                                    <th>Barangay</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.listLatestEntry)
+                                {
+                                    <tr>
+                                        <td width="5%">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                                <label class="form-check-label"></label>
+                                            </div>
+                                        </td>
+                                        <td width="25%">@item.fullName</td>
+                                        <td width="15%" style="text-align: center;">@item.sex</td>
+                                        <td width="25%">@item.birthdate</td>
+                                        <td width="30%">@item.barangayName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
 
-                    <!-- Cancel and Save Button -->
+                    <!-- Cancel and Check-in Button -->
                     <div class="button-spacer">
                         <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
-                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Save Selection</button>
+                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Check-in</button>
                     </div>
                 </div>
             </div>
@@ -57,12 +86,12 @@
     </div>
 </div>
 
-<!-- Modal: Confirm Selection -->
+<!-- Modal: Confirm Check-in -->
 <div class="modal" id="confirmSaveModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm Selection</h5>
+                <h5 class="modal-title">Confirm Check-in</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -70,28 +99,67 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmSaveButton">Save Selection</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Check-in</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Enable/disable "Save Selection" button -->
+<!-- Select All checkboxes and Enable/disable "Check-in" button -->
 <script>
-    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+    const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
     const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
+    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
 
+    // Event listener for the "Select All" checkbox
+    selectAllCheckbox.addEventListener('change', function () {
+        checkboxes.forEach(checkbox => {
+            if (!checkbox.disabled) {
+                checkbox.checked = selectAllCheckbox.checked;
+            }
+        });
+        updateSaveSelectionButtonState();
+    });
+
+    // Event listener for individual checkboxes
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function () {
-            const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-            saveSelectionButton.disabled = !atLeastOneChecked;
+            updateSelectAllCheckboxState();
+            updateSaveSelectionButtonState();
         });
     });
+
+    function updateSelectAllCheckboxState() {
+        const allEnabledCheckboxesChecked = Array.from(checkboxes)
+            .filter(checkbox => !checkbox.disabled)
+            .every(checkbox => checkbox.checked);
+        selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+    }
+
+    function updateSaveSelectionButtonState() {
+        const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+            .filter(checkbox => !checkbox.disabled)
+            .some(checkbox => checkbox.checked);
+        saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+    }
 </script>
 
 <!-- Save Changes button in Modal -->
 <script>
     document.getElementById('confirmSaveButton').addEventListener('click', function () {
         document.getElementById('checkIn').submit();
+    });
+</script>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        $('#entrylog-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [1, 3, 4] }, // Sortable columns
+                { "orderable": false, "targets": [0, 2] } // Non-sortable columns
+            ]
+        });
     });
 </script>

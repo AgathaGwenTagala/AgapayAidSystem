@@ -138,7 +138,9 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td class="text-center" colspan="6">There are no evacuees checked-in at this evacuation center.</td>
+										<td class="text-center" colspan="6">
+											There are no evacuees checked-in at this evacuation center.
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -148,7 +150,12 @@
 							<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 								<thead>
 									<tr>
-										<th></th>
+										<th>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+												<label class="form-check-label"></label>
+											</div>
+										</th>
 										<th>Name</th>
 										<th>Check-in Date</th>
 										<th>Check-out Date</th>
@@ -192,9 +199,9 @@
 															</a>
 														</li>
 														<li>
-															<a href="#" class="dropdown-item" onclick="prepareDelete('@item.entryLogID')"
+															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
 															   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																Delete
+																Delete Entry Log
 															</a>
 														</li>
 													</ul>
@@ -286,22 +293,50 @@
 			columnDefs: [
 				{ "orderable": true, "targets": [1, 2, 3] }, // Sortable columns
 				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
-			]
+			],
+			// Set initial sorting by the Check-in Date
+			order: [[2, 'asc']]
 		});
 	});
 </script>
 
-<!-- Enable/disable "Save Selection" button -->
+<!-- Select All checkboxes and Enable/disable "Check-out" button -->
 <script>
-	const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+	const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
 	const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
+	const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
 
+	// Event listener for the "Select All" checkbox
+	selectAllCheckbox.addEventListener('change', function () {
+		checkboxes.forEach(checkbox => {
+			if (!checkbox.disabled) {
+				checkbox.checked = selectAllCheckbox.checked;
+			}
+		});
+		updateSaveSelectionButtonState();
+	});
+
+	// Event listener for individual checkboxes
 	checkboxes.forEach(checkbox => {
 		checkbox.addEventListener('change', function () {
-			const atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
-			saveSelectionButton.disabled = !atLeastOneChecked;
+			updateSelectAllCheckboxState();
+			updateSaveSelectionButtonState();
 		});
 	});
+
+	function updateSelectAllCheckboxState() {
+		const allEnabledCheckboxesChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.every(checkbox => checkbox.checked);
+		selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+	}
+
+	function updateSaveSelectionButtonState() {
+		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.some(checkbox => checkbox.checked);
+		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+	}
 </script>
 
 <!-- Save Selection button in Modal -->

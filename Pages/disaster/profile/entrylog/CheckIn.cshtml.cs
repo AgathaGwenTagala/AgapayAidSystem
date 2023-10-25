@@ -38,7 +38,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								latestEntryInfo.memberID = reader.GetString(0);
 								latestEntryInfo.fullName = reader.GetString(1);
 								latestEntryInfo.sex = reader.GetString(2);
-								latestEntryInfo.birthdate = reader.GetDateTime(3).ToString("MMMM dd, yyyy");
+								latestEntryInfo.birthdate = reader.GetDateTime(3).ToString("MMMM d, yyyy");
 								latestEntryInfo.barangayName = reader.GetString(4);
 								latestEntryInfo.entryStatus = reader.IsDBNull(5) ? null : reader.GetString(5);
 								listLatestEntry.Add(latestEntryInfo);
@@ -80,13 +80,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
-                return;
             }
 
             if (selectedEvacuees == null || selectedEvacuees.Length == 0)
             {
                 errorMessage = "Please select at least one evacuee to check-out.";
-                return;
             }
 
             string centerLogID = Request.Form["centerLogID"];
@@ -94,7 +92,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             if (string.IsNullOrEmpty(centerLogID))
             {
                 errorMessage = "Missing centerLogID";
-                return;
             }
 
             try
@@ -120,7 +117,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                             else
                             {
                                 errorMessage = "Failed to check-in one or more evacuees.";
-                                return;
                             }
                         }
                     }
