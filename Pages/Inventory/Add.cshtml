@@ -1,0 +1,111 @@
+﻿@page
+@model AgapayAidSystem.Pages.Inventory.AddModel
+@{
+	ViewData["Title"] = "Add Batch";
+}
+
+<div class="container p-2 form-container">
+
+	<div class="container mt-4 form-container-content">
+
+		<div class="row">
+			<div class="col text-center">
+				<h1>Add Batch</h1>
+			</div>
+		</div>
+
+
+        <div class="row mb-3 user-container">
+            <div>
+                <!-- Inventory ID -->
+                <div class="col mb-3 pb-1">
+                    <label class="form-label"><b>Inventory ID:</b> INV0000001</label>
+                </div>
+
+                <!-- LGU Staff ID -->
+                <div class="col-auto mb-3 pb-1">
+                    <label class="form-label"><b>LGU ID:</b> LGU0000001</label>
+                </div>
+            </div>
+
+            <form method="POST">
+                <!-- CLG ID -->
+                <div class="row mb-3 pb-1">
+                    <label class="form-label"><b>Center Log ID:</b></label>
+                    <input type="text" class="form-control" maxlength="45" />
+                </div>
+
+                <!-- EC Staff ID automatically dispensed once clicked received -->
+                <!-- Dispatch Date automatically dispensed once clicked received -->
+                <!-- Receive Date automatically dispensed once clicked received -->
+                <!-- Adding Items for the Inventory -->
+                <h4>Inventory Inclusion</h4>
+                <div>
+                    <label class="form-label" for="itemName">Item Name:</label>
+                    <input class="form-control" type="text" id="itemName" name="itemName" required><br><br>
+
+                    <label class="form-label" for="itemType">Type (Non Food or Food):</label>
+                    <input class="form-control" type="text" id="itemType" name="itemType" required><br><br>
+
+                    <label class="form-label" for="itemQty">Qty:</label>
+                    <input class="form-control" type="number" id="itemQty" name="itemQty" required><br><br>
+
+                    <label class="form-label" for="unitMeasure">Unit Measure:</label>
+                    <input class="form-control" type="text" id="unitMeasure" name="unitMeasure" required><br><br>
+
+                    <button class="btn btn-light" onclick="addItem()">Add Item</button>
+
+                    <table class="table table-striped pt-2">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                                <th>No. of Not Yet Packed</th>
+                                <th>Unit Measure</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTable">
+                            <!-- Items will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Cancel and Save Button -->
+                <div class="button-spacer">
+                    <a class="btn btn-outline-secondary mr-10" href="/disaster/index" role="button">Cancel</a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+                </div>
+
+            </form>
+        </div>
+	</div>
+</div>
+
+<!--DYNAMIC ITEM LIST-->
+<script>
+	function addItem() {
+		const itemName = document.getElementById("itemName").value;
+		const itemType = document.getElementById("itemType").value;
+		const itemQty = document.getElementById("itemQty").value;
+		const unitMeasure = document.getElementById("unitMeasure").value;
+
+		if (itemName && itemType && itemQty && unitMeasure) {
+			const inventoryList = document.getElementById("inventoryList");
+			const newItem = document.createElement("li");
+			newItem.innerHTML = `
+					<b>Item Name:</b> ${itemName}<br>
+					<b>Type:</b> ${itemType}<br>
+					<b>Qty:</b> ${itemQty}<br>
+					<b>Unit Measure:</b> ${unitMeasure}<br>
+				`;
+			inventoryList.appendChild(newItem);
+
+			// Clear the input fields
+			document.getElementById("itemName").value = "";
+			document.getElementById("itemType").value = "";
+			document.getElementById("itemQty").value = "";
+			document.getElementById("unitMeasure").value = "";
+		}
+	}
+</script>
