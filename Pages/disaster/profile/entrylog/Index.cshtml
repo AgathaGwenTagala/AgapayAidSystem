@@ -315,7 +315,7 @@
 			}
 		});
 		updateSaveSelectionButtonState();
-		updateCheckOutButtonVisibility();
+		updateButtonVisibility();
 	});
 
 	// Event listener for individual checkboxes
@@ -323,29 +323,11 @@
 		checkbox.addEventListener('change', function () {
 			updateSelectAllCheckboxState();
 			updateSaveSelectionButtonState();
-			updateCheckOutButtonVisibility();
+			updateButtonVisibility();
 		});
 	});
 
-	// Function to update state of Select All checkbox
-	function updateSelectAllCheckboxState() {
-		const allEnabledCheckboxesChecked = Array.from(checkboxes)
-			.filter(checkbox => !checkbox.disabled)
-			.every(checkbox => checkbox.checked);
-		selectAllCheckbox.checked = allEnabledCheckboxesChecked;
-	}
-
-	// Function to update state of Save Selection button
-	function updateSaveSelectionButtonState() {
-		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
-			.filter(checkbox => !checkbox.disabled)
-			.some(checkbox => checkbox.checked);
-		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
-	}
-</script>
-
-<!-- Show/hide Check-in & Check-out buttons -->
-<script>
+	// Function to show/hide "Check-in" & "Check-out" buttons
 	function updateButtonVisibility() {
 		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
 			.filter(checkbox => !checkbox.disabled)
@@ -367,6 +349,22 @@
 	window.onload = function () {
 		updateButtonVisibility();
 	};
+
+	// Function to check "Select All" checkbox when all enabled checkboxes are checked
+	function updateSelectAllCheckboxState() {
+		const allEnabledCheckboxesChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.every(checkbox => checkbox.checked);
+		selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+	}
+
+	// Function to enable "Check-out" button when at least one enabled checkbox is cheked
+	function updateSaveSelectionButtonState() {
+		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.some(checkbox => checkbox.checked);
+		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+	}
 </script>
 
 <!-- Save Selection button in Modal -->
