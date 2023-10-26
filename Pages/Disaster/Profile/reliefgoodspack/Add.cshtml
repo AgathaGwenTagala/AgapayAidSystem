@@ -1,0 +1,88 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack.AddModel
+@{
+}
+
+<style>
+    .input-pack {
+        width: 80px;
+        margin-right: 10px;
+    }
+
+    .label-pack {
+        padding-top: 10px;
+    }
+
+    .label-container {
+        white-space: nowrap;
+    }
+
+    .mx-auto {
+        width: 120px;
+    }
+</style>
+
+<div class="container p-2 form-container">
+
+    <div class="container mt-4 form-container-content">
+
+        <div class="row">
+            <div class="col text-center">
+                <h1>Add Pack</h1>
+            </div>
+        </div>
+        <form method="POST">
+            <div class="row mb-3">
+                <p class="text-danger text-end">* Required field</p>
+            </div>
+
+            <div>
+                <p><strong>Pack ID:</strong> PCK00000107</p>
+                <p><strong>Staff ID:</strong> ECS0000005</p>
+            </div>
+
+            <div class="mb-3 pt-2">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <label class="form-label">
+                            Quantity:
+                            <span class="text-danger" style="padding: 5px">*</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control" name="packQty" required maxlength="5">
+                    </div>
+                </div>
+            </div>
+
+            <!--TO BE LOOPED IN ITEM TABLES-->
+			<div class="mb-3 mt-4 text-center">
+                <p class="form-label">
+                    Pack Inclusion
+                    <span class="text-danger" style="padding: 5px">*</span>
+                </p>
+
+                <p class="text-muted">
+                    <i>Incase of the item is not included in the choices, contact the system administrator to add the item to the database</i>
+                </p>
+
+				<div class="row justify-content-center">
+					<div class="col-md-4">
+						<div class="mb-3">
+							<div class="d-flex align-items-center">
+								<input type="number" class="form-control input-pack" placeholder="0" step="1" min="0" required />
+								<label class="form-label label-pack">Rice</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <!-- Cancel and Save Button -->
+            <div class="button-spacer">
+                <a class="btn btn-outline-secondary mr-10" href="/reliefgoodspack/index" role="button">Cancel</a>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

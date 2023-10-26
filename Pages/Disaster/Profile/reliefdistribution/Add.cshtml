@@ -1,0 +1,64 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster.Profile.reliefdistribution.AddModel
+@{
+}
+
+<div class="container p-2 form-container">
+
+    <div class="container mt-4 form-container-content">
+
+        <div class="row">
+            <div class="col text-center">
+                <h1>Add Distribution Record</h1>
+            </div>
+        </div>
+        <form method="POST" id="saveAddDistribution">
+
+            <!--INSERT DISTRIBUTION ID-->
+
+            <div class="row pt-4">
+                <div class="col-lg-12">
+                    <table id="add-distribution" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </th>
+                                <th>Evacuee ID</th>
+                                <th>Evacuee Name</th>
+                                <th>Barangay</th>
+                                <th>District</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="5%">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </td>
+                                <td>1234</td>
+                                <td>Jose Carlos</td>
+                                <td>Muzon</td>
+                                <td>1st</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Cancel and Save Selection Button -->
+                    <div class="button-spacer">
+                        <a class="btn btn-outline-secondary mr-10" href#">Cancel</a>
+                        <button type="button" class="btn btn-primary" name="saveSelection"
+                                data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
