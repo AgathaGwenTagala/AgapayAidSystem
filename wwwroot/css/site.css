@@ -73,6 +73,23 @@ body {
             pointer-events: none;
         }
 
+/*SIDEBAR*/
+#sidebar {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+/*ADD PACK*/
+
+.label-pack {
+    margin-left: 20px;
+    width: 30%;
+}
+
+.input-pack {
+    width: 70%;
+}
+
 /*ALLOCATE CENTER*/
 .search-container {
     margin-bottom: 20px;
