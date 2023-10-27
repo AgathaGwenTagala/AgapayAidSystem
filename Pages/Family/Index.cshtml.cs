@@ -12,7 +12,9 @@ namespace AgapayAidSystem.Pages.Family
 		public List<string> UniqueBarangays { get; set; }
 		public string SortBy { get; set; }
 		public string SortOrder { get; set; }
-		
+		public string errorMessage = "";
+		public string successMessage = "";
+
 		public void OnGet(string sortBy, string sortOrder)
         {
 			try
