@@ -117,100 +117,75 @@
 							<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
 							</a>
-							<button type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+							<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
 								Check-out Evacuee
 							</button>
 						</div>
 					</div>
 
 					<div class="col-lg-12">
-						@if (Model.listEntryLog.Count == 0)
-						{
-							<table class="table display compact order-column" cellspacing="0" width="100%">
-								<thead>
+						<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+											<label class="form-check-label"></label>
+										</div>
+									</th>
+									<th>Name</th>
+									<th>Check-in Date</th>
+									<th>Check-out Date</th>
+									<th>Status</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model.listEntryLog)
+								{
 									<tr>
-										<th></th>
-										<th>Name</th>
-										<th>Check-in Date</th>
-										<th>Check-out Date</th>
-										<th>Status</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="text-center" colspan="6">
-											There are no evacuees checked-in at this evacuation center.
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						}
-						else
-						{
-							<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-								<thead>
-									<tr>
-										<th>
+										<td width="5%">
 											<div class="form-check">
-												<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+												<input class="form-check-input" type="checkbox" value="@item.entryLogID"
+													   name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
 												<label class="form-check-label"></label>
 											</div>
-										</th>
-										<th>Name</th>
-										<th>Check-in Date</th>
-										<th>Check-out Date</th>
-										<th>Status</th>
-										<th></th>
+										</td>
+										<td width="30%">@item.fullName</td>
+										<td width="20%">@item.checkInDate</td>
+										<td width="20%">@item.checkOutDate</td>
+										<td width="15%">
+											@if (@item.entryStatus == "Check-in")
+											{
+												<span class="badge bg-success">Check-in</span>
+											}
+											else if (@item.entryStatus == "Check-out")
+											{
+												<span class="badge rounded-pill bg-light">Check-out</span>
+											}
+										</td>
+										<td width="10%">
+											<div class="d-inline position-relative">
+												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+													<i class="bi bi-three-dots-vertical"></i>
+												</a>
+												<ul class="dropdown-menu" aria-labelledby="recordOptions">
+													<li>
+														<a class="dropdown-item" href="/family/index">View Family Profile</a>
+													</li>
+													<li>
+														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+														   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+															Delete Entry Log
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									@foreach (var item in Model.listEntryLog)
-									{
-										<tr>
-											<td width="5%">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" value="@item.entryLogID"
-													name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
-													<label class="form-check-label"></label>
-												</div>
-											</td>
-											<td width="30%">@item.fullName</td>
-											<td width="20%">@item.checkInDate</td>
-											<td width="20%">@item.checkOutDate</td>
-											<td width="15%">
-												@if (@item.entryStatus == "Check-in")
-												{
-													<span class="badge bg-success">Check-in</span>
-												}
-												else if (@item.entryStatus == "Check-out")
-												{
-													<span class="badge rounded-pill bg-light">Check-out</span>
-												}
-											</td>
-											<td width="10%">
-												<div class="d-inline position-relative">
-													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bi bi-three-dots-vertical"></i>
-													</a>
-													<ul class="dropdown-menu" aria-labelledby="recordOptions">
-														<li>
-															<a class="dropdown-item" href="/family/index">View Family Profile</a>
-														</li>
-														<li>
-															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
-															   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																Delete Entry Log
-															</a>
-														</li>
-													</ul>
-												</div>
-											</td>
-										</tr>
-									}
-								</tbody>
-							</table>
-						}
+								}
+							</tbody>
+						</table>
 					</div>
 				</form>
 			</div>
@@ -294,7 +269,10 @@
 				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
 			],
 			// Set initial sorting by the Check-in Date
-			order: [[2, 'asc']]
+			order: [[2, 'asc']],
+			language: {
+				emptyTable: "There are no evacuees checked-in at this evacuation center.",
+			}
 		});
 	});
 </script>
@@ -342,11 +320,6 @@
 			checkInButton.style.display = 'block'; // Show the Check-in Evacuee button
 		}
 	}
-
-	// Hide the "Check-out Evacuee" button on page load
-	window.onload = function () {
-		updateButtonVisibility();
-	};
 
 	// Function to check "Select All" checkbox when all enabled checkboxes are checked
 	function updateSelectAllCheckboxState() {

@@ -105,7 +105,7 @@
 					</ul>
 				</div>
 
-				<form method="POST" id="checkOut">
+				<form method="POST" id="completeAssign">
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 					<div class="row">
 						<div class="col d-flex align-items-center">
@@ -114,10 +114,10 @@
 
 						<!-- Add and Complete Assignment Buttons -->
 						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-							<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
+							<a id="addButton" class="btn btn-primary mb-2" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
 							</a>
-							<button type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+							<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
 								Complete Assignment
 							</button>
 						</div>
@@ -193,7 +193,7 @@
 	</div>
 </div>
 
-<!-- Modal: Confirm Assignment -->
+<!-- Modal: Confirm Complete Assignment -->
 <div class="modal" id="confirmSaveModal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -269,7 +269,10 @@
 				{ "orderable": false, "targets": [0, 2, 6] } // Non-sortable columns
 			],
 			// Set initial sorting by Assigned Data
-			order: [[3, 'asc']]
+			order: [[3, 'asc']],
+			language: {
+				emptyTable: "There are no staff members assigned at this evacuation center.",
+			}
 		});
 	});
 </script>
@@ -306,15 +309,15 @@
 			.filter(checkbox => !checkbox.disabled)
 			.some(checkbox => checkbox.checked);
 
-		const checkOutButton = document.querySelector('button[name="saveSelection"]');
-		const checkInButton = document.getElementById('checkInButton');
+		const completeButton = document.querySelector('button[name="saveSelection"]');
+		const addButton = document.getElementById('addButton');
 
 		if (atLeastOneEnabledCheckboxChecked) {
-			checkOutButton.style.display = 'block'; // Show the "Check-out Evacuee" button
-			checkInButton.style.display = 'none'; // Hide the "Check-in Evacuee" button
+			completeButton.style.display = 'block'; // Show the "Check-out Evacuee" button
+			addButton.style.display = 'none'; // Hide the "Check-in Evacuee" button
 		} else {
-			checkOutButton.style.display = 'none'; // Hide the "Check-out Evacuee" button
-			checkInButton.style.display = 'block'; // Show the Check-in Evacuee button
+			completeButton.style.display = 'none'; // Hide the "Check-out Evacuee" button
+			addButton.style.display = 'block'; // Show the Check-in Evacuee button
 		}
 	}
 
@@ -343,7 +346,7 @@
 <!-- Complete Assignment button in Modal -->
 <script>
 	document.getElementById('confirmSaveButton').addEventListener('click', function () {
-		document.getElementById('checkOut').submit();
+		document.getElementById('completeAssign').submit();
 	});
 </script>
 

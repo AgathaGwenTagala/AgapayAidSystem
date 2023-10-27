@@ -5,9 +5,7 @@
 }
 
 <div class="container p-2 form-container">
-
     <div class="container mt-4 form-container-content">
-
         <div class="row">
             <div class="col text-center">
                 <h1>Check-in Evacuee</h1>
@@ -17,65 +15,41 @@
             <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
             <div class="row pt-4">
                 <div class="col-lg-12">
-                    @if (Model.listLatestEntry.Count == 0)
-                    {
-                        <table  class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                            <thead>
+                    <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </th>
+                                <th>Name</th>
+                                <th style="text-align: center;">Sex</th>
+                                <th>Birthdate</th>
+                                <th>Barangay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listLatestEntry)
+                            {
                                 <tr>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th style="text-align: center;">Sex</th>
-                                    <th>Birthdate</th>
-                                    <th>Barangay</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center" colspan="5">
-                                        There are no evacuees to check-in.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>
+                                    <td width="5%">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                            <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
                                             <label class="form-check-label"></label>
                                         </div>
-                                    </th>
-                                    <th>Name</th>
-                                    <th style="text-align: center;">Sex</th>
-                                    <th>Birthdate</th>
-                                    <th>Barangay</th>
+                                    </td>
+                                    <td width="25%">@item.fullName</td>
+                                    <td width="15%" style="text-align: center;">@item.sex</td>
+                                    <td width="25%">@item.birthdate</td>
+                                    <td width="30%">@item.barangayName</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.listLatestEntry)
-                                {
-                                    <tr>
-                                        <td width="5%">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
-                                                <label class="form-check-label"></label>
-                                            </div>
-                                        </td>
-                                        <td width="25%">@item.fullName</td>
-                                        <td width="15%" style="text-align: center;">@item.sex</td>
-                                        <td width="25%">@item.birthdate</td>
-                                        <td width="30%">@item.barangayName</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
+                            }
+                        </tbody>
+                    </table>
 
-                    <!-- Cancel and Check-in Button -->
+                    <!-- Cancel and Check-in Buttons -->
                     <div class="button-spacer">
                         <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
                         <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Check-in</button>
@@ -144,7 +118,7 @@
     }
 </script>
 
-<!-- Save Changes button in Modal -->
+<!-- Check-in button in Modal -->
 <script>
     document.getElementById('confirmSaveButton').addEventListener('click', function () {
         document.getElementById('checkIn').submit();
@@ -161,7 +135,10 @@
                 { "orderable": false, "targets": [0, 2] } // Non-sortable columns
             ],
             // Set initial sorting
-            order: [[1, 'asc']]
+            order: [[1, 'asc']],
+            language: {
+                emptyTable: "There are no evacuees to check-in.",
+            }
         });
     });
 </script>

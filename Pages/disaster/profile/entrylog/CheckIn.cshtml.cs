@@ -17,7 +17,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public void OnGet()
 		{
 			string centerLogID = Request.Query["centerLogID"];
-
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
