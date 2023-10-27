@@ -46,8 +46,8 @@
 
 <div class="container-fluid">
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+	<!-- Sidebar (desktop) -->
 	<div class="row">
-		<!-- Sidebar (desktop) -->
 		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
 			<div class="position-sticky">
 				<ul class="nav flex-column">
@@ -114,11 +114,12 @@
 
 						<!-- Check-In and Check-Out Buttons -->
 						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-							<a id="checkInButton"class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+							<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
 							</a>
 							<button type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-								Check-out Evacuee</button>
+								Check-out Evacuee
+							</button>
 						</div>
 					</div>
 
@@ -194,9 +195,7 @@
 													</a>
 													<ul class="dropdown-menu" aria-labelledby="recordOptions">
 														<li>
-															<a class="dropdown-item" href="/family/index">
-																View Family Profile
-															</a>
+															<a class="dropdown-item" href="/family/index">View Family Profile</a>
 														</li>
 														<li>
 															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
@@ -300,7 +299,6 @@
 	});
 </script>
 
-
 <!-- Select All checkboxes and Enable/disable "Check-out" button -->
 <script>
 	const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
@@ -367,7 +365,7 @@
 	}
 </script>
 
-<!-- Save Selection button in Modal -->
+<!-- Check-out button in Modal -->
 <script>
 	document.getElementById('confirmSaveButton').addEventListener('click', function () {
 		document.getElementById('checkOut').submit();

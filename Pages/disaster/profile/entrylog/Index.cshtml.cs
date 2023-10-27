@@ -10,7 +10,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
     {
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
-        public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
 		public List<EntryLogInfo> listEntryLog { get; set; } = new List<EntryLogInfo>();
 		public string errorMessage = "";
@@ -18,30 +17,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
 		public void OnGet()
         {
-            string disasterID = Request.Query["disasterID"];
             string centerLogID = Request.Query["centerLogID"];
-
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-
-                    // Fetch info of selected disaster from the database
-                    string sql = "SELECT disasterID, disasterName FROM disaster where disasterID = @disasterID";
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                disasterInfo.disasterID = reader.GetString(0);
-								disasterInfo.disasterName = reader.GetString(1);
-							}
-                        }
-                    }
 
 					// Fetch info of selected center log from the database
 					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
@@ -107,7 +89,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			if (!ModelState.IsValid)
 			{
 				errorMessage = "Please correct the errors below.";
-				return;
 			}
 
 			if (selectedEvacuees == null || selectedEvacuees.Length == 0)
