@@ -93,6 +93,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                 errorMessage = "Missing centerLogID";
             }
 
+            bool errorOccurred = false;
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -120,6 +122,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                             else
                             {
                                 errorMessage = "Failed to assign one or more staff members.";
+                                errorOccurred = true; // Set the error flag
+                                break;
                             }
                         }
                     }
@@ -131,10 +135,19 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
-            // Redirect to the Staff Assignment page after assignment or encountering an error
-            Response.Redirect("/disaster/profile/staffassignment/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/profile/staffassignment/add?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Staff Assignment page after successful assignment
+                Response.Redirect("/disaster/profile/staffassignment/index?centerLogID=" + centerLogID + "&successMessage=" + successMessage);
+            }
         }
 
     }
