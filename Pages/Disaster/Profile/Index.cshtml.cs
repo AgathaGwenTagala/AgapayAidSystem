@@ -45,7 +45,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                     // Fetch evacuation center log data related to the selected disaster
                     string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName, " +
                                     "(SELECT COUNT(assignmentID) FROM ec_staff_assignment " +
-									"WHERE centerLogID = log.centerLogID) AS totalStaff " +
+                                    "WHERE centerLogID = log.centerLogID AND status = 'Assigned') AS totalStaff " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
