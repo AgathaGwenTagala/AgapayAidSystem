@@ -186,7 +186,8 @@
             responsive: true,
             columnDefs: [
                 { "orderable": true, "targets": [1, 3, 4] }, // Sortable columns
-                { "orderable": false, "targets": [0, 2] } // Non-sortable columns
+                { "orderable": false, "targets": [0, 2] }, // Non-sortable columns
+                { "responsivePriority": -1, "targets": [0, 4] } // Disable responsive for checkbox and role select column
             ],
             // Set initial sorting
             order: [[1, 'asc']],
