@@ -45,12 +45,6 @@
     </div>
 }
 
-<style>
-    .clickable-row:hover {
-        cursor: pointer;
-    }
-</style>
-
 <div class="content">
     <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
     <div class="row">
@@ -173,66 +167,41 @@
 
     <div class="row p-2">
         <div class="col-lg-12">
-            @if (Model.listCenterLog.Count == 0)
-            {
-                <table class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Evacuation Center</th>
-                            <th>Barangay</th>
-                            <th style="text-align: center;">Occupancy</th>
-                            <th style="text-align: center;">Assigned Staff</th>
-                            <th>Opening Date</th>
-                            <th>Closing Date</th>
-                            <th></th>
+            <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Evacuation Center</th>
+                        <th>Barangay</th>
+                        <th style="text-align: center;">Occupancy</th>
+                        <th style="text-align: center;">Assigned Staff</th>
+                        <th>Opening Date</th>
+                        <th>Closing Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var counter = 1; }
+                    @foreach (var item in Model.listCenterLog)
+                    {
+                        <tr data-id="@item.centerLogID">
+                            <td width="5%">@counter</td>
+                            <td width="20%">@item.centerName</td>
+                            <td width="15%">@item.barangayName</td>
+                            <td width="15%" style="text-align: center;">@item.occupancy/@item.maxCapacity</td>
+                            <td width="15%" style="text-align: center;">@item.totalStaff</td>
+                            <td width="15%">@item.openingDateTime</td>
+                            <td width="15%">@item.closingDateTime</td>
+                            <td width="10%">
+                                <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+                                    View
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center" colspan="8">There are no evacuation centers allocated to this disaster.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Evacuation Center</th>
-                            <th>Barangay</th>
-                            <th style="text-align: center;">Occupancy</th>
-                            <th style="text-align: center;">Assigned Staff</th>
-                            <th>Opening Date</th>
-                            <th>Closing Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{ var counter = 1; }
-                        @foreach (var item in Model.listCenterLog)
-                        {
-                            <tr data-id="@item.centerLogID">
-                                <td width="5%">@counter</td>
-                                <td width="20%">@item.centerName</td>
-                                <td width="15%">@item.barangayName</td>
-                                <td width="15%" style="text-align: center;">@item.occupancy/@item.maxCapacity</td>
-                                <td width="15%" style="text-align: center;">@item.totalStaff</td>
-                                <td width="15%">@item.openingDateTime</td>
-                                <td width="15%">@item.closingDateTime</td>
-                                <td width="10%">
-                                    <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
-                                        View
-                                    </a>
-                                </td>
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
-                </table>
-            }
+                        counter++;
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -279,7 +248,10 @@
             columnDefs: [
                 { "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
                 { "orderable": false, "targets": [7] } // Non-sortable columns
-            ]
+            ],
+            language: {
+                emptyTable: "There are no evacuation centers allocated to this disaster.",
+            }
         });
     });
 </script>

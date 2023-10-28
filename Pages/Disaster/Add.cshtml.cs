@@ -57,14 +57,16 @@ namespace AgapayAidSystem.Pages.Disaster
 
 		public void OnPost()
 		{
-			if (!ModelState.IsValid)
-			{
-				errorMessage = "Please correct the errors below.";
-				return;
-			}
+            bool errorOccurred = false;
 
-			// Retrieve disaster details from the form
-			disasterInfo.disasterName = Request.Form["disasterName"];
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "Please correct the errors below.";
+                errorOccurred = true;
+            }
+
+            // Retrieve disaster details from the form
+            disasterInfo.disasterName = Request.Form["disasterName"];
 			disasterInfo.disasterType = Request.Form["disasterType"];
 			disasterInfo.description = Request.Form["description"];
 			disasterInfo.dateOccured = Request.Form["dateOccured"];
@@ -96,11 +98,20 @@ namespace AgapayAidSystem.Pages.Disaster
 
 			catch (Exception ex)
 			{
-				errorMessage = ex.Message;
-				return;
-			}
+                errorMessage = ex.Message;
+                errorOccurred = true;
+            }
 
-			Response.Redirect("/disaster/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/index?errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Disaster page after successful add
+                Response.Redirect("/disaster/index?successMessage=" + successMessage);
+            }
 		}
 	}
 }

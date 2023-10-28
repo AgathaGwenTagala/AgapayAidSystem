@@ -18,6 +18,12 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
         public void OnGet()
         {
             string centerLogID = Request.Query["centerLogID"];
+
+            if (string.IsNullOrEmpty(centerLogID))
+            {
+                errorMessage = "Invalid centerLogID.";
+            }
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -76,14 +82,18 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 
         public void OnPost(string[] selectedStaff, string[] role)
         {
+            bool errorOccurred = false;
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
+                errorOccurred = true;
             }
 
             if (selectedStaff == null || selectedStaff.Length == 0)
             {
                 errorMessage = "Please select at least one evacuee to check-out.";
+                errorOccurred = true;
             }
             
             string centerLogID = Request.Form["centerLogID"];
@@ -91,9 +101,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
             if (string.IsNullOrEmpty(centerLogID))
             {
                 errorMessage = "Missing centerLogID";
+                errorOccurred = true;
             }
-
-            bool errorOccurred = false;
 
             try
             {
@@ -122,7 +131,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                             else
                             {
                                 errorMessage = "Failed to assign one or more staff members.";
-                                errorOccurred = true; // Set the error flag
+                                errorOccurred = true;
                                 break;
                             }
                         }

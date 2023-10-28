@@ -62,8 +62,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 logInfo.disasterID = logReader.GetString(1);
                                 logInfo.centerID = logReader.GetString(2);
                                 logInfo.occupancy = logReader.GetInt32(3).ToString();
-                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd");
+                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd");
                                 logInfo.status = logReader.GetString(6);
                                 logInfo.centerName = logReader.GetString(7);
                                 logInfo.maxCapacity = logReader.GetInt32(8).ToString();

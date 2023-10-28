@@ -17,7 +17,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public void OnGet()
 		{
 			string centerLogID = Request.Query["centerLogID"];
-			try
+
+            if (string.IsNullOrEmpty(centerLogID))
+            {
+                errorMessage = "Invalid centerLogID.";
+            }
+
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -72,18 +78,22 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			{
 				errorMessage = ex.Message;
 			}
-		}
+        }
 
         public void OnPost(string[] selectedEvacuees)
         {
+            bool errorOccurred = false;
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
+                errorOccurred = true;
             }
 
             if (selectedEvacuees == null || selectedEvacuees.Length == 0)
             {
                 errorMessage = "Please select at least one evacuee to check-out.";
+                errorOccurred = true;
             }
 
             string centerLogID = Request.Form["centerLogID"];
@@ -91,9 +101,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             if (string.IsNullOrEmpty(centerLogID))
             {
                 errorMessage = "Missing centerLogID";
+                errorOccurred = true;
             }
-
-            bool errorOccurred = false;
 
             try
             {

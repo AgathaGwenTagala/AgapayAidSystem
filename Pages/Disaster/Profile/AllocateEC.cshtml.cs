@@ -22,7 +22,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             if (string.IsNullOrEmpty(disasterID))
             {
                 errorMessage = "Invalid disaster ID.";
-                return;
             }
 
             try
@@ -94,16 +93,18 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 
         public void OnPost(string[] selectedEvacuationCenters)
         {
+            bool errorOccurred = false;
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
-                return;
+                errorOccurred = true;
             }
 
             if (selectedEvacuationCenters == null || selectedEvacuationCenters.Length == 0)
             {
                 errorMessage = "Please select at least one evacuation center to allocate.";
-                return;
+                errorOccurred = true;
             }
 
             string disasterID = Request.Form["disasterID"];
@@ -111,7 +112,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             if (string.IsNullOrEmpty(disasterID))
             {
                 errorMessage = "Invalid disaster ID.";
-                return;
+                errorOccurred = true;
             }
 
             try
@@ -132,27 +133,37 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             int rowsInserted = insertCommand.ExecuteNonQuery();
                             if (rowsInserted == 1)
                             {
-                                successMessage = "Evacuation center allocated";
+                                successMessage = "Evacuation center allocated.";
                             }
                             else
                             {
-                                errorMessage = "Failed to allocate one or more evacuation centers";
-                                return;
+                                errorMessage = "Failed to allocate one or more evacuation centers.";
+                                errorOccurred = true; // Set the error flag
+                                break;
                             }
                         }
                     }
 
                     // If all selected centers were successfully allocated
-                    successMessage = "Evacuation centers allocated successfully.";
+                    successMessage = "Evacuation centers allocated successfully!";
                 }
             }
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
-            // Redirect to the Disaster Profile page after allocating or encountering an error
-            Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Entry Log page after successful allocation
+                Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&successMessage=" + successMessage);
+            }
         }
     }
 }
