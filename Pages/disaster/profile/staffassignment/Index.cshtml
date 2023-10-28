@@ -125,7 +125,7 @@
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
 							</a>
 							<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-								Complete Assignment
+								Mark Completed
 							</button>
 						</div>
 					</div>
@@ -152,18 +152,18 @@
 								@foreach (var item in Model.listAssignment)
 								{
 									<tr>
-										<td width="5%">
+										<td width="2%">
 											<div class="form-check">
 												<input class="form-check-input" type="checkbox" value="@item.assignmentID"
 													   name="selectedStaff[]" @((item.status == "Completed") ? "disabled" : "")>
 												<label class="form-check-label"></label>
 											</div>
 										</td>
-										<td width="25%">@item.fullName</td>
-										<td width="15%">@item.role</td>
-										<td width="20%">@item.assignmentDate</td>
-										<td width="20%">@item.completionDate</td>
-										<td width="10%">
+										<td width="35%">@item.fullName</td>
+										<td width="10%">@item.role</td>
+										<td width="25%">@item.assignmentDate</td>
+										<td width="23%">@item.completionDate</td>
+										<td width="5%">
 											@if (@item.status == "Assigned")
 											{
 												<span class="badge bg-success">@item.status</span>
@@ -173,7 +173,7 @@
 												<span class="badge rounded-pill bg-light">@item.status</span>
 											}
 										</td>
-										<td width="5%">
+										<td width="2%">
 											<div class="d-inline position-relative">
 												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 													<i class="bi bi-three-dots-vertical"></i>
@@ -209,11 +209,11 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				Are you sure you want to complete the assignment of the selected EC staff members?
+				Are you sure you want to mark the assignment of the selected EC staff members as complete?
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-danger" id="confirmSaveButton">Complete Assignment</button>
+				<button type="button" class="btn btn-danger" id="confirmSaveButton">Mark Completed</button>
 			</div>
 		</div>
 	</div>

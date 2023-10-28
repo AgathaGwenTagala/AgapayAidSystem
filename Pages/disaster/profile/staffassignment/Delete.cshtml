@@ -1,0 +1,53 @@
+﻿@page
+@using MySql.Data.MySqlClient;
+@using Microsoft.Extensions.Configuration
+@{
+    string errorMessage = "";
+    string successMessage = "";
+    string centerLogID = Request.Query["centerLogID"];
+
+    try
+    {
+        if (Request.Query.ContainsKey("assignmentID"))
+        {
+            string assignmentID = Request.Query["assignmentID"];
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM ec_staff_assignment WHERE assignmentID = @assignmentID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@assignmentID", assignmentID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        successMessage = "Assignment deleted successfully!";
+                    }
+                    else
+                    {
+                        errorMessage = "Assignment not found with the provided assignmentID.";
+                    }
+                }
+            }
+        }
+        else
+        {
+            errorMessage = "assignmentID parameter is missing from the query string.";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    Response.Redirect("/disaster/profile/staffassignment/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+}
