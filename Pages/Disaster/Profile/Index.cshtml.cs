@@ -45,7 +45,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                     // Fetch evacuation center log data related to the selected disaster
                     string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName, " +
                                     "(SELECT COUNT(assignmentID) FROM ec_staff_assignment " +
-									"WHERE centerLogID = log.centerLogID) AS totalStaff " +
+                                    "WHERE centerLogID = log.centerLogID AND status = 'Assigned') AS totalStaff " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
@@ -62,8 +62,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 logInfo.disasterID = logReader.GetString(1);
                                 logInfo.centerID = logReader.GetString(2);
                                 logInfo.occupancy = logReader.GetInt32(3).ToString();
-                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd");
+                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd");
                                 logInfo.status = logReader.GetString(6);
                                 logInfo.centerName = logReader.GetString(7);
                                 logInfo.maxCapacity = logReader.GetInt32(8).ToString();

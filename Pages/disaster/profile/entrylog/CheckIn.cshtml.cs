@@ -18,7 +18,12 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		{
 			string centerLogID = Request.Query["centerLogID"];
 
-			try
+            if (string.IsNullOrEmpty(centerLogID))
+            {
+                errorMessage = "Invalid centerLogID.";
+            }
+
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -73,18 +78,22 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			{
 				errorMessage = ex.Message;
 			}
-		}
+        }
 
         public void OnPost(string[] selectedEvacuees)
         {
+            bool errorOccurred = false;
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
+                errorOccurred = true;
             }
 
             if (selectedEvacuees == null || selectedEvacuees.Length == 0)
             {
                 errorMessage = "Please select at least one evacuee to check-out.";
+                errorOccurred = true;
             }
 
             string centerLogID = Request.Form["centerLogID"];
@@ -92,6 +101,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             if (string.IsNullOrEmpty(centerLogID))
             {
                 errorMessage = "Missing centerLogID";
+                errorOccurred = true;
             }
 
             try
@@ -117,6 +127,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                             else
                             {
                                 errorMessage = "Failed to check-in one or more evacuees.";
+                                errorOccurred = true; // Set the error flag
+                                break;
                             }
                         }
                     }
@@ -128,10 +140,19 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
-            // Redirect to the Entry Log page after check-out or encountering an error
-            Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/profile/entrylog/checkin?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Entry Log page after successful check-in
+                Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&successMessage=" + successMessage);
+            }
         }
     }
 
