@@ -93,6 +93,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                 errorMessage = "Missing centerLogID";
             }
 
+            bool errorOccurred = false;
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -116,6 +118,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                             else
                             {
                                 errorMessage = "Failed to check-in one or more evacuees.";
+                                errorOccurred = true; // Set the error flag
+                                break;
                             }
                         }
                     }
@@ -127,10 +131,19 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
-            // Redirect to the Entry Log page after check-out or encountering an error
-            Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/profile/entrylog/checkin?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Entry Log page after successful check-in
+                Response.Redirect("/disaster/profile/entrylog/index?centerLogID=" + centerLogID + "&successMessage=" + successMessage);
+            }
         }
     }
 
