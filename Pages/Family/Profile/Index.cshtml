@@ -4,12 +4,54 @@
 	ViewData["Title"] = "Family Profile";
 }
 
-<div class="container p-2 form-container">
+<div class="content">
+	<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
+	<div class="row">
+		<ul class="breadcrumbs">
+			<li><a href="/family/index">Family</a></li>
+			<li class="divider">/</li>
+			<li><a href="#" class="active">@Model.familyInfo.serialNum</a></li>
+		</ul>
+	</div>
+
+
+	<div class="row">
+		<div class="col">
+			<h1>@Model.familyInfo.serialNum</h1>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="container p-2 form-container" style="margin-top: 1px;">
 	<div class="container mt-4">
 
-		<div class="row pt-4">
+		<div class="row">
 			<div class="col text-center">
 				<h1>Family Profile</h1>
+			</div>
+
+			<div class="col-auto button-spacer">
+				<div class="d-inline position-relative">
+					<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-three-dots-vertical"></i>
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="recordOptions">
+						<li>
+							<a class="dropdown-item" href="/Family/Profile/Edit/Family?familyID=@Model.familyInfo.familyID">
+								Edit Family Info
+							</a>
+						</li>
+						<li>
+							<a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.familyInfo.familyID')"
+							   data-deleteid="@Model.familyInfo.familyID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+								Delete Family
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
@@ -77,12 +119,27 @@
 					</div>
 				</div>
 
+				<div class="row mt-3 d-flex justify-content-center align-items-center">
+					<div class="col text-end">
+						<a class="btn btn-primary mb-2" href="/family/add/index">
+							<i class="bi bi-plus-circle pt"></i> Add Family Member
+						</a>
+					</div>
+
+					<div class="col text-center">
+						<a class="btn btn-primary mb-2" href="/family/vulnerability"><i class="bi bi-list-columns"></i>Vulnerability Assessment</a>
+					</div>
+
+					<div class="col text-start">
+						<a class="btn btn-primary mb-2" href="/family"><i class="bi bi-clipboard2-fill"></i>Relief Distribution Record</a>
+					</div>
+				</div>
+
 
 				<div class="row mt-5">
 					<h6 class="text-dark">Family Head:</h6>
 				</div>
-
-
+				
 				<div class="row mt-5">
 					<h6 class="text-dark">Family Member/s:</h6>
 				</div>
