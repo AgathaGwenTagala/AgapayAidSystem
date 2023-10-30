@@ -83,10 +83,10 @@
 		<div class="col-lg-12">
 			<table id="disaster-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr style="vertical-align: top;">
 						<th>#</th>
 						<th>Disaster</th>
-						<th>Type</th>
+						<th>Type </th>
 						<th>Description</th>
 						<th>Date Occured</th>
 						<th></th>
@@ -119,12 +119,32 @@
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		$('#disaster-table').DataTable({
+		var table = $('#disaster-table').DataTable({
 			responsive: true,
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
 				{ "orderable": false, "targets": [3, 5] } // Non-sortable columns
 			]
+		});
+
+		// Adding filters to specific columns
+		table.columns([2]).every(function () {
+			var column = this;
+			var select = $('<select><option value=""></option></select>')
+				.appendTo($(column.header()))
+				.on('change', function () {
+					var val = $.fn.dataTable.util.escapeRegex(
+						$(this).val()
+					);
+
+					column
+						.search(val ? '^' + val + '$' : '', true, false)
+						.draw();
+				});
+
+			column.data().unique().sort().each(function (d, j) {
+				select.append('<option value="' + d + '">' + d + '</option>');
+			});
 		});
 	});
 </script>
