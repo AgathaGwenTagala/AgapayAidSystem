@@ -9,12 +9,10 @@ namespace AgapayAidSystem.Pages.Disaster
         private readonly IConfiguration _configuration;
         public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public List<DisasterInfo> listDisaster = new List<DisasterInfo>();
-		public string SortBy { get; set; }
-		public string SortOrder { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
 
-		public void OnGet(string sortBy, string sortOrder)
+		public void OnGet()
 		{
 			try
 			{
@@ -23,15 +21,6 @@ namespace AgapayAidSystem.Pages.Disaster
 				{
 					connection.Open();
 					string sql = "SELECT * FROM disaster";
-
-					// Apply sorting based on user's selection
-					if (!string.IsNullOrEmpty(sortBy))
-					{
-						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
-						SortBy = sortBy;
-						SortOrder = sortOrder;
-					}
-
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -39,7 +28,6 @@ namespace AgapayAidSystem.Pages.Disaster
 							while (reader.Read())
 							{
 								DisasterInfo disasterInfo = new DisasterInfo();
-
 								disasterInfo.disasterID = reader.GetString(0);
 								disasterInfo.disasterName = reader.GetString(1);
 								disasterInfo.disasterType = reader.GetString(2);
@@ -57,45 +45,6 @@ namespace AgapayAidSystem.Pages.Disaster
 				errorMessage = ex.Message;
 			}
 		}
-
-		public JsonResult OnGetSearch(string query)
-		{
-			try
-			{
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-					string sql = "SELECT * FROM disaster WHERE disasterName LIKE @query OR disasterType LIKE @query OR description LIKE @query OR dateOccured LIKE @query";
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						command.Parameters.AddWithValue("@query", $"%{query}%");
-
-						using (MySqlDataReader reader = command.ExecuteReader())
-						{
-							List<DisasterInfo> searchResults = new List<DisasterInfo>();
-							while (reader.Read())
-							{
-								DisasterInfo disasterInfo = new DisasterInfo();
-								disasterInfo.disasterID = reader.GetString(0);
-								disasterInfo.disasterName = reader.GetString(1);
-								disasterInfo.disasterType = reader.GetString(2);
-								disasterInfo.description = reader.GetString(3);
-								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
-								searchResults.Add(disasterInfo);
-							}
-							return new JsonResult(searchResults);
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				errorMessage = ex.Message;
-				return new JsonResult(new List<DisasterInfo>());
-			}
-		}
-
 	}
 
 	public class DisasterInfo
