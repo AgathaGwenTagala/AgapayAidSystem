@@ -47,17 +47,24 @@
 
 <div class="content">
     <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
-    <div class="row">
-        <ul class="breadcrumbs">
-            <li><a href="/disaster/index">Disaster</a></li>
-            <li class="divider">/</li>
-            <li><a href="#" class="active">@Model.disasterInfo.disasterName</a></li>
-        </ul>
+    <!-- Breadcrumb -->
+    <div class="row p-2">
+        <div class="breadcrumb-container">
+            <div aria-label="breadcrumb">
+                <ol class="breadcrumbs">
+                    <li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                    <li class="divider"> > </li>
+                    <li><a href="/disaster/index">Disaster</a></li>
+                    <li class="divider"> > </li>
+                    <li><a class="active">@Model.disasterInfo.disasterName</a></li>
+                </ol>
+            </div>
+        </div>
     </div>
 
-
-    <div class="row">
-        <div class="col">
+    <!-- Title, Info Button, Menu Button -->
+    <div class="row p-2">
+        <div class="col d-flex align-items-center">
             <h1>@Model.disasterInfo.disasterName</h1>
         </div>
 
@@ -151,7 +158,8 @@
 </div>
 
 <div class="content">
-    <div class="row">
+    <!-- Title and Allocate Button-->
+    <div class="row p-2">
         <div class="col d-flex align-items-center">
             <h1>Evacuation Center Log</h1>
         </div>
@@ -165,6 +173,7 @@
         </div>
     </div>
 
+    <!-- Table -->
     <div class="row p-2">
         <div class="col-lg-12">
             <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">

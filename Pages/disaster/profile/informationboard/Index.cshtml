@@ -56,6 +56,24 @@
 
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+			<div class="container">
+				<!-- Breadcrumb -->
+				<div class="row">
+					<div class="breadcrumb-container">
+						<div aria-label="breadcrumb">
+							<ol class="breadcrumbs">
+								<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/index">Disaster</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+								<li class="divider"> > </li>
+								<li><a class="active"><strong>@Model.logInfo.centerName</strong></a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
