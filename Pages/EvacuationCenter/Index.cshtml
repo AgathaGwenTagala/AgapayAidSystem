@@ -43,30 +43,19 @@
 	</div>
 }
 
-<style>
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
-</style>
-
-<div class="container p-2">
+<div class="content">
 	<!-- Breadcrumb -->
-	<div class="row p-2">
-		<div style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a class="nav-link text-muted" asp-area="" asp-page="/Index">
-						<i class="bi bi-house-door-fill" style="padding: 5px;"></i>
-						Home
-					</a>
-				</li>
-				<li class="breadcrumb-item active" aria-current="page" style="color: #3F8F8B;">
-					<strong>Evacuation Center</strong>
-				</li>
-			</ol>
-		</div>
-	</div>
+    <div class="row p-2">
+        <div class="breadcrumb-container">
+            <div aria-label="breadcrumb">
+                <ol class="breadcrumbs">
+                    <li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                    <li class="divider"> > </li>
+                    <li><a class="active">Evacuation Center</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
 	
 	<!-- Title and Add Button-->
 	<div class="row p-2">
