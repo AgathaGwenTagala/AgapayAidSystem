@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.Family.Profile.Add;
 using AgapayAidSystem.Pages.Family;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -87,25 +88,5 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
 
 			Response.Redirect("/family/profile/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
-	}
-	public class AddFamilyMemberInfo
-	{
-		public string firstName { get; set; }
-		public string middleName { get; set; }
-		public string lastName { get; set; }
-		public string extName { get; set; }
-		public string sex { get; set; }
-		public string birthdate { get; set; }
-		public string civilStatus { get; set; }
-		public string religion { get; set; }
-		public string education { get; set; }
-		public string occupation { get; set; }
-		public string ethnicity { get; set; }
-		public string healthCondition { get; set; }
-		public string remarks { get; set; }
-		public string memberID { get; set; }
-		public string familyID { get; set; }
-		public string serialNum { get; set; }
-		public string relationship { get; set; }
 	}
 }

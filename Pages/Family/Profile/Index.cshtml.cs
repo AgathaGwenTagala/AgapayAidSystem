@@ -1,5 +1,5 @@
-using AgapayAidSystem.Pages.Disaster.Profile;
-using AgapayAidSystem.Pages.Disaster;
+using AgapayAidSystem.Pages.Family.Profile;
+using AgapayAidSystem.Pages.Family;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
