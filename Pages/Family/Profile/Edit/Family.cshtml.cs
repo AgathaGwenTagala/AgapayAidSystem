@@ -1,4 +1,4 @@
-using AgapayAidSystem.Pages.Family.Add;
+using AgapayAidSystem.Pages.Family;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -163,4 +163,10 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
             Response.Redirect("/family/profile/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
         }
     }
+
+	public class BarangayInfo
+	{
+		public string barangayID { get; set; }
+		public string barangayName { get; set; }
+	}
 }
