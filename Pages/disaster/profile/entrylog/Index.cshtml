@@ -85,110 +85,112 @@
 			</select>
 		</div>
 
+		<style>
+			#checkOut{
+				padding:0px; /*to align the form to breadcrumb*/
+			}
+		</style>
+
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
 			<div class="container">
 				<!-- Breadcrumb -->
-				<div class="row">
-					<div class="breadcrumb-container">
-						<div aria-label="breadcrumb">
-							<ol class="breadcrumbs">
-								<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-								<li class="divider"> > </li>
-								<li><a href="/disaster/index">Disaster</a></li>
-								<li class="divider"> > </li>
-								<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
-								<li class="divider"> > </li>
-								<li><a class="active"><strong>@Model.logInfo.centerName</strong></a></li>
-							</ol>
-						</div>
-					</div>
+				<div class="row pb-2" aria-label="breadcrumb">
+					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></l>
+							<li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
+							<li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+							<li class="breadcrumb-item active"><a><strong>@Model.logInfo.centerName</strong></a></li>
+						</ol>
+					</nav>
 				</div>
 
 				<form method="POST" id="checkOut">
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-					<div class="row">
-						<div class="col d-flex align-items-center">
-							<h1>Entry Log</h1>
-						</div>
 
-						<!-- Check-In and Check-Out Buttons -->
-						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-							<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
-							</a>
-							<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-								Check-out Evacuee
-							</button>
+					<div class="row pb-2">
+						<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 5px">
+							<div class="d-flex align-items-center">
+								<h1>Entry Log</h1>
+							</div>
+
+							<!-- Check-In and Check-Out Buttons -->
+							<div class="d-flex justify-content-between align-items-center">
+								<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+								</a>
+								<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+									Check-out Evacuee
+								</button>
+							</div>
 						</div>
 					</div>
 
 					<!-- Table -->
-					<div class="row">
-						<div class="col-lg-12">
-							<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-								<thead>
+					<div class="col-lg-12">
+						<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+											<label class="form-check-label"></label>
+										</div>
+									</th>
+									<th>Name</th>
+									<th>Check-in Date</th>
+									<th>Check-out Date</th>
+									<th>Status</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model.listEntryLog)
+								{
 									<tr>
-										<th>
+										<td width="5%">
 											<div class="form-check">
-												<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+												<input class="form-check-input" type="checkbox" value="@item.entryLogID"
+													   name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
 												<label class="form-check-label"></label>
 											</div>
-										</th>
-										<th>Name</th>
-										<th>Check-in Date</th>
-										<th>Check-out Date</th>
-										<th>Status</th>
-										<th></th>
+										</td>
+										<td width="30%">@item.fullName</td>
+										<td width="20%">@item.checkInDate</td>
+										<td width="20%">@item.checkOutDate</td>
+										<td width="15%">
+											@if (@item.entryStatus == "Check-in")
+											{
+												<span class="badge bg-success">Check-in</span>
+											}
+											else if (@item.entryStatus == "Check-out")
+											{
+												<span class="badge rounded-pill bg-light">Check-out</span>
+											}
+										</td>
+										<td width="10%">
+											<div class="d-inline position-relative">
+												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+													<i class="bi bi-three-dots-vertical"></i>
+												</a>
+												<ul class="dropdown-menu" aria-labelledby="recordOptions">
+													<li>
+														<a class="dropdown-item" href="/family/index">View Family Profile</a>
+													</li>
+													<li>
+														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+														   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+															Delete Entry Log
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									@foreach (var item in Model.listEntryLog)
-									{
-										<tr>
-											<td width="5%">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" value="@item.entryLogID"
-														   name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
-													<label class="form-check-label"></label>
-												</div>
-											</td>
-											<td width="30%">@item.fullName</td>
-											<td width="20%">@item.checkInDate</td>
-											<td width="20%">@item.checkOutDate</td>
-											<td width="15%">
-												@if (@item.entryStatus == "Check-in")
-												{
-													<span class="badge bg-success">Check-in</span>
-												}
-												else if (@item.entryStatus == "Check-out")
-												{
-													<span class="badge rounded-pill bg-light">Check-out</span>
-												}
-											</td>
-											<td width="10%">
-												<div class="d-inline position-relative">
-													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bi bi-three-dots-vertical"></i>
-													</a>
-													<ul class="dropdown-menu" aria-labelledby="recordOptions">
-														<li>
-															<a class="dropdown-item" href="/family/index">View Family Profile</a>
-														</li>
-														<li>
-															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
-															   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																Delete Entry Log
-															</a>
-														</li>
-													</ul>
-												</div>
-											</td>
-										</tr>
-									}
-								</tbody>
-							</table>
-						</div>
+								}
+							</tbody>
+						</table>
 					</div>
 				</form>
 			</div>
