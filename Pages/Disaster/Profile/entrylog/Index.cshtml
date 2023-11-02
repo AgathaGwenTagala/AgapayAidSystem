@@ -1,0 +1,384 @@
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.entrylog.IndexModel
+@{
+	ViewData["Title"] = "Entry Log";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+<div class="container-fluid">
+	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+	<!-- Sidebar (desktop) -->
+	<div class="row">
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
+				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+			</select>
+		</div>
+
+		<!-- Page Content -->
+		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+			<div class="container">
+				<!-- Breadcrumb -->
+				<div class="row">
+					<div class="breadcrumb-container">
+						<div aria-label="breadcrumb">
+							<ol class="breadcrumbs">
+								<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/index">Disaster</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+								<li class="divider"> > </li>
+								<li><a class="active"><strong>@Model.logInfo.centerName</strong></a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+
+				<form method="POST" id="checkOut">
+					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+					<div class="row">
+						<div class="col d-flex align-items-center">
+							<h1>Entry Log</h1>
+						</div>
+
+						<!-- Check-In and Check-Out Buttons -->
+						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+							<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+							</a>
+							<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+								Check-out Evacuee
+							</button>
+						</div>
+					</div>
+
+					<!-- Table -->
+					<div class="row">
+						<div class="col-lg-12">
+							<table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+												<label class="form-check-label"></label>
+											</div>
+										</th>
+										<th>Name</th>
+										<th>Check-in Date</th>
+										<th>Check-out Date</th>
+										<th>Status</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model.listEntryLog)
+									{
+										<tr>
+											<td width="5%">
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" value="@item.entryLogID"
+														   name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
+													<label class="form-check-label"></label>
+												</div>
+											</td>
+											<td width="30%">@item.fullName</td>
+											<td width="20%">@item.checkInDate</td>
+											<td width="20%">@item.checkOutDate</td>
+											<td width="15%">
+												@if (@item.entryStatus == "Check-in")
+												{
+													<span class="badge bg-success">Check-in</span>
+												}
+												else if (@item.entryStatus == "Check-out")
+												{
+													<span class="badge rounded-pill bg-light">Check-out</span>
+												}
+											</td>
+											<td width="10%">
+												<div class="d-inline position-relative">
+													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots-vertical"></i>
+													</a>
+													<ul class="dropdown-menu" aria-labelledby="recordOptions">
+														<li>
+															<a class="dropdown-item" href="/family/index">View Family Profile</a>
+														</li>
+														<li>
+															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+															   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																Delete Entry Log
+															</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal: Confirm Check-out -->
+<div class="modal" id="confirmSaveModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Check-out</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to check-out the selected evacuees?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="confirmSaveButton">Check-out</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal: Confirm Delete -->
+<div class="modal" id="deleteConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to delete this entry log?</p>
+				<p><strong class="text-danger">This cannot be undone.</strong></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Sidebar (Mobile) -->
+<script>
+	// Get the current page URL
+	var currentPage = window.location.pathname.toLowerCase();
+
+	// Get the select element
+	var pageSelect = document.getElementById('pageSelect');
+
+	// Loop through the options and set the selected attribute if it matches the current page
+	for (var i = 0; i < pageSelect.options.length; i++) {
+		if (pageSelect.options[i].value.toLowerCase().includes(currentPage)) {
+			pageSelect.options[i].selected = true;
+			break; // Exit the loop once the first match is found
+		}
+	}
+
+	// Function to handle page redirection
+	function redirectToSelectedPage() {
+		var selectedOption = pageSelect.options[pageSelect.selectedIndex];
+		var selectedValue = selectedOption.value;
+		window.location.href = selectedValue;
+	}
+
+	// Attach the onchange event to the select element
+	pageSelect.addEventListener('change', redirectToSelectedPage);
+</script>
+
+<!-- Making the table responsive -->
+<script>
+	$(document).ready(function () {
+		$('#entrylog-table').DataTable({
+			responsive: true,
+			columnDefs: [
+				{ "orderable": true, "targets": [1, 2, 3] }, // Sortable columns
+				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
+			],
+			// Set initial sorting by the Check-in Date
+			order: [[2, 'asc']],
+			language: {
+				emptyTable: "There are no evacuees checked-in at this evacuation center.",
+			}
+		});
+	});
+</script>
+
+<!-- Select All checkboxes and Enable/disable "Check-out" button -->
+<script>
+	const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
+	const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
+	const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+
+	// Event listener for the "Select All" checkbox
+	selectAllCheckbox.addEventListener('change', function () {
+		checkboxes.forEach(checkbox => {
+			if (!checkbox.disabled) {
+				checkbox.checked = selectAllCheckbox.checked;
+			}
+		});
+		updateSaveSelectionButtonState();
+		updateButtonVisibility();
+	});
+
+	// Event listener for individual checkboxes
+	checkboxes.forEach(checkbox => {
+		checkbox.addEventListener('change', function () {
+			updateSelectAllCheckboxState();
+			updateSaveSelectionButtonState();
+			updateButtonVisibility();
+		});
+	});
+
+	// Function to show/hide "Check-in" & "Check-out" buttons
+	function updateButtonVisibility() {
+		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.some(checkbox => checkbox.checked);
+
+		const checkOutButton = document.querySelector('button[name="saveSelection"]');
+		const checkInButton = document.getElementById('checkInButton');
+
+		if (atLeastOneEnabledCheckboxChecked) {
+			checkOutButton.style.display = 'block'; // Show the "Check-out Evacuee" button
+			checkInButton.style.display = 'none'; // Hide the "Check-in Evacuee" button
+		} else {
+			checkOutButton.style.display = 'none'; // Hide the "Check-out Evacuee" button
+			checkInButton.style.display = 'block'; // Show the Check-in Evacuee button
+		}
+	}
+
+	// Function to check "Select All" checkbox when all enabled checkboxes are checked
+	function updateSelectAllCheckboxState() {
+		const allEnabledCheckboxesChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.every(checkbox => checkbox.checked);
+		selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+	}
+
+	// Function to enable "Check-out" button when at least one enabled checkbox is cheked
+	function updateSaveSelectionButtonState() {
+		const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
+			.filter(checkbox => !checkbox.disabled)
+			.some(checkbox => checkbox.checked);
+		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+	}
+</script>
+
+<!-- Check-out button in Modal -->
+<script>
+	document.getElementById('confirmSaveButton').addEventListener('click', function () {
+		document.getElementById('checkOut').submit();
+	});
+</script>
+
+<!-- Confirm Delete -->
+<script>
+	const deleteButtons = document.querySelectorAll('.edit-button');
+	let entryLogIdToDelete = null;
+	let centerLogID = null;
+
+	deleteButtons.forEach(function (button) {
+		button.addEventListener('click', function () {
+			entryLogIdToDelete = this.getAttribute('data-deleteid');
+		});
+	});
+
+	// Function to prepare for delete action
+	function prepareDelete(entryLogID) {
+		if (entryLogID === null || entryLogID === undefined) {
+			// Retrieve entryLogID from the button's data-deleteid attribute
+			entryLogIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+		} else {
+			entryLogIdToDelete = entryLogID;
+		}
+
+		// Retrieve centerLogID from the query string
+		const urlParams = new URLSearchParams(window.location.search);
+		centerLogID = urlParams.get("centerLogID");
+	}
+
+	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+
+	confirmDeleteButton.addEventListener('click', function () {
+		if (entryLogIdToDelete !== null) {
+			window.location.href = "/disaster/profile/entrylog/delete?entryLogID=" + entryLogIdToDelete + "&centerLogID=" + centerLogID;
+		}
+	});
+</script>

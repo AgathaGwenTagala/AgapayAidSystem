@@ -1,0 +1,228 @@
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.informationboard.IndexModel
+@{
+	ViewData["Title"] = "Information Board";
+}
+
+<!-- Alert Banners -->
+
+<div class="container-fluid">
+	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+	<div class="row">
+		<!-- Sidebar (desktop) -->
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
+				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+			</select>
+		</div>
+
+        <style>
+            .ec-info td {
+                width: 50%; /* Each column takes 50% width to make them equal */
+            }
+        </style>
+
+		<!-- Page Content -->
+		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+			<div class="container">
+				<!-- Breadcrumb -->
+				<div class="row">
+					<div class="breadcrumb-container">
+						<div aria-label="breadcrumb">
+							<ol class="breadcrumbs">
+								<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/index">Disaster</a></li>
+								<li class="divider"> > </li>
+								<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+								<li class="divider"> > </li>
+								<li><a class="active"><strong>@Model.logInfo.centerName</strong></a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+
+				<div class="row p-2">
+					<div class="col-lg-12 ec-info">
+
+                        <div>
+                            <h2 class="text-dark pb-2">Sample Evacuation Center</h2>
+                            <p>123 Sample St., San Delmonte, Bulacan</p>
+                            <p>Gymnasium</p>
+                            <p>123-345-89 / 0917-123-1234</p>
+                        </div>
+
+                        <hr />
+
+                        <p class="p-2">Assigned Staffs
+                            <span class="badge rounded-pill bg-primary pb-1">5</span>
+                        </p>
+                        <table class="table">
+                            <tr>
+                                <th>Manager</th>
+                                <td>John Doe</td>
+                            </tr>
+                            <tr>
+                                <th>Assistant Manager</th>
+                                <td>Jane Smith</td>
+                            </tr>
+                            <tr>
+                                <th>EC Staff</th>
+                                <td>
+                                    <ul style="list-style: none; padding: 0;">
+                                        <li>Robert Johnson</li>
+                                        <li>Sarah Williams</li>
+                                        <li>Michael Anderson</li>
+                                        <!-- Add more staff members as needed -->
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p class="p-2">
+                            Demographic Information</>
+                        <table class="table">
+                            <tr>
+                                <th>No. of Families</th>
+                                <td>50</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Individuals</th>
+                                <td>150</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Males</th>
+                                <td>75</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Females</th>
+                                <td>75</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Pregnant Women</th>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Children</th>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Elderly</th>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Persons with Disabilities (PWDs)</th>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <th>No. of 4Ps Beneficiary</th>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Families with Damaged Houses</th>
+                                <td>15 (Partially Damaged: 10, Totally Damaged: 5)</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Families living in Hazardous Areas</th>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <th>No. of Casualties (Dead, Missing, Injured)</th>
+                                <td>2 (1 Dead, 0 Missing, 1 Injured)</td>
+                            </tr>
+                        </table>
+
+                        <p class="p-2">Facilities</p>
+                        <table class="table">
+                            <tr>
+                                <th>Toilet</th>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <th>Bathing Cubicle</th>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <th>Community Kitchen</th>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <th>Washing Area</th>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <th>Women-friendly Spaces</th>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th>Child-Friendly Spaces</th>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <th>Multipurpose Areas</th>
+                                <td>3</td>
+                            </tr>
+                        </table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Get the current page URL
+	var currentPage = window.location.pathname.toLowerCase();
+
+	// Get the select element
+	var pageSelect = document.getElementById('pageSelect');
+
+	// Loop through the options and set the selected attribute if it matches the current page
+	for (var i = 0; i < pageSelect.options.length; i++) {
+		if (pageSelect.options[i].value.toLowerCase().includes(currentPage)) {
+			pageSelect.options[i].selected = true;
+			break; // Exit the loop once the first match is found
+		}
+	}
+
+	// Function to handle page redirection
+	function redirectToSelectedPage() {
+		var selectedOption = pageSelect.options[pageSelect.selectedIndex];
+		var selectedValue = selectedOption.value;
+		window.location.href = selectedValue;
+	}
+
+	// Attach the onchange event to the select element
+	pageSelect.addEventListener('change', redirectToSelectedPage);
+</script>
