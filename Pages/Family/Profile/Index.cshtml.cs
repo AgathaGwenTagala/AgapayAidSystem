@@ -1,9 +1,7 @@
-using AgapayAidSystem.Pages.Family.Profile;
-using AgapayAidSystem.Pages.Family;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using AgapayAidSystem.Pages.EvacuationCenter;
+
 
 namespace AgapayAidSystem.Pages.Family.Profile
 {
@@ -13,13 +11,15 @@ namespace AgapayAidSystem.Pages.Family.Profile
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<FamilyMemberInfo> listFamilyMember = new List<FamilyMemberInfo>();
 		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
-		public string barangayName { get; set; }
+		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
 		public void OnGet()
 		{
+			Barangays = GetBarangaysFromDatabase();
+			
 			string familyID = Request.Query["familyID"];
-
+			
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -47,7 +47,7 @@ namespace AgapayAidSystem.Pages.Family.Profile
 								familyInfo.livingInGida = familyReader.GetString(5);
 								familyInfo.beneficiary = familyReader.GetString(6);
 								familyInfo.serialNum = familyReader.GetString(7);
-								barangayName = familyReader.GetString(8);
+								familyInfo.barangayName = familyReader.GetString(8);
 							}
 						}
 					}
@@ -86,6 +86,49 @@ namespace AgapayAidSystem.Pages.Family.Profile
 				errorMessage = ex.Message;
 			}
 		}
+
+		private List<BarangayInfo> GetBarangaysFromDatabase()
+		{
+			var barangayData = new List<BarangayInfo>();
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+
+					string sql = "SELECT barangayID, barangayName FROM barangay";
+
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						using (MySqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								barangayData.Add(new BarangayInfo
+								{
+									barangayID = reader.GetString(0),
+									barangayName = reader.GetString(1)
+								});
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+			}
+
+			return barangayData;
+		}
+	}
+
+	public class BarangayInfo
+	{
+		public string barangayID { get; set; }
+		public string barangayName { get; set; }
 	}
 
 	public class FamilyInfo

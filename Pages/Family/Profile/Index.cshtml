@@ -29,24 +29,19 @@
 		</div>
 
 		<div class="col-auto button-spacer">
-			<!-- Button with text and icon (visible on larger screens) -->
-			<button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
-				<i class="bi bi-info-circle-fill"></i> Info
-			</button>
-
-			<!-- Button with only the icon (collapsed on smaller screens) -->
-			<button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
-				<i class="bi bi-info-circle-fill"></i>
-			</button>
-
 			<div class="d-inline position-relative">
 				<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="bi bi-three-dots-vertical"></i>
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="recordOptions">
 					<li>
+						<a class="dropdown-item" href="/family/profile/add/member/?familyID=@Model.familyInfo.familyID">
+							Add Family Member
+						</a>
+					</li>
+					<li>
 						<a class="dropdown-item" href="/family/profile/edit/family?familyID=@Model.familyInfo.familyID">
-							Edit Family Info
+							Edit Information
 						</a>
 					</li>
 					<li>
@@ -60,7 +55,7 @@
 		</div>
 	</div>
 
-	<div class="description">
+	<div>
 		<p>
 			<strong>Street Address:</strong>
 			@Model.familyInfo.streetAddress
@@ -89,20 +84,7 @@
 </div>
 
 <div class="content">
-    <!-- Title and Allocate Button-->
-    <div class="row p-2">
-        <div class="col d-flex align-items-center">
-            <h1>Family Log</h1>
-        </div>
 
-        <div class="col-auto d-flex justify-content-between align-items-center">
-            <div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2" href="/family/profile/add/member/?familyID=@Model.familyInfo.familyID">
-                    <i class="bi bi-building-add"></i>Add Family Member
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- Table -->
     <div class="row p-2">
@@ -111,8 +93,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
-						<th>Family Relationship</th>
-                        <th>Name</th>
+						<th>Name</th>
+						<th>Role</th>
                         <th>Sex</th>
                         <th>Birth Date</th>
 						<th>Civil Status</th>
@@ -125,12 +107,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{ var counter = 1; }
+                    @{ var counter = 0; }
                     @foreach (var item in Model.listFamilyMember)
                     {
                         <tr>
+							<td width="15%">@item.firstName</td>
 							<td width="20%">@item.relationship</td>
-                            <td width="15%">@item.firstName</td>
                             <td width="15%">@item.sex</td>
                             <td width="15%">@item.birthdate</td>
 							<td width="15%">@item.civilStatus</td>
@@ -139,11 +121,26 @@
 							<td width="15%">@item.religion</td>
 							<td width="15%">@item.ethnicity</td>
 							<td width="15%">@item.healthCondition</td>
-                            <td width="10%">
-								<a class="btn btn-success edit-button" href="/family/profile/informationboard/index?familyID=@item.memberID">
-                                    View
-                                </a>
-                            </td>
+							<td width="5%">
+								<div class="d-inline position-relative">
+									<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="bi bi-three-dots-vertical"></i>
+									</a>
+									<ul class="dropdown-menu" aria-labelledby="recordOptions">
+										<li>
+											<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
+												Edit Member
+											</a>
+										</li>
+										<li>
+											<a href="#" class="text-danger dropdown-item delete-member-button" onclick="prepareDeleteMember('@item.memberID')"
+											   data-deleteid="@item.memberID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+												Delete Member
+											</a>
+										</li>
+									</ul>
+								</div>
+							</td>
                         </tr>
                         counter++;
                     }
@@ -193,8 +190,8 @@
 		$('#eclog-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 3, 4, 5, 6, 7, 8, 9, 10] }, // Sortable columns
-				{ "orderable": false, "targets": [2] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10] }, // Sortable columns
+				{ "orderable": false, "targets": [1, 11] } // Non-sortable columns
 			],
 			language: {
 				emptyTable: "There are no family member to this family.",
