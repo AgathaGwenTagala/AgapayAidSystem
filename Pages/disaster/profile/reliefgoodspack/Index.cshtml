@@ -1,78 +1,83 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.reliefgoodspack.IndexModel
 @{
+	ViewData["Title"] = "Relief Packs";
 }
 
 <div class="container-fluid">
 
-	<!--INSERT CENTER LOG ID-->
+	<!--SIDEBAR-->
 
-	<div class="row">
+	<!-- Page Content -->
+	<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+		<div class="container p-2">
+			<!-- Breadcrumb -->
+			<div class="row pb-2" aria-label="breadcrumb">
+				<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></l>
+						<li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
+						<li class="breadcrumb-item"><a href="/disaster/profile"></a>Typhoon Pedro</li>
+						<li class="breadcrumb-item active"><a><strong>Sample Evacuation Center</strong></a></li>
+					</ol>
+				</nav>
+			</div>
 
-		<!--INSERT SIDEBAR-->
-
-		<!-- Page Content -->
-		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
-			<div class="container p-2">
-				<div class="row">
-					<ul class="breadcrumbs">
-						<li><a href="/disaster/index">Disaster</a></li>
-						<li class="divider">/</li>
-						<li><a href="/disaster/profile">Typhoon Pedro</a></li>
-						<li class="divider">/</li>
-						<li><a href="#" class="active">Evacuation Center Name</a></li>
-					</ul>	
-				</div>
-
-				<div class="col d-flex align-items-center">
-					<h1><i class="bi bi-boxes"></i>Relief Pack</h1>
-				</div>
-
-				<div class="row p-2">
-					<div class="col-lg-12">
-						<table id="disaster-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-									<th width="5%">#</th>
-									<th width="20%">Pack ID</th>
-									<th width="15%">Staff ID</th>
-									<th width="15%">Qty</th>
-									<th width="15%">Distributed ID</th>
-									<th width="15%">Not Distributed</th>
-									<th width="10%">Status</th>
-									<th> </th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td width="5%">1</td>
-									<th width="15%">PCK00000107</th>
-									<td width="15%">ECS0000005</td>
-									<td width="15%">100</td>
-									<td width="15%">100</td>
-									<td width="15%">0</td>
-									<td width="10%">
-										<span class="badge bg-success">Distributed</span>
-									</td>
-									<td>
-										<div class="d-flex align-items-center" style="gap: 5px">
-											<div class="d-inline position-relative">
-												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="bi bi-three-dots-vertical"></i>
-												</a>
-												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													<li><a href="#" class="dropdown-item">Edit</a></li>
-													<li><a href="#" class="dropdown-item text-danger">Delete</a></li>
-													<li><a href="/disaster/view" class="dropdown-item">View Inclusion</a></li>
-												</ul>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+			<div class="row pb-2">
+				<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 5px">
+					<div class="d-flex align-items-center">
+						<h1><i class="bi bi-boxes"></i>Relief Pack</h1>
 					</div>
+
+					<a id="addPack" class="btn btn-primary mb-2" href="/disaster/profile/reliefgoodspacl/Add">
+						<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Pack
+					</a>
 				</div>
+			</div>
+
+			<!-- Table -->
+			<div class="col-lg-12">
+				<table id="disaster-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th width="5%">#</th>
+							<th width="20%">Pack ID</th>
+							<th width="15%">Staff ID</th>
+							<th width="15%">Qty</th>
+							<th width="15%">Distributed ID</th>
+							<th width="15%">Not Distributed</th>
+							<th width="10%">Status</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td width="5%">1</td>
+							<th width="15%">PCK00000107</th>
+							<td width="15%">ECS0000005</td>
+							<td width="15%">100</td>
+							<td width="15%">100</td>
+							<td width="15%">0</td>
+							<td width="10%">
+								<span class="badge bg-success">Distributed</span>
+							</td>
+							<td>
+								<div class="d-flex align-items-center" style="gap: 5px">
+									<div class="d-inline position-relative">
+										<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+											<i class="bi bi-three-dots-vertical"></i>
+										</a>
+										<ul class="dropdown-menu" aria-labelledby="recordOptions">
+											<li><a href="#" class="dropdown-item">Edit</a></li>
+											<li><a href="#" class="dropdown-item text-danger">Delete</a></li>
+											<li><a href="/disaster/view" class="dropdown-item">View Inclusion</a></li>
+										</ul>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
