@@ -96,21 +96,7 @@
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
 			<div class="container">
 				<!-- Breadcrumb -->
-				<div class="row">
-					<div class="breadcrumb-container">
-						<div aria-label="breadcrumb">
-							<ol class="breadcrumbs">
-								<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-								<li class="divider"> > </li>
-								<li><a href="/disaster/index">Disaster</a></li>
-								<li class="divider"> > </li>
-								<li><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
-								<li class="divider"> > </li>
-								<li><a class="active"><strong>@Model.logInfo.centerName</strong></a></li>
-							</ol>
-						</div>
-					</div>
-				</div>
+				
 
 				<!-- Title and Add Button -->
 				<div class="row">
@@ -129,11 +115,11 @@
 					<div class="col-lg-12">
 						<table id="reliefpack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 							<thead>
-								<tr>
+								<tr style="vertical-align:text-top;">
 									<th>#</th>
 									<th>Pack Qty</th>
-									<th>Distributed</th>
-									<th>Remaining</th>
+									<th>Distributed Qty</th>
+									<th>Remaining Qty</th>
 									<th>Created At</th>
 									<th>Distributed At</th>
 									<th>Status</th>
@@ -144,14 +130,14 @@
 								@{ var counter = 1; }
 								@foreach (var item in Model.listReliefPack)
 								{
-									<tr>
+									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
-										<th width="15%">@item.packQty</th>
-										<td width="15%">@item.distributedQty</td>
-										<td width="15%">@item.remainingQty</td>
-										<td width="15%">@item.createdAt</td>
-										<td width="15%">@item.distributedAt</td>
-										<td width="15%">
+										<th width="10%">@item.packQty</th>
+										<td width="10%">@item.distributedQty</td>
+										<td width="10%">@item.remainingQty</td>
+										<td width="20%" style="text-align:left">@item.createdAt</td>
+										<td width="20%" style="text-align:left">@item.distributedAt</td>
+										<td width="10%">
 											@if (@item.status == "Distributed")
 											{
 												<span class="badge bg-success">@item.status</span>
@@ -161,7 +147,7 @@
 												<span class="badge rounded-pill bg-light">@item.status</span>
 											}
 										</td>
-										<td width="10%">
+										<td width="5%">
 											<div class="d-inline position-relative">
 												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 													<i class="bi bi-three-dots-vertical"></i>
