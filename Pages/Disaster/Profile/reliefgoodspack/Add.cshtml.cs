@@ -135,7 +135,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                         insertPackCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
                         insertPackCommand.Parameters.AddWithValue("@packQty", packQty);
                         insertPackCommand.ExecuteNonQuery();
-
                         // Console.WriteLine("Successfully inserted into 'pack' table.");
                     }
 
@@ -162,8 +161,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                             insertCommand.Parameters.AddWithValue("@batchInclusionID", batchInclusionID);
                             insertCommand.Parameters.AddWithValue("@packID", newPackID);
                             insertCommand.Parameters.AddWithValue("@qty", qtyInput);
-
                             int rowsInserted = insertCommand.ExecuteNonQuery();
+
                             if (rowsInserted == 1)
                             {
                                 Console.WriteLine($"Successfully inserted into 'pack_inclusion' table for batchInclusionID: {batchInclusionID}");
@@ -177,7 +176,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                         }
                     }
 
-                    // If all selected staff members were successfully assigned
+                    // If pack and all selected pack inclusions were successfully added
                     successMessage = "Relief goods pack and selected pack inclusions added successfully!";
                 }
             }
