@@ -90,7 +90,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
             }
         }
 
-        public void OnPost()
+        public void OnPost(string[] selectedInclusion, string[] qty)
         {
             bool errorOccurred = false;
 
@@ -100,93 +100,91 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                 errorOccurred = true;
             }
 
-            // Extract centerLogID and packQty from the form
+            if (selectedInclusion == null || selectedInclusion.Length == 0)
+            {
+                errorMessage = "Please select at least one evacuee to check-out.";
+                errorOccurred = true;
+            }
+
             string centerLogID = Request.Form["centerLogID"];
             string packQty = Request.Form["packQty"];
 
-            if (string.IsNullOrEmpty(centerLogID) || string.IsNullOrEmpty(packQty))
+            if (string.IsNullOrEmpty(centerLogID))
             {
-                errorMessage = "Invalid input data.";
+                errorMessage = "Missing centerLogID";
                 errorOccurred = true;
             }
-            else
+            
+            if (string.IsNullOrEmpty(packQty))
             {
-                try
+                errorMessage = "Missing packQty";
+                errorOccurred = true;
+            }
+
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    connection.Open();
+
+                    // Step 1: Insert into the 'pack' table
+                    string insertPackSql = "INSERT INTO pack (centerLogID, packQty) VALUES (@centerLogID, @packQty)";
+                    using (MySqlCommand insertPackCommand = new MySqlCommand(insertPackSql, connection))
                     {
-                        connection.Open();
-                        
-                            // Step 1: Insert into the 'pack' table
-                            string insertPackSql = "INSERT INTO pack (centerLogID, packQty) VALUES (@centerLogID, @packQty)";
-                            using (MySqlCommand insertPackCommand = new MySqlCommand(insertPackSql, connection))
-                            {
-                                insertPackCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
-                                insertPackCommand.Parameters.AddWithValue("@packQty", packQty);
-                                insertPackCommand.ExecuteNonQuery();
+                        insertPackCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        insertPackCommand.Parameters.AddWithValue("@packQty", packQty);
+                        insertPackCommand.ExecuteNonQuery();
 
-                            // Log the successful 'pack' insertion
-                            Console.WriteLine("Successfully inserted into 'pack' table.");
-                        }
-
-                            // Retrieve the last inserted packID from the 'pack' table
-                            string newPackID;
-                            using (MySqlCommand selectMaxPackID = new MySqlCommand("SELECT MAX(packID) FROM pack", connection))
-                            {
-                                newPackID = selectMaxPackID.ExecuteScalar().ToString();
-                            }
-                        Console.WriteLine($"Retrieved new packID: {newPackID}");
-
-                        // Step 2: Loop through inclusions and insert into the 'pack_inclusion' table and update 'batch_inclusion'
-                        using (MySqlCommand insertInclusionCommand = new MySqlCommand("INSERT INTO pack_inclusion (batchInclusionID, packID, qty) VALUES (@batchInclusionID, @packID, @qty);", connection))
-                        {
-                            insertInclusionCommand.Parameters.AddWithValue("@packID", newPackID);
-                            insertInclusionCommand.Parameters.Add(new MySqlParameter("@batchInclusionID", MySqlDbType.String));
-                            insertInclusionCommand.Parameters.Add(new MySqlParameter("@qty", MySqlDbType.Int32));
-
-                            // Loop through inclusions
-                            for (int i = 0; i < listAvInclusion.Count; i++)
-                            {
-                                string batchInclusionID = listAvInclusion[i].batchInclusionID;
-                                string qty = Request.Form["qty"]; // The input name for quantity is "qty"
-
-                                // Set parameters for the current inclusion
-                                insertInclusionCommand.Parameters["@batchInclusionID"].Value = batchInclusionID;
-                                insertInclusionCommand.Parameters["@qty"].Value = qty;
-
-                                // Execute the INSERT INTO pack_inclusion statement for the current inclusion
-                                insertInclusionCommand.ExecuteNonQuery();
-
-                                // Log the successful 'pack_inclusion' insertion
-                                Console.WriteLine($"Successfully inserted into 'pack_inclusion' table for batchInclusionID: {batchInclusionID}");
-
-                                // Update packedQty in batch_inclusion table for the current inclusion
-                                string updateBatchInclusionSql = "UPDATE batch_inclusion SET packedQty = packedQty + (@packQty * @qty) WHERE batchInclusionID = @batchInclusionID";
-                                using (MySqlCommand updateBatchInclusionCommand = new MySqlCommand(updateBatchInclusionSql, connection))
-                                {
-                                    updateBatchInclusionCommand.Parameters.AddWithValue("@packQty", packQty);
-                                    updateBatchInclusionCommand.Parameters.AddWithValue("@qty", qty);
-                                    updateBatchInclusionCommand.Parameters.AddWithValue("@batchInclusionID", batchInclusionID);
-
-                                    // Execute the UPDATE statement for the current inclusion
-                                    updateBatchInclusionCommand.ExecuteNonQuery();
-
-                                    // Log the successful 'batch_inclusion' update for the current inclusion
-                                    Console.WriteLine($"Successfully updated 'batch_inclusion' for batchInclusionID: {batchInclusionID}");
-                                }
-                            }
-                        }
-
-                        successMessage = "Relief pack added successfully!";
-                        
+                        // Console.WriteLine("Successfully inserted into 'pack' table.");
                     }
+
+                    // Step 2: Retrieve the last inserted packID from the 'pack' table
+                    string newPackID;
+                    string selectMaxPackIDSql = "SELECT MAX(packID) FROM pack WHERE packQty = @packQty";
+                    using (MySqlCommand selectMaxPackID = new MySqlCommand(selectMaxPackIDSql, connection))
+                    {
+                        selectMaxPackID.Parameters.AddWithValue("@packQty", packQty);
+                        newPackID = selectMaxPackID.ExecuteScalar()?.ToString();
+                    }
+                    // Console.WriteLine($"Retrieved new packID: {newPackID} with packQty {packQty}");
+
+                    // Step 3: Loop through inclusions and insert into the 'pack_inclusion' table
+                    for (int i = 0; i < selectedInclusion.Length; i++)
+                    {
+                        string batchInclusionID = selectedInclusion[i];
+                        string qtyInput = qty[i]; // Retrieve the qty for the current inclusion
+
+                        string insertSql = "INSERT INTO pack_inclusion (batchInclusionID, packID, qty) " +
+                                           "VALUES (@batchInclusionID, @packID, @qty)";
+                        using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@batchInclusionID", batchInclusionID);
+                            insertCommand.Parameters.AddWithValue("@packID", newPackID);
+                            insertCommand.Parameters.AddWithValue("@qty", qtyInput);
+
+                            int rowsInserted = insertCommand.ExecuteNonQuery();
+                            if (rowsInserted == 1)
+                            {
+                                Console.WriteLine($"Successfully inserted into 'pack_inclusion' table for batchInclusionID: {batchInclusionID}");
+                            }
+                            else
+                            {
+                                errorMessage = "Failed to add one or more pack inclusions.";
+                                errorOccurred = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // If all selected staff members were successfully assigned
+                    successMessage = "Relief goods pack and selected pack inclusions added successfully!";
                 }
-                catch (Exception ex)
-                {
-                    errorMessage = ex.Message;
-                    errorOccurred = true;
-                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
             if (errorOccurred)
