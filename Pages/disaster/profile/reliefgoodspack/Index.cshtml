@@ -1,7 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.reliefgoodspack.IndexModel
 @{
-	ViewData["Title"] = "Relief Pack";
+	ViewData["Title"] = "Relief Goods Pack";
 }
 
 <!-- Alert Banners -->
@@ -154,7 +154,7 @@
 												</a>
 												<ul class="dropdown-menu" aria-labelledby="recordOptions">
 													<li>
-														<a class="dropdown-item" href="\disaster\profile\reliefgoodspack\view">View Inclusion</a>
+														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view">View Inclusion</a>
 													</li>
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
@@ -166,6 +166,7 @@
 											</div>
 										</td>
 									</tr>
+									counter++;
 								}
 							</tbody>
 						</table>

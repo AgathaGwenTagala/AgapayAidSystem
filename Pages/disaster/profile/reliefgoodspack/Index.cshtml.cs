@@ -89,8 +89,5 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
 		public string status { get; set; }
 		public string createdAt { get; set; }
 		public string distributedAt { get; set; }
-		public string packInclusionID { get; set; }
-		public string batchInclusionID { get; set; }
-		public string qty { get; set; }
 	}
 }
