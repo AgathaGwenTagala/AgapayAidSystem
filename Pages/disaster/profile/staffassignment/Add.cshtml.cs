@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.disaster.profile.entrylog;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

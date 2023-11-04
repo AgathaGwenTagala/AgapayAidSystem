@@ -1,0 +1,53 @@
+﻿@page
+@using MySql.Data.MySqlClient;
+@using Microsoft.Extensions.Configuration
+@{
+    string errorMessage = "";
+    string successMessage = "";
+    string centerLogID = Request.Query["centerLogID"];
+
+    try
+    {
+        if (Request.Query.ContainsKey("packID"))
+        {
+            string packID = Request.Query["packID"];
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM pack WHERE packID = @packID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@packID", packID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        successMessage = "Relief good pack deleted successfully!";
+                    }
+                    else
+                    {
+                        errorMessage = "Relief good pack not found with the provided packID.";
+                    }
+                }
+            }
+        }
+        else
+        {
+            errorMessage = "packID parameter is missing from the query string.";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    Response.Redirect("/disaster/profile/reliefgoodspack/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+}

@@ -1,12 +1,42 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack.AddModel
 @{
+    ViewData["Title"] = "Add Relief Goods Pack";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
 }
 
 <style>
     .input-pack {
         width: 80px;
-        margin-right: 10px;
+        margin-left: 10px;
+        text-align: center;
+    }
+    
+    .input-inclusion {
+        width: 80px;
+        text-align: center;
+        display: flex;
+        margin: 0 auto;
     }
 
     .label-pack {
@@ -23,66 +53,207 @@
 </style>
 
 <div class="container p-2 form-container">
-
     <div class="container mt-4 form-container-content">
-
         <div class="row">
             <div class="col text-center">
-                <h1>Add Pack</h1>
+                <h1>Add Relief Goods Pack</h1>
             </div>
         </div>
-        <form method="POST">
+        <form method="POST" id="addpack">
+            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
             <div class="row mb-3">
                 <p class="text-danger text-end">* Required field</p>
             </div>
 
-            <div>
-                <p><strong>Pack ID:</strong> PCK00000107</p>
-                <p><strong>Staff ID:</strong> ECS0000005</p>
-            </div>
-
-            <div class="mb-3 pt-2">
-                <div class="row align-items-center">
-                    <div class="col-6">
-                        <label class="form-label">
-                            Quantity:
-                            <span class="text-danger" style="padding: 5px">*</span>
-                        </label>
-                    </div>
-                    <div class="col-6">
-                        <input type="text" class="form-control" name="packQty" required maxlength="5">
+            <!-- Pack Quantity -->
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center">
+                            <label class="form-label">
+                                Quantity of Total Packs:
+                                <span class="text-danger" style="padding: 5px">*</span>
+                            </label>
+                            <input type="number" class="form-control input-pack" name="packQty" id="packQty" placeholder="0" step="1" min="0" required />
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!--TO BE LOOPED IN ITEM TABLES-->
-			<div class="mb-3 mt-4 text-center">
-                <p class="form-label">
-                    Pack Inclusion
-                    <span class="text-danger" style="padding: 5px">*</span>
-                </p>
+            <!-- Inclusion Quantity -->
+            <div class="row pt-4">
+                <div class="col-lg-12">
+                    <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </th>
+                                <th>Item</th>
+                                <th>Type</th>
+                                <th>Unit Measure</th>
+                                <th style="text-align: center;">Available Qty</th>
+                                <th style="text-align: center;">Qty per Pack</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listAvInclusion)
+                            {
+                                <tr>
+                                    <td width="5%">
+                                        <div class="form-check">
+                                            <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.batchInclusionID" name="selectedInclusion[]">
+                                            <label class="form-check-label"></label>
+                                        </div>
+                                    </td>
+                                    <td width="20%">@item.itemName</td>
+                                    <td width="15%">@item.itemType</td>
+                                    <td width="20%">@item.unitMeasure</td>
+                                    <td width="20%" style="text-align: center;">@item.remainingQty</td>
+                                    <td width="20%">
+                                        <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
+                                               data-max-qty="@item.remainingQty" disabled required />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
-                <p class="text-muted">
-                    <i>Incase of the item is not included in the choices, contact the system administrator to add the item to the database</i>
-                </p>
-
-				<div class="row justify-content-center">
-					<div class="col-md-4">
-						<div class="mb-3">
-							<div class="d-flex align-items-center">
-								<input type="number" class="form-control input-pack" placeholder="0" step="1" min="0" required />
-								<label class="form-label label-pack">Rice</label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-            <!-- Cancel and Save Button -->
-            <div class="button-spacer">
-                <a class="btn btn-outline-secondary mr-10" href="/reliefgoodspack/index" role="button">Cancel</a>
-                <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+                    <!-- Cancel and Add Buttons -->
+                    <div class="button-spacer">
+                        <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
+                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Add</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Modal: Confirm Add -->
+<div class="modal" id="confirmSaveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Add</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to add this pack with the selected inclusions?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Making the table responsive
+        var table = $('#inclusion-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [1, 2, 3, 4] }, // Sortable columns
+                { "orderable": false, "targets": [0, 5] }, // Non-sortable columns
+                { "responsivePriority": -1, "targets": [0, 5] } // Disable responsive for checkbox and qty per pack column
+            ],
+            language: {
+                emptyTable: "There are no relief pack inclusions available for this evacuation center.",
+            }
+        });
+
+        // Disable checkboxes by default
+        $('.inclusion-checkbox').prop('disabled', true);
+        $('#selectAllCheckboxes').prop('disabled', true);
+
+        // Disable "Qty per Pack" input fields by default
+        $('input.qty').prop('disabled', true);
+
+        // Handle checkbox state changes
+        $('.inclusion-checkbox').on('change', function () {
+            updateAddButtonState();
+        });
+
+        // Handle "Select All" checkbox
+        $('#selectAllCheckboxes').on('change', function () {
+            var selectAllCheckbox = $(this);
+            var individualCheckboxes = $('.inclusion-checkbox');
+
+            if (selectAllCheckbox.is(':checked')) {
+                individualCheckboxes.prop('checked', true);
+            } else {
+                individualCheckboxes.prop('checked', false);
+            }
+
+            updateAddButtonState();
+        });
+
+        $('input[name="packQty"]').on('input', function () {
+            updateAddButtonState();
+        });
+
+        $('input.qty').on('input', function () {
+            updateAddButtonState();
+        });
+
+        function updateAddButtonState() {
+            var packQty = parseInt($('input[name="packQty"]').val());
+            var disableAdd = true;
+
+            // Enable or disable the checkboxes based on packQty
+            if (packQty > 0) {
+                $('.inclusion-checkbox').prop('disabled', false);
+                $('#selectAllCheckboxes').prop('disabled', false);
+            } else {
+                $('.inclusion-checkbox').prop('disabled', true);
+                $('.inclusion-checkbox').prop('checked', false); // Uncheck all checkboxes
+            }
+
+            // Enable or disable the "Qty per Pack" input fields based on checkboxes
+            $('.inclusion-checkbox').each(function () {
+                var checkbox = $(this);
+                var input = checkbox.closest('tr').find('input.qty');
+                var remainingQty = parseInt(input.attr('data-max-qty'));
+                var maxQtyPerPack = Math.floor(remainingQty / packQty);
+
+                // Store maxQtyPerPack as a data attribute
+                input.data('maxQtyPerPack', maxQtyPerPack);
+
+                if (checkbox.is(':checked') && packQty > 0) {
+                    input.prop('disabled', false);
+                    input.attr('max', maxQtyPerPack); // Set the max attribute based on maxQtyPerPack
+                } else {
+                    input.prop('disabled', true);
+                    input.val(0); // Clear the input when unchecked
+                }
+
+                var itemQty = parseInt(input.val());
+                if (checkbox.is(':checked')) {
+                    if (itemQty <= 0) {
+                        disableAdd = true;
+                    }
+                    else if (itemQty > 0 && itemQty <= maxQtyPerPack)
+                    {
+                        disableAdd = false;
+                    }
+                }
+            });
+
+            // Enable or disable the "Add" button based on the conditions
+            var addButton = $('button[name="saveSelection"]');
+            addButton.prop('disabled', disableAdd);
+        }
+    });
+</script>
+
+<!-- Add button in Modal -->
+<script>
+    document.getElementById('confirmSaveButton').addEventListener('click', function () {
+        document.getElementById('addpack').submit();
+    });
+</script>
