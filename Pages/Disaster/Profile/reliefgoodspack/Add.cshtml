@@ -142,7 +142,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to add this pack?</p>
+                <p>Are you sure you want to add this pack with the selected inclusions?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -158,9 +158,9 @@
         var table = $('#inclusion-table').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3] }, // Sortable columns
-                { "orderable": false, "targets": [4] }, // Non-sortable columns
-                { "responsivePriority": -1, "targets": [0, 4] } // Disable responsive for # and qty per pack column
+                { "orderable": true, "targets": [1, 2, 3, 4] }, // Sortable columns
+                { "orderable": false, "targets": [0, 5] }, // Non-sortable columns
+                { "responsivePriority": -1, "targets": [0, 5] } // Disable responsive for checkbox and qty per pack column
             ],
             language: {
                 emptyTable: "There are no relief pack inclusions available for this evacuation center.",
@@ -257,68 +257,3 @@
         document.getElementById('addpack').submit();
     });
 </script>
-
-@*<!-- Select All checkboxes and Enable/disable "Add" button -->
-<script>
-    const selectAllInclusionCheckbox = document.getElementById('selectAllCheckboxes');
-    const inclusionCheckboxes = document.querySelectorAll('input[name="selectedInclusion[]"]');
-    const qtyInputs = document.querySelectorAll('.qty-input');
-    const addReliefGoodsButton = document.querySelector('button[name="saveSelection"]');
-
-    // Event listener for the "Select All" checkbox for inclusions
-    selectAllInclusionCheckbox.addEventListener('change', function () {
-        inclusionCheckboxes.forEach((checkbox, index) => {
-            if (!checkbox.disabled) {
-                checkbox.checked = selectAllInclusionCheckbox.checked;
-                qtyInputs[index].disabled = !selectAllInclusionCheckbox.checked;
-                if (!selectAllInclusionCheckbox.checked) {
-                    qtyInputs[index].value = ""; // Reset the quantity when unchecked
-                }
-            }
-        });
-        updateAddReliefGoodsButtonState();
-    });
-
-    // Event listener for individual inclusion checkboxes
-    inclusionCheckboxes.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function () {
-            updateSelectAllInclusionCheckboxState();
-            updateAddReliefGoodsButtonState();
-            qtyInputs[index].disabled = !checkbox.checked;
-            if (!checkbox.checked) {
-                qtyInputs[index].value = ""; // Reset the quantity when unchecked
-            }
-        });
-    });
-
-    // Event listener for quantity input elements
-    qtyInputs.forEach((qtyInput, index) => {
-        qtyInput.addEventListener('change', function () {
-            updateAddReliefGoodsButtonState();
-        });
-    });
-
-    function updateSelectAllInclusionCheckboxState() {
-        const allEnabledCheckboxesChecked = Array.from(inclusionCheckboxes)
-            .filter(checkbox => !checkbox.disabled)
-            .every(checkbox => checkbox.checked);
-        selectAllInclusionCheckbox.checked = allEnabledCheckboxesChecked;
-    }
-
-    function updateAddReliefGoodsButtonState() {
-        const atLeastOneEnabledCheckboxChecked = Array.from(inclusionCheckboxes)
-            .filter(checkbox => !checkbox.disabled)
-            .some(checkbox => checkbox.checked);
-
-        // Check if all checked checkboxes have a quantity input filled
-        const allCheckedHaveQuantity = Array.from(inclusionCheckboxes)
-            .filter((checkbox, index) => checkbox.checked)
-            .every((checkbox, index) => {
-                return !qtyInputs[index].disabled && qtyInputs[index].value !== "";
-            });
-
-        // Enable the "Add" button only if both conditions are met
-        addReliefGoodsButton.disabled = !atLeastOneEnabledCheckboxChecked || !allCheckedHaveQuantity;
-    }
-
-</script>*@
