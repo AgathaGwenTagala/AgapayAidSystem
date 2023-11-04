@@ -96,16 +96,16 @@
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
 			<div class="container">
 				<!-- Breadcrumb -->
-			  <div class="row pb-2" aria-label="breadcrumb">
-				<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-						<li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
-						<li class="breadcrumb-item"><a href="/disaster/profile"></a>Typhoon Pedro</li>
-						<li class="breadcrumb-item active"><a><strong>Sample Evacuation Center</strong></a></li>
-					</ol>
-				</nav>
-			  </div>
+				<div class="row pb-2" aria-label="breadcrumb">
+					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+							<li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
+							<li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+							<li class="breadcrumb-item active"><a><strong>@Model.logInfo.centerName</strong></a></li>
+						</ol>
+					</nav>
+				</div>
 
 				<!-- Title and Add Button -->
 				<div class="row">
