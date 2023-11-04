@@ -27,13 +27,14 @@
 
 <div class="container p-2">
     <!-- Breadcrumb -->
-    <div class="row" aria-label="breadcrumb">
+    <div class="row pb-2" aria-label="breadcrumb">
         <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
                 <li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
-                <li class="breadcrumb-item"><a href="/disaster/profile"></a>Typhoon Pedro</li>
-                <li class="breadcrumb-item active"><a><strong>Sample Evacuation Center</strong></a></li>
+                <li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+                <li class="breadcrumb-item active"><a href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">@Model.logInfo.centerName</a></li>
+                <li class="breadcrumb-item active"><a><strong>Relief Goods Pack</strong></a></li>
             </ol>
         </nav>
     </div>

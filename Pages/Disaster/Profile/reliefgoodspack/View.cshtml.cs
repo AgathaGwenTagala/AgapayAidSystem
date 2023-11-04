@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -8,7 +9,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
     {
 		private readonly IConfiguration _configuration;
 		public ViewModel(IConfiguration configuration) => _configuration = configuration;
-		public List<PackInclusionInfo> listPackInclusion { get; set; } = new List<PackInclusionInfo>();
+        public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
+        public List<PackInclusionInfo> listPackInclusion { get; set; } = new List<PackInclusionInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
 
@@ -23,8 +25,30 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 				{
 					connection.Open();
 
-					// Fetch relief pack data related to the selected center log
-					string sql = "SELECT p.*, (pp.packQty * p.qty) AS totalQty, i.itemName, i.itemType, i.unitMeasure " +
+                    // Fetch info of selected center log from the database
+                    string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+                                    "FROM evacuation_center_log AS log " +
+                                    "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+                                    "INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
+                                    "WHERE log.centerLogID = @centerLogID";
+                    using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+                    {
+                        logCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader logReader = logCommand.ExecuteReader())
+                        {
+                            if (logReader.Read())
+                            {
+                                logInfo.centerLogID = logReader.GetString(0);
+                                logInfo.disasterID = logReader.GetString(1);
+                                logInfo.disasterName = logReader.GetString(2);
+                                logInfo.centerName = logReader.GetString(3);
+                            }
+                        }
+                    }
+
+                    // Fetch pack inclusion related to the selected relief goods pack
+                    string sql = "SELECT p.*, (pp.packQty * p.qty) AS totalQty, " +
+								 "i.itemName, i.itemType, i.unitMeasure " +
 								 "FROM pack_inclusion p " +
 								 "JOIN pack pp ON p.packID = pp.packID " +
 								 "JOIN batch_inclusion b ON p.batchInclusionID = b.batchInclusionID " +
