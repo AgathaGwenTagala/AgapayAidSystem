@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Family.Vulnerability
+namespace AgapayAidSystem.Pages.Disaster.Profile
 {
-    public class IndexModel : PageModel
+    public class ReportModel : PageModel
     {
         public void OnGet()
         {

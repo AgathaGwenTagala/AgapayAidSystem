@@ -1,8 +1,9 @@
+using AgapayAidSystem.Pages.Family;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Family.Add
+namespace AgapayAidSystem.Pages.Family.Profile.Add
 {
     public class MemberModel : PageModel
     {
@@ -80,8 +81,7 @@ namespace AgapayAidSystem.Pages.Family.Add
 
 			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
-	}
-
+    }
 	public class AddFamilyMemberInfo
 	{
 		public string firstName { get; set; }

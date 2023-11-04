@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.Family.Add
+namespace AgapayAidSystem.Pages.Family.Profile.Add
 {
     public class IndexModel : PageModel
     {
@@ -12,9 +12,8 @@ namespace AgapayAidSystem.Pages.Family.Add
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
-
 		public void OnGet()
-		{
+        {
 			// Fetch the list of barangays from database
 			Barangays = GetBarangaysFromDatabase();
 		}
@@ -55,7 +54,7 @@ namespace AgapayAidSystem.Pages.Family.Add
 
 			return barangayData;
 		}
-		
+
 		public void OnPost()
 		{
 			if (!ModelState.IsValid)
@@ -108,7 +107,6 @@ namespace AgapayAidSystem.Pages.Family.Add
 			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
 	}
-
 	public class BarangayInfo
 	{
 		public string barangayID { get; set; }
