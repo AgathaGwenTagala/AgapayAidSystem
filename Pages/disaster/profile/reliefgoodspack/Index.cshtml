@@ -116,13 +116,13 @@
 						<table id="reliefpack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr style="vertical-align:text-top;">
-									<th>#</th>
-									<th>Pack Qty</th>
-									<th>Distributed Qty</th>
-									<th>Remaining Qty</th>
-									<th>Created At</th>
-									<th>Distributed At</th>
-									<th>Status</th>
+									<th style="text-align:center;">#</th>
+									<th style="text-align:center;">Pack Qty</th>
+									<th style="text-align:center;">Distributed Qty</th>
+									<th style="text-align:center;">Remaining Qty</th>
+									<th style="text-align:center;">Created At</th>
+									<th style="text-align:center;">Distributed At</th>
+									<th style="text-align:center;">Status</th>
 									<th> </th>
 								</tr>
 							</thead>
@@ -135,8 +135,8 @@
 										<th width="10%">@item.packQty</th>
 										<td width="10%">@item.distributedQty</td>
 										<td width="10%">@item.remainingQty</td>
-										<td width="20%" style="text-align:left">@item.createdAt</td>
-										<td width="20%" style="text-align:left">@item.distributedAt</td>
+										<td width="20%">@item.createdAt</td>
+										<td width="20%">@item.distributedAt</td>
 										<td width="10%">
 											@if (@item.status == "Distributed")
 											{
@@ -154,7 +154,8 @@
 												</a>
 												<ul class="dropdown-menu" aria-labelledby="recordOptions">
 													<li>
-														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view">View Inclusion</a>
+														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view?packID=@item.packID">
+															View Pack Inclusions</a>
 													</li>
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"

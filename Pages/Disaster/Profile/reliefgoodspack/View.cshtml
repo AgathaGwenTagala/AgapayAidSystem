@@ -1,72 +1,69 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack.ViewModel
 @{
+    ViewData["Title"] = "Pack Inclusions";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
 }
 
 <div class="container p-2">
+    <!-- Breadcrumb -->
 
+
+    <!-- Title and Add Button -->
     <div class="row">
-        <ul class="breadcrumbs">
-            <li><a href="#">Disaster</a></li>
-            <li class="divider">/</li>
-            <li><a href="#" class="active">Typhoon Pedro</a></li>
-            <li class="divider">/</li>
-            <li><a href="#" class="active">Relief Pack</a></li>
-        </ul>
+        <div class="col d-flex align-items-center">
+            <h1>Pack Inclusions</h1>
+        </div>
     </div>
 
-    <div class="row description p-2">
-        <p>
-            <strong>Pack ID:</strong>
-            PCK00000107
-        </p>
-        <p>
-            <strong>Staff ID:</strong>
-            ECS0000005
-        </p>
-        <p>
-            <strong>Quantity:</strong>
-            100
-        </p>
-        <p>
-            <strong>Distributed:</strong>
-            0
-        </p>
-        <p>
-            <strong>Not Distributed:</strong>
-            100
-        </p>
-        <p>
-            <strong>Status:</strong>
-            100
-        </p>
-    </div>
-
-    <div class="row p-2">
+    <!-- Table -->
+    <div class="row">
         <div class="col-lg-12">
             <table id="pack-inclusion" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                 <thead>
-                    <tr>
-                        <th width="5%">#</th>
-                        <th width="20%">Item Name</th>
-                        <th width="15%">Type</th>
-                        <th width="15%">Qty</th>
-                        <th width="15%">Distributed ID</th>
-                        <th width="15%">Not Distributed</th>
-                        <th width="15%">Unit Measure</th>
-                        <th> </th>
+                    <tr style="vertical-align:text-top;">
+                        <th style="text-align:center;">#</th>
+                        <th style="text-align:left;">Item</th>
+                        <th style="text-align:center;">Type<br /></th>
+                        <th style="text-align:center;">Qty per Pack</th>
+                        <th style="text-align:center;">Total Qty</th>
+                        <th style="text-align:center;">Unit Measure<br /></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td width="5%">1</td>
-                        <th width="15%">Canned Goods</th>
-                        <td width="15%">Food</td>
-                        <td width="15%">500</td>
-                        <td width="15%">500</td>
-                        <td width="15%">0</td>
-                        <td width="15%">Piece</td>
-                    </tr>
+                    @{ var counter = 1; }
+                    @foreach (var item in Model.listPackInclusion)
+                    {
+                        <tr style="text-align:center;">
+                            <td width="5%">@counter</td>
+                            <th width="25%" style="text-align:left;">@item.itemName</th>
+                            <td width="15%">@item.itemType</td>
+                            <td width="15%">@item.qty</td>
+                            <td width="15%">@item.totalQty</td>
+                            <td width="25%">@item.unitMeasure</td>
+                        </tr>
+                        counter++;
+                    }
                 </tbody>
             </table>
         </div>
@@ -76,8 +73,32 @@
 <!-- Making the table responsive -->
 <script>
     $(document).ready(function () {
-        $('#pack-inclusion').DataTable({
+        var table = $('#pack-inclusion').DataTable({
             responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+                { "orderable": false, "targets": [] } // Non-sortable columns
+            ]
+        });
+
+        // Adding filters to specific columns
+        table.columns([2, 5]).every(function () {
+            var column = this;
+            var select = $('<select><option value=""></option></select>')
+                .appendTo($(column.header()))
+                .on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                        .search(val ? '^' + val + '$' : '', true, false)
+                        .draw();
+                });
+
+            column.data().unique().sort().each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+            });
         });
     });
 </script>
