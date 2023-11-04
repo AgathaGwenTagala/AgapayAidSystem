@@ -214,11 +214,4 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         public string itemType { get; set; }
         public string unitMeasure { get; set; }
     }
-
-    public class PackInclusion
-    {
-        public string batchInclusionID { get; set; }
-        public string qty { get; set; }
-    }
-
 }
