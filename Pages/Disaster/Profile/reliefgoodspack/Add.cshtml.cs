@@ -1,9 +1,6 @@
-using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
-using System.Data;
 
 namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 {
@@ -33,12 +30,18 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                     connection.Open();
 
                     // Fetch info of available item inclusion
-                    string sql = "SELECT i.*, (i.qty - i.packedQty) AS remainingQty, " +
+                    string sql = "SELECT i.*, (COALESCE(totalQty, 0)) AS packedQty, " +
+                                 "(i.qty - (COALESCE(totalQty, 0))) AS remainingQty, " +
                                  "item.itemName, item.itemType, item.unitMeasure " +
                                  "FROM batch_inclusion i " +
                                  "JOIN batch_tracking t ON i.batchID = t.batchID " +
                                  "JOIN item ON i.itemID = item.itemID " +
-                                 "WHERE t.centerLogID = @centerLogID;";
+                                 "LEFT JOIN (SELECT i.batchInclusionID, SUM(p.packQty * i.qty) AS totalQty " +
+                                 "FROM pack_inclusion i JOIN pack p ON i.packID = p.packID " +
+                                 "GROUP BY i.batchInclusionID) AS subquery " +
+                                 "ON i.batchInclusionID = subquery.batchInclusionID " +
+                                 "WHERE t.centerLogID = @centerLogID " +
+                                 "HAVING remainingQty <> 0;";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@centerLogID", centerLogID);
@@ -177,7 +180,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                     }
 
                     // If pack and all selected pack inclusions were successfully added
-                    successMessage = "Relief goods pack and selected pack inclusions added successfully!";
+                    successMessage = "Relief goods pack added successfully!";
                 }
             }
             catch (Exception ex)
