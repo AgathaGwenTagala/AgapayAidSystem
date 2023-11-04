@@ -138,7 +138,7 @@
 									<th>Role</th>
 									<th>Date Assigned</th>
 									<th>Date Completed</th>
-									<th>Status</th>
+									<th style="text-align: center;">Status</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -157,7 +157,7 @@
 										<td width="10%">@item.role</td>
 										<td width="27%">@item.assignmentDate</td>
 										<td width="26%">@item.completionDate</td>
-										<td width="5%">
+										<td width="5%" style="text-align: center;">
 											@if (@item.status == "Assigned")
 											{
 												<span class="badge bg-success">@item.status</span>

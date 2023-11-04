@@ -141,7 +141,7 @@
 									<th>Name</th>
 									<th>Check-in Date</th>
 									<th>Check-out Date</th>
-									<th>Status</th>
+									<th style="text-align: center;">Status</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -159,7 +159,7 @@
 										<td width="30%">@item.fullName</td>
 										<td width="20%">@item.checkInDate</td>
 										<td width="20%">@item.checkOutDate</td>
-										<td width="15%">
+										<td width="15%" style="text-align: center;">
 											@if (@item.entryStatus == "Check-in")
 											{
 												<span class="badge bg-success">Check-in</span>
@@ -274,7 +274,7 @@
 				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
 			],
 			// Set initial sorting by the Check-in Date
-			order: [[2, 'asc']],
+			order: [[1, 'asc'], [4 , 'asc']],
 			language: {
 				emptyTable: "There are no evacuees checked-in at this evacuation center.",
 			}

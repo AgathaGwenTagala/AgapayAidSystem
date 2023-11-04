@@ -85,7 +85,7 @@
                 <div class="col-lg-12">
                     <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                         <thead>
-                            <tr>
+                            <tr style="vertical-align:text-top;">
                                 <th>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
@@ -93,8 +93,8 @@
                                     </div>
                                 </th>
                                 <th>Item</th>
-                                <th>Type</th>
-                                <th>Unit Measure</th>
+                                <th style="text-align: center;">Type<br /></th>
+                                <th style="text-align: center;">Unit Measure</th>
                                 <th style="text-align: center;">Available Qty</th>
                                 <th style="text-align: center;">Qty per Pack</th>
                             </tr>
@@ -110,8 +110,8 @@
                                         </div>
                                     </td>
                                     <td width="20%">@item.itemName</td>
-                                    <td width="15%">@item.itemType</td>
-                                    <td width="20%">@item.unitMeasure</td>
+                                    <td width="15%" style="text-align: center;">@item.itemType</td>
+                                    <td width="20%" style="text-align: center;">@item.unitMeasure</td>
                                     <td width="20%" style="text-align: center;">@item.remainingQty</td>
                                     <td width="20%">
                                         <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
@@ -165,6 +165,26 @@
             language: {
                 emptyTable: "There are no relief pack inclusions available for this evacuation center.",
             }
+        });
+
+        // Adding filters to specific columns
+        table.columns([2]).every(function () {
+            var column = this;
+            var select = $('<select><option value=""></option></select>')
+                .appendTo($(column.header()))
+                .on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                        .search(val ? '^' + val + '$' : '', true, false)
+                        .draw();
+                });
+
+            column.data().unique().sort().each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+            });
         });
 
         // Disable checkboxes by default

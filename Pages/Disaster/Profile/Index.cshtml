@@ -180,7 +180,6 @@
                         <th>Evacuation Center</th>
                         <th>Barangay</th>
                         <th style="text-align: center;">Occupancy</th>
-                        <th style="text-align: center;">Assigned Staff</th>
                         <th>Opening Date</th>
                         <th>Closing Date</th>
                         <th></th>
@@ -193,11 +192,10 @@
                         <tr data-id="@item.centerLogID">
                             <td width="5%">@counter</td>
                             <td width="20%">@item.centerName</td>
-                            <td width="15%">@item.barangayName</td>
+                            <td width="20%">@item.barangayName</td>
                             <td width="15%" style="text-align: center;">@item.occupancy/@item.maxCapacity</td>
-                            <td width="15%" style="text-align: center;">@item.totalStaff</td>
-                            <td width="15%">@item.openingDateTime</td>
-                            <td width="15%">@item.closingDateTime</td>
+                            <td width="20%">@item.openingDateTime</td>
+                            <td width="20%">@item.closingDateTime</td>
                             <td width="10%">
                                 <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
                                     View
@@ -252,8 +250,8 @@
         $('#eclog-table').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
-                { "orderable": false, "targets": [7] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+                { "orderable": false, "targets": [6] } // Non-sortable columns
             ],
             language: {
                 emptyTable: "There are no evacuation centers allocated to this disaster.",
