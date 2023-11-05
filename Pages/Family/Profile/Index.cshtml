@@ -8,18 +8,14 @@
 <div class="content">
 	<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
 	<!-- Breadcrumb -->
-	<div class="row p-2">
-		<div class="breadcrumb-container">
-			<div aria-label="breadcrumb">
-				<ol class="breadcrumbs">
-					<li><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-					<li class="divider"> > </li>
-					<li><a href="/family/index">Family</a></li>
-					<li class="divider"> > </li>
-					<li><a class="active">@Model.familyInfo.serialNum</a></li>
-				</ol>
-			</div>
-		</div>
+	<div class="row pb-2" aria-label="breadcrumb">
+		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+				<li class="breadcrumb-item"><a href="/Family/index">Family</a></li>
+				<li class="breadcrumb-item"><a class="active">@Model.familyInfo.serialNum</a></li>
+			</ol>
+		</nav>
 	</div>
 
 	<!-- Title, Info Button, Menu Button -->
