@@ -22,121 +22,73 @@
 		</div>
 	</div>
 
-	<div class="table-responsive">
-		<table class="table align-middle table-hover" style="width:100%">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>
-						<a asp-page="./Index" asp-route-sortBy="firstName" asp-route-sortOrder="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('firstName')">
-							Name
-							<ion-icon id="firstNameArrow" name="@(Model.SortBy == "firstName" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
-					<th>Sex</th>
-					<th>
-						<a asp-page="./Index" asp-route-sortBy="birthDate" asp-route-sortOrder="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('birthDate')">
-							Birthdate
-							<ion-icon id="birthDateArrow" name="@(Model.SortBy == "birthDate" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
-					<th>Mobile Number</th>
-					<th>Email Address</th>
-					<th>
-						<a asp-page="./Index" asp-route-sortBy="availabilityStatus" asp-route-sortOrder="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "desc" : "asc")" onclick="toggleArrowIcons('availabilityStatus')">
-							Availability Status
-							<ion-icon id="availabilityStatusArrow" name="@(Model.SortBy == "availabilityStatus" && Model.SortOrder == "asc" ? "arrow-up-outline" : "arrow-down-outline")"></ion-icon>
-						</a>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				@{
-					var counter = 1;
-				}
-				@foreach (var item in Model.listECStaff)
-				{
-					<tr data-id="@item.ecStaffID">
-						<td width="5%">@counter</td>
-						<td width="25%">@item.fullName</td>
-						<td width="5%">@item.sex</td>
-						<td width="12%">@item.birthdate</td>
-						<td width="15%">@item.mobileNum</td>
-						<td width="15%">@item.emailAddress</td>
-						<td width="23%">@item.availabilityStatus</td>
+	<!-- Table -->
+	<div class="row p-2">
+		<div class="col-lg-12">
+			<table id="staff-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+				<thead>
+					<tr style="vertical-align: top;">
+						<th>#</th>
+						<th>Name</th>
+						<th style="text-align: center;">Sex</th>
+						<th style="text-align: center;">Age</th>
+						<th>Birthdate</th>
+						<th>Mobile Number</th>
+						<th>Email Address</th>
+						<th style="text-align: center;">Availability Status</th>
 					</tr>
-					counter++;
-				}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					@{ var counter = 1; }
+					@foreach (var item in Model.listECStaff)
+					{
+						<tr>
+							<td width="5%">@counter</td>
+							<td width="25%">@item.fullName</td>
+							<td width="6%" style="text-align: center;">@item.sex</td>
+							<td width="7%" style="text-align: center;">@item.age</td>
+							<td width="10%">@item.birthdate</td>
+							<td width="12%">@item.mobileNum</td>
+							<td width="15%">@item.emailAddress</td>
+							<td width="20%" style="text-align: center;">@item.availabilityStatus</td>
+						</tr>
+						counter++;
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
-
-<!-- Sorting -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- Making the table responsive -->
 <script>
-	let lastClickedHeader = null;
+	$(document).ready(function () {
+		var table = $('#staff-table').DataTable({
+			responsive: true,
+			columnDefs: [
+				{ "orderable": true, "targets": [0, 1, 3, 4] }, // Sortable columns
+				{ "orderable": false, "targets": [2, 5, 6, 7] } // Non-sortable columns
+			]
+		});
 
-	function toggleArrowIcons(header) {
-		// Get the arrow icons for all headers
-		const ecStaffIDArrow = document.getElementById('ecStaffIDArrow');
-		const fullNameArrow = document.getElementById('fullNameArrow');
-		const birthdateArrow = document.getElementById('birthdateArrow');
-		const availabilityStatusArrow = document.getElementById('availabilityStatusArrow');
+		// Adding filters to specific columns
+		table.columns([2, 7]).every(function () {
+			var column = this;
+			var select = $('<select><option value=""></option></select>')
+				.appendTo($(column.header()))
+				.on('change', function () {
+					var val = $.fn.dataTable.util.escapeRegex(
+						$(this).val()
+					);
 
-		// Determine which header was clicked and toggle the arrow icons accordingly
-		if (header === 'fullName') {
-			ecStaffIDArrow.style.display = 'none';
-			fullNameArrow.style.display = fullNameArrow.style.display === 'none' ? 'block' : 'none';
-			birthdateArrow.style.display = 'none';
-			availabilityStatusArrow.style.display = 'none';
-		} else if (header === 'birthDate') {
-			ecStaffIDArrow.style.display = 'none';
-			fullNameArrow.style.display = 'none';
-			birthdateArrow.style.display = birthdateArrow.style.display === 'none' ? 'block' : 'none';
-			availabilityStatusArrow.style.display = 'none';
-		} else if (header === 'availabilityStatus') {
-			ecStaffIDArrow.style.display = 'none';
-			fullNameArrow.style.display = 'none';
-			birthDateArrow.style.display = 'none';
-			availabilityStatusArrow.style.display = availabilityStatusArrow.style.display === 'none' ? 'block' : 'none';
-		}
-
-		lastClickedHeader = header;
-	}
-</script>
-
-<!-- Search -->
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		document.getElementById("search-form").addEventListener("submit", function (e) {
-			e.preventDefault();
-			const query = document.getElementById("search-bar").value;
-			fetch(`/ecstaffdatabase?handler=Search&query=${query}`)
-				.then(response => response.json())
-				.then(data => {
-					const tableBody = document.querySelector("table tbody");
-					tableBody.innerHTML = "";
-					let counter = 1;
-					data.forEach(result => {
-						const newRow = `<tr data-id="${result.ecStaffID}">
-												<td width="5%">${counter}</td>
-												<td width="25%">${result.fullName}</td>
-												<td width="5%">${result.sex}</td>
-												<td width="12%">${result.birthdate}</td>
-												<td width="15%">${result.mobileNum}</td>
-												<td width="15%">${result.emailAddress}</td>
-												<td width="23%">${result.availabilityStatus}</td>
-											</tr>`;
-						tableBody.innerHTML += newRow;
-						counter++;
-					});
-				})
-				.catch(error => {
-					console.error("Error:", error);
+					column
+						.search(val ? '^' + val + '$' : '', true, false)
+						.draw();
 				});
+
+			column.data().unique().sort().each(function (d, j) {
+				select.append('<option value="' + d + '">' + d + '</option>');
+			});
 		});
 	});
 </script>
