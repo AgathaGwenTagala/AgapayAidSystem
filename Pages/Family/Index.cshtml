@@ -96,7 +96,8 @@
 						<th>Serial Number</th>
 						<th>Street Address</th>
 						<th>Barangay</th>
-						<th>Family Size</th>
+						<th>City/Municipality</th>
+						<th style="text-align: center;">Family Size</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -109,8 +110,9 @@
 							<td width="5%">@counter</td>
 							<td width="20%">@item.serialNum</td>
 							<td width="20%">@item.streetAddress</td>
-							<td width="20%">@item.barangayName</td>
-							<td width="15%"></td>
+							<td width="15%">@item.barangayName</td>
+							<td width="20%">@item.municipalityCity</td>
+							<td width="10%" style="text-align: center;">@item.familySize</td>
 							<td width="10%">
 								<!-- View button -->
 								<a class="btn btn-success edit-button" href="/family/profile/index?familyID=@item.familyID">
