@@ -51,41 +51,6 @@
 		color: inherit;
 	}
 
-	.filter-box {
-		position: absolute;
-		background-color: white;
-		border: 1px solid #ccc;
-		padding: 10px;
-		box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-		border-radius: 5px;
-	}
-
-	.filter-link {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.filter-link ion-icon {
-		margin-left: px; /* Adjust the margin as needed to control the icon's position */
-	}
-
-	.rounded-button {
-		border: none;
-		background-color: #408c8c; /* Example button background color */
-		color: #fff; /* Example button text color */
-		padding: 5px 10px;
-		border-radius: 5px; /* Rounded corners for the button */
-		cursor: pointer;
-		transition: background-color 0.3s;
-	}
-
-	.rounded-button:hover {
-		background-color: #d0e8de; /* Example button background color on hover */
-		color: #3f8f8b;
-		border: 1px solid #3f8f8b;
-	}
-
 	.button-spacing {
 		margin-right: 10px; /* Adjust the margin value as needed */
 	}
@@ -111,7 +76,9 @@
 
 		<div class="col-auto d-flex justify-content-between align-items-center">
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2 button-spacing" href="/family"><ion-icon name="download-outline"></ion-icon> Import .CSV File</a>
+				<a class="btn btn-primary mb-2 button-spacing" href="/family">
+					<ion-icon name="download-outline"></ion-icon> Import .CSV File
+				</a>
 				<a class="btn btn-primary mb-2" href="/family/profile/add/index">
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family
 				</a>
@@ -122,32 +89,13 @@
 	<!-- Table -->
 	<div class="row p-2">
 		<div class="col-lg-12">
-			<table id="disaster-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+			<table id="family-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr style="vertical-align: top;">
 						<th>#</th>
 						<th>Serial Number</th>
 						<th>Street Address</th>
-						<th>
-							<a href="#" id="barangayFilterLink" class="filter-link" onclick="toggleFilterChecklist('barangayFilter')">
-								Barangay
-								<ion-icon id="barangayFilterArrow" name="filter"></ion-icon>
-							</a>
-							<div id="barangayFilter" class="filter-box" style="display: none;">
-								<label>
-									<input type="checkbox" name="barangayFilterValue" value="Select All" onchange="selectAll('barangayFilter')"> Select All
-								</label>
-								<br />
-								@foreach (var barangay in Model.UniqueBarangays)
-								{
-									<label>
-										<input type="checkbox" name="barangayFilterValue" value="@barangay"> @barangay
-									</label>
-									<br />
-								}
-								<button class="rounded-button" onclick="applyFilter('barangayFilter')">Apply</button>
-							</div>
-						</th>
+						<th>Barangay</th>
 						<th>Family Size</th>
 						<th></th>
 					</tr>
@@ -159,8 +107,8 @@
 					{
 						<tr>
 							<td width="5%">@counter</td>
-							<td width="15%">@item.serialNum</td>
-							<td width="25%">@item.streetAddress</td>
+							<td width="20%">@item.serialNum</td>
+							<td width="20%">@item.streetAddress</td>
 							<td width="20%">@item.barangayName</td>
 							<td width="15%"></td>
 							<td width="10%">
@@ -182,146 +130,32 @@
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		$('#disaster-table').DataTable({
+		var table = $('#family-table').DataTable({
 			responsive: true,
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
 				{ "orderable": false, "targets": [3, 5] } // Non-sortable columns
 			]
 		});
-	});
-</script>
 
-<!-- Confirm Delete button in Modal -->
-<script>
-	const deleteButtons = document.querySelectorAll('.edit-button');
-	let familyIdToDelete = null;
+		// Adding filters to specific columns
+		table.columns([3]).every(function () {
+			var column = this;
+			var select = $('<select><option value=""></option></select>')
+				.appendTo($(column.header()))
+				.on('change', function () {
+					var val = $.fn.dataTable.util.escapeRegex(
+						$(this).val()
+					);
 
-	deleteButtons.forEach(function (button) {
-		button.addEventListener('click', function () {
-			familyIdToDelete = this.getAttribute('data-deleteid');
+					column
+						.search(val ? '^' + val + '$' : '', true, false)
+						.draw();
+				});
+
+			column.data().unique().sort().each(function (d, j) {
+				select.append('<option value="' + d + '">' + d + '</option>');
+			});
 		});
 	});
-
-	// Function to prepare for delete action
-	function prepareDelete(familyID) {
-		if (familyID === null || familyID === undefined) {
-			// Retrieve familyID from the button's data-deleteid attribute
-			familyIdToDelete = event.currentTarget.getAttribute('data-deleteid');
-		} else {
-			familyIdToDelete = familyID;
-		}
-	}
-
-	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-
-	confirmDeleteButton.addEventListener('click', function () {
-		if (familyIdToDelete !== null) {
-			window.location.href = "/family/profile/delete?familyID=" + familyIdToDelete;
-		}
-	});
-</script>
-
-@*<script>
-	function confirmDelete(familyID) {
-		if (confirm("Are you sure you want to delete this family?")) {
-			window.location.href = "/family/delete?familyID=" + familyID;
-		}
-	}
-</script>*@
-
-<script type="module" src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" ></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-	let lastClickedHeader = null;
-
-	function toggleArrowIcons(header) {
-		// Get the arrow icons for all headers
-		const familyIDArrow = document.getElementById('familyIDArrow');
-		const serialNumArrow = document.getElementById('serialNumArrow');
-
-		// Determine which header was clicked and toggle the arrow icons accordingly
-		if (header === 'familyID') {
-			familyIDArrow.style.display = familyIDArrow.style.display === 'none' ? 'block' : 'none';
-			serialNumArrow.style.display = 'none';
-		}  else if (header === 'serialNum') {
-			familyIDArrow.style.display = 'none';
-			serialNumArrow.style.display = serialNumArrow.style.display === 'none' ? 'block' : 'none';
-			} 
-		// Update the last clicked header
-		lastClickedHeader = header;
-	}
-</script>
-
-
-
-<script>
-	//barangay filter box
-
-	// Function to toggle the display of the filter box
-	function toggleFilter(filterId) {
-		const filterBox = document.getElementById(filterId);
-		filterBox.style.display = filterBox.style.display === 'block' ? 'none' : 'block';
-	}
-	
-	// Function to apply the Living in GIDA filter
-	function applyLivingInGidaFilter() {
-		const selectedValues = Array.from(document.querySelectorAll('input[name="livingInGidaFilterValue"]:checked')).map(input => input.value);
-
-		document.querySelectorAll('tbody tr').forEach(row => {
-			const livingInGidaValue = row.querySelector('td:nth-child(4)').textContent.trim();
-
-			if (selectedValues.length === 0 || selectedValues.includes(livingInGidaValue)) {
-				row.style.display = 'table-row';
-			} else {
-				row.style.display = 'none';
-			}
-		});
-
-		// Close the filter checklist
-		toggleFilter('livingInGidaFilter');
-	}
-
-
-	function toggleFilterChecklist(filterId) {
-		const filterBox = document.getElementById(filterId);
-		filterBox.style.display = filterBox.style.display === 'none' ? 'block' : 'none';
-	}
-
-	function applyFilter(filterId) {
-		const filterBox = document.getElementById(filterId);
-		const selectedValues = Array.from(filterBox.querySelectorAll('input[name="barangayFilterValue"]:checked')).map(input => input.value);
-
-		const tableRows = document.querySelectorAll('tbody tr');
-		tableRows.forEach(row => {
-			const barangayValue = row.querySelector('td:nth-child(4)').textContent.trim();
-
-			if (selectedValues.length === 0 || selectedValues.includes(barangayValue)) {
-				row.style.display = 'table-row';
-			} else {
-				row.style.display = 'none';
-			}
-		});
-
-		// Close the filter checklist
-		filterBox.style.display = 'none';
-	}
-
-
-	//to select or deselect all checkboxes
-	// Function to select or deselect all checkboxes in a filter box
-	function selectAll(filterId) {
-		const filterBox = document.getElementById(filterId);
-		const checkboxes = filterBox.querySelectorAll('input[type="checkbox"]');
-		const selectAllCheckbox = checkboxes[0];
-
-		// Check or uncheck all checkboxes based on the "Select All" checkbox
-		checkboxes.forEach(checkbox => {
-			if (checkbox !== selectAllCheckbox) {
-				checkbox.checked = selectAllCheckbox.checked;
-			}
-		});
-	}
 </script>

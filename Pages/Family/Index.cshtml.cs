@@ -9,13 +9,10 @@ namespace AgapayAidSystem.Pages.Family
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public List<FamilyInfo> listFamily = new List<FamilyInfo>();
-		public List<string> UniqueBarangays { get; set; }
-		public string SortBy { get; set; }
-		public string SortOrder { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
 
-		public void OnGet(string sortBy, string sortOrder)
+		public void OnGet()
         {
 			try
 			{
@@ -26,14 +23,6 @@ namespace AgapayAidSystem.Pages.Family
 					string sql = "SELECT fam.*, b.barangayName " +
 								 "FROM family AS fam " +
 								 "INNER JOIN barangay AS b ON fam.barangayID = b.barangayID";
-
-					// Apply sorting based on user's selection
-					if (!string.IsNullOrEmpty(sortBy))
-					{
-						sql += $" ORDER BY {sortBy} {(sortOrder == "desc" ? "DESC" : "ASC")}";
-						SortBy = sortBy;
-						SortOrder = sortOrder;
-					}
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -59,49 +48,11 @@ namespace AgapayAidSystem.Pages.Family
 
 			catch (Exception ex)
 			{
-				Console.WriteLine("Exception: " + ex.ToString());
+				errorMessage = ex.Message;
 			}
-
-			UniqueBarangays = GetUniqueBarangaysFromDatabase();
 		}
-
-		private List<string> GetUniqueBarangaysFromDatabase()
-		{
-			List<string> uniqueBarangays = new List<string>();
-
-			try
-			{
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-
-					string sql = "SELECT DISTINCT b.barangayName " +
-								 "FROM family AS fam " +
-								 "INNER JOIN barangay AS b ON fam.barangayID = b.barangayID";
-
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						using (MySqlDataReader reader = command.ExecuteReader())
-						{
-							while (reader.Read())
-							{
-								string barangayName = reader.GetString(0);
-								uniqueBarangays.Add(barangayName);
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Exception: " + ex.ToString());
-			}
-
-			return uniqueBarangays;
-		}
-
 	}
+
 	public class FamilyInfo
 	{
 		public string familyID { get; set; }

@@ -45,10 +45,12 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 				{
 					connection.Open();
 
-					// Insert data into the 'disaster' table
+					// Insert data into the 'family_member' table
 					string sql = "INSERT INTO family_member" +
-								 "(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, religion, education, occupation, ethnicity, healthCondition, remarks, relationship) " +
-								 "VALUES (@firstName, @middleName, @lastName, @extName, @sex, @birthdate, @civilStatus, @religion, @education, @occupation, @ethnicity, @healthCondition, @remarks, @relationship)";
+								 "(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, religion, " +
+								 "education, occupation, ethnicity, healthCondition, remarks, relationship) " +
+								 "VALUES (@firstName, @middleName, @lastName, @extName, @sex, @birthdate, @civilStatus, " +
+								 "@religion, @education, @occupation, @ethnicity, @healthCondition, @remarks, @relationship)";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
