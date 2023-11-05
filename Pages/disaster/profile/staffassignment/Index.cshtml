@@ -46,56 +46,54 @@
 
 <div class="container-fluid">
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-	<!-- Sidebar (desktop) -->
 	<div class="row">
-		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
-			<div class="position-sticky">
-				<ul class="nav flex-column">
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
+		<!-- Sidebar (desktop) -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+            <div class="position-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-		<!-- Sidebar (mobile) -->
-		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
-			<select class="form-select" id="pageSelect">
-				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
-				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
-				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
-				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
-				<option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
-				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
-			</select>
-		</div>
-
-		<style>
-			#completeAssign {
-				padding: 0px; /*to align the form to breadcrumb*/
-			}
-		</style>
+        <!-- Sidebar (mobile) -->
+        <div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+            <select class="form-select" id="pageSelect">
+                <option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+                <option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+                <option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+                <option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
+                <option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+                <option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
+                <option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+            </select>
+        </div>
 
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
-			<div class="container p-2">
+			<div class="container">
 				<!-- Breadcrumb -->
-				<div class="row pb-3" aria-label="breadcrumb">
+				<div class="row pb-2" aria-label="breadcrumb">
 					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
@@ -106,14 +104,14 @@
 					</nav>
 				</div>
 
-				<form method="POST" id="completeAssign">
+				<form method="POST" id="completeAssign" style="padding: 0px;">
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 					<div class="row pb-2">
 						<div class="col d-flex align-items-center">
 							<h1>Staff Assignment</h1>
 						</div>
 
-						<!-- Add and Complete Assignment Buttons -->
+						<!-- Add and Mark Completed Buttons -->
 						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
 							<a id="addButton" class="btn btn-primary mb-2" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
 								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
