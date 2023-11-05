@@ -3,3 +3,150 @@
 @{
 	ViewData["Title"] = "Evacuation Center Profile";
 }
+<style>
+  .info-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .left-info, .right-info {
+    flex-basis: 48%; /* Adjust the width as needed */
+    padding: 10px;
+  }
+
+  .right-info p:first-child {
+	text-align: center; /* Center-align the first line in the right column */
+</style>
+
+<div class="content">
+    <input type="hidden" name="disasterID" value="centerID" />
+
+    <!-- Breadcrumb -->
+    <div class="row pb-2" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href ="EvacuationCenter/index">Evacuation Center</a></li>
+                <li class="breadcrumb-item active"><a><strong>Sagip Relief Center</strong></a></li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Title, Info Button, Menu Button -->
+    <div class="row p-2">
+        <div class="col d-flex align-items-center">
+            <h1>Sagip Relief Center</h1>
+        </div>
+
+        <div class="col-auto button-spacer">
+			<div class="d-inline position-relative">
+				<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-three-dots-vertical"></i>
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="recordOptions">
+					<li>
+						<a class="dropdown-item" href="/EvacuationCenter/edit/">
+							Edit Information
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="/EvacuationCenter/edit/">
+							Delete Evacuation Center
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    </div>
+   
+<div class="info-container">
+    <div class="left-info">
+		<p>
+			<strong>Type:</strong>
+			Community-based EC
+		</p>
+		<p>
+			<strong>Street Address:</strong>
+			Diyan Lang St.
+		</p>
+		<p>
+			<strong>Mobile Number:</strong>
+			09285429849
+		</p>
+		<p>
+			<strong>Telephone Number:</strong>
+			
+		</p>
+		<p>
+			<strong>Max Capacity:</strong>
+			1001
+		</p>
+		<p>
+			<strong>Status:</strong>
+			Active
+		</p>
+	</div>
+
+
+
+	<div class="right-info">
+		<p>
+			<strong>Facility/s:</strong>
+		</p>
+		<p>
+			<strong>Toilets:</strong>
+			10
+		</p>
+		<p>
+			<strong>Bathing Cubicle:</strong>
+			5
+		</p>
+		<p>
+			<strong>Community Kitchen:</strong>
+			1
+		</p>
+		<p>
+			<strong>Washin Area:</strong>
+			5
+		</p>
+		<p>
+			<strong>Women-Friendly and Child-Friendly Spaces:</strong>
+			0
+		</p>
+		<p>
+			<strong>Multipurpose Areas:</strong>
+			1
+		</p>
+	</div>
+</div>
+
+
+
+<div class="content">
+	<!-- Table -->
+		<div class="col-lg-12">
+			<table id="distribution-table" class="table display nowrap compact order-column" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Disaster</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th> </th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<th>1</th>
+						<th>Gaya-gaya Fire</th>
+						<th>2022-11-10</th>
+						<th></th>
+						<td>
+							View Profile / Delete
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>
