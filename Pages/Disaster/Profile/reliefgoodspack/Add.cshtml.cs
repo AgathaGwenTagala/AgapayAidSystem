@@ -9,7 +9,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         private readonly IConfiguration _configuration;
         public AddModel(IConfiguration configuration) => _configuration = configuration;
         public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-        public List<AvailableBatchInclusionInfo> listAvInclusion = new List<AvailableBatchInclusionInfo>();
+        public List<AvailableInventoryInfo> listAvInventory = new List<AvailableInventoryInfo>();
         public string errorMessage = "";
         public string successMessage = "";
 
@@ -29,19 +29,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                 {
                     connection.Open();
 
-                    // Fetch info of available item inclusion
-                    string sql = "SELECT i.*, (COALESCE(totalQty, 0)) AS packedQty, " +
-                                 "(i.qty - (COALESCE(totalQty, 0))) AS remainingQty, " +
-                                 "item.itemName, item.itemType, item.unitMeasure " +
-                                 "FROM batch_inclusion i " +
-                                 "JOIN batch_tracking t ON i.batchID = t.batchID " +
-                                 "JOIN item ON i.itemID = item.itemID " +
-                                 "LEFT JOIN (SELECT i.batchInclusionID, SUM(p.packQty * i.qty) AS totalQty " +
-                                 "FROM pack_inclusion i JOIN pack p ON i.packID = p.packID " +
-                                 "GROUP BY i.batchInclusionID) AS subquery " +
-                                 "ON i.batchInclusionID = subquery.batchInclusionID " +
-                                 "WHERE t.centerLogID = @centerLogID " +
-                                 "HAVING remainingQty <> 0;";
+                    // Fetch info of available inventory items of selected center log
+                    string sql = "SELECT * FROM available_inventory_item_view WHERE centerLogID = @centerLogID;";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@centerLogID", centerLogID);
@@ -49,17 +38,18 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                         {
                             while (reader.Read())
                             {
-                                AvailableBatchInclusionInfo avInclusionInfo = new AvailableBatchInclusionInfo();
-                                avInclusionInfo.batchInclusionID = reader.GetString(0);
-                                avInclusionInfo.batchID = reader.GetString(1);
-                                avInclusionInfo.itemID = reader.GetString(2);
-                                avInclusionInfo.qty = reader.GetInt32(3).ToString();
-                                avInclusionInfo.packedQty = reader.GetInt32(4).ToString();
-                                avInclusionInfo.remainingQty = reader.GetInt32(5).ToString();
-                                avInclusionInfo.itemName = reader.GetString(6);
-                                avInclusionInfo.itemType = reader.GetString(7);
-                                avInclusionInfo.unitMeasure = reader.GetString(8);
-                                listAvInclusion.Add(avInclusionInfo);
+                                AvailableInventoryInfo avInventoryInfo = new AvailableInventoryInfo();
+                                avInventoryInfo.inventoryID = reader.GetString(0);
+                                avInventoryInfo.centerLogID = reader.GetString(1);
+                                avInventoryInfo.itemName = reader.GetString(2);
+                                avInventoryInfo.itemType = reader.GetString(3);
+                                avInventoryInfo.qty = reader.GetInt32(4).ToString();
+                                avInventoryInfo.unitMeasure = reader.GetString(5);
+                                avInventoryInfo.createdAt = reader.GetDateTime(6).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                avInventoryInfo.remarks = reader.IsDBNull(7) ? null : reader.GetString(5);
+                                avInventoryInfo.packedQty = reader.GetInt32(8).ToString();
+                                avInventoryInfo.remainingQty = reader.GetInt32(9).ToString();
+                                listAvInventory.Add(avInventoryInfo);
                             }
                         }
                     }
@@ -154,21 +144,21 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                     // Step 3: Loop through inclusions and insert into the 'pack_inclusion' table
                     for (int i = 0; i < selectedInclusion.Length; i++)
                     {
-                        string batchInclusionID = selectedInclusion[i];
+                        string inventoryID = selectedInclusion[i];
                         string qtyInput = qty[i]; // Retrieve the qty for the current inclusion
 
-                        string insertSql = "INSERT INTO pack_inclusion (batchInclusionID, packID, qty) " +
-                                           "VALUES (@batchInclusionID, @packID, @qty)";
+                        string insertSql = "INSERT INTO pack_inclusion (inventoryID, packID, qty) " +
+                                           "VALUES (@inventoryID, @packID, @qty)";
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@batchInclusionID", batchInclusionID);
+                            insertCommand.Parameters.AddWithValue("@inventoryID", inventoryID);
                             insertCommand.Parameters.AddWithValue("@packID", newPackID);
                             insertCommand.Parameters.AddWithValue("@qty", qtyInput);
                             int rowsInserted = insertCommand.ExecuteNonQuery();
 
                             if (rowsInserted == 1)
                             {
-                                Console.WriteLine($"Successfully inserted into 'pack_inclusion' table for batchInclusionID: {batchInclusionID}");
+                                Console.WriteLine($"Successfully inserted into 'pack_inclusion' table for inventoryID: {inventoryID}");
                             }
                             else
                             {
@@ -202,16 +192,17 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         }
     }
 
-    public class AvailableBatchInclusionInfo
+    public class AvailableInventoryInfo
     {
-        public string batchInclusionID { get; set; }
-        public string batchID { get; set; }
-        public string itemID { get; set; }
-        public string qty { get; set; }
-        public string packedQty { get; set; }
-        public string remainingQty { get; set; }
+        public string inventoryID { get; set; }
+        public string centerLogID { get; set; }
         public string itemName { get; set; }
         public string itemType { get; set; }
+        public string qty { get; set; }
         public string unitMeasure { get; set; }
+        public string createdAt { get; set; }
+        public string remarks { get; set; }
+        public string packedQty { get; set; }
+        public string remainingQty { get; set; }
     }
 }

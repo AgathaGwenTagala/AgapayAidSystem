@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -47,14 +46,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                     }
 
                     // Fetch pack inclusion related to the selected relief goods pack
-                    string sql = "SELECT p.*, (pp.packQty * p.qty) AS totalQty, " +
-								 "i.itemName, i.itemType, i.unitMeasure " +
-								 "FROM pack_inclusion p " +
-								 "JOIN pack pp ON p.packID = pp.packID " +
-								 "JOIN batch_inclusion b ON p.batchInclusionID = b.batchInclusionID " +
-								 "JOIN item i ON b.itemID = i.itemID " +
-								 "WHERE pp.packID = @packID";
-
+                    string sql = "select * from pack_inclusion_view WHERE packID = @packID;";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@packID", packID);
@@ -64,7 +56,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 							{
 								PackInclusionInfo inclusion = new PackInclusionInfo();
 								inclusion.packInclusionID = reader.GetString(0);
-								inclusion.batchInclusionID = reader.GetString(1);
+								inclusion.inventoryID = reader.GetString(1);
 								inclusion.packID = reader.GetString(2);
 								inclusion.qty = reader.GetInt32(3).ToString();
 								inclusion.totalQty = reader.GetInt32(4).ToString();
@@ -88,7 +80,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 	public class PackInclusionInfo
 	{
 		public string packInclusionID { get; set; }
-		public string batchInclusionID { get; set; }
+		public string inventoryID { get; set; }
 		public string packID { get; set; }
 		public string qty { get; set; }
 		public string totalQty { get; set; }

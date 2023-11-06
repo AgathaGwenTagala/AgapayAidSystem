@@ -1,0 +1,53 @@
+﻿@page
+@using MySql.Data.MySqlClient;
+@using Microsoft.Extensions.Configuration
+@{
+    string errorMessage = "";
+    string successMessage = "";
+    string centerLogID = Request.Query["centerLogID"];
+
+    try
+    {
+        if (Request.Query.ContainsKey("distributionID"))
+        {
+            string distributionID = Request.Query["distributionID"];
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            string connectionString = config.GetConnectionString("DefaultConnection");
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                String sql = "DELETE FROM distribution_record WHERE distributionID = @distributionID";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@distributionID", distributionID);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        successMessage = "Distribution record deleted successfully!";
+                    }
+                    else
+                    {
+                        errorMessage = "Distribution record not found with the provided distributionID.";
+                    }
+                }
+            }
+        }
+        else
+        {
+            errorMessage = "distributionID parameter is missing from the query string.";
+        }
+    }
+    catch (Exception ex)
+    {
+        errorMessage = ex.Message;
+    }
+
+    Response.Redirect("/disaster/profile/reliefdistribution/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+}
