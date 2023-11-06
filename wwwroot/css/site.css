@@ -63,6 +63,10 @@ table th{
     vertical-align: middle !important;
 }
 
+.navbar.navbar-expand-sm {
+    background-color: #3F8F8B; /* Set your desired background color here */
+}
+
 /*BREADCRUMB*/
 
 .breadcrumb-item a {
