@@ -5,156 +5,184 @@
 	ViewData["Title"] = pageTitle;
 }
 
-<div class="content">
+<div class="container-fluid">
 	<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
-	<!-- Breadcrumb -->
-	<div class="row pb-2" aria-label="breadcrumb">
-		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-				<li class="breadcrumb-item"><a href="/Family/index">Family</a></li>
-				<li class="breadcrumb-item"><a class="active">@Model.familyInfo.serialNum</a></li>
-			</ol>
-		</nav>
-	</div>
-
-	<!-- Title, Info Button, Menu Button -->
-	<div class="row p-2">
-		<div class="col d-flex align-items-center">
-			<h1>@Model.familyInfo.serialNum</h1>
-		</div>
-
-		<div class="col-auto button-spacer">
-			<div class="d-inline position-relative">
-				<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="bi bi-three-dots-vertical"></i>
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="recordOptions">
-					<li>
-						<a class="dropdown-item" href="/family/profile/add/member/?familyID=@Model.familyInfo.familyID">
-							Add Family Member
-						</a>
+	<div class="row">
+		<!-- Sidebar (desktop) -->
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</a>
 					</li>
-					<li>
-						<a class="dropdown-item" href="/family/profile/edit/family?familyID=@Model.familyInfo.familyID">
-							Edit Information
-						</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/family/profile/ReliefDistributionRecord?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
 					</li>
-					<li>
-						<a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.familyInfo.familyID')"
-						   data-deleteid="@Model.familyInfo.familyID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-							Delete Family
-						</a>
+					<li class="nav-item">
+						<a class="nav-link" href="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</a>
 					</li>
 				</ul>
 			</div>
+		</nav>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</option>
+				<option value="/family/profile/ReliefDistributionRecord?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
+				<option value="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
+				
+			</select>
 		</div>
-	</div>
 
-	<div>
-		<p>
-			<strong>Street Address:</strong>
-			@Model.familyInfo.streetAddress
-		</p>
-		<p>
-			<strong>Barangay:</strong>
-			@Model.familyInfo.barangayName
-		</p>
-		<p>
-			<strong>Mobile Number:</strong>
-			@Model.familyInfo.mobileNum
-		</p>
-		<p>
-			<strong>Telephone Number:</strong>
-			@Model.familyInfo.telephoneNum
-		</p>
-		<p>
-			<strong>Living in Geographically Isolated and Disadvantaged Area (GIDA):</strong>
-			@Model.familyInfo.livingInGida
-		</p>
-		<p>
-			<strong>Beneficiary:</strong>
-			@Model.familyInfo.beneficiary
-		</p>
-	</div>
-</div>
+		<style>
+			#checkOut {
+				padding: 0px; /*to align the form to breadcrumb*/
+			}
+		</style>
+
+		<!-- Page Content -->
+		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+			<div class="container">
+				<!-- Breadcrumb -->
+				<div class="row pb-2" aria-label="breadcrumb">
+					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+							<li class="breadcrumb-item"><a href="/Family/index">Family</a></li>
+							<li class="breadcrumb-item active"><a><strong>@Model.familyInfo.serialNum</strong></a></li>
+						</ol>
+					</nav>
+				</div>
 
 
-<div class="row mt-3 d-flex justify-content-center align-items-center">
+				<!-- Title, Info Button, Menu Button -->
+				<div class="row p-2">
+					<div class="col d-flex align-items-center">
+						<h1>@Model.familyInfo.serialNum</h1>
+					</div>
 
-	<div class="col text-end">
-		<a class="btn btn-primary mb-2" href="/family/profile/VulnerabilityAssessment"><i class="bi bi-list-columns"></i>View Vulnerability Assessment</a>
-	</div>
-
-	<div class="col text-start">
-		<a class="btn btn-primary mb-2" href="/family/profile/ReliefDistributionRecord"><i class="bi bi-clipboard2-fill"></i>View Relief Distribution</a>
-	</div>
-</div>
-
-<div class="content">
-    <!-- Table -->
-    <div class="row p-2">
-        <div class="col-lg-12">
-            <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-						<th>Name</th>
-						<th>Role</th>
-                        <th>Sex</th>
-                        <th>Birth Date</th>
-						<th>Civil Status</th>
-                        <th>Education</th>
-                        <th>Occupation</th>
-						<th>Religion</th>
-						<th>Ethnicity</th>
-						<th>Health Condition</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ var counter = 0; }
-                    @foreach (var item in Model.listFamilyMember)
-                    {
-                        <tr>
-							<td width="15%">@item.firstName</td>
-							<td width="20%">@item.relationship</td>
-                            <td width="15%">@item.sex</td>
-                            <td width="15%">@item.birthdate</td>
-							<td width="15%">@item.civilStatus</td>
-							<td width="15%">@item.education</td>
-							<td width="15%">@item.occupation</td>
-							<td width="15%">@item.religion</td>
-							<td width="15%">@item.ethnicity</td>
-							<td width="15%">@item.healthCondition</td>
-							<td width="5%">
-								<div class="d-inline position-relative">
-									<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-										<i class="bi bi-three-dots-vertical"></i>
+					<div class="col-auto button-spacer">
+						<div class="d-inline position-relative">
+							<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-three-dots-vertical"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="recordOptions">
+								<li>
+									<a class="dropdown-item" href="/family/profile/add/member/?familyID=@Model.familyInfo.familyID">
+										Add Family Member
 									</a>
-									<ul class="dropdown-menu" aria-labelledby="recordOptions">
-										<li>
-											<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
-												Edit Member
-											</a>
-										</li>
-										<li>
-											<a href="#" class="text-danger dropdown-item delete-member-button" onclick="prepareDeleteMember('@item.memberID')"
-											   data-deleteid="@item.memberID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-												Delete Member
-											</a>
-										</li>
-									</ul>
-								</div>
-							</td>
-                        </tr>
-                        counter++;
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+								</li>
+								<li>
+									<a class="dropdown-item" href="/family/profile/edit/family?familyID=@Model.familyInfo.familyID">
+										Edit Information
+									</a>
+								</li>
+								<li>
+									<a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.familyInfo.familyID')"
+									   data-deleteid="@Model.familyInfo.familyID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+										Delete Family
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<p>
+						<strong>Street Address:</strong>
+						@Model.familyInfo.streetAddress
+					</p>
+					<p>
+						<strong>Barangay:</strong>
+						@Model.familyInfo.barangayName
+					</p>
+					<p>
+						<strong>Mobile Number:</strong>
+						@Model.familyInfo.mobileNum
+					</p>
+					<p>
+						<strong>Telephone Number:</strong>
+						@Model.familyInfo.telephoneNum
+					</p>
+					<p>
+						<strong>Living in Geographically Isolated and Disadvantaged Area (GIDA):</strong>
+						@Model.familyInfo.livingInGida
+					</p>
+					<p>
+						<strong>Beneficiary:</strong>
+						@Model.familyInfo.beneficiary
+					</p>
+				</div>
+
+				<div class="content">
+					<!-- Table -->
+					<div class="row p-2">
+						<div class="col-lg-12">
+							<table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Name</th>
+										<th>Role</th>
+										<th>Sex</th>
+										<th>Birth Date</th>
+										<th>Civil Status</th>
+										<th>Education</th>
+										<th>Occupation</th>
+										<th>Religion</th>
+										<th>Ethnicity</th>
+										<th>Health Condition</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@{ var counter = 0; }
+									@foreach (var item in Model.listFamilyMember)
+									{
+										<tr>
+											<td width="15%">@item.firstName</td>
+											<td width="20%">@item.relationship</td>
+											<td width="15%">@item.sex</td>
+											<td width="15%">@item.birthdate</td>
+											<td width="15%">@item.civilStatus</td>
+											<td width="15%">@item.education</td>
+											<td width="15%">@item.occupation</td>
+											<td width="15%">@item.religion</td>
+											<td width="15%">@item.ethnicity</td>
+											<td width="15%">@item.healthCondition</td>
+											<td width="5%">
+												<div class="d-inline position-relative">
+													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots-vertical"></i>
+													</a>
+													<ul class="dropdown-menu" aria-labelledby="recordOptions">
+														<li>
+															<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
+																Edit Member
+															</a>
+														</li>
+														<li>
+															<a href="#" class="text-danger dropdown-item delete-member-button" onclick="prepareDeleteMember('@item.memberID')"
+															   data-deleteid="@item.memberID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																Delete Member
+															</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+										counter++;
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 
 <!-- Modal: Confirm Delete -->
 <div class="modal" id="deleteConfirmationModal" tabindex="-1">
