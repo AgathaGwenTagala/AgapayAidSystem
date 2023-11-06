@@ -58,6 +58,11 @@ body {
     margin: 20px 10px; /* Add margin to create spacing between buttons */
 }
 
+table th{
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
 /*BREADCRUMB*/
 
 .breadcrumb-item a {
