@@ -100,12 +100,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.listAvInclusion)
+                            @foreach (var item in Model.listAvInventory)
                             {
                                 <tr>
                                     <td width="5%">
                                         <div class="form-check">
-                                            <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.batchInclusionID" name="selectedInclusion[]">
+                                            <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.inventoryID" name="selectedInclusion[]">
                                             <label class="form-check-label"></label>
                                         </div>
                                     </td>
