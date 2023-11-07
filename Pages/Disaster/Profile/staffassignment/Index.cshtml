@@ -175,7 +175,7 @@
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
 														   data-deleteid="@item.assignmentID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete Assignment
+															Delete
 														</a>
 													</li>
 												</ul>
@@ -265,8 +265,8 @@
 			responsive: true,
 			select: true, // select for checkbox
 			columnDefs: [
-				{ "orderable": true, "targets": [1, 3, 4, 5] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 2, 6] } // Non-sortable columns
+				{ "orderable": true, "targets": [1, 3, 4] }, // Sortable columns
+				{ "orderable": false, "targets": [0, 2, 5, 6] } // Non-sortable columns
 			],
 			order: [ [3, 'desc']], // Initial sorting by Assigned Date
 			language: {
