@@ -65,8 +65,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 								inventoryInfo.qty = inventoryReader.GetInt32(4).ToString();
 								inventoryInfo.unitMeasure = inventoryReader.GetString(5);
 								inventoryInfo.remarks = inventoryReader.IsDBNull(6) ? null : inventoryReader.GetString(6);
-								inventoryInfo.packedQty = inventoryReader.GetInt64(7).ToString();
-								inventoryInfo.remainingQty = inventoryReader.GetInt64(8).ToString();
+								inventoryInfo.packedQty = inventoryReader.GetInt32(7).ToString();
+								inventoryInfo.remainingQty = inventoryReader.GetInt32(8).ToString();
 								listInventory.Add(inventoryInfo);
 							}
 						}

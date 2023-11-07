@@ -45,10 +45,9 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                                 avInventoryInfo.itemType = reader.GetString(3);
                                 avInventoryInfo.qty = reader.GetInt32(4).ToString();
                                 avInventoryInfo.unitMeasure = reader.GetString(5);
-                                avInventoryInfo.createdAt = reader.GetDateTime(6).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                avInventoryInfo.remarks = reader.IsDBNull(7) ? null : reader.GetString(5);
-                                avInventoryInfo.packedQty = reader.GetInt32(8).ToString();
-                                avInventoryInfo.remainingQty = reader.GetInt32(9).ToString();
+                                avInventoryInfo.remarks = reader.IsDBNull(6) ? null : reader.GetString(6);
+                                avInventoryInfo.packedQty = reader.GetInt32(7).ToString();
+                                avInventoryInfo.remainingQty = reader.GetInt32(8).ToString();
                                 listAvInventory.Add(avInventoryInfo);
                             }
                         }
@@ -200,7 +199,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         public string itemType { get; set; }
         public string qty { get; set; }
         public string unitMeasure { get; set; }
-        public string createdAt { get; set; }
         public string remarks { get; set; }
         public string packedQty { get; set; }
         public string remainingQty { get; set; }

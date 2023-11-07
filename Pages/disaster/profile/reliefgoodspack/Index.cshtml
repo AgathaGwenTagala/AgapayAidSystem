@@ -123,11 +123,11 @@
 							<thead>
 								<tr style="vertical-align:text-top;">
 									<th style="text-align:center;">#</th>
+									<th style="text-align:center;">Pack ID</th>
 									<th style="text-align:center;">Pack Qty</th>
 									<th style="text-align:center;">Distributed Qty</th>
 									<th style="text-align:center;">Remaining Qty</th>
-									<th style="text-align:center;">Created At</th>
-									<th style="text-align:center;">Distributed At</th>
+									<th style="text-align:center;">Date Distributed</th>
 									<th style="text-align:center;">Status</th>
 									<th> </th>
 								</tr>
@@ -138,10 +138,10 @@
 								{
 									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
-										<th width="10%">@item.packQty</th>
+										<td width="20%">@item.packID</td>
+										<td width="10%">@item.packQty</td>
 										<td width="10%">@item.distributedQty</td>
 										<td width="10%">@item.remainingQty</td>
-										<td width="20%">@item.createdAt</td>
 										<td width="20%">@item.distributedAt</td>
 										<td width="10%">
 											@if (@item.status == "Distributed")
@@ -237,8 +237,8 @@
 		var table = $('#reliefpack-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
-				{ "orderable": false, "targets": [7] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+				{ "orderable": false, "targets": [6, 7] } // Non-sortable columns
 			],
 			language: {
 				emptyTable: "There are no relief good packs for this evacuation center.",
