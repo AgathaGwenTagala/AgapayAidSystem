@@ -126,7 +126,10 @@
 									<th style="text-align:center;">Item</th>
 									<th style="text-align:center;">Type</th>
 									<th style="text-align:center;">Unit Measure</th>
-									<th style="text-align:center;">Qty</th>
+									<th style="text-align:center;">
+										Qty<br />
+										<small>(Remaining/Total)</small>
+									</th>
 									<th style="text-align:center;">Remarks</th>
 									<th> </th>
 								</tr>
@@ -137,10 +140,10 @@
 								{
 									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
-										<th width="25%">@item.itemName</th>
+										<th width="22%">@item.itemName</th>
 										<td width="10%">@item.itemType</td>
 										<td width="15%">@item.unitMeasure</td>
-										<td width="15%">@item.remainingQty/@item.qty</td>
+										<td width="18%">@item.remainingQty/@item.qty</td>
 										<td width="25%" style="text-align:left;">@item.remarks</td>
 										<td width="5%">
 											<div class="d-inline position-relative">
@@ -150,13 +153,13 @@
 												<ul class="dropdown-menu" aria-labelledby="recordOptions">
 													<li>
 														<a class="dropdown-item" href="/disaster/profile/inventory/edit?packID=@item.inventoryID&centerLogID=@Model.logInfo.centerLogID">
-															Edit
+															Edit Item
 														</a>
 													</li>
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
 														   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete
+															Delete Item
 														</a>
 													</li>
 												</ul>
