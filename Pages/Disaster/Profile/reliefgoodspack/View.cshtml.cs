@@ -12,11 +12,12 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         public List<PackInclusionInfo> listPackInclusion { get; set; } = new List<PackInclusionInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string packID = "";
 
-		public void OnGet()
+        public void OnGet()
         {
 			string centerLogID = Request.Query["centerLogID"];
-			string packID = Request.Query["packID"];
+			packID = Request.Query["packID"];
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");

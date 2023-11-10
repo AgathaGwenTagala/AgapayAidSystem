@@ -64,7 +64,7 @@
 						<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
@@ -123,11 +123,11 @@
 							<thead>
 								<tr style="vertical-align:text-top;">
 									<th style="text-align:center;">#</th>
+									<th style="text-align:center;">Pack ID</th>
 									<th style="text-align:center;">Pack Qty</th>
 									<th style="text-align:center;">Distributed Qty</th>
 									<th style="text-align:center;">Remaining Qty</th>
-									<th style="text-align:center;">Created At</th>
-									<th style="text-align:center;">Distributed At</th>
+									<th style="text-align:center;">Date Distributed</th>
 									<th style="text-align:center;">Status</th>
 									<th> </th>
 								</tr>
@@ -138,10 +138,10 @@
 								{
 									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
-										<th width="10%">@item.packQty</th>
+										<td width="20%">@item.packID</td>
+										<td width="10%">@item.packQty</td>
 										<td width="10%">@item.distributedQty</td>
 										<td width="10%">@item.remainingQty</td>
-										<td width="20%">@item.createdAt</td>
 										<td width="20%">@item.distributedAt</td>
 										<td width="10%">
 											@if (@item.status == "Distributed")
@@ -160,13 +160,18 @@
 												</a>
 												<ul class="dropdown-menu" aria-labelledby="recordOptions">
 													<li>
+														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+															Distribute to Evacuees
+														</a>
+													</li>
+													<li>
 														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
 															View Pack Inclusions</a>
 													</li>
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
 														   data-deleteid="@item.packID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete Pack
+															Delete
 														</a>
 													</li>
 												</ul>
@@ -237,8 +242,8 @@
 		var table = $('#reliefpack-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
-				{ "orderable": false, "targets": [7] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+				{ "orderable": false, "targets": [6, 7] } // Non-sortable columns
 			],
 			language: {
 				emptyTable: "There are no relief good packs for this evacuation center.",

@@ -102,7 +102,7 @@
                         <tbody>
                             @foreach (var item in Model.listAvInventory)
                             {
-                                <tr>
+                                <tr style="text-align: center;">
                                     <td width="5%">
                                         <div class="form-check">
                                             <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.inventoryID" name="selectedInclusion[]">
@@ -110,9 +110,9 @@
                                         </div>
                                     </td>
                                     <td width="20%">@item.itemName</td>
-                                    <td width="15%" style="text-align: center;">@item.itemType</td>
-                                    <td width="20%" style="text-align: center;">@item.unitMeasure</td>
-                                    <td width="20%" style="text-align: center;">@item.remainingQty</td>
+                                    <td width="15%">@item.itemType</td>
+                                    <td width="20%">@item.unitMeasure</td>
+                                    <td width="20%">@item.remainingQty</td>
                                     <td width="20%">
                                         <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
                                                data-max-qty="@item.remainingQty" disabled required />
