@@ -58,10 +58,19 @@ body {
     margin: 20px 10px; /* Add margin to create spacing between buttons */
 }
 
-table th{
-    text-align: center !important;
-    vertical-align: middle !important;
+table {
+    /**/
 }
+
+    table th {
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+
+    table tr {
+        vertical-align: middle !important;
+    }
+
 
 .navbar.navbar-expand-sm {
     background-color: #3F8F8B; /* Set your desired background color here */
@@ -278,13 +287,6 @@ table th{
 
 form {
     padding: 30px;
-}
-
-/* For screens with a minimum width of 768px (adjust as needed for your desktop breakpoint) */
-@media (min-width: 768px) {
-    .dataTables_filter {
-        float: right;
-    }
 }
 
 .dataTables_length, .dataTables_filter {

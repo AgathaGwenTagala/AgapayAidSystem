@@ -4,6 +4,13 @@
 	ViewData["Title"] = "Distribute Pack to Evacuees";
 }
 
+<style>
+    table tr{
+        text-align: center;
+    }
+</style>
+
+
 <!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
@@ -24,3 +31,92 @@
         </div>
     </div>
 }
+
+<!-- Page Content -->
+<div class="container p-2 form-container">
+    <div class="container form-container-content">
+        <form method="POST" id="checkIn">
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-primary mb-2" href="/disaster/profile/reliefgoodspack/index">
+                        <i class="bi bi-arrow-left-circle"></i>Go Back
+                    </a>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col text-center">
+                    <h1>Distribute Relief Pack to Evacuee</h1>
+                </div>
+            </div>
+
+
+            <input type="hidden" name="centerLogID" value="" />
+            <div class="row pt-4">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                    <table id="distributepack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th data-priority="1">#</th>
+                                <th data-priority="2">Serial No.</th>
+                                <th data-priority="3">Full Name</th>
+                                <th>Sex</th>
+                                <th>Birthdate</th>
+                                <th data-priority="5">Relationship</th>
+                                <th data-priority="4"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td width="5%">1</td>
+                                <td width="10%">123</td>
+                                <td width="30%">Jose Dela Cruz</td>
+                                <td width="10%">F</td>
+                                <td width="20%">11/11/2023</td>
+                                <td width="15%">Family Head</td>
+                                <td width="20%">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmDistribute">Distribute</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        var table = $('#distributepack-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
+                { "orderable": false, "targets": [3, 5, 6] } // Non-sortable columns
+            ],
+        });
+    });
+</script>
+
+<!-- Modal: Confirm Distribute -->
+<div class="modal fade" id="confirmDistribute" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Distribution</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to distribute this pack to the evacuee?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
