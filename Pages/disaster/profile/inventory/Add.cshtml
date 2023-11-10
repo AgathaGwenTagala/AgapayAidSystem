@@ -1,4 +1,117 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.inventory.AddModel
 @{
+	ViewData["Title"] = "Add Item";
 }
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+<div class="container p-2 form-container">
+	<div class="container mt-4 form-container-content">
+		<div class="row">
+			<div class="col text-center">
+				<h1>Add Item</h1>
+			</div>
+		</div>
+
+		<div class="row pt-4">
+			<form method="POST" id="add-item">
+				<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+				<div class="row mb-3">
+					<p class="text-danger text-end">* Required field</p>
+				</div>
+				<!-- Item Name -->
+				<div class="mb-3">
+					<label class="form-label">
+						Item Name:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="itemName" value="@Model.inventoryInfo.itemName" placeholder="ex. Rice" required maxlength="45">
+				</div>
+
+				<!-- Item Type -->
+				<div class="mb-3">
+					<label class="form-label">
+						Item Type:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<select class="form-select" name="itemType" required>
+						<option value="" selected disabled>Select Item Type</option>
+						<option value="Food">Food</option>
+						<option value="Non-Food">Non-Food</option>
+						<option value="Monetary">Monetary</option>
+					</select>
+				</div>
+
+				<!-- Quantity -->
+				<div class="mb-3">
+					<label class="form-label">
+						Quantity:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="number" class="form-control" name="qty" value="@Model.inventoryInfo.qty" placeholder="0" step="1" min="0" required>
+				</div>
+
+				<!-- Unit Measure -->
+				<div class="mb-3">
+					<label class="form-label">
+						Unit Measure:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="unitMeasure" value="@Model.inventoryInfo.unitMeasure" placeholder="ex. Kilograms" required maxlength="45">
+				</div>
+
+				<!-- Remarks -->
+				<div class="mb-3">
+					<label class="form-label">
+						Remarks:
+					</label>
+					<textarea class="form-control" name="remarks" value="@Model.inventoryInfo.remarks" rows="3" placeholder="ex. Donated by a private individual"></textarea>
+				</div>
+
+				<!-- Cancel and Add Buttons -->
+				<div class="button-spacer">
+					<a class="btn btn-outline-secondary mr-10" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
+					<button type="submit" class="btn btn-primary" id="submitBtn">Add</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Enable/disable Add Button in form -->
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	submitButton.disabled = true;
+
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	form.addEventListener('input', checkFormValidity);
+</script>

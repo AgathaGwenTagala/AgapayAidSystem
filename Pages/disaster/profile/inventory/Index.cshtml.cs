@@ -15,7 +15,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 		public string errorMessage = "";
 		public string successMessage = "";
 
-
 		public void OnGet()
         {
 			string centerLogID = Request.Query["centerLogID"];
