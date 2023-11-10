@@ -92,6 +92,11 @@
                         <h1>Pack Inclusions</h1>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <h5><b>Pack ID: @Model.packID</b></h5>
+                    </div>
+                </div>
 
                 <!-- Table -->
                 <div class="row">
@@ -108,9 +113,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    var counter = 1;
-                                }
+                                @{ var counter = 1; }
                                 @foreach (var item in Model.listPackInclusion)
                                 {
                                     <tr style="text-align:center;">
@@ -138,8 +141,8 @@
         var table = $('#pack-inclusion').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
-                { "orderable": false, "targets": [] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 3, 4] }, // Sortable columns
+                { "orderable": false, "targets": [2, 5] } // Non-sortable columns
             ]
         });
 
