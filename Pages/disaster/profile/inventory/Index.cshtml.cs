@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -46,7 +45,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 						}
 					}
 
-					// Fetch inventory pack data related to the selected center log
+					// Fetch inventory data related to the selected center log
 					string inventorySql = "SELECT * FROM inventory_item_view " +
 										  "WHERE centerLogID = @centerLogID;";
 					using (MySqlCommand inventoryCommand = new MySqlCommand(inventorySql, connection))

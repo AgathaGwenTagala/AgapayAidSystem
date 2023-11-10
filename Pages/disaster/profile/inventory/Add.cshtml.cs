@@ -118,7 +118,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 			if (errorOccurred)
 			{
 				// Show an error message banner on the current page
-				Response.Redirect("/disaster/profile/inventroy/add?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+				Response.Redirect("/disaster/profile/inventory/add?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
 			}
 			else
 			{
