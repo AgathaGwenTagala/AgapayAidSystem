@@ -29,7 +29,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT barangayID, barangayName FROM barangay";
+					string sql = "SELECT barangayID, barangayName FROM barangay ORDER BY barangayName";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())

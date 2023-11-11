@@ -69,7 +69,7 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                 {
                     connection.Open();
 
-                    string sql = "SELECT barangayID, barangayName FROM barangay";
+                    string sql = "SELECT barangayID, barangayName FROM barangay ORDER BY barangayName";
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {

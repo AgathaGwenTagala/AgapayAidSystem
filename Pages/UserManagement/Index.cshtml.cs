@@ -20,7 +20,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "SELECT * FROM user";
+                    string sql = "SELECT * FROM user ORDER BY createdAt";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
