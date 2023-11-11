@@ -108,7 +108,7 @@
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 					<!-- Title, Check-In and Check-Out Buttons -->
 					<div class="row pb-2">
-						<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 5px">
+						<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 30px">
 							<div class="d-flex align-items-center">
 								<h1>Entry Log</h1>
 							</div>
@@ -118,7 +118,7 @@
 									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
 								</a>
 								<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-									Check-out Evacuee
+									<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
 								</button>
 							</div>
 						</div>
@@ -154,8 +154,8 @@
 											</div>
 										</td>
 										<td width="30%">@item.fullName</td>
-										<td width="20%">@item.checkInDate</td>
-										<td width="20%">@item.checkOutDate</td>
+										<td width="20%" style="text-align: center;">@item.checkInDate</td>
+										<td width="20%" style="text-align: center;">@item.checkOutDate</td>
 										<td width="15%" style="text-align: center;">
 											@if (@item.entryStatus == "Check-in")
 											{
@@ -271,10 +271,7 @@
 				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
 			],
 			// Set initial sorting by the Check-in Date
-			order: [[2, 'desc'], [1 , 'asc']],
-			language: {
-				emptyTable: "There are no evacuees checked-in at this evacuation center.",
-			}
+			order: [[2, 'desc'], [3, 'asc'], [1, 'asc']]
 		});
 
 		// Adding filters to specific columns

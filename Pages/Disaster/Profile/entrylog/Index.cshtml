@@ -154,8 +154,8 @@
 											</div>
 										</td>
 										<td width="30%">@item.fullName</td>
-										<td width="20%">@item.checkInDate</td>
-										<td width="20%">@item.checkOutDate</td>
+										<td width="20%" style="text-align: center;">@item.checkInDate</td>
+										<td width="20%" style="text-align: center;">@item.checkOutDate</td>
 										<td width="15%" style="text-align: center;">
 											@if (@item.entryStatus == "Check-in")
 											{
@@ -271,10 +271,7 @@
 				{ "orderable": false, "targets": [0, 4, 5] } // Non-sortable columns
 			],
 			// Set initial sorting by the Check-in Date
-			order: [[2, 'desc'], [1 , 'asc']],
-			language: {
-				emptyTable: "There are no evacuees checked-in at this evacuation center.",
-			}
+			order: [[2, 'desc'], [3, 'asc'], [1, 'asc']]
 		});
 
 		// Adding filters to specific columns
