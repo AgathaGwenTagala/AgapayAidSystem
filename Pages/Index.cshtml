@@ -9,11 +9,11 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-            <!--Boxicons-->
+        <!--LINKS-->
+
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
         <!--MAIN-->
-
             <div class="head-title">
                 <div>
                     <h2>Home</h2>
@@ -66,21 +66,97 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>
-     
+
+
+            <div class="content">
+                <!-- Title and Allocate Button-->
+                    <div class="col d-flex align-items-center">
+                         <div class="ec-title">
+                            <h2 class="ec-subtitle">Evacuation Center</h2>
+                         </div>
+                    </div>
+
+                <!-- Table -->
+                <div class="row p-2">
+                    <div class="col-lg-12">
+                        <div class="container table-container">
+                            <table id="ec" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+						                <th>Occupancy</th>
+						                <th>Assigned EC Staff</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th>1</th>
+						                <th>Sagip Relief Center</th>
+						                <th>
+                                            <div class="progress"></div>
+                                            1001/2000
+                                        </th>
+						                <th>56</th>
+						            </tr>
+                                    <tr>
+                                        <th>2</th>
+								        <th>Sapang Palay Elementary School</th>
+								        <th>
+                                            <div class="progress"></div>
+                                        65/250
+                                        </th>
+								        <th>10</th>
+							        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </body>
 </html>
 
 
+<script>
+    $(document).ready(function () {
+        var table = $('#ec').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 3] }
+            ],
+            initComplete: function () {
+                var rows = this.api().rows({ page: 'current' }).nodes();
 
+                for (var i = 0; i < rows.length; i++) {
+                    updateOccupancyBar(rows[i]);
+                }
+            }
+        });
 
+        function updateOccupancyBar(row) {
+            var occupancyCell = row.cells[2];
+            var occupancyText = occupancyCell.textContent.trim();
+            var occupancyValues = occupancyText.split('/');
+            var occupancy = parseInt(occupancyValues[0]);
+            var totalCapacity = parseInt(occupancyValues[1]);
+            var percentage = (occupancy / totalCapacity) * 100;
 
+            var progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            progressBar.style.width = percentage + '%';
 
+            var progressContainer = document.createElement('div');
+            progressContainer.className = 'progress';
+            progressContainer.appendChild(progressBar);
 
-@*<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@
+            occupancyCell.innerHTML = ''; // Clear existing content
+            occupancyCell.appendChild(progressContainer);
+            occupancyCell.insertAdjacentHTML('beforeend', occupancyText);
+        }
+    });
+</script>

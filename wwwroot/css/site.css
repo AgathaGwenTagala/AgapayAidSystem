@@ -305,6 +305,7 @@ form {
     margin-left: 100px;
     width: 200px; /* Set a fixed width for non-responsive behavior */
     box-sizing: border-box;
+    white-space: nowrap
 }
 
 .sub-title {
@@ -451,3 +452,33 @@ form {
     background: #BF83FF;
     color: #FFFFFF;
 }
+
+
+
+.ec-title {
+    /* Default margin for desktop */
+    margin-left: 150px;
+    width: 200px; /* Set a fixed width for non-responsive behavior */
+    box-sizing: border-box;
+    white-space: nowrap
+}
+
+
+@media only screen and (max-width: 1238px) {
+    .ec-title {
+        margin-left: 0; /* Remove margin for mobile screens */
+        width: 100%; /* Allow full width on smaller screens */
+    }
+
+    .ec-subtitle {
+        white-space: normal; /* Allow text to wrap on mobile screens */
+    }
+}
+
+
+#ec {
+    border-radius: 30px; /* Adjust the value for the desired roundness */
+    overflow: hidden; /* Ensure the content within the table doesn't overflow */
+}
+
+
