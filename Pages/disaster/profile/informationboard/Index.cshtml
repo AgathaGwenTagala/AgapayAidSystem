@@ -84,33 +84,59 @@
 
                         <hr />
 
-                        <p class="p-2">Assigned Staff
-                            <span class="badge rounded-pill bg-primary pb-1">3</span>
+                        <p class="p-2"><b>Assigned Staff </b>
+                            <span class="badge rounded-pill bg-primary pb-1">@Model.GetAssignedStaffCount()</span>
                         </p>
                         <table class="table">
                             <tr>
                                 <th>Manager</th>
-                                <td>Ian Vincent C. Bartolome</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(Model.GetAssignedManagerFullName()))
+                                    {
+                                        @Model.GetAssignedManagerFullName()
+                                       
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>Assistant Manager</th>
-                                <td>Juan S. Dela Cruz Jr.</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(Model.GetAssignedAsstManagerFullName()))
+                                    {
+                                        @Model.GetAssignedAsstManagerFullName()
+
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>EC Staff</th>
                                 <td>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>Aileen R. Tan</li>
-                                        <li>Sarah Williams</li>
-                                        <li>Michael Anderson</li>
-                                        <!-- Add more staff members as needed -->
-                                    </ul>
+                                    @if (Model.GetAssignedStaffFullName().Any())
+                                    {
+                                        <ul style="list-style: none; padding: 0; margin:0; vertical-align: central;">
+                                            @foreach (var staffFullName in Model.GetAssignedStaffFullName())
+                                            {
+                                                <li>@staffFullName</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
                                 </td>
                             </tr>
                         </table>
 
-                        <p class="p-2">
-                            Demographic Information</>
+                        <p class="p-2"><b>Demographic Information</b></p>
                         <table class="table">
                             <tr>
                                 <th>No. of Families</th>
@@ -162,35 +188,31 @@
                             </tr>
                         </table>
 
-                        <p class="p-2">Facilities</p>
+                        <p class="p-2"><b>Facilities</b></p>
                         <table class="table">
                             <tr>
                                 <th>Toilet</th>
-                                <td>10</td>
+                                <td>@Model.logInfo.toilet</td>
                             </tr>
                             <tr>
                                 <th>Bathing Cubicle</th>
-                                <td>5</td>
+                                <td>@Model.logInfo.bathingCubicle</td>
                             </tr>
                             <tr>
                                 <th>Community Kitchen</th>
-                                <td>3</td>
+                                <td>@Model.logInfo.communityKitchen</td>
                             </tr>
                             <tr>
                                 <th>Washing Area</th>
-                                <td>5</td>
+                                <td>@Model.logInfo.washingArea</td>
                             </tr>
                             <tr>
-                                <th>Women-friendly Spaces</th>
-                                <td>2</td>
+                                <th>Women-friendly and Child-friendly Spaces</th>
+                                <td>@Model.logInfo.womenChildSpace</td>
                             </tr>
                             <tr>
-                                <th>Child-Friendly Spaces</th>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <th>Multipurpose Areas</th>
-                                <td>3</td>
+                                <th>Multipurpose Area</th>
+                                <td>@Model.logInfo.multipurposeArea</td>
                             </tr>
                         </table>
 					</div>
