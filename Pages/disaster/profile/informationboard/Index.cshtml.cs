@@ -45,10 +45,14 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 					// Fetch info of selected center log from the database
 					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, " +
                                     "ec.toilet, ec.bathingCubicle, ec.communityKitchen, ec.washingArea, " +
-                                    "ec.womenChildSpace, ec.multipurposeArea " +
+                                    "ec.womenChildSpace, ec.multipurposeArea, " +
+                                    "CONCAT(ec.streetAddress, ', Brgy. ', b.barangayName, ', ', " +
+                                    "b.municipalityCity, ', ', b.province) AS fullAddress, " +
+                                    "ec.centerType, ec.mobileNum, ec.telephoneNum " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
+                                    "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
 									"WHERE log.centerLogID = @centerLogID";
 					using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
 					{
@@ -67,6 +71,10 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                 logInfo.washingArea = logReader.GetInt32(7).ToString();
                                 logInfo.womenChildSpace = logReader.GetInt32(8).ToString();
                                 logInfo.multipurposeArea = logReader.GetInt32(9).ToString();
+                                logInfo.fullAddress = logReader.GetString(10);
+                                logInfo.centerType = logReader.GetString(11);
+                                logInfo.mobileNum = logReader.IsDBNull(12) ? null : logReader.GetString(12);
+                                logInfo.telephoneNum = logReader.IsDBNull(13) ? null : logReader.GetString(13);
                             }
 						}
 					}
@@ -199,5 +207,145 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
             return staffFullName;
         }
 
+        public int GetTotalDistinctFamiliesCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctFamilies " +
+                         "FROM evacuation_center_log ecl " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE ecl.centerLogID = @centerLogID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctIndividualsCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctIndividuals " +
+                         "FROM evacuation_center_log ecl " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE ecl.centerLogID = @centerLogID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctFemaleCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctFemale " +
+                         "FROM evacuation_center_log ecl " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE ecl.centerLogID = @centerLogID AND fm.sex = 'F';";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctMaleCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctMale " +
+                         "FROM evacuation_center_log ecl " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "WHERE ecl.centerLogID = @centerLogID AND fm.sex = 'M';";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetTotalDistinctBeneficiaryCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctBeneficiary " +
+                         "FROM evacuation_center_log ecl " +
+                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+                         "LEFT JOIN family f ON fm.familyID = f.familyID " +
+                         "WHERE ecl.centerLogID = @centerLogID AND f.beneficiary = '4P''s';";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
     }
 }

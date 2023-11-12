@@ -77,9 +77,40 @@
 
                         <div>
                             <h1>@Model.logInfo.centerName</h1>
-                            <p>City of San Jose del Monte, Bulacan</p>
-                            <p>Community-based EC</p>
-                            <p>044-840-8923 / 0917-437-1212</p>
+                            <p>
+                                <b>Address</b><br />
+                                @Model.logInfo.fullAddress
+                            </p>
+                            <p>
+                                <b>Type</b><br />
+                                @Model.logInfo.centerType
+                            </p>
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.logInfo.mobileNum))
+                                {
+                                    <b>Mobile Number</b><br />
+                                    @Model.logInfo.mobileNum
+
+                                }
+                                else
+                                {
+                                    <b>Mobile Number</b><br />
+                                    <text>N/A</text>
+                                }
+                            </p>
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.logInfo.telephoneNum))
+                                {
+                                    <b>Telephone Number</b><br />
+                                    @Model.logInfo.telephoneNum
+
+                                }
+                                else
+                                {
+                                    <b>Telephone Number</b><br />
+                                    <text>N/A</text>
+                                }
+                            </p>
                         </div>
 
                         <hr />
@@ -140,19 +171,19 @@
                         <table class="table">
                             <tr>
                                 <th>No. of Families</th>
-                                <td>50</td>
+                                <td>@Model.GetTotalDistinctFamiliesCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Individuals</th>
-                                <td>150</td>
+                                <td>@Model.GetTotalDistinctIndividualsCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Males</th>
-                                <td>75</td>
+                                <td>@Model.GetTotalDistinctMaleCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Females</th>
-                                <td>75</td>
+                                <td>@Model.GetTotalDistinctFemaleCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Pregnant Women</th>
@@ -172,15 +203,11 @@
                             </tr>
                             <tr>
                                 <th>No. of 4Ps Beneficiary</th>
-                                <td>8</td>
+                                <td>@Model.GetTotalDistinctBeneficiaryCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Families with Damaged Houses</th>
                                 <td>15 (Partially Damaged: 10, Totally Damaged: 5)</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Families living in Hazardous Areas</th>
-                                <td>7</td>
                             </tr>
                             <tr>
                                 <th>No. of Casualties (Dead, Missing, Injured)</th>
