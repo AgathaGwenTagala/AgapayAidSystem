@@ -20,7 +20,7 @@ namespace AgapayAidSystem.Pages.Disaster
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM disaster";
+					string sql = "SELECT * FROM disaster ORDER BY dateOccured";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())

@@ -117,12 +117,10 @@
     // Event listener for the "Select All" checkbox
     selectAllCheckbox.addEventListener('change', function () {
         checkboxes.forEach((checkbox, index) => {
-            if (!checkbox.disabled) {
-                checkbox.checked = selectAllCheckbox.checked;
-                roleSelects[index].disabled = !selectAllCheckbox.checked;
-                if (!selectAllCheckbox.checked) {
-                    roleSelects[index].value = ""; // Reset the selected role when unchecked
-                }
+            checkbox.checked = selectAllCheckbox.checked;
+            roleSelects[index].disabled = !selectAllCheckbox.checked;
+            if (!selectAllCheckbox.checked) {
+                roleSelects[index].value = ""; // Reset the selected role when unchecked
             }
         });
         updateSaveSelectionButtonState();
@@ -149,27 +147,16 @@
 
     function updateSelectAllCheckboxState() {
         const allEnabledCheckboxesChecked = Array.from(checkboxes)
-            .filter(checkbox => !checkbox.disabled)
             .every(checkbox => checkbox.checked);
         selectAllCheckbox.checked = allEnabledCheckboxesChecked;
     }
 
     function updateSaveSelectionButtonState() {
-        const atLeastOneEnabledCheckboxChecked = Array.from(checkboxes)
-            .filter(checkbox => !checkbox.disabled)
-            .some(checkbox => checkbox.checked);
-
-        // Check if all checked checkboxes have a selected role
-        const allCheckedHaveRole = Array.from(checkboxes)
-            .filter((checkbox, index) => checkbox.checked)
-            .every((checkbox, index) => {
-                return !roleSelects[index].disabled && roleSelects[index].value !== "";
-            });
-
-        // Enable the "Assign" button only if both conditions are met
-        saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked || !allCheckedHaveRole;
+        // Enable the "Check-in" button if for each checked checkbox, its corresponding role select has a value
+        saveSelectionButton.disabled = Array.from(checkboxes).some((checkbox, index) => {
+            return checkbox.checked && roleSelects[index].value === "";
+        });
     }
-
 </script>
 
 <!-- Assign button in Modal -->

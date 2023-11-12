@@ -77,120 +77,161 @@
 
                         <div>
                             <h1>@Model.logInfo.centerName</h1>
-                            <p>City of San Jose del Monte, Bulacan</p>
-                            <p>Community-based EC</p>
-                            <p>044-840-8923 / 0917-437-1212</p>
+                            <p>
+                                <b>Address</b><br />
+                                @Model.logInfo.fullAddress
+                            </p>
+                            <p>
+                                <b>Type</b><br />
+                                @Model.logInfo.centerType
+                            </p>
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.logInfo.mobileNum))
+                                {
+                                    <b>Mobile Number</b><br />
+                                    @Model.logInfo.mobileNum
+
+                                }
+                                else
+                                {
+                                    <b>Mobile Number</b><br />
+                                    <text>N/A</text>
+                                }
+                            </p>
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.logInfo.telephoneNum))
+                                {
+                                    <b>Telephone Number</b><br />
+                                    @Model.logInfo.telephoneNum
+
+                                }
+                                else
+                                {
+                                    <b>Telephone Number</b><br />
+                                    <text>N/A</text>
+                                }
+                            </p>
                         </div>
 
                         <hr />
 
-                        <p class="p-2">Assigned Staffs
-                            <span class="badge rounded-pill bg-primary pb-1">3</span>
+                        <p class="p-2"><b>Assigned Staff </b>
+                            <span class="badge rounded-pill bg-primary pb-1">@Model.GetAssignedStaffCount()</span>
                         </p>
                         <table class="table">
                             <tr>
                                 <th>Manager</th>
-                                <td>Ian Vincent C. Bartolome</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(Model.GetAssignedManagerFullName()))
+                                    {
+                                        @Model.GetAssignedManagerFullName()
+                                       
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>Assistant Manager</th>
-                                <td>Juan S. Dela Cruz Jr.</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(Model.GetAssignedAsstManagerFullName()))
+                                    {
+                                        @Model.GetAssignedAsstManagerFullName()
+
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>EC Staff</th>
                                 <td>
-                                    <ul style="list-style: none; padding: 0;">
-                                        <li>Aileen R. Tan</li>
-                                        <li>Sarah Williams</li>
-                                        <li>Michael Anderson</li>
-                                        <!-- Add more staff members as needed -->
-                                    </ul>
+                                    @if (Model.GetAssignedStaffFullName().Any())
+                                    {
+                                        <ul style="padding: 0; margin:0; vertical-align: central;">
+                                            @foreach (var staffFullName in Model.GetAssignedStaffFullName())
+                                            {
+                                                <li>@staffFullName</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <text>No information available.</text>
+                                    }
                                 </td>
                             </tr>
                         </table>
 
-                        <p class="p-2">
-                            Demographic Information</>
+                        <p class="p-2"><b>Demographic Information</b></p>
                         <table class="table">
                             <tr>
                                 <th>No. of Families</th>
-                                <td>50</td>
+                                <td>@Model.GetTotalDistinctFamiliesCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Individuals</th>
-                                <td>150</td>
+                                <td>@Model.GetTotalDistinctIndividualsCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Males</th>
-                                <td>75</td>
+                                <td>@Model.GetTotalDistinctMaleCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Females</th>
-                                <td>75</td>
+                                <td>@Model.GetTotalDistinctFemaleCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Pregnant Women</th>
-                                <td>5</td>
+                                <td>@Model.GetTotalDistinctPregnantWomanCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Children</th>
-                                <td>20</td>
+                                <td>@Model.GetTotalDistinctChildrenCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Elderly</th>
-                                <td>10</td>
+                                <td>@Model.GetTotalDistinctElderlyCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Persons with Disabilities (PWDs)</th>
-                                <td>3</td>
+                                <td>@Model.GetTotalDistinctPwdCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of 4Ps Beneficiary</th>
-                                <td>8</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Families with Damaged Houses</th>
-                                <td>15 (Partially Damaged: 10, Totally Damaged: 5)</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Families living in Hazardous Areas</th>
-                                <td>7</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Casualties (Dead, Missing, Injured)</th>
-                                <td>2 (1 Dead, 0 Missing, 1 Injured)</td>
+                                <td>@Model.GetTotalDistinctBeneficiaryCount()</td>
                             </tr>
                         </table>
 
-                        <p class="p-2">Facilities</p>
+                        <p class="p-2"><b>Facilities</b></p>
                         <table class="table">
                             <tr>
                                 <th>Toilet</th>
-                                <td>10</td>
+                                <td>@Model.logInfo.toilet</td>
                             </tr>
                             <tr>
                                 <th>Bathing Cubicle</th>
-                                <td>5</td>
+                                <td>@Model.logInfo.bathingCubicle</td>
                             </tr>
                             <tr>
                                 <th>Community Kitchen</th>
-                                <td>3</td>
+                                <td>@Model.logInfo.communityKitchen</td>
                             </tr>
                             <tr>
                                 <th>Washing Area</th>
-                                <td>5</td>
+                                <td>@Model.logInfo.washingArea</td>
                             </tr>
                             <tr>
-                                <th>Women-friendly Spaces</th>
-                                <td>2</td>
+                                <th>Women-friendly and Child-friendly Spaces</th>
+                                <td>@Model.logInfo.womenChildSpace</td>
                             </tr>
                             <tr>
-                                <th>Child-Friendly Spaces</th>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <th>Multipurpose Areas</th>
-                                <td>3</td>
+                                <th>Multipurpose Area</th>
+                                <td>@Model.logInfo.multipurposeArea</td>
                             </tr>
                         </table>
 					</div>
