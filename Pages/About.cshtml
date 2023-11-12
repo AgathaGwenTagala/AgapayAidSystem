@@ -4,42 +4,105 @@
     ViewData["Title"] = "About";
 }
 
-<div class="content">
-	<!-- Breadcrumb -->
-	<div class="row pb-2" aria-label="breadcrumb">
-		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-				<li class="breadcrumb-item active"><a><strong>About Agapay Aid</strong></a></li>
-			</ol>
-		</nav>
-	</div>
+<style>
+    form{
+        padding: 0px;
+    }
+</style>
 
-	<!-- Title and Add Button-->
-	<div class="row p-2">
-		<div class="col d-flex align-items-center">
-			<h1>About Agapay Aid</h1>
-		</div>
-	</div>
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-primary text-center">
+        <div class="col-md-6 mx-auto">
+            <h1><img src="/white-logo-horizontal.png" alt="" id="logo"></h1>
+            <p class="lead my-3">Together, we stand stronger in the face of adversity.</p>
+            <a class="btn btn-outline-secondary text-white" href="#">Learn about Us</a>
+        </div>
+    </div>
 
-	<div class="row p-2 text-justify">
-		<p>Agapay Aid is a web-based application that seeks to revolutionize disaster relief efforts in the Philippines.</p>
-		<p>Our system's primary goals include streamlining the management of evacuation centers by optimizing resource allocation, staff assignments, and evacuee registration. Additionally, Agapay Aid aims to improve the equitable distribution of relief goods while offering real-time data reports to various stakeholders, such as evacuation center staff, local government units, and system administrators.</p>
-		<p>At Agapay Aid, our mission is to make a meaningful impact on disaster response by leveraging technology to save lives, alleviate suffering, and contribute to a safer and more resilient Philippines.</p>
-	</div>
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3>About Us</h3>
+            <article class="about-us">
+                <p>
+                    In response to the evolving challenges faced by disaster responders, Agapay Aid emerges as a pioneering solution inspired by the growing need for efficiency and precision in disaster relief efforts. Stemming from the lessons learned from the DSWD's Disaster Assistance Family Access Card (DAFAC) and acknowledging the drawbacks of paper-based systems, Agapay Aid steps forward as a transformative web-based application.
+                    <br /> <br />
+                    Initially designed to enhance the DSWD's profiling tool, Agapay Aid envisions a future where disaster relief is not hindered by administrative bottlenecks. The heart of our mission lies in streamlining the intricate web of tasks involved in managing evacuation centers, assigning staff, and ensuring the fair distribution of relief goods. Our web-based platform aims to alleviate the burdens of paperwork, limited coverage, and information management challenges faced by traditional systems.
+                </p>
 
-	<div class="row">
-		<div class="p-4 col-md-6" style="vertical-align:middle; color: var(--bs-primary-color); background: white; box-shadow:0; border-radius: 20px">
-			<h5><b>Why?</b></h5>
-			<p class="text-justify">The Department of Social Welfare and Development (DSWD), the Philippines' primary agency for disaster response, underlined in the Joint Memorandum Circular No. 01, Series of 2013, Guidelines on Evacuation Center Coordination and Management (ECCM), that safeguarding the safety and well-being of people, along with their animals, during natural or human-induced disasters is a paramount government priority. Families and communities in high-risk areas must be swiftly relocated to secure locations or evacuation centers in times of peril.</p>
-		</div>
+            </article>
 
-		<div class="p-5 col-md-6" style="vertical-align:middle; color:#fff; background: var(--bs-primary-color); box-shadow:0; border-radius: 20px">
-			<h5 class="text-light"><b>Did you know?</b></h5>
-			<p class="text-justify">In 2022, the World Risk Report ranked the Philippines as the most disaster-prone country, primarily due to its high susceptibility to natural calamities such as earthquakes, typhoons, storm surges, tsunamis, volcanic eruptions, and flooding. Amid the COVID-19 pandemic, the Philippines faced the onslaught of 22 tropical storms, resulting in devastating floods and landslides, displacing many Filipinos who sought refuge in evacuation centers.</p>
-		</div>
-	</div>
+            <h3>Our Mission</h3>
+            <article class="our-mission">
+                <p>
+                    Our mission is to enhance the efficiency of evacuation center management and relief distribution, ensuring swift and equitable support for every affected individual. 
+                    We strive to provide real-time tracking, comprehensive evacuee management, and streamlined relief distribution. 
+                    By automating processes and centralizing information, AgapayAid aims to empower disaster responders with the tools they need to make a meaningful impact during critical times.
+                </p>
+            </article>
+
+            <div>
+                <h3>Meet the Team</h3>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <img src="/tagala.jpg" alt="Agatha Gwen Tagala" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                        <h4>Agatha Gwen Tagala</h4>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="/guzon.jpg" alt="Jeanne Margaret Guzon" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                        <h4>Jeanne Margaret Guzon</h4>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="/bartolome.jpg" alt="Ian Vincent Bartolome" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                        <h4>Ian Vincent Bartolome</h4>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="/sudaria.jpg" alt="Patrick Sudaria" class="bd-placeholder-img rounded-circle" width="140" height="140">
+                        <h4>Patrick Sudaria</h4>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic pb-1">Do you know?</h4>
+                    <p class="mb-0">
+                        In 2022, the World Risk Report listed the <b>Philippines as the 1st most disaster-prone country</b> because of its high risk, exposure, and vulnerability to
+                        natural catastrophes and calamities such as earthquakes, typhoons, storm surges, tsunamis, volcanic eruptions, and flooding.
+                    </p>
+                </div>
+
+                <div class="p-4">
+                    <h4 class="fst-italic pb-1">Contact Us</h4>
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email address:</label>
+                            <input type="email" class="form-control" id="InputEmail">
+                            <div class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Name:</label>
+                            <input class="form-control" id="InputName">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message:</label>
+                            <input class="form-control" id="InputMessage">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 
-
-</div>
+</main>
