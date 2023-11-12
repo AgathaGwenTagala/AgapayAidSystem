@@ -46,6 +46,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								latestEntryInfo.birthdate = reader.GetDateTime(3).ToString("MMMM d, yyyy");
 								latestEntryInfo.barangayName = reader.GetString(4);
 								latestEntryInfo.entryStatus = reader.IsDBNull(5) ? null : reader.GetString(5);
+								latestEntryInfo.age = reader.GetInt64(6).ToString();
 								listLatestEntry.Add(latestEntryInfo);
 							}
 						}
@@ -80,7 +81,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 			}
         }
 
-        public void OnPost(string[] selectedEvacuees)
+        public void OnPost(string[] selectedEvacuees, string[] remarks)
         {
             bool errorOccurred = false;
 
@@ -92,7 +93,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
             if (selectedEvacuees == null || selectedEvacuees.Length == 0)
             {
-                errorMessage = "Please select at least one evacuee to check-out.";
+                errorMessage = "Please select at least one evacuee to check-in.";
                 errorOccurred = true;
             }
 
@@ -110,14 +111,18 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    foreach (string memberID in selectedEvacuees)
+                    for (int i = 0; i < selectedEvacuees.Length; i++)
                     {
-                        string insertSql = "INSERT INTO entry_log (memberID, centerLogID) " +
-                                           "VALUES (@memberID, @centerLogID)";
+                        string memberID = selectedEvacuees[i];
+                        string selectedRemarks = remarks[i]; // Retrieve the remarks for the current evacuee
+
+                        string insertSql = "INSERT INTO entry_log (memberID, centerLogID, remarks) " +
+                                           "VALUES (@memberID, @centerLogID, @remarks)";
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@memberID", memberID);
                             insertCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                            insertCommand.Parameters.AddWithValue("@remarks", selectedRemarks);
 
                             int rowsInserted = insertCommand.ExecuteNonQuery();
                             if (rowsInserted == 1)
@@ -164,5 +169,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public string birthdate { get; set; }
 		public string barangayName { get; set; }
 		public string entryStatus { get; set; }
+		public string age { get; set; }
 	}
 }

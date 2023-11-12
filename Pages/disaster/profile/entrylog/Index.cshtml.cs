@@ -69,7 +69,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								entryInfo.checkInDate = entryReader.GetDateTime(3).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								entryInfo.checkOutDate = entryReader.IsDBNull(4) ? null : entryReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								entryInfo.entryStatus = entryReader.GetString(5);
-								entryInfo.fullName = entryReader.GetString(6);
+								entryInfo.remarks = entryReader.IsDBNull(6) ? null : entryReader.GetString(6);
+								entryInfo.fullName = entryReader.GetString(7);
 								listEntryLog.Add(entryInfo);
 							}
 						}
@@ -152,6 +153,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public string checkInDate { get; set; }
 		public string checkOutDate { get; set; }
 		public string entryStatus { get; set; }
+		public string remarks { get; set; }
 		public string fullName { get; set; }
 	}
 }
