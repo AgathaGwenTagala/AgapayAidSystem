@@ -187,31 +187,23 @@
                             </tr>
                             <tr>
                                 <th>No. of Pregnant Women</th>
-                                <td>5</td>
+                                <td>@Model.GetTotalDistinctPregnantWomanCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Children</th>
-                                <td>20</td>
+                                <td>@Model.GetTotalDistinctChildrenCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Elderly</th>
-                                <td>10</td>
+                                <td>@Model.GetTotalDistinctElderlyCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of Persons with Disabilities (PWDs)</th>
-                                <td>3</td>
+                                <td>@Model.GetTotalDistinctPwdCount()</td>
                             </tr>
                             <tr>
                                 <th>No. of 4Ps Beneficiary</th>
                                 <td>@Model.GetTotalDistinctBeneficiaryCount()</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Families with Damaged Houses</th>
-                                <td>15 (Partially Damaged: 10, Totally Damaged: 5)</td>
-                            </tr>
-                            <tr>
-                                <th>No. of Casualties (Dead, Missing, Injured)</th>
-                                <td>2 (1 Dead, 0 Missing, 1 Injured)</td>
                             </tr>
                         </table>
 
