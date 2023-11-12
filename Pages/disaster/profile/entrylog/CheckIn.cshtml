@@ -68,16 +68,82 @@
                                     <td width="5%" style="text-align: center;">@item.age</td>
                                     <td width="20%" style="text-align: center;">@item.barangayName</td>
                                     <td>
-                                        <select class="form-select role-select" name="remarks[]" required disabled>
-                                            <option value="" selected disabled>Select</option>
-                                            <option value="None">None</option>
-                                            <option value="Elderly">Elderly</option>
-                                            <option value="PWD">PWD</option>
-                                            <option value="Children">Children</option>
-                                            <option value="Pregnant Woman">Pregnant Woman</option>
-                                            <option value="Lactating Mother">Lactating Mother</option>
-                                        </select>
+                                        @{
+                                            int age;
+                                            if (int.TryParse(@item.age, out age))
+                                            {
+                                                if (@item.sex == "M")
+                                                {
+                                                    if (age <= 17) 
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                }
+                                                else if (@item.sex == "F")
+                                                {
+                                                    if (age <= 17)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>Error: Invalid age</p>
+                                            }
+                                        }
                                     </td>
+
                                 </tr>
                             }
                         </tbody>
