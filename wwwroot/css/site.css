@@ -457,15 +457,6 @@ form {
 
 
 
-.ec-title {
-    /* Default margin for desktop */
-    margin-left: 150px;
-    width: 200px; /* Set a fixed width for non-responsive behavior */
-    box-sizing: border-box;
-    white-space: nowrap
-}
-
-
 @media only screen and (max-width: 1238px) {
     .ec-title {
         margin-left: 0; /* Remove margin for mobile screens */
