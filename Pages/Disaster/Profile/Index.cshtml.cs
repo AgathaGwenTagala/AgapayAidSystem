@@ -49,7 +49,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
-									"WHERE log.disasterID = @disasterID";
+									"WHERE log.disasterID = @disasterID ORDER BY openingDateTime";
                     using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
                     {
                         logCommand.Parameters.AddWithValue("@disasterID", disasterID);
@@ -375,5 +375,11 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public string maxCapacity { get; set; }
         public string barangayName { get; set; }
         public string totalStaff { get; set; }
+        public string toilet { get; set; }
+        public string bathingCubicle { get; set; }
+        public string communityKitchen { get; set; }
+        public string washingArea { get; set; }
+        public string womenChildSpace { get; set; }
+        public string multipurposeArea { get; set; }
     }
 }

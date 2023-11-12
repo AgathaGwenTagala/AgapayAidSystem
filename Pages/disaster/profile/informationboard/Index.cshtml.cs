@@ -43,7 +43,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 					}
 
 					// Fetch info of selected center log from the database
-					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, " +
+                                    "ec.toilet, ec.bathingCubicle, ec.communityKitchen, ec.washingArea, " +
+                                    "ec.womenChildSpace, ec.multipurposeArea " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -59,10 +61,16 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 								logInfo.disasterID = logReader.GetString(1);
 								logInfo.disasterName = logReader.GetString(2);
 								logInfo.centerName = logReader.GetString(3);
-							}
+                                logInfo.toilet = logReader.GetInt32(4).ToString();
+                                logInfo.bathingCubicle = logReader.GetInt32(5).ToString();
+                                logInfo.communityKitchen = logReader.GetInt32(6).ToString();
+                                logInfo.washingArea = logReader.GetInt32(7).ToString();
+                                logInfo.womenChildSpace = logReader.GetInt32(8).ToString();
+                                logInfo.multipurposeArea = logReader.GetInt32(9).ToString();
+                            }
 						}
 					}
-				}
+                }
 			}
 
 			catch (Exception ex)
@@ -70,5 +78,126 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 				errorMessage = ex.Message;
 			}
 		}
-	}
+
+		public int GetAssignedStaffCount()
+		{
+			string centerLogID = Request.Query["centerLogID"];
+			string sql = "SELECT COUNT(*) " +
+						 "FROM ec_staff_assignment " +
+						 "WHERE centerLogID = @centerLogID and status = 'Assigned';";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@centerLogID", centerLogID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+        public string GetAssignedManagerFullName()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string staffFullName = null;
+
+            string sql = "SELECT staffFullName " +
+                         "FROM assigned_staff_view " +
+                         "WHERE role = 'Manager' AND centerLogID = @centerLogID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        staffFullName = (string)command.ExecuteScalar();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            return staffFullName;
+        }
+
+        public string GetAssignedAsstManagerFullName()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string staffFullName = null;
+
+            string sql = "SELECT staffFullName " +
+                         "FROM assigned_staff_view " +
+                         "WHERE role = 'Asst. Manager' AND centerLogID = @centerLogID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        staffFullName = (string)command.ExecuteScalar();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            return staffFullName;
+        }
+
+        public List<string> GetAssignedStaffFullName()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            List<string> staffFullName = new List<string>();
+
+            string sql = "SELECT staffFullName " +
+                         "FROM assigned_staff_view " +
+                         "WHERE role = 'Staff' AND centerLogID = @centerLogID;";
+
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                staffFullName.Add(reader.GetString(0));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            return staffFullName;
+        }
+
+    }
 }
