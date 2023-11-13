@@ -108,6 +108,18 @@
 								        <th>
                                             <span class="badge bg-success">Active</span>
                                         </th>
+
+                                        @*<td width="10%" style="text-align: center;">
+                                        @if (@item.status == "Active")
+                                        {
+                                        <span class="badge bg-success">@item.status</span>
+                                        }
+                                        else if (@item.status == "Inactive")
+                                        {
+                                        <span class="badge rounded-pill bg-light">@item.status</span>
+                                        }
+                                        </td>*@
+
 							        </tr>
                                 </tbody>
                             </table>
