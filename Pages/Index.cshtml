@@ -51,18 +51,9 @@
                         <div class="infoitem">
                             <i class="bi bi-building-fill"></i>
                             <div class="text">
-                                <h3 class="dashtitle">3</h3>
+                                <h3 class="dashtitle">2</h3>
                                 <p><b>Total Active</b></p>
                                 <p><b>Evacuation Centers</b></p>
-                            </div>
-                        </div>
-
-                         <div class="infoitem">
-                            <i class="bi bi-person-check"></i>
-                            <div class="text">
-                                <h3 class="dashtitle">70</h3>
-                                <p><b>Total Assigned</b></p>
-                                <p><b>EC Staff Members</b></p>
                             </div>
                         </div>
 
@@ -87,8 +78,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Barangay</th>
 						                <th>Occupancy</th>
-						                <th>Assigned EC Staff</th>
+						                <th>Status</th>
                                     </tr>
                                 </thead>
 
@@ -96,20 +88,26 @@
                                     <tr>
                                         <th>1</th>
 						                <th>Sagip Relief Center</th>
+                                        <th>Dulong Bayan</th>
 						                <th>
                                             <div class="progress"></div>
                                             1001/2000
                                         </th>
-						                <th>56</th>
+                                        <th>    
+                                            <span class="badge bg-success">Active</span>
+                                        </th>
 						            </tr>
                                     <tr>
                                         <th>2</th>
 								        <th>Sapang Palay Elementary School</th>
+                                        <th>Sapang Palay Proper</th>
 								        <th>
                                             <div class="progress"></div>
-                                        65/250
+                                            256/250
                                         </th>
-								        <th>10</th>
+								        <th>
+                                            <span class="badge bg-success">Active</span>
+                                        </th>
 							        </tr>
                                 </tbody>
                             </table>
@@ -126,7 +124,7 @@
         var table = $('#ec').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3] }
+                { "orderable": true, "targets": [0, 1, 2, 3, 4] }
             ],
             initComplete: function () {
                 var rows = this.api().rows({ page: 'current' }).nodes();
@@ -138,7 +136,7 @@
         });
 
         function updateOccupancyBar(row) {
-            var occupancyCell = row.cells[2];
+            var occupancyCell = row.cells[3];
             var occupancyText = occupancyCell.textContent.trim();
             var occupancyValues = occupancyText.split('/');
             var occupancy = parseInt(occupancyValues[0]);
@@ -147,6 +145,11 @@
 
             var progressBar = document.createElement('div');
             progressBar.className = 'progress-bar';
+
+            if (percentage > 100) {
+                progressBar.style.backgroundColor = '#FF5A57';
+            }
+
             progressBar.style.width = percentage + '%';
 
             var progressContainer = document.createElement('div');

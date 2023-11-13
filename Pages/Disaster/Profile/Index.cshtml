@@ -59,106 +59,108 @@
         </nav>
     </div>
 
-    <!-- Title, Info Button, Menu Button -->
-    <div class="row p-2">
-        <div class="col d-flex align-items-center">
-            <h1>@Model.disasterInfo.disasterName</h1>
-        </div>
+    <div class="container table-container1">
+        <!-- Title, Info Button, Menu Button -->
+        <div class="row p-2">
+            <div class="col d-flex align-items-center">
+                <h1>@Model.disasterInfo.disasterName</h1>
+            </div>
 
-        <div class="col-auto button-spacer">
-            <!-- Button with text and icon (visible on larger screens) -->
-            <button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
-                <i class="bi bi-info-circle-fill"></i> Info
-            </button>
+            <div class="col-auto button-spacer">
+                <!-- Button with text and icon (visible on larger screens) -->
+                <button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
+                    <i class="bi bi-info-circle-fill"></i> Info
+                </button>
 
-            <!-- Button with only the icon (collapsed on smaller screens) -->
-            <button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
-                <i class="bi bi-info-circle-fill"></i>
-            </button>
+                <!-- Button with only the icon (collapsed on smaller screens) -->
+                <button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
+                    <i class="bi bi-info-circle-fill"></i>
+                </button>
 
-            <div class="d-inline position-relative">
-                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-three-dots-vertical"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                    <li>
-                        <a class="dropdown-item" href="/disaster/profile/report">
-                            Generate Report
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
-                            Edit
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
-                           data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                            Delete
-                        </a>
-                    </li>
-                </ul>
+                <div class="d-inline position-relative">
+                    <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/report">
+                                Generate Report
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
+                               data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
    
-    <div class="description">
-        <p><strong>Type:</strong>
-            @Model.disasterInfo.disasterType
-        </p>
-        <p><strong>Description:</strong> 
-            @Model.disasterInfo.description
-        </p>
-        <p><strong>Date Occurred:</strong> 
-            @Model.disasterInfo.dateOccured
-        </p>
-    </div>
-
-    <div class="box-info">
-        <div class="info-item">
-            <i class="bi bi-people"></i>
-            <div class="text">
-                <h3>@Model.GetTotalDistinctEvacueesCount()</h3>
-                <p><b>Total Evacuees</b></p>
-                <div class="box-stat">
-                    <small>Check-in: <span>@Model.GetTotalCheckInCount()</span></small>
-                    <small>Check-out: <span>@Model.GetTotalCheckOutCount()</span></small>
-                </div>
-            </div>
+        <div class="description">
+            <p><strong>Type:</strong>
+                @Model.disasterInfo.disasterType
+            </p>
+            <p><strong>Description:</strong> 
+                @Model.disasterInfo.description
+            </p>
+            <p><strong>Date Occurred:</strong> 
+                @Model.disasterInfo.dateOccured
+            </p>
         </div>
 
-        <div class="info-item">
-            <i class="bi bi-buildings-fill"></i>
-            <div class="text">
-                <h3>@Model.GetTotalDistinctBarangaysCount()</h3>
-                <p><b>Total Affected Barangays</b></p>
-                <div class="box-stat">
-                    <small>Families: <span>@Model.GetTotalDistinctFamiliesCount()</span></small>
-                    <small>Male: <span>@Model.GetTotalDistinctFemaleCount()</span></small>
-                    <small>Female: <span>@Model.GetTotalDistinctMaleCount()</span></small>
+        <div class="box-info">
+            <div class="info-item">
+                <i class="bi bi-people"></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalDistinctEvacueesCount()</h3>
+                    <p><b>Total Evacuees</b></p>
+                    <div class="box-stat">
+                        <small>Check-in: <span>@Model.GetTotalCheckInCount()</span></small>
+                        <small>Check-out: <span>@Model.GetTotalCheckOutCount()</span></small>
+                    </div>
                 </div>
             </div>
-        </div>  
+
+            <div class="info-item">
+                <i class="bi bi-buildings-fill"></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalDistinctBarangaysCount()</h3>
+                    <p><b>Total Affected Barangays</b></p>
+                    <div class="box-stat">
+                        <small>Families: <span>@Model.GetTotalDistinctFamiliesCount()</span></small>
+                        <small>Male: <span>@Model.GetTotalDistinctFemaleCount()</span></small>
+                        <small>Female: <span>@Model.GetTotalDistinctMaleCount()</span></small>
+                    </div>
+                </div>
+            </div>  
         
-        <div class="info-item">
-            <i class="bi bi-building-fill"></i></i>
-            <div class="text">
-                <h3>@Model.GetTotalCenterCount()</h3>
-                <p><b>Total Evacuation Centers</b></p>
-                <div class="box-stat">
-                    <small>Open: <span>@Model.GetTotalOpenCenterCount()</span></small>
-                    <small>Closed: <span>@Model.GetTotalClosedCenterCount()</span></small>
+            <div class="info-item">
+                <i class="bi bi-building-fill"></i></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalCenterCount()</h3>
+                    <p><b>Total Evacuation Centers</b></p>
+                    <div class="box-stat">
+                        <small>Open: <span>@Model.GetTotalOpenCenterCount()</span></small>
+                        <small>Closed: <span>@Model.GetTotalClosedCenterCount()</span></small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="content">
+<div class="container table-container1">
     <!-- Title and Allocate Button-->
     <div class="row p-2">
         <div class="col d-flex align-items-center">
-            <h1>Evacuation Center Log</h1>
+            <h1>Evacuation Center</h1>
         </div>
 
         <div class="col-auto d-flex justify-content-between align-items-center">
@@ -177,11 +179,10 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Evacuation Center</th>
+                        <th>Name</th>
                         <th>Barangay</th>
                         <th style="text-align: center;">Occupancy</th>
-                        <th>Opening Date</th>
-                        <th>Closing Date</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -190,13 +191,35 @@
                     @foreach (var item in Model.listCenterLog)
                     {
                         <tr data-id="@item.centerLogID">
-                            <td width="5%">@counter</td>
-                            <td width="20%">@item.centerName</td>
-                            <td width="20%">@item.barangayName</td>
-                            <td width="15%" style="text-align: center;">@item.occupancy/@item.maxCapacity</td>
-                            <td width="20%">@item.openingDateTime</td>
-                            <td width="20%">@item.closingDateTime</td>
-                            <td width="5%">
+                            <th width="5%">@counter</th>
+                            <th width="20%">@item.centerName</th>
+                            <th width="20%">@item.barangayName</th>
+
+
+                            <th width="15%" style="text-align: center;">
+
+                                <div class="progress-container">
+                                    <!-- Progress bar will be added dynamically here -->
+                                </div>
+                                <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
+                             </th>
+
+                            <th width="20%">
+                                <span class="badge bg-success">Active</span>
+                            </th>
+
+                            @*<td width="10%" style="text-align: center;">
+                                @if (@item.status == "Active")
+                                {
+                                    <span class="badge bg-success">@item.status</span>
+                                }
+                                else if (@item.status == "Inactive")
+                                {
+                                    <span class="badge rounded-pill bg-light">@item.status</span>
+                                }
+                            </td>*@
+
+                            <th width="5%">
                                 <div class="d-inline position-relative">
                                     <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-three-dots-vertical"></i>
@@ -214,7 +237,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </td>
+                            </th>
                         </tr>
                         counter++;
                     }
@@ -264,13 +287,45 @@
         $('#eclog-table').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
-                { "orderable": false, "targets": [6] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 2, 3, 4,] }, // Sortable columns
+                { "orderable": false, "targets": [5] } // Non-sortable columns
             ],
             language: {
                 emptyTable: "There are no evacuation centers allocated to this disaster.",
+            },
+            initComplete: function () {
+                var rows = this.api().rows({ page: 'current' }).nodes();
+
+                for (var i = 0; i < rows.length; i++) {
+                    updateOccupancyBar(rows[i]);
+                }
             }
         });
+        function updateOccupancyBar(row) {
+            var occupancyCell = row.cells[3];
+            var occupancyText = occupancyCell.textContent.trim();
+            var occupancyValues = occupancyText.split('/');
+            var occupancy = parseInt(occupancyValues[0]);
+            var totalCapacity = parseInt(occupancyValues[1]);
+            var percentage = (occupancy / totalCapacity) * 100;
+
+            var progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+
+            if (percentage > 100) {
+                progressBar.style.backgroundColor = '#FF5A57';
+            }
+
+            progressBar.style.width = percentage + '%';
+
+            var progressContainer = document.createElement('div');
+            progressContainer.className = 'progress';
+            progressContainer.appendChild(progressBar);
+
+            occupancyCell.innerHTML = ''; // Clear existing content
+            occupancyCell.appendChild(progressContainer);
+            occupancyCell.insertAdjacentHTML('beforeend', occupancyText);
+        }
     });
 </script>
 
