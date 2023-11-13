@@ -55,7 +55,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 									  "FROM entry_log e " +
 									  "INNER JOIN family_member mem ON e.memberID = mem.memberID " +
 									  "JOIN family fam ON mem.familyID = fam.familyID " +
-									  "WHERE centerLogID = @centerLogID;";
+									  "WHERE centerLogID = @centerLogID ORDER BY e.checkInDate;";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
 						entryCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
