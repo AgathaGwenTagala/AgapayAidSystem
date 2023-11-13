@@ -159,6 +159,7 @@ table {
 
 /*DISASTER PROFILE*/
 
+
 .content {
     position: relative;
     width: 100%;
@@ -196,12 +197,6 @@ table {
     cursor: pointer;
 }
 
-.content .box-stat {
-    display: flex;
-    gap: 10px; /* Adjust the spacing between label-value pairs */
-    color: gray;
-}
-
 .content .box-info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -218,14 +213,48 @@ table {
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     }
 
+    .content .box-info .info-item .distitle {
+    color: #495057;
+}
+
     .content .box-info p {
         margin: 0;
+    }
+
+    .content .box-info .info-item:nth-child(1) {
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+        background: #e0c4ff;
+    }
+
+    .content .box-info .info-item:nth-child(2) {
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+        background: #b5d7ff;
+    }
+
+    .content .box-info .info-item:nth-child(3) {
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+        background: #c0ffd6;
     }
 
     .content .box-info .info-item i {
         width: 80px;
         height: 80px;
-        border-radius: 10px;
+        border-radius: 60px;
         font-size: 36px;
         display: flex;
         align-items: center;
@@ -233,7 +262,24 @@ table {
     }
 
     .content .box-info .info-item:nth-child(1) i {
-        background: #FE83A1;
+        background: #BF83FF;
+        color: #FFFFFF;
+    }
+
+    .content .box-info .info-item:nth-child(2) i {
+        background: #7ABFFF;
+        color: #FFFFFF;
+    }
+
+    .content .box-info .info-item:nth-child(3) i {
+        background: #3CD856;
+        color: #FFFFFF;
+    }
+
+
+
+    .content .box-info .info-item:nth-child(1) i {
+        background: #BF83FF;
         color: #FFFFFF;
     }
 
@@ -251,6 +297,15 @@ table {
         background: #BF83FF;
         color: #FFFFFF;
     }
+
+
+
+
+
+
+
+
+
 
 .content main .table-data {
     display: flex;
@@ -357,6 +412,7 @@ form {
     margin: 25px;
 }
 
+
 .form-container-content1 {
     padding-top: 20px;
     padding-bottom: 8px;
@@ -372,6 +428,7 @@ form {
 .dashcontent .boxinfo .infoitem .dashtitle {
     color: #495057;
 }
+
 .dashcontent .boxinfo .infoitem {
     padding: 20px;
     border-radius: 30px;
@@ -388,7 +445,7 @@ form {
     align-items: center;
     gap: 24px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
-    background: #fca7b0;
+    background: #e0c4ff;
 }
 
 .dashcontent .boxinfo .infoitem:nth-child(2) {
@@ -411,15 +468,7 @@ form {
     background: #c0ffd6;
 }
 
-.dashcontent .boxinfo .infoitem:nth-child(4) {
-    padding: 20px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
-    background: #e0c4ff;
-}
+
 
 .dashcontent .boxinfo p {
     margin: 0;
@@ -436,7 +485,7 @@ form {
 }
 
 .dashcontent .boxinfo .infoitem:nth-child(1) i {
-    background: #FE83A1;
+    background: #BF83FF;
     color: #FFFFFF;
 }
 
@@ -450,10 +499,7 @@ form {
     color: #FFFFFF;
 }
 
-.dashcontent .boxinfo .infoitem:nth-child(4) i {
-    background: #BF83FF;
-    color: #FFFFFF;
-}
+
 
 
 
@@ -470,7 +516,6 @@ form {
 
 
 #ec {
-    border-radius: 30px; /* Adjust the value for the desired roundness */
     overflow: hidden; /* Ensure the content within the table doesn't overflow */
 }
 
