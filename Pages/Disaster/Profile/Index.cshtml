@@ -193,31 +193,26 @@
                     @{ var counter = 1; }
                     @foreach (var item in Model.listCenterLog)
                     {
-                        <tr data-id="@item.centerLogID">
+                        <tr>
                             <td width="5%">@counter</td>
-                            <td width="20%">@item.centerName</td>
-                            <td width="20%">@item.barangayName</td>
-                            <td width="15%" style="text-align: center;">
+                            <td width="25%">@item.centerName</td>
+                            <td width="25%" style="text-align: center;">@item.barangayName</td>
+                            <td width="25%" style="text-align: center;">
                                 <div class="progress-container">
                                     <!-- Progress bar will be added dynamically here -->
                                 </div>
                                 <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
                              </td>
-                            <td width="20%">
-                                <span class="badge bg-success">Active</span>
-                            </td>
-
-                            @*<td width="10%" style="text-align: center;">
-                                @if (@item.status == "Active")
+                            <td width="15%" style="text-align: center;">
+                                @if (@item.status == "Open")
                                 {
                                     <span class="badge bg-success">@item.status</span>
                                 }
-                                else if (@item.status == "Inactive")
+                                else if (@item.status == "Closed")
                                 {
                                     <span class="badge rounded-pill bg-light">@item.status</span>
                                 }
-                            </td>*@
-
+                            </td>
                             <td width="5%">
                                 <div class="d-inline position-relative">
                                     <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
@@ -313,8 +308,8 @@
         $('#eclog-table').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3, 4,] }, // Sortable columns
-                { "orderable": false, "targets": [5] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
+                { "orderable": false, "targets": [3, 5] } // Non-sortable columns
             ],
             language: {
                 emptyTable: "There are no evacuation centers allocated to this disaster.",
