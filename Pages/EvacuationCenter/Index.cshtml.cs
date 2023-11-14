@@ -22,7 +22,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 					connection.Open();
                     string sql = "SELECT ec.*, b.barangayName " +
 								 "FROM evacuation_center AS ec " +
-								 "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID";
+								 "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
+								 "ORDER BY centerName";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
