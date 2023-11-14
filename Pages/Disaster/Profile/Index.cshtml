@@ -74,6 +74,7 @@
                     <i class="bi bi-info-circle-fill"></i> Info
                 </button>
 
+                <!-- Button with icon only (visible on smaller screens) -->
                 <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
                     onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')" 
                     data-bs-toggle="modal" data-bs-target="#infoModal">
@@ -105,18 +106,6 @@
                 </div>
             </div>
         </div>
-   
-        <div class="description">
-            <p><strong>Type:</strong>
-                @Model.disasterInfo.disasterType
-            </p>
-            <p><strong>Description:</strong> 
-                @Model.disasterInfo.description
-            </p>
-            <p><strong>Date Occurred:</strong> 
-                @Model.disasterInfo.dateOccured
-            </p>
-        </div>
 
         <div class="box-info">
             <div class="info-item">
@@ -135,7 +124,7 @@
                 <i class="bi bi-buildings-fill"></i>
                 <div class="text">
                     <h3 class="distitle">@Model.GetTotalDistinctBarangaysCount()</h3>
-                    <p><b>Total Affected Barangays</b></p>
+                    <p><b>Total Affected Brgys</b></p>
                     <div class="box-stat">
                         <small>Families: <span>@Model.GetTotalDistinctFamiliesCount()</span></small>
                         <small>Male: <span>@Model.GetTotalDistinctFemaleCount()</span></small>
@@ -275,7 +264,7 @@
 <!-- Disaster Information Modal -->
 <script>
     function showInfo(disasterType, description, dateOccured) {
-        // Set the content of the modal with the provided dates
+        // Set the content of the modal with the provided info
         document.getElementById('disasterType').innerText = disasterType;
         document.getElementById('description').innerText = description;
         document.getElementById('dateOccured').innerText = dateOccured;
@@ -322,6 +311,8 @@
                 }
             }
         });
+
+        // Occupancy progress bar
         function updateOccupancyBar(row) {
             var occupancyCell = row.cells[3];
             var occupancyText = occupancyCell.textContent.trim();
