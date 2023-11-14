@@ -94,7 +94,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 
             if (selectedInclusion == null || selectedInclusion.Length == 0)
             {
-                errorMessage = "Please select at least one evacuee to check-out.";
+                errorMessage = "Please select at least one inclusion to add to the pack.";
                 errorOccurred = true;
             }
 
