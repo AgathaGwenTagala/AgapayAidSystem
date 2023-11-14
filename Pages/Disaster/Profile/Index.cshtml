@@ -68,16 +68,19 @@
 
             <div class="col-auto button-spacer">
                 <!-- Button with text and icon (visible on larger screens) -->
-                <button id="toggleButton" class="btn btn-light d-none d-md-inline-block" style="padding:5px">
+                <button id="toggleButton" class="btn d-none d-md-inline-block"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')" 
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
                     <i class="bi bi-info-circle-fill"></i> Info
                 </button>
 
-                <!-- Button with only the icon (collapsed on smaller screens) -->
-                <button id="toggleButtonMobile" class="btn btn-light d-inline-block d-md-none">
+                <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')" 
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
                     <i class="bi bi-info-circle-fill"></i>
                 </button>
 
-                <div class="d-inline position-relative">
+                <div class="btn d-inline position-relative">
                     <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots-vertical"></i>
                     </a>
@@ -191,22 +194,18 @@
                     @foreach (var item in Model.listCenterLog)
                     {
                         <tr data-id="@item.centerLogID">
-                            <th width="5%">@counter</th>
-                            <th width="20%">@item.centerName</th>
-                            <th width="20%">@item.barangayName</th>
-
-
-                            <th width="15%" style="text-align: center;">
-
+                            <td width="5%">@counter</td>
+                            <td width="20%">@item.centerName</td>
+                            <td width="20%">@item.barangayName</td>
+                            <td width="15%" style="text-align: center;">
                                 <div class="progress-container">
                                     <!-- Progress bar will be added dynamically here -->
                                 </div>
                                 <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
-                             </th>
-
-                            <th width="20%">
+                             </td>
+                            <td width="20%">
                                 <span class="badge bg-success">Active</span>
-                            </th>
+                            </td>
 
                             @*<td width="10%" style="text-align: center;">
                                 @if (@item.status == "Active")
@@ -219,7 +218,7 @@
                                 }
                             </td>*@
 
-                            <th width="5%">
+                            <td width="5%">
                                 <div class="d-inline position-relative">
                                     <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-three-dots-vertical"></i>
@@ -237,7 +236,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </th>
+                            </td>
                         </tr>
                         counter++;
                     }
@@ -246,6 +245,47 @@
         </div>
     </div>
 </div>
+
+<!-- Modal: Disaster Information -->
+<div class="modal fade" id="infoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Disaster Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th class="text-start pe-4">Type</th>
+                        <td id="disasterType" class="text-start"></td>
+                    </tr>
+                    <tr>
+                        <th class="text-start pe-4">Description</th>
+                        <td id="description" class="text-start"></td>
+                    </tr>
+                    <tr>
+                        <th class="text-start pe-4">Date Occurred</th>
+                        <td id="dateOccured" class="text-start"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Disaster Information Modal -->
+<script>
+    function showInfo(disasterType, description, dateOccured) {
+        // Set the content of the modal with the provided dates
+        document.getElementById('disasterType').innerText = disasterType;
+        document.getElementById('description').innerText = description;
+        document.getElementById('dateOccured').innerText = dateOccured;
+    }
+</script>
 
 <!-- Modal: Confirm Delete -->
 <div class="modal" id="deleteConfirmationModal" tabindex="-1">
@@ -266,20 +306,6 @@
         </div>
     </div>
 </div>
-
-<!-- For Info Button -->
-<script>
-    const toggleButton = document.getElementById('toggleButton');
-    const description = document.querySelector('.description');
-
-    toggleButton.addEventListener('click', () => {
-        if (description.style.display === 'none') {
-            description.style.display = 'block';
-        } else {
-            description.style.display = 'none';
-        }
-    });
-</script>
 
 <!-- Making the table responsive -->
 <script>
