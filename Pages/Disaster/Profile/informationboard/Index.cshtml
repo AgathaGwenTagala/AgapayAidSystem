@@ -111,6 +111,23 @@
                                     <text>N/A</text>
                                 }
                             </p>
+                            <p>
+                                <b>Opening Date</b><br />
+                                @Model.logInfo.openingDateTime
+                            </p>
+                            <p>
+                                @if (!string.IsNullOrEmpty(Model.logInfo.closingDateTime))
+                                {
+                                    <b>Closing Date</b><br />
+                                    @Model.logInfo.closingDateTime
+
+                                }
+                                else
+                                {
+                                    <b>Closing Date</b><br />
+                                    <text>N/A</text>
+                                }
+                            </p>
                         </div>
 
                         <hr />

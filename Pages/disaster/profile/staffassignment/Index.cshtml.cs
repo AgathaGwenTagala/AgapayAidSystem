@@ -45,16 +45,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 						}
 					}
 
-					// Fetch entry log data related to the selected center log
-					string assignSql = "SELECT esa.*, CONCAT(ec.firstName, " +
-									  "(CASE WHEN (ec.middleName IS NOT NULL) " +
-									  "THEN CONCAT(' ', LEFT(ec.middleName, 1), '.') ELSE '' END), " +
-									  "(CASE WHEN (ec.middleName IS NOT NULL) THEN ' ' ELSE ' ' END), " +
-									  "ec.lastName, (CASE WHEN (ec.extName IS NOT NULL) " +
-									  "THEN CONCAT(' ', ec.extName) ELSE '' END)) AS fullName " +
-									  "FROM ec_staff_assignment esa " +
-									  "INNER JOIN ec_staff ec ON esa.ecStaffID = ec.ecStaffID " +
-									  "WHERE centerLogID = @centerLogID;";
+					// Fetch staff assignment data related to the selected center log
+					string assignSql = "SELECT * FROM staff_profile_view " +
+									  "WHERE centerLogID = @centerLogID ORDER BY assignmentDate;";
 					using (MySqlCommand assignCommand = new MySqlCommand(assignSql, connection))
 					{
 						assignCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
@@ -71,6 +64,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 								assignmentInfo.completionDate = assignReader.IsDBNull(5) ? null : assignReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								assignmentInfo.status = assignReader.GetString(6);
 								assignmentInfo.fullName = assignReader.GetString(7);
+								assignmentInfo.sex = assignReader.GetString(8);
+								assignmentInfo.age = assignReader.GetInt64(9).ToString();
+								assignmentInfo.birthdate = assignReader.GetDateTime(10).ToString("MMMM dd, yyyy");
+								assignmentInfo.mobileNum = assignReader.GetString(11);
+								assignmentInfo.emailAddress = assignReader.GetString(12);
 								listAssignment.Add(assignmentInfo);
 							}
 						}
@@ -155,5 +153,10 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 		public string completionDate { get; set; }
 		public string status { get; set; }
 		public string fullName { get; set; }
+		public string sex { get; set; }
+		public string age { get; set; }
+		public string birthdate { get; set; }
+		public string mobileNum { get; set; }
+		public string emailAddress { get; set; }
 	}
 }

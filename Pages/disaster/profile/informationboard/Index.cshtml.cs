@@ -48,7 +48,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                     "ec.womenChildSpace, ec.multipurposeArea, " +
                                     "CONCAT(ec.streetAddress, ', Brgy. ', b.barangayName, ', ', " +
                                     "b.municipalityCity, ', ', b.province) AS fullAddress, " +
-                                    "ec.centerType, ec.mobileNum, ec.telephoneNum " +
+                                    "ec.centerType, ec.mobileNum, ec.telephoneNum, " +
+                                    "log.openingDateTime, log.closingDateTime " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -75,8 +76,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                 logInfo.centerType = logReader.GetString(11);
                                 logInfo.mobileNum = logReader.IsDBNull(12) ? null : logReader.GetString(12);
                                 logInfo.telephoneNum = logReader.IsDBNull(13) ? null : logReader.GetString(13);
+                                logInfo.openingDateTime = logReader.GetDateTime(14).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.closingDateTime = logReader.IsDBNull(15) ? null : logReader.GetDateTime(15).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+
                             }
-						}
+                        }
 					}
                 }
 			}
