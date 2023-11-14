@@ -92,9 +92,9 @@
 						<tr>
 							<td width="5%">@counter</td>
 							<td width="20%">@item.disasterName</td>
-							<td width="15%">@item.disasterType</td>
+							<td width="15%" style="text-align: center;">@item.disasterType</td>
 							<td width="35%">@item.description</td>
-							<td width="15%">@item.dateOccured</td>
+							<td width="15%" style="text-align: center;">@item.dateOccured</td>
 							<td width="10%">
 								<a class="btn btn-success edit-button" href="/disaster/profile/index?disasterID=@item.disasterID">
 									View
@@ -115,8 +115,8 @@
 		var table = $('#disaster-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
-				{ "orderable": false, "targets": [3, 5] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 4] }, // Sortable columns
+				{ "orderable": false, "targets": [2, 3, 5] } // Non-sortable columns
 			]
 		});
 
