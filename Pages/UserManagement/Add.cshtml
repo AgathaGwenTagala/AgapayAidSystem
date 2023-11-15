@@ -1,6 +1,6 @@
 ﻿@page
 @model AgapayAidSystem.Pages.UserManagement.AddUserModel
-@{
+@{ 
 	ViewData["Title"] = "Add User";
 }
 
@@ -13,66 +13,65 @@
 }
 
 <div class="bg-light rounded px-2 py-0 my-3 text-center">
-	<div class="col-lg-6 mx-auto">
-		<form method="POST">
-			<h1 class="display-5 fw-bold">Add New User</h1>
-			<label class="form-label">User Type:</label>
+    <div class="col-lg-6 mx-auto">
+        <form method="POST">
+            <h1 class="display-5 fw-bold">Add New User</h1>
+            <p class="form-label">Select a User Type</p>
 
-			<div class="p-3">
-				<div class="form-check d-flex align-items-center">
-					<input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
-					@if (Model.userInfo.userType == "Admin")
-					{
-						<text>checked</text>
-					}>
-					<label class="form-check-label">Admin</label>
-				</div>
+            <div class="mb-3 text-start">
+                <div class="form-check mb-1">
+                    <input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+                    @if (Model.userInfo.userType == "Admin")
+                    {
+                        <text>checked</text>
+                    }>
+                    <label class="form-check-label" for="adminRadio">Admin</label>
+                </div>
 
-				<div class="form-check d-flex align-items-center">
-					<input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
-					@if (Model.userInfo.userType == "LGU Staff")
-					{
-						<text>checked</text>
-					}>
-					<label class="form-check-label">LGU Staff</label>
-				</div>
+                <div class="form-check mb-1">
+                    <input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+                    @if (Model.userInfo.userType == "LGU Staff")
+                    {
+                        <text>checked</text>
+                    }>
+                    <label class="form-check-label" for="lguRadio">LGU Staff</label>
+                </div>
 
-				<div class="form-check d-flex align-items-center">
-					<input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
-					@if (Model.userInfo.userType == "EC Staff")
-					{
-						<text>checked</text>
-					}>
-					<label class="form-check-label">EC Staff</label>
-				</div>
+                <div class="form-check mb-1">
+                    <input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+                    @if (Model.userInfo.userType == "EC Staff")
+                    {
+                        <text>checked</text>
+                    }>
+                    <label class="form-check-label" for="ecRadio">EC Staff</label>
+                </div>
+            </div>
 
-				<input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
-				<input type="hidden" name="userInfo.userID" value="@Model.userInfo.userID" />
+            <input type="hidden" name="userInfo.userType" value="@Model.userInfo.userType" />
+            <input type="hidden" name="userInfo.userID" value="@Model.userInfo.userID" />
 
-				@if (!string.IsNullOrEmpty(Model.successMessage))
-				{
-					<div class="row-mb-3">
-						<div class="col-sm-9">
-							<div class="alert alert-success alert-dismissible fade show" role="alert">
-								<strong>@Model.successMessage</strong>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						</div>
-					</div>
-				}
-			</div>
+            @if (!string.IsNullOrEmpty(Model.successMessage))
+            {
+                <div class="mb-3">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>@Model.successMessage</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            }
 
-			<!-- Cancel and Save Button -->
-			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<button type="submit" class="btn btn-primary px-4" id="submitBtn">
-					Next
-					<i class="bi bi-arrow-right" style="padding:5px"></i>
-				</button>
-				<a href="/usermanagement/index" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
-			</div>
-		</form>
-	</div>
+            <!-- Cancel and Save Button -->
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="submit" class="btn btn-primary px-4" id="submitBtn">
+                    Next
+                    <i class="bi bi-arrow-right" style="padding:5px"></i>
+                </button>
+                <a href="/usermanagement/index" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
 
 <script>
 	const submitButton = document.getElementById('submitBtn');
