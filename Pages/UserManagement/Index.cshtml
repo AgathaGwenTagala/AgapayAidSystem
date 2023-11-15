@@ -43,102 +43,100 @@
     </div>
 }
 
-    <!-- Breadcrumb -->
-    <div class="row">
-        <nav style="--bs-breadcrumb-divider: '/';">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-                <li class="breadcrumb-item active"><a><strong>User Management</strong></a></li>
-            </ol>
-        </nav>
-    </div>
+<!-- Breadcrumb -->
+<div class="row">
+    <nav style="--bs-breadcrumb-divider: '/';">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+            <li class="breadcrumb-item active"><a><strong>User Management</strong></a></li>
+        </ol>
+    </nav>
+</div>
 
-    <!-- Title and Add Button-->
-    <div class="row">
-        <div class="col-12 d-flex align-items-center justify-content-between">
-            <h1><i class="bi bi-person-lines-fill" style="padding: 0 5px 0 5px;"></i>User Management</h1>
+<!-- Title and Add Button-->
+<div class="row">
+    <div class="col-12 d-flex align-items-center justify-content-between">
+        <h1><i class="bi bi-person-lines-fill" style="padding: 0 5px 0 5px;"></i>User Management</h1>
 
-            <div class="d-flex justify-content-end align-items-center">
-                <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/usermanagement/add">
-                    <i class="bi bi-plus-circle pt" style="padding-right: 5px;"></i>
-                    Add User
-                </a>
-                <a class="btn btn-primary mb-2 d-sm-none" href="/usermanagement/add">
-                    <i class="bi bi-plus-circle pt"></i>
-                </a>
-            </div>
+        <div class="d-flex justify-content-end align-items-center">
+            <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/usermanagement/add">
+                <i class="bi bi-plus-circle pt" style="padding-right: 5px;"></i>
+                Add User
+            </a>
+            <a class="btn btn-primary mb-2 d-sm-none" href="/usermanagement/add">
+                <i class="bi bi-plus-circle pt"></i>
+            </a>
         </div>
     </div>
+</div>
 
 <!-- Table -->
-<div class="row p-2">
-    <div class="col-lg-12">
-        <table id="user-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-            <thead>
-                <tr style="vertical-align: central;">
-                    <th width="5%">#</th>
-                    <th width="20%">Username</th>
-                    <th width="15%">User Type<br /></th>
-                    <th width="20%">Created At</th>
-                    <th width="10%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var counter = 1;
-                }
-                @foreach (var item in Model.listUsers)
-                {
-                    <tr style="text-align: center;">
-                        <td>@counter</td>
-                        <td>@item.username</td>
-                        <td>@item.userType</td>
-                        <td>@item.createdAt</td>
-                        <td>
-                            <div class="d-inline position-relative">
-                                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                                    @if (item.userType == "Admin")
-                                    {
-                                        <li>
-                                            <a class="dropdown-item" href="/usermanagement/admin/edit?userID=@item.userID">
-                                                Edit
-                                            </a>
-                                        </li>
-                                    }
-                                    else if (item.userType == "EC Staff")
-                                    {
-                                        <li>
-                                            <a class="dropdown-item" href="/usermanagement/ecstaff/edit?userID=@item.userID">
-                                                Edit
-                                            </a>
-                                        </li>
-                                    }
-                                    else if (item.userType == "LGU Staff")
-                                    {
-                                        <li>
-                                            <a class="dropdown-item" href="/usermanagement/lgustaff/edit?userID=@item.userID">
-                                                Edit
-                                            </a>
-                                        </li>
-                                    }
+<div class="row">
+    <table id="user-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th width="5%">#</th>
+                <th width="20%">Username</th>
+                <th width="15%">User Type<br /></th>
+                <th width="20%">Created At</th>
+                <th width="10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var counter = 1;
+            }
+            @foreach (var item in Model.listUsers)
+            {
+                <tr style="text-align: center;">
+                    <td>@counter</td>
+                    <td>@item.username</td>
+                    <td>@item.userType</td>
+                    <td>@item.createdAt</td>
+                    <td>
+                        <div class="d-inline position-relative">
+                            <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                @if (item.userType == "Admin")
+                                {
                                     <li>
-                                        <a href="#" class="dropdown-item" onclick="prepareDelete('@item.userID')"
-                                           data-deleteid="@item.userID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                                            Delete
+                                        <a class="dropdown-item" href="/usermanagement/admin/edit?userID=@item.userID">
+                                            Edit
                                         </a>
                                     </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    counter++;
-                }
-            </tbody>
-        </table>
-    </div>
+                                }
+                                else if (item.userType == "EC Staff")
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/usermanagement/ecstaff/edit?userID=@item.userID">
+                                            Edit
+                                        </a>
+                                    </li>
+                                }
+                                else if (item.userType == "LGU Staff")
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/usermanagement/lgustaff/edit?userID=@item.userID">
+                                            Edit
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="#" class="dropdown-item" onclick="prepareDelete('@item.userID')"
+                                       data-deleteid="@item.userID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                                        Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
 </div>
 
 <!-- Modal: Confirm Delete -->
