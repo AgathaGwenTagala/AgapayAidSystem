@@ -4,6 +4,64 @@
     ViewData["Title"] = "Agapay Aid";
 }
 
+<style>
+    .slider::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .container-slide {
+        padding: 2rem;
+    }
+
+    .slider-wrapper {
+        position: relative;
+        max-width: 58rem;
+        margin: 0 auto;
+    }
+
+    .slider {
+        display: flex;
+        aspect-ratio: 2.39/ 1;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        box-shadow: 0 2.9rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+        border-radius: 1rem;
+
+    }
+
+    .slider img {
+        flex: 1 0 100%;
+        scroll-snap-align: start;
+        object-fit: cover;
+    }
+
+    .slider-nav {
+        display: flex;
+        column-gap: 1rem;
+        position: absolute;
+        bottom: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    .slider-nav a {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background-color: #fff;
+        opacity: 0.75;
+        transition: opacity ease 250ms;
+    }
+
+    .slider-nav a:hover {
+        opacity: 1;
+        background-color: #6db5b1;
+    }
+</style>
+
+
 <html>
     <head>
         <link rel="stylesheet" href="styles.css">
@@ -19,6 +77,25 @@
                 <h3 class="sub-title">Hello, Welcome to Agapay Aid</h3>
             </div>
         </div>
+   
+        <section class="container-slide">
+            <div class="slider-wrapper">
+                <div class="slider" id="imageSlider">
+                <img id="slide-1" src="/images/ec1img.jpg" alt="EC 1 Image" >
+                <img id="slide-2" src="/images/ec2img.jpg" alt="EC 2 Image">
+                <img id="slide-3" src="/images/ec3img.jpg" alt="EC 3 Image">
+                </div>
+                <div class="slider-nav">
+                    <a href="#slide-1"></a>
+                    <a href="#slide-2"></a>
+                    <a href="#slide-3"></a>
+                </div>
+            </div>
+        </section>
+   
+
+
+
 
         <div class="container form-container1">
             <div class="container form-container-content1">
@@ -234,5 +311,78 @@
         document.getElementById('description').innerText = description;
         document.getElementById('dateOccured').innerText = dateOccured;
     }
+</script>
+
+<!-- SLIDER -->
+<script>
+    var imageSlider = document.getElementById('imageSlider');
+    var autoPlayInterval;
+    var currentSlide = 0;
+    var isDragging = false;
+    var startX;
+    var scrollLeftAtStart;
+
+    // Function to start auto-play
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(function () {
+            // Increment the current slide index
+            currentSlide++;
+
+            // Reset to the first slide if reached the end
+            if (currentSlide >= imageSlider.children.length) {
+                currentSlide = 0;
+            }
+
+            // Scroll to the next image
+            imageSlider.scrollLeft = currentSlide * imageSlider.offsetWidth;
+        }, 3500); // Adjust the interval (in milliseconds) for the auto-play speed
+    }
+
+    // Start auto-play when the page loads
+    startAutoPlay();
+
+    // Pause auto-play when the user interacts with the slider
+    imageSlider.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        startX = e.pageX - imageSlider.offsetLeft;
+        scrollLeftAtStart = imageSlider.scrollLeft;
+        clearInterval(autoPlayInterval);
+    });
+
+    // Resume auto-play after the user releases the slider
+    imageSlider.addEventListener('mouseup', function () {
+        isDragging = false;
+        startAutoPlay();
+    });
+
+    // Handle drag movement
+    imageSlider.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+
+        e.preventDefault();
+
+        var x = e.pageX - imageSlider.offsetLeft;
+        var walk = (x - startX) * 3;
+        imageSlider.scrollLeft = scrollLeftAtStart - walk;
+    });
+
+    // Disable the browser's drag-and-drop behavior on the images
+    imageSlider.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+    });
+
+    // Handle click on slider-nav links
+    var sliderNav = document.querySelector('.slider-nav');
+    sliderNav.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+
+            // Find the index of the clicked slide
+            var index = Array.from(sliderNav.children).indexOf(e.target);
+
+            // Scroll to the corresponding image with a smooth transition
+            imageSlider.scrollLeft = index * imageSlider.offsetWidth;
+        }
+    });
 </script>
 
