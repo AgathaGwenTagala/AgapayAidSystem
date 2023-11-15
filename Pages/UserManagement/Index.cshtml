@@ -43,10 +43,10 @@
     </div>
 }
 
-<div class="content">
+<div class="container">
     <!-- Breadcrumb -->
-    <div class="row pb-2" aria-label="breadcrumb">
-        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <div class="row">
+        <nav style="--bs-breadcrumb-divider: '/';">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
                 <li class="breadcrumb-item active"><a><strong>User Management</strong></a></li>
@@ -55,41 +55,43 @@
     </div>
 
     <!-- Title and Add Button-->
-    <div class="row p-2">
+    <div class="row">
         <div class="col-12 d-flex align-items-center justify-content-between">
-            <h1><i class="bi bi-person-lines-fill"></i>User Management</h1>
-            
+            <h1><i class="bi bi-person-lines-fill" style="padding: 0 5px 0 5px;"></i>User Management</h1>
+
             <div class="d-flex justify-content-end align-items-center">
                 <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/usermanagement/add">
-                    <i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+                    <i class="bi bi-plus-circle pt" style="padding-right: 5px;"></i>
                     Add User
                 </a>
                 <a class="btn btn-primary mb-2 d-sm-none" href="/usermanagement/add">
-                    <i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+                    <i class="bi bi-plus-circle pt"></i>
                 </a>
             </div>
         </div>
     </div>
-
+    
     <!-- Table -->
     <div class="row p-2">
         <div class="col-lg-12">
             <table id="user-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                 <thead>
                     <tr style="vertical-align: central;">
-                        <th>#</th>
-                        <th>Username</th>
-                        <th>User Type<br /></th>
-                        <th>Created At</th>
-                        <th></th>
+                        <th width="5%">#</th>
+                        <th width="20%">Username</th>
+                        <th width="15%">User Type<br /></th>
+                        <th width="20%">Created At</th>
+                        <th width="10%"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @{ var counter = 1; }
+                    @{
+                        var counter = 1;
+                    }
                     @foreach (var item in Model.listUsers)
                     {
                         <tr style="text-align: center;">
-                            <td width="5%">@counter</td>
+                            <td>@counter</td>
                             <td>@item.username</td>
                             <td>@item.userType</td>
                             <td>@item.createdAt</td>
@@ -139,6 +141,8 @@
             </table>
         </div>
     </div>
+
+
 </div>
 
 <!-- Modal: Confirm Delete -->

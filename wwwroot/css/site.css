@@ -30,8 +30,8 @@ h1, .h1 {
     font-size: calc(1.375rem + 1.5vw);
 }
 
-.bi{
-    padding-right: 5px;
+#recordOptions{
+    color: black;
 }
 
 .form-container {
