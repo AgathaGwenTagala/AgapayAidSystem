@@ -2682,11 +2682,11 @@ textarea.form-control-lg {
     display: block;
     min-height: 1.5rem;
     padding-left: 1.5em;
-    margin-bottom: 0.125rem;
+    /*margin-bottom: 0.125rem;*/
 }
 
     .form-check .form-check-input {
-        float: left;
+        /*float: left;*/
         margin-left: -1.5em;
     }
 

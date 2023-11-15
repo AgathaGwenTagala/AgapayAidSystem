@@ -76,6 +76,7 @@ table {
     background-color: #3F8F8B; /* Set your desired background color here */
 }
 
+
 /*BREADCRUMB*/
 
 .breadcrumb-item a {
@@ -111,43 +112,8 @@ table {
 
 /*USER MANAGEMENT*/
 
-#search-bar {
-    position: relative;
-    vertical-align: top;
-}
-
-.user-photo {
-    width: 25px;
-    height: 25px;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-    .user-photo img {
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-    }
-
-.user-container {
-    margin: 10px;
-    padding: 50px;
-}
-
-    .user-container .form-check {
-        padding: 10px;
-        margin-left: 30px;
-    }
-
 .form-only {
     padding: 30px;
-}
-
-.form-check-label {
-    margin-top: 5px;
-    margin-left: 10px;
 }
 
 .profile img {

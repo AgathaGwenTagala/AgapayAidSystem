@@ -12,121 +12,104 @@
     </div>
 }
 
-<style>
-    .row-container {
-        display: inline-block;
-        vertical-align: middle;
-    }
-</style>
-
-<div class="container p-2 form-container">
-    <div class="container mt-4 form-container-content">
-        <div class="row">
-            <div class="col text-center">
-                <h1>Add User</h1>
-                <h6 class="text-dark">EC Staff</h6>
-            </div>
-        </div>
+<div class="bg-light rounded px-2 py-0 my-3 text-center">
+    <div class="col-lg-6 mx-auto">
         <form method="POST">
-            <div class="row mb-3 user-container">
+            <h1 class="display-5 fw-bold">Add New User</h1>
+            <p>EC Staff</p>
 
-                <input type="hidden" name="userID" value="@Model.userID" />
+            <br />
 
-                <div class="row mb-3">
-                    <p class="text-danger text-end">* Required field</p>
-                </div>
+            <input type="hidden" name="userID" value="@Model.userID" />
 
-                <!-- FIRST NAME -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        First Name:
-                        <span class="text-danger" style="padding:5px">*</span>
-                    </label>
+            <!-- First Name -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="firstName">First Name:<span class="text-danger" style="padding:5px">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" id="firstName" name="firstName" class="form-control" required maxlength="65" />
                 </div>
+            </div>
 
-                <!-- MIDDLE NAME -->
-                <div class="row mb-3">
-                    <label class="form-label">Middle Name:</label>
+            <!-- Middle Name -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="middleName">Middle Name:</label>
+                <div class="col-sm-8">
                     <input type="text" id="middleName" name="middleName" class="form-control" maxlength="65" />
                 </div>
+            </div>
 
-                <!-- LAST NAME -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        Last Name:
-                        <span class="text-danger" style="padding: 5px">*</span>
-                    </label>
+            <!-- Last Name -->
+            <div class="row">
+                <label class="col-sm-4 col-form-label text-start" for="lastName">Last Name:<span class="text-danger" style="padding:5px">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" id="lastName" name="lastName" class="form-control" required maxlength="65" />
                 </div>
+            </div>
 
-                <!-- EXTENSION NAME -->
-                <div class="row mb-3">
-                    <label class="form-label">Extension Name</label>
+            <!-- Extension Name -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="extName">Extension Name:</label>
+                <div class="col-sm-8">
                     <input type="text" id="extName" name="extName" class="form-control" maxlength="45" />
                 </div>
+            </div>
 
-                <!-- SEX -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        Sex
-                        <span class="text-danger" style="padding:5px">*</span>
-                    </label>
-                    <div class="row-container">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" required>
-                            <label class="form-check-label">Male</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sex" id="femaleRadio" value="F" required>
-                            <label class="form-check-label">Female</label>
-                        </div>
+            <!-- Sex -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start">
+                    Sex <span class="text-danger" style="padding:5px">*</span>
+                </label>
+                <div class="col-sm-8 text-start mt-md-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" required>
+                        <label class="form-check-label" for="maleRadio">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="sex" id="femaleRadio" value="F" required>
+                        <label class="form-check-label" for="femaleRadio">Female</label>
                     </div>
                 </div>
+            </div>
 
-                <!-- BIRTHDATE -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        Birthdate
-                        <span class="text-danger" style="padding: 5px">*</span>
-                    </label>
+            <!-- Birthdate -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="birthdate">Birthdate:<span class="text-danger" style="padding:5px">*</span></label>
+                <div class="col-sm-8">
                     <input type="date" id="birthdate" name="birthdate" class="form-control" required pattern="\d{4}-\d{2}-\d{2}" />
                 </div>
+            </div>
 
-                <!-- MOBILE NUMBER -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        Mobile Number
-                        <span class="text-danger" style="padding: 5px">*</span>
-                    </label>
+            <!-- Mobile Number -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="mobileNum">Mobile Num:<span class="text-danger" style="padding:5px">*</span></label>
+                <div class="col-sm-8">
                     <input type="tel" id="mobileNum" name="mobileNum" class="form-control" required maxlength="11" pattern="[0-9]{11}" placeholder="09XXXXXXXXX" title="Enter digits only." />
                 </div>
+            </div>
 
-                <!-- EMAIL ADDRESS -->
-                <div class="row mb-3">
-                    <label class="form-label">
-                        Email Address
-                        <span class="text-danger" style="padding: 5px">*</span>
-                    </label>
+            <!-- Email Address -->
+            <div class="row mb-1">
+                <label class="col-sm-4 col-form-label text-start" for="emailAddress">Email Address:<span class="text-danger" style="padding:5px">*</span></label>
+                <div class="col-sm-8">
                     <input type="email" id="emailAddress" name="emailAddress" class="form-control" required maxlength="65" placeholder="example@email.com" />
                 </div>
+            </div>
 
-                @if (!string.IsNullOrEmpty(Model.successMessage))
-                {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>@Model.successMessage</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                }
 
-                <!-- CANCEL AND SAVE BUTTON -->
-                <div class="button-spacer">
-                    <a class="btn btn-outline-secondary mr-10" href="/usermanagement/ecstaff/add?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" role="button">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">Save</button>
+            @if (!string.IsNullOrEmpty(Model.successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@Model.successMessage</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+            }
 
+            <br />
+
+            <!-- Cancel and Save Button -->
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="submit" class="btn btn-primary px-4" id="submitBtn">Save</button>
+                <a href="/usermanagement/ecstaff/add?userID=@Model.userID&action=cancel&userIDToDelete=@Model.userID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
             </div>
         </form>
     </div>
