@@ -4,63 +4,73 @@
 	ViewData["Title"] = "EC Staff";
 }
 
-<div class="content">
-	<!-- Breadcrumb -->
-	<div class="row pb-2" aria-label="breadcrumb">
-		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-				<li class="breadcrumb-item active"><a><strong>Evacuation Center Staff</strong></a></li>
-			</ol>
-		</nav>
-	</div>
+<!-- Breadcrumb -->
+<div class="row" aria-label="breadcrumb">
+	<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+			<li class="breadcrumb-item active"><a><strong>Evacuation Center Staff</strong></a></li>
+		</ol>
+	</nav>
+</div>
 
-	<!-- Title-->
-	<div class="row p-2">
-		<div class="col d-flex align-items-center">
-			<h1><i class="bi bi-person-standing"></i>EC Staff</h1>
-		</div>
-	</div>
-
-	<!-- Table -->
-	<div class="row p-2">
-		<div class="col-lg-12">
-			<table id="staff-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-				<thead>
-					<tr style="vertical-align: top;">
-						<th>#</th>
-						<th>Name</th>
-						<th style="text-align: center;">Sex</th>
-						<th style="text-align: center;">Age</th>
-						<th>Birthdate</th>
-						<th>Mobile Number</th>
-						<th>Email Address</th>
-						<th style="text-align: center;">Availability Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					@{ var counter = 1; }
-					@foreach (var item in Model.listECStaff)
-					{
-						<tr>
-							<td width="5%">@counter</td>
-							<td width="25%">@item.fullName</td>
-							<td width="6%" style="text-align: center;">@item.sex</td>
-							<td width="7%" style="text-align: center;">@item.age</td>
-							<td width="10%">@item.birthdate</td>
-							<td width="12%">@item.mobileNum</td>
-							<td width="15%">@item.emailAddress</td>
-							<td width="20%" style="text-align: center;">@item.availabilityStatus</td>
-						</tr>
-						counter++;
-					}
-				</tbody>
-			</table>
-		</div>
+<!-- Title and Add Button-->
+<div class="row mb-2">
+	<div class="col-12 d-flex align-items-center justify-content-between">
+		<h1><i class="bi bi-person-standing" style="padding: 0 5px 0 5px;"></i>Evacuation Center Staff</h1>
 	</div>
 </div>
 
-<!-- Making the table responsive -->
+<div class="row">
+	<table id="staff-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+		<thead>
+			<tr style="vertical-align: top;">
+				<th>#</th>
+				<th>Name</th>
+				<th style="text-align: center;">Sex</th>
+				<th style="text-align: center;">Age</th>
+				<th>Birthdate</th>
+				<th>Mobile Number</th>
+				<th>Email Address</th>
+				<th style="text-align: center;">Availability Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@{
+				var counter = 1;
+			}
+			@foreach (var item in Model.listECStaff)
+			{
+				<tr>
+					<td width="5%">@counter</td>
+					<td width="21%" style="text-align: left;">@item.fullName</td>
+					<td width="10%">@item.sex</td>
+					<td width="7%">@item.age</td>
+					<td width="10%">@item.birthdate</td>
+					<td width="12%">@item.mobileNum</td>
+					<td width="15%" style="text-align: left;">@item.emailAddress</td>
+					<td width="20%">
+						@if (@item.availabilityStatus == "Available")
+						{
+							<span class="badge bg-success">@item.availabilityStatus</span>
+						}
+						else if (@item.availabilityStatus == "On Duty")
+						{
+							<span class="badge rounded-pill bg-light">@item.availabilityStatus</span>
+						}
+				</tr>
+				counter++;
+			}
+		</tbody>
+	</table>
+</div>
+
+<style>
+	.dropdown-menu {
+		min-width: 225px; /* Change for minimum width of the filter menu */
+	}
+</style>
+
 <script>
 	$(document).ready(function () {
 		var table = $('#staff-table').DataTable({
@@ -71,24 +81,50 @@
 			]
 		});
 
-		// Adding filters to specific columns
 		table.columns([2, 7]).every(function () {
 			var column = this;
-			var select = $('<select><option value=""></option></select>')
-				.appendTo($(column.header()))
-				.on('change', function () {
-					var val = $.fn.dataTable.util.escapeRegex(
-						$(this).val()
-					);
+			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+			var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
 
-					column
-						.search(val ? '^' + val + '$' : '', true, false)
-						.draw();
-				});
+			function updateFilterButton() {
+				var hasActiveFilter = column.search() !== '';
+				btn.toggleClass('btn-warning', hasActiveFilter);
+			}
 
 			column.data().unique().sort().each(function (d, j) {
-				select.append('<option value="' + d + '">' + d + '</option>');
+				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+					'<label class="form-check-label ps-1">' + d + '</label></div>');
 			});
+
+			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+				'<label class="form-check-label ps-1">Select All</label></div>');
+
+			menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+			menu.find('.form-check-input, .clear-filter').on('click', function () {
+				var checked = $(this).prop('checked');
+
+				if ($(this).hasClass('form-check-input')) {
+					if ($(this).val() === 'select-all') {
+						menu.find('.form-check-input').prop('checked', checked);
+					} else if (!checked) {
+						menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+					}
+				} else {
+					menu.find('.form-check-input').prop('checked', false);
+					menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+				}
+
+				var selectedValues = menu.find('.form-check-input:checked').map(function () {
+					return $(this).val();
+				}).get();
+
+				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+				updateFilterButton();
+			});
+			updateFilterButton();
 		});
 	});
 </script>
+
