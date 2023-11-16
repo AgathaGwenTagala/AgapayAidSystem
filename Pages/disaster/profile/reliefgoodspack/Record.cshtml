@@ -1,0 +1,148 @@
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.reliefgoodspack.RecordModel
+@{
+	ViewData["Title"] = "Distribution Record";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+<div class="container-fluid">
+	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+	<div class="row">
+		<!-- Sidebar (desktop) -->
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
+					</li>
+					<li class="nav-item">
+                        <a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+				<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefdistribution/index?centerLogID=@Model.logInfo.centerLogID">Relief Distribution</option>
+				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+			</select>
+		</div>
+
+        <!-- Page Content -->
+        <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <div class="row pb-2" aria-label="breadcrumb">
+                    <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                            <li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
+                            <li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+                            <li class="breadcrumb-item active"><a href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">@Model.logInfo.centerName</a></li>
+                            <li class="breadcrumb-item active"><a><strong>Relief Goods Pack</strong></a></li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- Title -->
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <h1>Distribution Record</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <h5><b>Pack ID: @Model.packID</b></h5>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="record-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr style="vertical-align:text-top;">
+                                    <th>#</th>
+                                    <th>Family Serial No.</th>
+                                    <th>Received by<br /></th>
+                                    <th>Distributed by</th>
+                                    <th>Qty</th>
+                                    <th>Receive Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ var counter = 1; }
+                                @foreach (var item in Model.listDistribution)
+                                {
+                                    <tr style="text-align:center;">
+                                        <td width="5%">@counter</td>
+                                        <td width="25%" style="text-align:center;">@item.serialNum</td>
+                                        <td width="20%">@item.memberFullName</td>
+                                        <td width="20%">@item.staffFullName</td>
+                                        <td width="10%" style="text-align:center;">@item.qty</td>
+                                        <td width="20%" style="text-align:center;">@item.receiveDate</td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        var table = $('#record-table').DataTable({
+            responsive: true,
+            columnDefs: [
+                { "orderable": true, "targets": [0, 1, 2, 3, 4, 5] } // Sortable columns
+            ]
+        });
+    });
+</script>
