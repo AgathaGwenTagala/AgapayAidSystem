@@ -3,6 +3,7 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using NuGet.Protocol.Plugins;
 
 namespace AgapayAidSystem.Pages.disaster.profile.reliefdistribution
 {
@@ -58,7 +59,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefdistribution
 								DistributionInfo distributionInfo = new DistributionInfo();
 								distributionInfo.distributionID = distributionReader.GetString(0);
 								distributionInfo.packID = distributionReader.GetString(1);
-								distributionInfo.assignmentID = distributionReader.GetString(2);
+								distributionInfo.assignmentID = distributionReader.IsDBNull(2) ? null : distributionReader.GetString(2);
 								distributionInfo.entryLogID = distributionReader.GetString(3);
 								distributionInfo.qty = distributionReader.GetInt32(4).ToString();
 								distributionInfo.receiveDate = distributionReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
