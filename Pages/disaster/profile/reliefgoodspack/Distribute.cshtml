@@ -81,23 +81,21 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Family Serial Number</th>
-                                    <th>Family Member who will receive</th>
+                                    <th>Family Member</th>
                                     <th>Qty</th>
                                     <th> </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    var counter = 1;
-                                }
+                                @{ var counter = 1; }
                                 @foreach (var item in Model.listEligibleFam)
                                 {
-                                    <tr>
+                                    <tr class="distribution-row">
                                         <td width="5%">@counter</td>
-                                        <td width="30%">@item.serialNum</td>
+                                        <td width="25%">@item.serialNum</td>
                                         <td width="40%">
                                             <select class="form-select familyMemberSelect" name="entryLogID" required>
-                                                <option value="" selected disabled>Select Family Member</option>
+                                                <option value="" selected>Select Family Member</option>
                                                 @{
                                                     var eligibleMembers = Model.GetEligibleMember(item.familyID);
                                                     foreach (var member in eligibleMembers)
@@ -107,8 +105,8 @@
                                                 }
                                             </select>
                                         </td>
-                                        <td width="10%">
-                                            <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" required min="1" step="1" placeholder="0" />
+                                        <td width="15%">
+                                            <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" style="text-align:center;" required min="1" step="1" placeholder="0" />
                                         </td>
                                         <td width="15%">
                                             <button type="button" class="btn btn-primary distributeBtn" data-bs-toggle="modal" data-bs-target="#confirmDistribute">Distribute</button>
@@ -129,7 +127,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#distributepack-table').DataTable({
-            responsive: true,
+            responsive: false,
             columnDefs: [
                 { "orderable": true, "targets": [0, 1, 3] }, // Sortable columns
                 { "orderable": false, "targets": [2, 4] } // Non-sortable columns
