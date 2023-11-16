@@ -33,7 +33,7 @@
     }
     
     .input-inclusion {
-        width: 80px;
+        width: 100px;
         text-align: center;
         display: flex;
         margin: 0 auto;
@@ -223,44 +223,38 @@
 
         function updateAddButtonState() {
             var packQty = parseInt($('input[name="packQty"]').val());
-            var disableAdd = true;
+            var disableAdd = packQty <= 0 || $('.inclusion-checkbox:checked').length === 0;
 
             // Enable or disable the checkboxes based on packQty
-            if (packQty > 0) {
-                $('.inclusion-checkbox').prop('disabled', false);
-                $('#selectAllCheckboxes').prop('disabled', false);
-            } else {
-                $('.inclusion-checkbox').prop('disabled', true);
-                $('.inclusion-checkbox').prop('checked', false); // Uncheck all checkboxes
-            }
+            $('.inclusion-checkbox').prop('disabled', packQty <= 0);
+            $('#selectAllCheckboxes').prop('disabled', packQty <= 0);
 
             // Enable or disable the "Qty per Pack" input fields based on checkboxes
             $('.inclusion-checkbox').each(function () {
                 var checkbox = $(this);
                 var input = checkbox.closest('tr').find('input.qty');
-                var remainingQty = parseInt(input.attr('data-max-qty'));
-                var maxQtyPerPack = Math.floor(remainingQty / packQty);
-
-                // Store maxQtyPerPack as a data attribute
-                input.data('maxQtyPerPack', maxQtyPerPack);
 
                 if (checkbox.is(':checked') && packQty > 0) {
+                    var remainingQty = parseInt(input.attr('data-max-qty'));
+                    var maxQtyPerPack = Math.floor(remainingQty / packQty);
+
+                    // Store maxQtyPerPack as a data attribute
+                    input.data('maxQtyPerPack', maxQtyPerPack);
+
                     input.prop('disabled', false);
                     input.attr('max', maxQtyPerPack); // Set the max attribute based on maxQtyPerPack
+
+                    var itemQty = parseInt(input.val());
+                    if (itemQty <= 0 || itemQty > maxQtyPerPack) {
+                        input.addClass('is-invalid'); // Add red border for invalid input
+                        disableAdd = true;
+                    } else {
+                        input.removeClass('is-invalid'); // Remove red border for valid input
+                    }
                 } else {
                     input.prop('disabled', true);
                     input.val(0); // Clear the input when unchecked
-                }
-
-                var itemQty = parseInt(input.val());
-                if (checkbox.is(':checked')) {
-                    if (itemQty <= 0) {
-                        disableAdd = true;
-                    }
-                    else if (itemQty > 0 && itemQty <= maxQtyPerPack)
-                    {
-                        disableAdd = false;
-                    }
+                    input.removeClass('is-invalid'); // Remove red border
                 }
             });
 

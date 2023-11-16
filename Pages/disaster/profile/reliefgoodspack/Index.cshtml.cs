@@ -48,7 +48,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
 					// Fetch relief pack data related to the selected center log
 					string reliefSql = "SELECT *, (packQty - distributedQty) AS remainingQty " +
 									   "FROM pack " +									  
-									   "WHERE centerLogID = @centerLogID;";
+									   "WHERE centerLogID = @centerLogID " +
+									   "ORDER BY createdAt;";
 					using (MySqlCommand reliefCommand = new MySqlCommand(reliefSql, connection))
 					{
 						reliefCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
