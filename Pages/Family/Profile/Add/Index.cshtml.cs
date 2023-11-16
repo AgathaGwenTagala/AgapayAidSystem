@@ -72,21 +72,8 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 			familyInfo.barangayID = Request.Form["barangayID"];
 			familyInfo.mobileNum = Request.Form["mobileNum"];
 			familyInfo.telephoneNum = Request.Form["telephoneNum"];
-			familyInfo.livingInGida = Request.Form["livingInGida"];
 			familyInfo.beneficiary = Request.Form["beneficiary"];
 			familyInfo.serialNum = Request.Form["serialNum"];
-
-			if (string.IsNullOrEmpty(familyInfo.livingInGida))
-			{
-				errorMessage = "Please select one from the choices.";
-				return;
-			}
-
-			else if (familyInfo.livingInGida != "Yes" && familyInfo.livingInGida != "No")
-			{
-				errorMessage = "Invalid choice. Choose from Yes or No.";
-				return;
-			}
 
 			try
 			{
@@ -97,8 +84,8 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 
 					// Insert data into the 'family' table
 					string sql = "INSERT INTO family " +
-								 "(familyID, streetAddress, barangayID, mobileNum, telephoneNum, livingInGida, beneficiary, serialNum) " +
-								 "VALUES (@familyID, @streetAddress, @barangayID, @mobileNum, @telephoneNum, @livingInGida, @beneficiary, @serialNum);";
+								 "(familyID, streetAddress, barangayID, mobileNum, telephoneNum, beneficiary, serialNum) " +
+								 "VALUES (@familyID, @streetAddress, @barangayID, @mobileNum, @telephoneNum, @beneficiary, @serialNum);";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -107,7 +94,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 						command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
 						command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
 						command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
-						command.Parameters.AddWithValue("@livingInGida", familyInfo.livingInGida);
 						command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
 						command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
 						command.ExecuteNonQuery();
