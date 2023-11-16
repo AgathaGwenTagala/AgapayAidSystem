@@ -153,8 +153,8 @@
 												<label class="form-check-label"></label>
 											</div>
 										</td>
-										<td width="25%" style="text-align: center;">@item.serialNum	</td>
-										<td width="35%">@item.fullName</td>
+										<td width="30%" style="text-align: center;">@item.serialNum	</td>
+										<td width="30%">@item.fullName</td>
 										<td width="20%">@item.remarks</td>
 										<td width="15%" style="text-align: center;">
 											@if (@item.entryStatus == "Check-in")
@@ -298,76 +298,72 @@
 <!-- JS for Filter Button -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Making the table responsive -->
+<style>
+	.dropdown-menu {
+		min-width: 225px; /* Change for minimum width of the filter menu */
+	}
+</style>
+
+
 <script>
 	$(document).ready(function () {
 		var table = $('#entrylog-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [1, 2] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 3, 4, 5] } // Non-sortable columns
+				{ "orderable": true, "targets": [1, 2] },
+				{ "orderable": false, "targets": [0, 3, 4, 5] }
 			],
 			// Set initial sorting by the Check-in Date
 			//order: [[1, 'asc']]
 		});
 
-		// Adding filters to specific columns
+
 		table.columns([1, 3, 4]).every(function () {
 			var column = this;
+			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2	"></div>').appendTo($(column.header()));
+			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+			var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
 			
-			// Create a container for the custom filter UI
-			var filterContainer = $('<div class="dropdown"></div>').appendTo($(column.header()));
+			function updateFilterButton() {
+				var hasActiveFilter = column.search() !== '';
+				btn.toggleClass('btn-warning', hasActiveFilter);
+			}
 
-			// Create a button to toggle the dropdown
-			var btn = $('<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>')
-				.appendTo(filterContainer);
-
-			// Create a dropdown menu
-			var menu = $('<div class="dropdown-menu"></div>').appendTo(filterContainer);
-
-			// Populate the dropdown menu with checkboxes
 			column.data().unique().sort().each(function (d, j) {
 				// Only add the options "Check-in" and "Check-out" for the "Status" column
 				if (column.index() === 4) {
 					// Set specific filter options only if they haven't been added
 					if (menu.find("input[value='Check-in']").length === 0) {
 						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Check-in">' +
-							'<label class="form-check-label">Check-in</label></div>');
+							'<label class="form-check-label ps-1">Check-in</label></div>');
 					}
 					if (menu.find("input[value='Check-out']").length === 0) {
 						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Check-out">' +
-							'<label class="form-check-label">Check-out</label></div>');
+							'<label class="form-check-label ps-1">Check-out</label></div>');
 					}
 				}
 				// For other columns, show all unique values as filter options
 				else {
 					menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-						'<label class="form-check-label">' + d + '</label></div>');
+						'<label class="form-check-label ps-1">' + d + '</label></div>');
 				}
 			});
 
-			// Add "Select All" option
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
-				'<label class="form-check-label">Select All</label></div>');
+				'<label class="form-check-label ps-1">Select All</label></div>');
 
-			// Add "Clear Filter" button with icon
-			menu.append('<button type="button" class="btn clear-filter"><i class="bi bi-eraser"></i> Clear Filter</button>');
-			
-			// Handle click events on the checkboxes and "Clear Filter" button
+			menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
 			menu.find('.form-check-input, .clear-filter').on('click', function () {
-				if ($(this).hasClass('form-check-input')) {
-					// Handle checkboxes
-					var checked = $(this).prop('checked');
+				var checked = $(this).prop('checked');
 
+				if ($(this).hasClass('form-check-input')) {
 					if ($(this).val() === 'select-all') {
 						menu.find('.form-check-input').prop('checked', checked);
-					} else {
-						if (!checked) {
-							menu.find('.form-check-input[value="select-all"]').prop('checked', false);
-						}
+					} else if (!checked) {
+						menu.find('.form-check-input[value="select-all"]').prop('checked', false);
 					}
 				} else {
-					// Handle "Clear Filter" button
 					menu.find('.form-check-input').prop('checked', false);
 					menu.find('.form-check-input[value="select-all"]').prop('checked', false);
 				}
@@ -376,10 +372,10 @@
 					return $(this).val();
 				}).get();
 
-				column
-					.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false)
-					.draw();
+				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+				updateFilterButton();
 			});
+			updateFilterButton();
 		});
 	});
 </script>
