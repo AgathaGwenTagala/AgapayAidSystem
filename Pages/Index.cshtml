@@ -124,8 +124,13 @@
                         </button>
 
                         <!-- Button with text and icon (visible on larger screens) -->
-                        <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn d-inline position-relative"  role="button">
-                            View More <i class="bi bi-arrow-right"></i>
+                        <a id="toggleButton" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn d-none d-md-inline-block position-relative" role="button">
+                            View More <i class="bi bi-arrow-right-circle"></i>
+                        </a>
+
+                        <!-- Button with text and icon (visible on smaller screens) -->
+                        <a id="toggleButtonMobile" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn d-inline-block d-md-none" role="button">
+                            <i class="bi bi-arrow-right-circle"></i>
                         </a>
                     </div>
                 </div>
@@ -203,13 +208,13 @@
                                         <td width="5%">@counter</td>
                                         <td width="25%">@item.centerName</td>
                                         <td width="25%" style="text-align: center;">@item.barangayName</td>
-                                        <td width="25%" style="text-align: center;">
+                                        <td width="30%" style="text-align: center;">
                                             <div class="progress-container">
                                                 <!-- Progress bar will be added dynamically here -->
                                             </div>
                                             <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
                                         </td>
-                                        <td width="20%" style="text-align: center;">
+                                        <td width="15%" style="text-align: center;">
                                             @if (@item.status == "Open")
                                             {
                                                 <span class="badge bg-success">@item.status</span>
@@ -237,7 +242,8 @@
         var table = $('#ec').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 2, 3, 4] }
+                { "orderable": true, "targets": [0, 1] }, //Sortable columns
+                { "orderable": false, "targets": [2, 3, 4] } // Non-sortable columns
             ],
             initComplete: function () {
                 var rows = this.api().rows({ page: 'current' }).nodes();
