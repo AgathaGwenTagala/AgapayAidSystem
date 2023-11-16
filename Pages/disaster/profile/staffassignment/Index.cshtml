@@ -360,7 +360,8 @@
 			select: true, // select for checkbox
 			columnDefs: [
 				{ "orderable": true, "targets": [1] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns
+				{ "orderable": false, "targets": [0, 2, 3, 4, 5] }, // Non-sortable columns
+				{ "responsivePriority": -1, "targets": [0, 1, 4] } // Disable responsive for status column
 			]
 		});
 
