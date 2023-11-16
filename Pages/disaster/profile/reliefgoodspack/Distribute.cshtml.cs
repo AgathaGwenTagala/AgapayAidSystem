@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.disaster.profile.reliefdistribution;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -102,20 +101,12 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
         public List<MemberInfo> GetEligibleMember(string familyID)
         {
             List<MemberInfo> members = new List<MemberInfo>();
-            //string sql = "SELECT e.entryLogID, mv.memberID, mv.fullName, mv.relationship " +
-            //             "FROM family_member_view mv " +
-            //             "JOIN entry_log e ON mv.memberID = e.memberID " +
-            //             "WHERE familyID = @familyID " +
-            //             "ORDER BY mv.memberID;";
-
-            // this will get all family members of the family even if their entryStatus is not 'Check-in'
             string sql = "SELECT CAST(MIN(e.entryLogID) AS CHAR) AS entryLogID, " +
                          "mv.memberID, mv.fullName, mv.relationship " +
                          "FROM family_member_view mv " +
                          "JOIN entry_log e ON mv.memberID = e.memberID " +
                          "WHERE familyID = @familyID " +
                          "GROUP BY mv.memberID;";
-
             try
                 {
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
