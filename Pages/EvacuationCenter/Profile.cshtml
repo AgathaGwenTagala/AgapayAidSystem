@@ -3,152 +3,141 @@
 @{
 	ViewData["Title"] = "Evacuation Center Profile";
 }
-<style>
-  .info-container {
-    display: flex;
-    justify-content: space-between;
-  }
 
-  .left-info, .right-info {
-    flex-basis: 48%; /* Adjust the width as needed */
-    padding: 10px;
-  }
+<!-- Breadcrumb -->
+<div class="row pb-2" aria-label="breadcrumb">
+    <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+            <li class="breadcrumb-item"><a href="EvacuationCenter/index">Evacuation Center</a></li>
+            <li class="breadcrumb-item active"><a><strong>Sagip Relief Center</strong></a></li>
+        </ol>
+    </nav>
+</div>
 
-  .right-info p:first-child {
-	text-align: center; /* Center-align the first line in the right column */
-</style>
 
-<div class="content">
-    <input type="hidden" name="disasterID" value="centerID" />
 
-    <!-- Breadcrumb -->
-    <div class="row pb-2" aria-label="breadcrumb">
-        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-                <li class="breadcrumb-item"><a href ="EvacuationCenter/index">Evacuation Center</a></li>
-                <li class="breadcrumb-item active"><a><strong>Sagip Relief Center</strong></a></li>
-            </ol>
-        </nav>
-    </div>
-
-    <!-- Title, Info Button, Menu Button -->
-    <div class="row p-2">
-        <div class="col d-flex align-items-center">
-            <h1>Sagip Relief Center</h1>
-        </div>
-
-        <div class="col-auto button-spacer">
+<div class="row align-items-center">
+	<h1 class="col-10 display-5 fw-bold">Sample Evacuation Center</h1>
+	<div class="col-2 text-end">
+		<div class="col-auto button-spacer">
 			<div class="d-inline position-relative">
-				<a href="#" role="button" id="
-				" data-bs-toggle="dropdown" aria-expanded="false">
+				<a href="#" role="button" id="" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="bi bi-three-dots-vertical"></i>
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="recordOptions">
 					<li>
-						<a class="dropdown-item" href="/EvacuationCenter/edit/">
-							Edit
-						</a>
+						<a class="dropdown-item" href="/EvacuationCenter/edit/">Edit</a>
 					</li>
 					<li>
-						<a class="dropdown-item" href="/EvacuationCenter/edit/">
-							Delete
-						</a>
+						<a class="dropdown-item">Delete</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-    </div>
-</div>
-   
-<div class="info-container">
-    <div class="left-info">
-		<p>
-			<strong>Type:</strong>
-			Community-based EC
-		</p>
-		<p>
-			<strong>Street Address:</strong>
-			Diyan Lang St.
-		</p>
-		<p>
-			<strong>Mobile Number:</strong>
-			09285429849
-		</p>
-		<p>
-			<strong>Telephone Number:</strong>
-			
-		</p>
-		<p>
-			<strong>Max Capacity:</strong>
-			1001
-		</p>
-		<p>
-			<strong>Status:</strong>
-			Active
-		</p>
-	</div>
-
-
-
-	<div class="right-info">
-		<p>
-			<strong>Facility/s:</strong>
-		</p>
-		<p>
-			<strong>Toilets:</strong>
-			10
-		</p>
-		<p>
-			<strong>Bathing Cubicle:</strong>
-			5
-		</p>
-		<p>
-			<strong>Community Kitchen:</strong>
-			1
-		</p>
-		<p>
-			<strong>Washin Area:</strong>
-			5
-		</p>
-		<p>
-			<strong>Women-Friendly and Child-Friendly Spaces:</strong>
-			0
-		</p>
-		<p>
-			<strong>Multipurpose Areas:</strong>
-			1
-		</p>
 	</div>
 </div>
+	
+<br />
 
+<div class="row">
+	<div class="col-md-6 col-lg-7">
+		<h4 class="d-flex justify-content-between align-items-center mb-3">Center Details:</h4>
 
+		<ul class="list-group mb-3">
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Type</h6></div>
+				<span>Community-based EC </span>
+			</li>
 
-<div class="content">
-	<!-- Table -->
-		<div class="col-lg-12">
-			<table id="distribution-table" class="table display nowrap compact order-column" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Disaster</th>
-						<th>Start Date</th>
-						<th>End Date</th>
-						<th> </th>
-					</tr>
-				</thead>
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Street Address</h6></div>
+				<span>Diyan Lang St. </span>
+			</li>
 
-				<tbody>
-					<tr>
-						<th>1</th>
-						<th>Gaya-gaya Fire</th>
-						<th>2022-11-10</th>
-						<th></th>
-						<td>
-							View Profile / Delete
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Mobile Number</h6></div>
+				<span>09285429849</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Telephone Number</h6></div>
+				<span> </span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Max Capacity</h6></div>
+				<span>1001</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Status</h6></div>
+				<span class="badge bg-success">Active</span>
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-md-6 col-lg-5 order-md-last">
+		<h4 class="d-flex justify-content-between align-items-center mb-3">Facilities</h4>
+
+		<ul class="list-group mb-3">
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Toilets</h6></div>
+				<span class="text-muted">10</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Bathing Cubicle</h6></div>
+				<span class="text-muted">5</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Community Kitchen</h6></div>
+				<span class="text-muted">1</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Washing Area</h6></div>
+				<span class="text-muted">1</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Women-Friendly and Child-Friendly Spaces</h6></div>
+				<span class="text-muted">1</span>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<div><h6 class="my-0">Multipurpose Area </h6></div>
+				<span class="text-muted">1</span>
+			</li>
+		</ul>
+	</div>
 </div>
+
+<!-- Table -->
+<h4 class="d-flex justify-content-between align-items-center mb-3">Center Log:</h4>
+<table id="distribution-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Disaster</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th> </th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>Gaya-gaya Fire</td>
+			<td>2022-11-10</td>
+			<td></td>
+			<td>
+				<a class="btn btn-success edit-button">
+					View
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
