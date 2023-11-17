@@ -93,10 +93,24 @@
 			}
 
 			column.data().unique().sort().each(function (d, j) {
-				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-					'<label class="form-check-label ps-1">' + d + '</label></div>');
+				// Only add the options "Available" and "On Duty" for the "Status" column
+				if (column.index() === 7) {
+					// Set specific filter options only if they haven't been added
+					if (menu.find("input[value='Available']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Available">' +
+							'<label class="form-check-label ps-1">Available</label></div>');
+					}
+					if (menu.find("input[value='On Duty']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="On Duty">' +
+							'<label class="form-check-label ps-1">On Duty</label></div>');
+					}
+				}
+				// For other columns, show all unique values as filter options
+				else {
+					menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+						'<label class="form-check-label ps-1">' + d + '</label></div>');
+				}
 			});
-
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
 				'<label class="form-check-label ps-1">Select All</label></div>');
 
