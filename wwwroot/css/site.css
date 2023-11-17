@@ -34,21 +34,6 @@ h1, .h1 {
     color: black;
 }
 
-.form-container {
-    background-color: #F6F8FB;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    margin: 50px;
-}
-
-.form-container-content {
-    padding: 30px;
-}
-
-.button-spacer {
-    text-align: center;
-}
-
 body {
     margin-bottom: 60px;
     background: #F6F8FB;
@@ -77,9 +62,7 @@ table {
     background-color: #3F8F8B; /* Set your desired background color here */
 }
 
-
 /*BREADCRUMB*/
-
 .breadcrumb-item a {
     color: #6c757d;
     text-decoration: none;
@@ -90,21 +73,6 @@ table {
     color: #6c757d;
 }
 
-/*SIDEBAR*/
-#sidebar {
-    padding-top: 30px;
-    padding-left: 20px;
-}
-/*ADD PACK*/
-
-.label-pack {
-    margin-left: 20px;
-    width: 30%;
-}
-
-.input-pack {
-    width: 70%;
-}
 
 /*ALLOCATE CENTER*/
 .search-container {
@@ -125,8 +93,6 @@ table {
 }
 
 /*DISASTER PROFILE*/
-
-
 .content {
     position: relative;
     width: 100%;
@@ -243,8 +209,6 @@ table {
         color: #FFFFFF;
     }
 
-
-
     .content .box-info .info-item:nth-child(1) i {
         background: #BF83FF;
         color: #FFFFFF;
@@ -265,15 +229,6 @@ table {
         color: #FFFFFF;
     }
 
-
-
-
-
-
-
-
-
-
 .content main .table-data {
     display: flex;
     flex-wrap: wrap;
@@ -290,21 +245,38 @@ table {
         overflow-x: auto;
     }
 
+/*SIDEBAR*/
+#sidebar {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+    #sidebar .nav-link.active {
+        font-weight: bold;
+        color: var(--bs-primary-color);
+    }
+
+    #sidebar .nav-link:hover {
+        font-weight: bold;
+        color: var(--bs-primary-color);
+    }
+
+
+/*ADD PACK*/
+
+.label-pack {
+    margin-left: 20px;
+    width: 30%;
+}
+
+.input-pack {
+    width: 70%;
+}
 
 /*ENTRY LOG*/
 
 .dropdown-menu .dropdown-item:hover {
     background-color: var(--bs-primary-color);
-}
-
-#sidebar .nav-link.active {
-    font-weight: bold;
-    color: var(--bs-primary-color);
-}
-
-#sidebar .nav-link:hover {
-    font-weight: bold;
-    color: var(--bs-primary-color);
 }
 
 form {
@@ -315,13 +287,10 @@ form {
     margin-bottom: 15px;
 }
 
-
 /*INVENTORY*/
 #disaster-table td {
     vertical-align: middle;
 }
-
-
 
 /*DASHBOARD*/
 .head-title {
@@ -350,10 +319,6 @@ form {
     }
 }
 
-
-
-
-
 .dashcontent {
     position: relative;
     width: 100%;
@@ -371,14 +336,12 @@ form {
         flex-wrap: wrap;
     }
 
-
 .form-container1 {
     background-color: #FFFFFF;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     margin: 25px;
 }
-
 
 .form-container-content1 {
     padding-top: 20px;
@@ -435,8 +398,6 @@ form {
     background: #c0ffd6;
 }
 
-
-
 .dashcontent .boxinfo p {
     margin: 0;
 }
@@ -468,8 +429,6 @@ form {
 
 
 
-
-
 @media only screen and (max-width: 1238px) {
     .ec-title {
         margin-left: 0; /* Remove margin for mobile screens */
@@ -485,9 +444,6 @@ form {
 #ec {
     overflow: hidden; /* Ensure the content within the table doesn't overflow */
 }
-
-
-
 
 .form-container2 {
     background-color: #F6F8FB;
