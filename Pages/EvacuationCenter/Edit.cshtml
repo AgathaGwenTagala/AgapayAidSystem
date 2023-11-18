@@ -14,213 +14,192 @@
 
 <style>
 	.input-facility {
-		width: 80px;
-		margin-right: 10px;
+		width: 100px;
 	}
 
 	.label-facility {
 		padding-top: 10px;
-	}
-
-	.label-container {
-		white-space: nowrap;
-	}
-
-	.mx-auto {
-		width: 120px;
+		padding-left: 10px;
 	}
 </style>
 
-<div class="container p-2 form-container">
+<div class="bg-light rounded px-2 py-0 my-3 text-center">
+	<div class="col-lg-8 mx-auto">
+		<!--NOTE: Labels are longer so column sizes here are larger-->
+		<form method="POST" id="editEvacuationForm">
+			<h1 class="display-5 fw-bold">Edit Evacuation Center</h1>
+			<br />
 
-	<div class="container mt-4" id="disaster-form-container">
+			<input type="hidden" name="centerID" value="@Model.evacuationInfo.centerID" />
 
-		<div class="row pt-4">
-			<div class="col text-center">
-				<h1>Edit Evacuation Center</h1>
+			<!-- Evacuation Center Name -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="centerName">Evacuation Center Name:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="centerName" value="@Model.evacuationInfo.centerName" required maxlength="65" />
+				</div>
 			</div>
-		</div>
 
-		<div class="row pt-4">
-			<form method="POST" id="editEvacuationForm">
-				<input type="hidden" name="centerID" value="@Model.evacuationInfo.centerID" />
+			<!-- Evacuation Center Type -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="centerType">Type of Evacuation Center:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<select class="form-select" name="centerType" required>
+						<option value="" selected disabled>Select Evacuation Center Type</option>
+						@{
+							if (Model.evacuationInfo.centerType == "School EC")
+							{
+								<option value="School EC" selected>School EC</option>
+							}
+							else
+							{
+								<option value="School EC">School EC</option>
+							}
 
-				<div class="row mb-3">
-					<p class="text-danger text-end">* Required field</p>
+							if (Model.evacuationInfo.centerType == "Community-based EC")
+							{
+								<option value="Community-based EC" selected>Community-based EC</option>
+							}
+							else
+							{
+								<option value="Community-based EC">Community-based EC</option>
+							}
+						}
+					</select>
 				</div>
+			</div>
 
-				<div class="row">
-					<!-- Left column: Center Name, Street Address, and Mobile Number -->
-					<div class="col-md-6">
-						<!-- Evacution Center Name -->
-						<div class="mb-3">
-							<label class="form-label">
-								Evacuation Center Name:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="centerName" value="@Model.evacuationInfo.centerName" required maxlength="65" />
-						</div>
+			<!-- Street Address -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="streetAddress">Barangay:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="streetAddress" value="@Model.evacuationInfo.streetAddress" required maxlength="85" />
+				</div>
+			</div>
 
-						<!-- Street Address -->
-						<div class="mb-3">
-							<label class="form-label">
-								Street Address:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="streetAddress" value="@Model.evacuationInfo.streetAddress" required maxlength="85" />
-						</div>
+			<!--ALKDJFLAKJDLKFJALKJDFLJADFJKLAJDKL-->
 
-						<!-- Mobile Number -->
-						<div class="mb-3">
-							<label class="form-label">Mobile Number:</label>
-							<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.evacuationInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
-						</div>
-					</div>
-
-					<!-- Right column: Evacuation Center Type, Barangay, and Telephone Number -->
-					<div class="col-md-6">
-						<!-- Evacuation Center Type -->
-						<div class="mb-3">
-							<label class="form-label">
-								Type of Evacuation Center:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<select class="form-select" name="centerType" required>
-								<option value="" selected disabled>Select Evacuation Center Type</option>
-								@{
-									if (Model.evacuationInfo.centerType == "School EC")
-									{
-										<option value="School EC" selected>School EC</option>
-									}
-									else
-									{
-										<option value="School EC">School EC</option>
-									}
-
-									if (Model.evacuationInfo.centerType == "Community-based EC")
-									{
-										<option value="Community-based EC" selected>Community-based EC</option>
-									}
-									else
-									{
-										<option value="Community-based EC">Community-based EC</option>
-									}
-								}
-							</select>
-						</div>
-
-						<!-- Barangay -->
-						<div class="mb-3">
-							<label class="form-label">
-								Barangay:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<select class="form-select" name="barangayID" id="barangayID" required>
-								<option value="" selected disabled>Select Barangay</option>
-								@if (Model.Barangays != null)
+			<!-- Barangay -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="barangayID">Barangay:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<select class="form-select" name="barangayID" id="barangayID" required>
+						<option value="" selected disabled>Select Barangay</option>
+						@if (Model.Barangays != null)
+						{
+							@foreach (var type in Model.Barangays)
+							{
+								if (type.barangayID == Model.evacuationInfo.barangayID)
 								{
-									@foreach (var type in Model.Barangays)
-									{
-										if (type.barangayID == Model.evacuationInfo.barangayID)
-										{
-											<option value="@type.barangayID" selected>@type.barangayName</option>
-										}
-										else
-										{
-											<option value="@type.barangayID">@type.barangayName</option>
-										}
-									}
+									<option value="@type.barangayID" selected>@type.barangayName</option>
 								}
-							</select>
-						</div>
-
-						<!-- Telephone Number -->
-						<div class="mb-3">
-							<label class="form-label">Telephone Number:</label>
-							<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.evacuationInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
-						</div>
-					</div>
+								else
+								{
+									<option value="@type.barangayID">@type.barangayName</option>
+								}
+							}
+						}
+					</select>
 				</div>
-				<!-- Available Facilities -->
-				<div class="mb-3 mt-4 text-center">
-					<label class="form-label">Available Facilities:</label>
-					<div class="row justify-content-center">
-						<div class="col-md-4">
-							<!-- Toilets -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="toilet" value="@Model.evacuationInfo.toilet" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility">Toilets</label>
-								</div>
-							</div>
+			</div>
 
-							<!-- Bathing Cubicle -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="bathingCubicle" value="@Model.evacuationInfo.bathingCubicle" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility">Bathing Cubicle</label>
-								</div>
-							</div>
-
-							<!-- Community Kitchen -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="communityKitchen" value="@Model.evacuationInfo.communityKitchen" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility">Community Kitchen</label>
-								</div>
-							</div>
-
-							<!-- Washing Area -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="washingArea" value="@Model.evacuationInfo.washingArea" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility">Washing Area</label>
-								</div>
-							</div>
-
-							<!-- Women-Friendly and Child-Friendly spaces -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="womenChildSpace" value="@Model.evacuationInfo.womenChildSpace" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility label-container">Women-Friendly and Child-Friendly spaces</label>
-								</div>
-							</div>
-
-							<!-- Multipurpose Areas -->
-							<div class="mb-3">
-								<div class="d-flex align-items-center">
-									<input type="number" class="form-control input-facility" name="multipurposeArea" value="@Model.evacuationInfo.multipurposeArea" placeholder="0" step="1" min="0" />
-									<label class="form-label label-facility">Multipurpose Areas</label>
-								</div>
-							</div>
-						</div>
-					</div>
+			<!-- Mobile Number -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="barangayID">Mobile Number:</label>
+				<div class="col-sm-8">
+					<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.evacuationInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
 				</div>
+			</div>
 
-				<!-- Maximum Capacity -->
-				<div class="mb-3 mt-3 text-center">
-					<label class="form-label">
-						Maximum Capacity:
-						<span class="text-danger" style="padding: 5px">*</span>
-					</label>
+
+			<!-- Telephone Number -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="telephoneNum">Telephone Number:</label>
+				<div class="col-sm-8">
+					<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.evacuationInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+				</div>
+			</div>
+
+			<!-- Maximum Capacity -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="maxCapacity">Maximum Capacity:<span class="text-danger" style="padding: 5px">*</span></label>
+				<div class="col-sm-8">
 					<input type="number" class="form-control mx-auto" name="maxCapacity" value="@Model.evacuationInfo.maxCapacity" required min="1" />
 				</div>
+			</div>
 
-				@if (!string.IsNullOrEmpty(Model.successMessage))
-				{
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<strong>@Model.successMessage</strong>
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<hr class="my-4" />
+
+			<h4 class="text-start ">Available Facilities<span class="text-danger" style="padding: 5px">*</span></h4>
+			<p class="pb-2 text-start"><i>Fill the input boxes with the number of available facilities in the evacuation center</i></p>
+
+			<div class="row">
+				<!-- Toilets -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="toilet" value="@Model.evacuationInfo.toilet" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility">Toilets</label>
 					</div>
-				}
-
-				<!-- Cancel and Save Button -->
-				<div class="button-spacer">
-					<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
-					<a class="btn btn-outline-secondary mr-10" href="/evacuationcenter/index" role="button">Cancel</a>
 				</div>
-			</form>
-		</div>
+
+				<!-- Bathing Cubicle -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="bathingCubicle" value="@Model.evacuationInfo.bathingCubicle" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility">Bathing Cubicle</label>
+					</div>
+				</div>
+
+				<!-- Community Kitchen -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="communityKitchen" value="@Model.evacuationInfo.communityKitchen" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility">Community Kitchen</label>
+					</div>
+				</div>
+
+				<!-- Washing Area -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="washingArea" value="@Model.evacuationInfo.washingArea" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility">Washing Area</label>
+					</div>
+				</div>
+
+				<!-- Women-Friendly and Child-Friendly spaces -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="womenChildSpace" value="@Model.evacuationInfo.womenChildSpace" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility text-start">Women-Friendly and Child-Friendly spaces</label>
+					</div>
+				</div>
+
+				<!-- Multipurpose Areas -->
+				<div class="row mb-1">
+					<div class="d-flex align-items-center">
+						<input type="number" class="form-control input-facility" name="multipurposeArea" value="@Model.evacuationInfo.multipurposeArea" placeholder="0" step="1" min="0" />
+						<label class="form-label label-facility">Multipurpose Areas</label>
+					</div>
+				</div>
+			</div>
+
+			@if (!string.IsNullOrEmpty(Model.successMessage))
+			{
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>@Model.successMessage</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			}
+
+
+			<br />
+
+			<!-- Cancel and Save Button -->
+			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+				<a href="/evacuationcenter/index" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+				<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
+			</div>
+		</form>
 	</div>
 </div>
 
