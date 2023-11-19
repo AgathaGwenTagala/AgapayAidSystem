@@ -4,6 +4,47 @@
 	ViewData["Title"] = "Inventory";
 }
 
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+    <div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Request.Query["successMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <script>
+        const successNotification = document.getElementById('success-notification');
+        if (successNotification) {
+            setTimeout(function () {
+                successNotification.style.display = 'none';
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+
 <!-- Breadcrumb -->
 <div class="row pb-2" aria-label="breadcrumb">
     <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
@@ -42,32 +83,37 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <th>Gaya Gaya Fire</th>
-                <td>Sample Evacuation Center</td>
-                <td>Canned Goods</td>
-                <td>Food</td>
-                <td>Kg</td>
-                <td>100</td>
-                <td>   </td>
-
-                <!---->
-                <td width="5%">
-                    <div class="d-inline position-relative">
-                        <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                            <li>
-                                <a class="dropdown-item" href="">
-                                    View the Inventory
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
+            @{
+                var counter = 1;
+            }
+            @foreach (var item in Model.listInventory)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <th>@item.disasterName</th>
+                    <td>@item.centerName</td>
+                    <td>@item.itemName</td>
+                    <td>@item.itemType</td>
+                    <td>@item.unitMeasure</td>
+                    <td>@item.qty</td>
+                    <td>@item.remarks</td>
+                    <td width="5%">
+                        <div class="d-inline position-relative">
+                            <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                <li>
+                                    <a class="dropdown-item" href="/disaster/profile/inventory/index?centerLogID=@item.centerLogID">
+                                        View the Inventory
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                counter++;
+            }
         </tbody>
     </table>
 </div>
@@ -78,8 +124,7 @@
 		$('#inventory-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6, 7] }, // Sortable columns
-				{ "orderable": false, "targets": [8] } // Non-sortable columns
+				{ "orderable": false, "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8] } // Non-sortable columns
 			]
 		});
 	});
