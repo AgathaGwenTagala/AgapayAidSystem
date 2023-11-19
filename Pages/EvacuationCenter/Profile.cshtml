@@ -184,16 +184,16 @@
 </div>
 
 <!-- Table -->
-<h4 class="d-flex justify-content-between align-items-center mb-3">Disaster Log:</h4>
+<h4 class="d-flex justify-content-between align-items-center mb-3">Disaster Log</h4>
 <table id="distribution-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th>#</th>
-			<th>Disaster</th>
-			<th>Type</th>
-			<th>Description</th>
-			<th>Date Occured</th>
-			<th> </th>
+			<th width="5%">#</th>
+			<th width="20%">Disaster</th>
+			<th width="15%">Type </th>
+			<th width="35%">Description</th>
+			<th width="15%">Date Occured</th>
+			<th width="10%"></th>
 		</tr>
 	</thead>
 
@@ -267,5 +267,63 @@
 		if (centerIdToDelete !== null) {
 			window.location.href = "/evacuationcenter/delete?centerID=" + centerIdToDelete;
 		}
+	});
+</script>
+
+<!-- Making the table responsive -->
+<script>
+	$(document).ready(function () {
+		var table = $('#distribution-table').DataTable({
+			responsive: true,
+			columnDefs: [
+				{ "orderable": true, "targets": [0, 1, 4] }, // Sortable columns
+				{ "orderable": false, "targets": [2, 3, 5] } // Non-sortable columns
+			]
+		});
+
+		table.columns([2]).every(function () {
+			var column = this;
+			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+			var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
+
+			function updateFilterButton() {
+				var hasActiveFilter = column.search() !== '';
+				btn.toggleClass('btn-warning', hasActiveFilter);
+			}
+
+			column.data().unique().sort().each(function (d, j) {
+				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+					'<label class="form-check-label ps-1">' + d + '</label></div>');
+			});
+
+			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+				'<label class="form-check-label ps-1">Select All</label></div>');
+
+			menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+			menu.find('.form-check-input, .clear-filter').on('click', function () {
+				var checked = $(this).prop('checked');
+
+				if ($(this).hasClass('form-check-input')) {
+					if ($(this).val() === 'select-all') {
+						menu.find('.form-check-input').prop('checked', checked);
+					} else if (!checked) {
+						menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+					}
+				} else {
+					menu.find('.form-check-input').prop('checked', false);
+					menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+				}
+
+				var selectedValues = menu.find('.form-check-input:checked').map(function () {
+					return $(this).val();
+				}).get();
+
+				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+				updateFilterButton();
+			});
+			updateFilterButton();
+		});
 	});
 </script>

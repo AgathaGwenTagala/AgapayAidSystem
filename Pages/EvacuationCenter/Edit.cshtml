@@ -77,8 +77,6 @@
 				</div>
 			</div>
 
-			<!--ALKDJFLAKJDLKFJALKJDFLJADFJKLAJDKL-->
-
 			<!-- Barangay -->
 			<div class="row mb-1">
 				<label class="col-sm-4 col-form-label text-start" for="barangayID">Barangay:<span class="text-danger" style="padding:5px">*</span></label>
@@ -195,7 +193,7 @@
 
 			<!-- Cancel and Save Button -->
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<a href="/evacuationcenter/index" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+				<a href="/evacuationcenter/profile?centerID=@Model.evacuationInfo.centerID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
 				<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
 			</div>
 		</form>
