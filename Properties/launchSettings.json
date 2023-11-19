@@ -7,7 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://agapayaid-9d240e6c907d.herokuapp.com/"
+      "applicationUrl": "http://localhost:5072"
     },
     "IIS Express": {
       "commandName": "IISExpress",
