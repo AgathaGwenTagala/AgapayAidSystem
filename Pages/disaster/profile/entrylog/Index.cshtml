@@ -110,11 +110,18 @@
 							</div>
 
 							<div class="d-flex justify-content-between align-items-center">
-								<a id="checkInButton" class="btn btn-primary mb-2" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+								<a id="checkInButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
 								</a>
-								<button style="display: none;" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+								<a id="checkInButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+								</a>
+
+								<button id="checkOutButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
 									<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
+								</button>
+								<button id="checkOutButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+									<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
 								</button>
 							</div>
 						</div>
@@ -306,11 +313,10 @@
 		var table = $('#entrylog-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [1, 2] },
-				{ "orderable": false, "targets": [0, 3, 4, 5] }
-			],
-			// Set initial sorting by the Check-in Date
-			//order: [[1, 'asc']]
+				{ "orderable": true, "targets": [1, 2] }, // Sortable columns
+				{ "orderable": false, "targets": [0, 3, 4, 5] }, // Non-sortable columns
+				{ "responsivePriority": -1, "targets": [0, 1, 4] } // Disable responsive for status column
+			]
 		});
 
 
@@ -381,6 +387,7 @@
 	const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
 	const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
 	const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+	const saveSelectionButtonSmall = document.querySelector('button[name="saveSelectionSmall"]');
 
 	// Event listener for the "Select All" checkbox
 	selectAllCheckbox.addEventListener('change', function () {
@@ -408,15 +415,29 @@
 			.filter(checkbox => !checkbox.disabled)
 			.some(checkbox => checkbox.checked);
 
-		const checkOutButton = document.querySelector('button[name="saveSelection"]');
+		const checkOutButton = document.getElementById('checkOutButton');
+		const checkOutButtonSmall = document.getElementById('checkOutButtonSmall');
 		const checkInButton = document.getElementById('checkInButton');
+		const checkInButtonSmall = document.getElementById('checkInButtonSmall');
 
 		if (atLeastOneEnabledCheckboxChecked) {
 			checkOutButton.style.display = 'block'; // Show the "Check-out Evacuee" button
 			checkInButton.style.display = 'none'; // Hide the "Check-in Evacuee" button
+			if (checkInButtonSmall) {
+				checkInButtonSmall.style.display = 'none'; // Hide the "Small Check-in Evacuee" button if it exists
+			}
+			if (checkOutButtonSmall) {
+				checkOutButtonSmall.style.display = 'block'; // Show the "Small Check-out Evacuee" button if it exists
+			}
 		} else {
 			checkOutButton.style.display = 'none'; // Hide the "Check-out Evacuee" button
 			checkInButton.style.display = 'block'; // Show the Check-in Evacuee button
+			if (checkInButtonSmall) {
+				checkInButtonSmall.style.display = 'block'; // Show the "Small Check-in Evacuee" button if it exists
+			}
+			if (checkOutButtonSmall) {
+				checkOutButtonSmall.style.display = 'none'; // Hide the "Small Check-out Evacuee" button if it exists
+			}
 		}
 	}
 
@@ -434,6 +455,9 @@
 			.filter(checkbox => !checkbox.disabled)
 			.some(checkbox => checkbox.checked);
 		saveSelectionButton.disabled = !atLeastOneEnabledCheckboxChecked;
+		if (saveSelectionButtonSmall) {
+			saveSelectionButtonSmall.disabled = !atLeastOneEnabledCheckboxChecked;
+		}
 	}
 </script>
 
