@@ -50,7 +50,7 @@
     <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-            <li class="breadcrumb-item"><a href="EvacuationCenter/index">Evacuation Center</a></li>
+            <li class="breadcrumb-item"><a href="/evacuationcenter/index">Evacuation Center</a></li>
 			<li class="breadcrumb-item active"><a><strong>@Model.evacuationInfo.centerName</strong></a></li>
         </ol>
     </nav>
@@ -191,6 +191,7 @@
 			<th>#</th>
 			<th>Disaster</th>
 			<th>Type</th>
+			<th>Description</th>
 			<th>Date Occured</th>
 			<th> </th>
 		</tr>
@@ -206,9 +207,10 @@
 				<td>@counter</td>
 				<td>@item.disasterName</td>
 				<td>@item.disasterType</td>
+				<td>@item.description</td>
 				<td>@item.dateOccured</td>
 				<td>
-					<a class="btn btn-success edit-button">
+					<a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
 						View
 					</a>
 				</td>

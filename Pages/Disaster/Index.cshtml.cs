@@ -50,6 +50,8 @@ namespace AgapayAidSystem.Pages.Disaster
 	public class DisasterInfo
 	{
 		public string disasterID { get; set; }
+		public string centerID { get; set; }
+		public string centerLogID { get; set; }
 		public string disasterName { get; set; }
 		public string disasterType { get; set; }
 		public string description { get; set; }

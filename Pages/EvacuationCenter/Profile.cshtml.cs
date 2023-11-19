@@ -59,7 +59,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 					// Fetch disaster log data
 
-					string disaster_sql = "SELECT * FROM disaster WHERE centerID = @centerID ORDER BY dateOccured";
+					string disaster_sql = "SELECT log.centerLogID, ec.centerID, d.disasterName, d.disasterType, d.description, d.dateOccured " +
+										  "FROM evacuation_center_log log " +
+										  "JOIN disaster d ON log.disasterID = d.disasterID " +
+										  "JOIN evacuation_center ec ON log.centerID = ec.centerID " +
+										  "WHERE ec.centerID = @centerID ORDER BY d.dateOccured";
 					using (MySqlCommand disaster_command = new MySqlCommand(disaster_sql, connection))
 					{
 						disaster_command.Parameters.AddWithValue("@centerID", centerID);
@@ -68,10 +72,11 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 							while (disaster_reader.Read())
 							{
 								DisasterInfo disasterInfo = new DisasterInfo();
-								disasterInfo.disasterID = disaster_reader.GetString(0);
-								disasterInfo.disasterName = disaster_reader.GetString(1);
-								disasterInfo.disasterType = disaster_reader.GetString(2);
-								disasterInfo.description = disaster_reader.GetString(3);
+								disasterInfo.centerLogID = disaster_reader.GetString(0);
+								disasterInfo.centerID = disaster_reader.GetString(1);
+								disasterInfo.disasterName = disaster_reader.GetString(2);
+								disasterInfo.disasterType = disaster_reader.GetString(3);
+								disasterInfo.description = disaster_reader.GetString(4);
 								disasterInfo.dateOccured = disaster_reader.GetDateTime("dateOccured").ToString("yyyy-MM-dd");
 								listDisaster.Add(disasterInfo);
 							}
