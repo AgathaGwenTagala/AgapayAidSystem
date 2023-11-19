@@ -5,14 +5,57 @@ using MySql.Data.MySqlClient;
 
 namespace AgapayAidSystem.Pages.Family.Profile.Add
 {
-    public class HeadModel : PageModel
-    {
+	public class HeadModel : PageModel
+	{
 		private readonly IConfiguration _configuration;
 		public HeadModel(IConfiguration configuration) => _configuration = configuration;
 		public AddFamilyHeadInfo addfamilyheadInfo { get; set; } = new AddFamilyHeadInfo();
-		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
+		public List<CivilStatus> Status { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+
+		public void OnGet()
+		{
+			// Fetch the list of barangays from database
+			Status = GetStatusFromDatabase();
+		}
+
+		private List<CivilStatus> GetStatusFromDatabase()
+		{
+			var statusData = new List<CivilStatus>();
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+
+					string sql = "SELECT memberID, civilStatus FROM family_member";
+
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						using (MySqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								statusData.Add(new CivilStatus
+								{
+									memberID = reader.GetString(0),
+									civilStatus = reader.GetString(1)
+								});
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+			}
+
+			return statusData;
+		}
 
 		public void OnPost()
 		{
@@ -29,14 +72,15 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 			addfamilyheadInfo.extName = Request.Form["extName"];
 			addfamilyheadInfo.sex = Request.Form["sex"];
 			addfamilyheadInfo.birthdate = Request.Form["birthdate"];
+			addfamilyheadInfo.relationship = Request.Form["relationship"];
 			addfamilyheadInfo.civilStatus = Request.Form["civilStatus"];
-			addfamilyheadInfo.religion = Request.Form["religion"];
 			addfamilyheadInfo.education = Request.Form["education"];
 			addfamilyheadInfo.occupation = Request.Form["occupation"];
+			addfamilyheadInfo.religion = Request.Form["religion"];
 			addfamilyheadInfo.ethnicity = Request.Form["ethnicity"];
 			addfamilyheadInfo.healthCondition = Request.Form["healthCondition"];
 			addfamilyheadInfo.remarks = Request.Form["remarks"];
-			addfamilyheadInfo.relationship = Request.Form["relationship"];
+
 
 			try
 			{
@@ -45,10 +89,10 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 				{
 					connection.Open();
 
-					// Insert data into the 'disaster' table
+					// Insert data into the 'family_member' table
 					string sql = "INSERT INTO family_member" +
-								 "(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, religion, education, occupation, ethnicity, healthCondition, remarks, relationship) " +
-								 "VALUES (@firstName, @middleName, @lastName, @extName, @sex, @birthdate, @civilStatus, @religion, @education, @occupation, @ethnicity, @healthCondition, @remarks, @relationship)";
+								 "(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, education, occupation, religion, ethnicity, healthCondition, remarks) " +
+								 "VALUES (@firstName, @middleName, @lastName, @extName, @sex, @birthdate, @civilStatus, @education, @occupation, @religion, @ethnicity, @healthCondition, @remarks)";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -58,19 +102,44 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 						command.Parameters.AddWithValue("@extName", addfamilyheadInfo.extName);
 						command.Parameters.AddWithValue("@sex", addfamilyheadInfo.sex);
 						command.Parameters.AddWithValue("@birthdate", addfamilyheadInfo.birthdate);
+						command.Parameters.AddWithValue("@relationship", addfamilyheadInfo.relationship);
 						command.Parameters.AddWithValue("@civilStatus", addfamilyheadInfo.civilStatus);
-						command.Parameters.AddWithValue("@religion", addfamilyheadInfo.religion);
 						command.Parameters.AddWithValue("@education", addfamilyheadInfo.education);
 						command.Parameters.AddWithValue("@occupation", addfamilyheadInfo.occupation);
+						command.Parameters.AddWithValue("@religion", addfamilyheadInfo.religion);
 						command.Parameters.AddWithValue("@ethnicity", addfamilyheadInfo.ethnicity);
 						command.Parameters.AddWithValue("@healthCondition", addfamilyheadInfo.healthCondition);
 						command.Parameters.AddWithValue("@remarks", addfamilyheadInfo.remarks);
-						command.Parameters.AddWithValue("@relationship", addfamilyheadInfo.relationship);
 						command.ExecuteNonQuery();
 					}
 				}
 
-				successMessage = "Family member added successfully!";
+				successMessage = "Family head added successfully!";
+			}
+
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+			}
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+
+					// Insert data into the 'family_member' table
+					string sql = "INSERT INTO family_member (relationship) VALUES (@relationship)";
+
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@relationship", "Family head");
+						command.ExecuteNonQuery();
+					}
+				}
+
+				successMessage = "Family head added successfully!";
 			}
 
 			catch (Exception ex)
@@ -81,7 +150,14 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 
 			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
-    }
+	}
+
+	public class CivilStatus
+	{
+		public string memberID { get; set; }
+		public string civilStatus { get; set; }
+	}
+
 	public class AddFamilyHeadInfo
 	{
 		public string firstName { get; set; }
@@ -90,16 +166,17 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 		public string extName { get; set; }
 		public string sex { get; set; }
 		public string birthdate { get; set; }
+		public string relationship { get; set; }
 		public string civilStatus { get; set; }
-		public string religion { get; set; }
 		public string education { get; set; }
 		public string occupation { get; set; }
+		public string religion { get; set; }
 		public string ethnicity { get; set; }
 		public string healthCondition { get; set; }
 		public string remarks { get; set; }
 		public string memberID { get; set; }
 		public string familyID { get; set; }
 		public string serialNum { get; set; }
-		public string relationship { get; set; }
 	}
 }
+

@@ -10,7 +10,7 @@
     }
     
     .container-slide {
-        padding: 2rem;
+        padding: 1rem;
     }
 
     .slider-wrapper {
@@ -21,7 +21,7 @@
 
     .slider {
         display: flex;
-        aspect-ratio: 3.00/ 1;
+        aspect-ratio: 21.00/ 9;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
@@ -63,6 +63,21 @@
         opacity: 1;
         background-color: #6db5b1;
     }
+
+    body {
+        background-image: url('./images/bgimg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* This ensures the background image stays fixed when scrolling */
+        margin: 0; /* Remove default body margin */
+        padding: 0; /* Remove default body padding */
+        height: 100vh;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+    }
 </style>
 
 
@@ -74,13 +89,8 @@
         <!--LINKS-->
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+
         <!--MAIN-->
-        <div class="head-title">
-            <div>
-                @*<h2>Home</h2>*@
-                <h3 class="sub-title">Hello, Welcome to Agapay Aid</h3>
-            </div>
-        </div>
    
         <section class="container-slide">
             <div class="slider-wrapper">

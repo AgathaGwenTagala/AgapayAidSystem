@@ -1,19 +1,22 @@
+using AgapayAidSystem.Pages.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using System.Net;
 
 namespace AgapayAidSystem.Pages.Family.Profile.Add
 {
-    public class IndexModel : PageModel
-    {
+	public class IndexModel : PageModel
+	{
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+
 		public void OnGet()
-        {
+		{
 			// Fetch the list of barangays from database
 			Barangays = GetBarangaysFromDatabase();
 		}
@@ -29,7 +32,7 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 				{
 					connection.Open();
 
-					string sql = "SELECT barangayID, barangayName FROM barangay ORDER BY barangayName";
+					string sql = "SELECT barangayID, barangayName FROM barangay";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -65,11 +68,12 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 
 			// Retrieve evacuation center details from the form
 			familyInfo.familyID = Request.Form["familyID"];
-			familyInfo.serialNum = Request.Form["serialNum"];
 			familyInfo.streetAddress = Request.Form["streetAddress"];
 			familyInfo.barangayID = Request.Form["barangayID"];
 			familyInfo.mobileNum = Request.Form["mobileNum"];
 			familyInfo.telephoneNum = Request.Form["telephoneNum"];
+			familyInfo.beneficiary = Request.Form["beneficiary"];
+			familyInfo.serialNum = Request.Form["serialNum"];
 
 			try
 			{
@@ -78,24 +82,26 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 				{
 					connection.Open();
 
-					// Insert data into the 'evacuation_center' table
+					// Insert data into the 'family' table
 					string sql = "INSERT INTO family " +
-								 "(familyID, serialNum, streetAddress, barangayID, mobileNum, telephoneNum) " +
-								 "VALUES (@familyID, @serialNum, @streetAddress, @barangayID, @mobileNum, @telephoneNum)";
+								 "(familyID, streetAddress, barangayID, mobileNum, telephoneNum, beneficiary, serialNum) " +
+								 "VALUES (@familyID, @streetAddress, @barangayID, @mobileNum, @telephoneNum, @beneficiary, @serialNum);";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@familyID", familyInfo.familyID);
-						command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
 						command.Parameters.AddWithValue("@streetAddress", familyInfo.streetAddress);
 						command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
 						command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
 						command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
+						command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
+						command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
 						command.ExecuteNonQuery();
 					}
 				}
 
 				successMessage = "Family added successfully!";
+				Response.Redirect("/family/profile/add/head?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 			}
 
 			catch (Exception ex)
@@ -103,10 +109,9 @@ namespace AgapayAidSystem.Pages.Family.Profile.Add
 				errorMessage = ex.Message;
 				return;
 			}
-
-			Response.Redirect("/family/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
 		}
 	}
+
 	public class BarangayInfo
 	{
 		public string barangayID { get; set; }
