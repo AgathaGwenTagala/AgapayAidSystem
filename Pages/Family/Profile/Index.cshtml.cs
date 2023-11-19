@@ -130,20 +130,6 @@ namespace AgapayAidSystem.Pages.Family.Profile
 		public string barangayName { get; set; }
 	}
 
-	public class FamilyInfo
-	{
-		public string familyID { get; set; }
-		public string streetAddress { get; set; }
-		public string barangayID { get; set; }
-		public string mobileNum { get; set; }
-		public string telephoneNum { get; set; }
-		public string livingInGida { get; set; }
-		public string beneficiary { get; set; }
-		public string serialNum { get; set; }
-		public string barangayName { get; set; }
-
-	}
-
 	public class FamilyMemberInfo
 	{
 		public string relationship { get; set; }
