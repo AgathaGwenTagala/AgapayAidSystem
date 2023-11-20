@@ -1,0 +1,91 @@
+﻿@page
+@model AgapayAidSystem.Pages.Settings.ProfileModel
+@{
+	ViewData["Title"] = "Settings Profile";
+}
+
+<div class="container-fluid">
+	<input type="hidden" name="familyID" value="" />
+	<div class="row">
+		<!-- Sidebar (desktop) -->
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/settings/profile">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/settings/VulnerabilityAssessment">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/family/profile/index?familyID=">Profile</option>
+				<option value="/family/profile/VulnerabilityAssessment/index?familyID=">Vulnerability Assessment</option>
+
+			</select>
+		</div>
+
+		<!-- Page Content -->
+		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+			<div class="container">
+				<!-- Breadcrumb -->
+				<div class="row pb-2" aria-label="breadcrumb">
+					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+							<li class="breadcrumb-item"><a href="/Family/index">Settings</a></li>
+						</ol>
+					</nav>
+				</div>
+                <div class="row pb-2">
+                    <div class="col-lg-12 ec-info">
+
+                        <div>
+                            <h1>Profile Settings</h1>
+                            <p>
+                                <b>Username:</b><br />
+                                g_tagala
+                            </p>
+                            <p>
+                                <b>First Name:</b><br />
+                                Gwen
+                            </p>
+                            <p>
+                                <b>Middle Name:</b><br />
+                                Ignacio
+                            </p>
+                            <p>
+                                <b>Last Name:</b><br />
+                                Tagala
+                            </p>
+                            <p>
+                                <b>Extension Name:</b><br />
+                                -
+                            </p>
+                            <p>
+                                <b>Sex:</b><br />
+                                F    
+                            </p>
+                            <p>
+                                <b>Birthdate:</b><br />
+                                03/20/2003
+                            </p>
+                            <p>
+                                <b>Email Address:</b><br />
+                                <input type="text" class="form-control"  />
+                            </p>
+                            <p>
+                                <b>Mobile number:</b><br />
+                                <input type="text" class="form-control" />
+                            </p>
+                        </div>
+                        <hr />
+			</div>
+		</div>
+	</div>
+</div>
