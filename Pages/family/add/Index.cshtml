@@ -33,6 +33,7 @@
 		<div class="row pt-4">
 			<div class="col text-center">
 				<h1>Add Family</h1>
+				<h5>Family Head</h5>
 			</div>
 		</div>
 
@@ -41,6 +42,51 @@
 				<div class="row mb-3">
 					<p class="text-danger text-end">* Required field</p>
 				</div>
+
+				<div class="row">
+					<!-- First Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								First Name:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="firstName" value="@Model.memberInfo.firstName" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Middle Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Middle Name:
+							</label>
+							<input type="text" class="form-control" name="middleName" value="@Model.memberInfo.middleName" maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Last Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Last Name:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="lastName" value="@Model.memberInfo.lastName" required maxlength="65" />
+						</div>
+					</div>
+
+					<!-- Extension Name -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Extension Name:
+							</label>
+							<input type="text" class="form-control" name="extName" value="@Model.memberInfo.extName" maxlength="45" />
+						</div>
+					</div>
+				</div>
+
 				<div class="row">
 					<!-- Street Address -->
 					<div class="col-md-6">
@@ -49,7 +95,7 @@
 								Street Address:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="65" />
+							<input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="85" />
 						</div>
 					</div>
 
@@ -80,8 +126,9 @@
 						<div class="mb-3">
 							<label class="form-label">
 								Mobile Number:
+								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
+							<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." required />
 						</div>
 					</div>
 
@@ -97,33 +144,126 @@
 				</div>
 
 				<div class="row mt-3">
-					
-					<!-- beneficiary -->
-					<div class="col-md-6">
+					<!-- Sex -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label radio1x2">
+								Sex:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<select class="form-select" name="sex" required>
+								<option value="" selected disabled>Select Sex</option>
+								<option value="M">Male</option>
+								<option value="F">Female</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Birthdate -->
+					<div class="col-md-3">
 						<div class="mb-3">
 							<label class="form-label">
-								Beneficiary:
+								Birthdate:
+								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="text" class="form-control" name="beneficiary" value="@Model.familyInfo.beneficiary" placeholder="4P's" required maxlength="45" />
+							<input type="date" class="form-control text-muted" name="birthdate" value="@Model.memberInfo.birthdate" required pattern="\d{4}-\d{2}-\d{2}">
+						</div>
+					</div>
+
+					<!-- Civil Status -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Civil Status:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<select class="form-select" name="civilStatus" required>
+								<option value="" selected disabled>Select Civil Status</option>
+								<option value="Single">Single</option>
+								<option value="Married">Married</option>
+								<option value="Widowed">Widowed</option>
+								<option value="Annulled">Annulled</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Indigenous Person -->
+					<div class="col-md-3">
+						<div class="mb-3">
+							<label class="form-label">
+								Is Indigenous Person?
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<select class="form-select" name="isIndigenousPerson" required>
+								<option value="" selected disabled>Yes or No</option>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
+							</select>
 						</div>
 					</div>
 				</div>
 
-				@*<div class="row mt-3">
-				<div class="col text-center">
-				<!-- Use the d-flex and flex-column classes for vertical stacking on smaller screens -->
-				<div class="d-flex flex-column justify-content-center flex-md-row">
-				<button type="button" class="btn btn-primary mx-3 my-2">Vulnerability Assessment Forms</button>
-				<button type="button" class="btn btn-primary mx-3 my-2" onclick="window.location.href='/Family/AddFamilyMember'">Add Family Member</button>
-				<button type="button" class="btn btn-primary mx-3 my-2">Relief Distribution Record</button>
-				</div>
-				</div>
-				</div>*@
+				<div class="row mt-3">
+					<!-- Religion -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Religion:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="religion" value="@Model.memberInfo.religion" maxlength="45" />
+						</div>
+					</div>
 
-				<!-- Cancel and Save Button -->
+					<!-- Health Condition -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Health Condition:
+							</label>
+							<input type="text" class="form-control" name="healthCondition" value="@Model.memberInfo.healthCondition" maxlength="45" />
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- Education -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Education:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="education" value="@Model.memberInfo.education" required maxlength="45" />
+						</div>
+					</div>
+
+					<!-- Occupation -->
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label">
+								Occupation:
+								<span class="text-danger" style="padding: 5px">*</span>
+							</label>
+							<input type="text" class="form-control" name="occupation" value="@Model.memberInfo.occupation" required maxlength="45" />
+						</div>
+					</div>
+				</div>				
+
+				<div class="row">
+					<!-- Remarks -->
+					<div class="mb-3">
+						<label class="form-label">
+							Remarks:
+						</label>
+						<textarea class="form-control" name="remarks" value="@Model.memberInfo.remarks" rows="3"></textarea>
+					</div>
+				</div>
+
+				<!-- Cancel and Next Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/family/index" role="button">Cancel</a>
-					<button type="submit" class="btn btn-primary" href="/family/profile/add/head" id=" submitBtn">
+					<button type="submit" class="btn btn-primary" href="/family/add/member" id="submitBtn">
 						Next
 						<i class="bi bi-arrow-right" style="padding:5px"></i>
 					</button>
@@ -133,6 +273,7 @@
 	</div>
 </div>
 
+<!-- Mobile and Tel Number Formatting -->
 <script>
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
@@ -156,7 +297,10 @@
 
 		this.value = cleanedValue;
 	});
+</script>
 
+<!-- Enable/disable "Next" button -->
+<script>
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 

@@ -44,9 +44,8 @@ namespace AgapayAidSystem.Pages.Family.Profile
 								familyInfo.barangayID = familyReader.GetString(2);
 								familyInfo.mobileNum = familyReader.GetString(3);
 								familyInfo.telephoneNum = familyReader.GetString(4);
-								familyInfo.beneficiary = familyReader.GetString(5);
-								familyInfo.serialNum = familyReader.GetString(6);
-								familyInfo.barangayName = familyReader.GetString(7);
+								familyInfo.serialNum = familyReader.GetString(5);
+								familyInfo.barangayName = familyReader.GetString(6);
 							}
 						}
 					}

@@ -42,7 +42,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                                 familyInfo.streetAddress = reader.GetString(1);
                                 familyInfo.barangayID = reader.GetString(2);
                                 familyInfo.serialNum = reader.GetString(7);
-                                familyInfo.beneficiary = reader.GetString(6);
                                 familyInfo.mobileNum = reader.IsDBNull(3) ? null : reader.GetString(3);
                                 familyInfo.telephoneNum = reader.IsDBNull(4) ? null : reader.GetString(4);
                             }
@@ -107,7 +106,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
             familyInfo.streetAddress = Request.Form["streetAddress"];
             familyInfo.barangayID = Request.Form["barangayID"];
             familyInfo.serialNum = Request.Form["serialNum"];
-            familyInfo.beneficiary = Request.Form["beneficiary"];
             familyInfo.mobileNum = Request.Form["mobileNum"];
             familyInfo.telephoneNum = Request.Form["telephoneNum"];
 
@@ -133,7 +131,7 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                     // Insert updated data into the 'evacuation_center' table
                     string sql = "UPDATE family " +
                                  "SET streetAddress = @streetAddress, barangayID = @barangayID, " +
-                                 "livingInGida = @livingInGida, serialNum = @serialNum, beneficiary = @beneficiary, mobileNum = @mobileNum, telephoneNum = @telephoneNum" +
+                                 "serialNum = @serialNum, mobileNum = @mobileNum, telephoneNum = @telephoneNum" +
                                  "WHERE familyID = @familyID";
 
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
@@ -142,7 +140,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                         command.Parameters.AddWithValue("@streetAddress", familyInfo.streetAddress);
                         command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
                         command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
-                        command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
                         command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
                         command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
                         command.ExecuteNonQuery();
