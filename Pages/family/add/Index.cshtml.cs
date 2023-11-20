@@ -91,6 +91,10 @@ namespace AgapayAidSystem.Pages.family.add
 			memberInfo.healthCondition = Request.Form["healthCondition"];
 			memberInfo.remarks = Request.Form["remarks"];
 
+			// Others
+			string redirectType = Request.Form["redirectType"];
+			string newFamilyID = null;
+
 			if (string.IsNullOrEmpty(memberInfo.middleName))
 			{
 				memberInfo.middleName = null;
@@ -138,7 +142,6 @@ namespace AgapayAidSystem.Pages.family.add
 					}
 
 					// Step 2: Retrieve the last inserted familyID from the 'family' table
-					string newFamilyID;
 					string selectMaxFamilyIDSql = "SELECT MAX(familyID) FROM family WHERE streetAddress = @streetAddress";
 					using (MySqlCommand selectMaxFamilyID = new MySqlCommand(selectMaxFamilyIDSql, connection))
 					{
@@ -171,7 +174,7 @@ namespace AgapayAidSystem.Pages.family.add
 						memberCommand.Parameters.AddWithValue("@healthCondition", memberInfo.healthCondition);
 						memberCommand.Parameters.AddWithValue("@remarks", memberInfo.remarks);
 						memberCommand.ExecuteNonQuery();
-						Console.WriteLine($"Successfully inserted family head for familyID {familyInfo.familyID}");
+						Console.WriteLine($"Successfully inserted family head for familyID {newFamilyID}");
 					}
 				}
 					successMessage = "Family added successfully!";
@@ -190,8 +193,14 @@ namespace AgapayAidSystem.Pages.family.add
 			}
 			else
 			{
-				// Redirect to the Add Member page after successful add
-				Response.Redirect("/family/add/member?successMessage=" + successMessage);
+				if (redirectType == "add")
+				{
+					Response.Redirect("/family/add/member?familyID="+ newFamilyID);
+				}
+				else
+				{
+					Response.Redirect("/family/index?successMessage=" + successMessage);
+				}
 			}
 		}
 	}

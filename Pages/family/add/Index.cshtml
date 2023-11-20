@@ -38,7 +38,7 @@
 		</div>
 
 		<div class="row pt-4">
-			<form method="POST">
+			<form method="POST" id="add-family">
 				<div class="row mb-3">
 					<p class="text-danger text-end">* Required field</p>
 				</div>
@@ -195,7 +195,7 @@
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
 							<select class="form-select" name="isIndigenousPerson" required>
-								<option value="" selected disabled>Yes or No</option>
+								<option value="" selected disabled>Select</option>
 								<option value="Yes">Yes</option>
 								<option value="No">No</option>
 							</select>
@@ -263,15 +263,62 @@
 				<!-- Cancel and Next Button -->
 				<div class="button-spacer">
 					<a class="btn btn-outline-secondary mr-10" href="/family/index" role="button">Cancel</a>
-					<button type="submit" class="btn btn-primary" href="/family/add/member" id="submitBtn">
-						Next
-						<i class="bi bi-arrow-right" style="padding:5px"></i>
-					</button>
+					<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Add</button>
 				</div>
+				<input type="hidden" name="redirectType" id="redirectType" value="" />
 			</form>
 		</div>
 	</div>
 </div>
+
+<!-- Modal: Add Family Members -->
+<div class="modal" id="confirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Family Members</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Do you want to add more family members to this family?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="noButton">No</button>
+				<button type="button" class="btn btn-primary" id="yesButton">Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Enable/disable "Submit" button -->
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	submitButton.disabled = true;
+
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	form.addEventListener('input', checkFormValidity);
+</script>
+
+<!-- Save Changes -->
+<script>
+	document.getElementById('noButton').addEventListener('click', function () {
+		document.getElementById('add-family').submit();
+	});
+
+	document.getElementById('yesButton').addEventListener('click', function () {
+		document.getElementById('redirectType').value = 'add';
+		document.getElementById('add-family').submit();
+	});
+</script>
 
 <!-- Mobile and Tel Number Formatting -->
 <script>
@@ -297,22 +344,4 @@
 
 		this.value = cleanedValue;
 	});
-</script>
-
-<!-- Enable/disable "Next" button -->
-<script>
-	const submitButton = document.getElementById('submitBtn');
-	const form = document.querySelector('form');
-
-	submitButton.disabled = true;
-
-	function checkFormValidity() {
-		if (form.checkValidity()) {
-			submitButton.disabled = false;
-		} else {
-			submitButton.disabled = true;
-		}
-	}
-
-	form.addEventListener('input', checkFormValidity);
 </script>
