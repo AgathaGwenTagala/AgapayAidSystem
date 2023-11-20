@@ -166,7 +166,8 @@
 								Birthdate:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="date" class="form-control text-muted" name="birthdate" value="@Model.memberInfo.birthdate" required pattern="\d{4}-\d{2}-\d{2}">
+							<input type="date" class="form-control text-muted" name="birthdate" 
+							value="@Model.memberInfo.birthdate" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")">
 						</div>
 					</div>
 
@@ -345,3 +346,4 @@
 		this.value = cleanedValue;
 	});
 </script>
+

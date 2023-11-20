@@ -59,7 +59,7 @@
 			<div class="row mb-1">
 				<label class="col-sm-4 col-form-label text-start" for="dateOccured">Date Occured:<span class="text-danger" style="padding:5px">*</span></label>
 				<div class="col-sm-8">
-					<input type="date" class="form-control" name="dateOccured" value="@Model.disasterInfo.dateOccured" required pattern="\d{4}-\d{2}-\d{2}">
+					<input type="date" class="form-control" name="dateOccured" value="@Model.disasterInfo.dateOccured" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
 				</div>
 			</div>
 
