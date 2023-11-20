@@ -45,187 +45,194 @@
     </div>
 }
 
-<input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
-
-<!-- Breadcrumb -->
-<div class="row pb-2" aria-label="breadcrumb">
-    <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-            <li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
-            <li class="breadcrumb-item active"><a><strong>@Model.disasterInfo.disasterName</strong></a></li>
-        </ol>
-    </nav>
-</div>
-
-<!-- Title, Info Button, Menu Button -->
-<div class="d-flex align-items-center justify-content-between">
-    <h1 class="display-5 fw-bold">@Model.disasterInfo.disasterName</h1>
-
-    <div class="d-flex justify-content-end align-items-center">
-        <!-- Button with text and icon (visible on larger screens) -->
-        <button class="btn btn-primary mb-2 d-none d-sm-inline" id="toggleButton" onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                data-bs-toggle="modal" data-bs-target="#infoModal">
-            <i class="bi bi-info-circle-fill" style="padding-right: 5px;"></i>
-            Info
-        </button>
-
-        <!-- Button with icon only (visible on smaller screens) -->
-        <a class="btn btn-primary mb-2 d-md-none" id="toggleButtonMobile" onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-           data-bs-toggle="modal" data-bs-target="#infoModal">
-            <i class="bi bi-plus-circle pt"></i>
-        </a>
-    </div>
-
-    <div class="d-inline position-relative text-end">
-        <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-three-dots-vertical"></i>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="recordOptions">
-            <li>
-                <a class="dropdown-item" href="/disaster/profile/report?disasterID=@Model.disasterInfo.disasterID">
-                    Generate Report
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
-                    Edit
-                </a>
-            </li>
-            <li>
-                <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
-                   data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                    Delete
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-
 <div class="content">
-    <div class="box-info">
-        <div class="info-item">
-            <i class="bi bi-people"></i>
-            <div class="text">
-                <h3 class="distitle">@Model.GetTotalDistinctEvacueesCount()</h3>
-                <p><b>Total Evacuees</b></p>
-                <div class="box-stat">
-                    <small>Check-in: <span>@Model.GetTotalCheckInCount()</span></small>
-                    <small>Check-out: <span>@Model.GetTotalCheckOutCount()</span></small>
+    <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
+
+    <!-- Breadcrumb -->
+    <div class="row pb-2" aria-label="breadcrumb">
+        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                <li class="breadcrumb-item"><a href ="/disaster/index">Disaster</a></li>
+                <li class="breadcrumb-item active"><a><strong>@Model.disasterInfo.disasterName</strong></a></li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container table-container1">
+        <!-- Title, Info Button, Menu Button -->
+        <div class="row p-2">
+            <div class="col d-flex align-items-center">
+                <h1>@Model.disasterInfo.disasterName</h1>
+            </div>
+
+            <div class="col-auto button-spacer">
+                <!-- Button with text and icon (visible on larger screens) -->
+                <button id="toggleButton" class="btn d-none d-md-inline-block"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')" 
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
+                    <i class="bi bi-info-circle-fill"></i> Info
+                </button>
+
+                <!-- Button with icon only (visible on smaller screens) -->
+                <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')" 
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
+                    <i class="bi bi-info-circle-fill"></i>
+                </button>
+
+                <div class="btn d-inline position-relative">
+                    <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/report">
+                                Generate Report
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
+                                Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
+                               data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <div class="info-item">
-            <i class="bi bi-buildings-fill"></i>
-            <div class="text">
-                <h3 class="distitle">@Model.GetTotalDistinctBarangaysCount()</h3>
-                <p><b>Total Affected Brgys</b></p>
-                <div class="box-stat">
-                    <small>Families: <span>@Model.GetTotalDistinctFamiliesCount()</span></small>
-                    <small>Male: <span>@Model.GetTotalDistinctFemaleCount()</span></small>
-                    <small>Female: <span>@Model.GetTotalDistinctMaleCount()</span></small>
+        <div class="box-info">
+            <div class="info-item">
+                <i class="bi bi-people"></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalDistinctEvacueesCount()</h3>
+                    <p><b>Total Evacuees</b></p>
+                    <div class="box-stat">
+                        <small>Check-in: <span>@Model.GetTotalCheckInCount()</span></small>
+                        <small>Check-out: <span>@Model.GetTotalCheckOutCount()</span></small>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="info-item">
-            <i class="bi bi-building-fill"></i></i>
-            <div class="text">
-                <h3 class="distitle">@Model.GetTotalCenterCount()</h3>
-                <p><b>Total Evacuation Centers</b></p>
-                <div class="box-stat">
-                    <small>Open: <span>@Model.GetTotalOpenCenterCount()</span></small>
-                    <small>Closed: <span>@Model.GetTotalClosedCenterCount()</span></small>
+            <div class="info-item">
+                <i class="bi bi-buildings-fill"></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalDistinctBarangaysCount()</h3>
+                    <p><b>Total Affected Brgys</b></p>
+                    <div class="box-stat">
+                        <small>Families: <span>@Model.GetTotalDistinctFamiliesCount()</span></small>
+                        <small>Male: <span>@Model.GetTotalDistinctFemaleCount()</span></small>
+                        <small>Female: <span>@Model.GetTotalDistinctMaleCount()</span></small>
+                    </div>
+                </div>
+            </div>  
+        
+            <div class="info-item">
+                <i class="bi bi-building-fill"></i></i>
+                <div class="text">
+                    <h3 class="distitle">@Model.GetTotalCenterCount()</h3>
+                    <p><b>Total Evacuation Centers</b></p>
+                    <div class="box-stat">
+                        <small>Open: <span>@Model.GetTotalOpenCenterCount()</span></small>
+                        <small>Closed: <span>@Model.GetTotalClosedCenterCount()</span></small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<br />
+<div class="container table-container1">
+    <!-- Title and Allocate Button-->
+    <div class="row p-2">
+        <div class="col d-flex align-items-center">
+            <h1>Evacuation Center</h1>
+        </div>
 
-<div class="d-flex align-items-center justify-content-between">
-    <h1 class="display-5 fw-bold">Evacuation Center</h1>
-
-    <div class="d-flex justify-content-end align-items-center">
-        <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
-            <i class="bi bi-building-add" style="padding-right: 5px;"></i>
-            Allocate Evacuation Center
-        </a>
-        <a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
-            <i class ="bi bi-building-add"></i>
-        </a>
+        <div class="col-auto d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-end align-items-center">
+                <a class="btn btn-primary mb-2" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
+                    <i class="bi bi-building-add"></i>Allocate Evacuation Center
+                </a>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Barangay</th>
-                <th style="text-align: center;">Occupancy</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var counter = 1;
-            }
-            @foreach (var item in Model.listCenterLog)
-            {
-                <tr>
-                    <td width="5%">@counter</td>
-                    <td width="25%">@item.centerName</td>
-                    <td width="25%" style="text-align: center;">@item.barangayName</td>
-                    <td width="25%" style="text-align: center;">
-                        <div class="progress-container">
-                            <!-- Progress bar will be added dynamically here -->
-                        </div>
-                        <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
-                    </td>
-                    <td width="10%" style="text-align: center;">
-                        @if (@item.status == "Open")
-                        {
-                            <span class="badge bg-success">@item.status</span>
-                        }
-                        else if (@item.status == "Closed")
-                        {
-                            <span class="badge rounded-pill bg-light">@item.status</span>
-                        }
-                    </td>
-                    @*<td width="5%">
-                <div class="d-inline position-relative">
-                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-three-dots-vertical"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                <li>
-                <a class="dropdown-item" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
-                View Profile
-                </a>
-                </li>
-                <li>
-                <a href="#" class="dropdown-item text-danger">
-                Close EC
-                </a>
-                </li>
-                </ul>
-                </div>
-                </td>*@
-                    <td width="10%">
-                        <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
-                            View
-                        </a>
-                    </td>
-                </tr>
-                counter++;
-            }
-        </tbody>
-    </table>
+    <!-- Table -->
+    <div class="row p-2">
+        <div class="col-lg-12">
+            <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Barangay</th>
+                        <th style="text-align: center;">Occupancy</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var counter = 1; }
+                    @foreach (var item in Model.listCenterLog)
+                    {
+                        <tr>
+                            <td width="5%">@counter</td>
+                            <td width="25%">@item.centerName</td>
+                            <td width="25%" style="text-align: center;">@item.barangayName</td>
+                            <td width="25%" style="text-align: center;">
+                                <div class="progress-container">
+                                    <!-- Progress bar will be added dynamically here -->
+                                </div>
+                                <span class="occupancy-text">@item.occupancy/@item.maxCapacity</span>
+                             </td>
+                            <td width="10%" style="text-align: center;">
+                                @if (@item.status == "Open")
+                                {
+                                    <span class="badge bg-success">@item.status</span>
+                                }
+                                else if (@item.status == "Closed")
+                                {
+                                    <span class="badge rounded-pill bg-light">@item.status</span>
+                                }
+                            </td>
+                            @*<td width="5%">
+                                <div class="d-inline position-relative">
+                                    <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                        <li>
+                                            <a class="dropdown-item" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+                                                View Profile
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="dropdown-item text-danger">
+                                               Close EC
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>*@
+                            <td width="10%">
+                                <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: Disaster Information -->
