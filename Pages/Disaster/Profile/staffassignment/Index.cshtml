@@ -48,42 +48,42 @@
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 	<div class="row">
 		<!-- Sidebar (desktop) -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
-            <div class="position-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
-                    </li>
-                    <li class="nav-item">
+		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+			<div class="position-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link active" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-        <!-- Sidebar (mobile) -->
-        <div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
-            <select class="form-select" id="pageSelect">
-                <option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
-                <option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
-                <option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
-                <option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
-                <option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
-                <option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
-            </select>
-        </div>
+		<!-- Sidebar (mobile) -->
+		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+			<select class="form-select" id="pageSelect">
+				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
+				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
+				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
+				<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+			</select>
+		</div>
 
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
@@ -263,28 +263,28 @@
 			<div class="modal-body">
 				<table>
 					<tr>
-						<th class= "text-start pe-4">Name</th>
-						<td id="fullName" class= "text-start"></td>
+						<th class="text-start pe-4">Name</th>
+						<td id="fullName" class="text-start"></td>
 					</tr>
 					<tr>
-						<th class= "text-start pe-4">Sex</th>
-						<td id="sex" class= "text-start"></td>
+						<th class="text-start pe-4">Sex</th>
+						<td id="sex" class="text-start"></td>
 					</tr>
 					<tr>
-						<th class= "text-start pe-4">Age</th>
-						<td id="age" class= "text-start"></td>
+						<th class="text-start pe-4">Age</th>
+						<td id="age" class="text-start"></td>
 					</tr>
 					<tr>
-						<th class= "text-start pe-4">Birthdate</th>
-						<td id="birthdate" class= "text-start"></td>
+						<th class="text-start pe-4">Birthdate</th>
+						<td id="birthdate" class="text-start"></td>
 					</tr>
 					<tr>
-						<th class= "text-start pe-4">Mobile Number</th>
-						<td id="mobileNum" class= "text-start"></td>
+						<th class="text-start pe-4">Mobile Number</th>
+						<td id="mobileNum" class="text-start"></td>
 					</tr>
 					<tr>
-						<th class= "text-start pe-4">Email Address</th>
-						<td id="emailAddress" class= "text-start"></td>
+						<th class="text-start pe-4">Email Address</th>
+						<td id="emailAddress" class="text-start"></td>
 					</tr>
 				</table>
 			</div>
