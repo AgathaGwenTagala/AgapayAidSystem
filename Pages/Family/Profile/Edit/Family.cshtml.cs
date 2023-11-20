@@ -41,7 +41,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                                 familyInfo.familyID = reader.GetString(0);
                                 familyInfo.streetAddress = reader.GetString(1);
                                 familyInfo.barangayID = reader.GetString(2);
-                                familyInfo.livingInGida = reader.GetString(5);
                                 familyInfo.serialNum = reader.GetString(7);
                                 familyInfo.beneficiary = reader.GetString(6);
                                 familyInfo.mobileNum = reader.IsDBNull(3) ? null : reader.GetString(3);
@@ -107,7 +106,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
             familyInfo.familyID = Request.Form["familyID"];
             familyInfo.streetAddress = Request.Form["streetAddress"];
             familyInfo.barangayID = Request.Form["barangayID"];
-            familyInfo.livingInGida = Request.Form["livingInGida"];
             familyInfo.serialNum = Request.Form["serialNum"];
             familyInfo.beneficiary = Request.Form["beneficiary"];
             familyInfo.mobileNum = Request.Form["mobileNum"];
@@ -143,7 +141,6 @@ namespace AgapayAidSystem.Pages.Family.Profile.Edit
                         command.Parameters.AddWithValue("@familyID", familyInfo.familyID);
                         command.Parameters.AddWithValue("@streetAddress", familyInfo.streetAddress);
                         command.Parameters.AddWithValue("@barangayID", familyInfo.barangayID);
-                        command.Parameters.AddWithValue("@livingInGida", familyInfo.livingInGida);
                         command.Parameters.AddWithValue("@serialNum", familyInfo.serialNum);
                         command.Parameters.AddWithValue("@beneficiary", familyInfo.beneficiary);
                         command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
