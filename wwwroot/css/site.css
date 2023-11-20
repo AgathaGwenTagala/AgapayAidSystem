@@ -341,6 +341,7 @@ form {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     margin: 25px;
+    padding-bottom: 15px;
 }
 
 .form-container-content1 {
