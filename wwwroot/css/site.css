@@ -96,10 +96,8 @@ table {
 .content {
     position: relative;
     width: 100%;
-    padding: 5px 20px 25px 20px;
     max-height: calc(100vh -56px);
-    overflow-y: auto;
-    background: #fff;
+    padding-bottom: 5px;
 }
 
     .content .head-title {
