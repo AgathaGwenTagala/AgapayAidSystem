@@ -25,112 +25,80 @@
     </div>
 }
 
-<style>
-    .input-pack {
-        width: 80px;
-        margin-left: 10px;
-        text-align: center;
-    }
-    
-    .input-inclusion {
-        width: 100px;
-        text-align: center;
-        display: flex;
-        margin: 0 auto;
-    }
+<div class="bg-light rounded px-2 py-0 my-3">
+    <form method="POST" id="addpack">
+        <h1 class="display-5 fw-bold text-center">Add Relief Goods Pack</h1>
+        <br />
 
-    .label-pack {
-        padding-top: 10px;
-    }
+        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 
-    .label-container {
-        white-space: nowrap;
-    }
-
-    .mx-auto {
-        width: 120px;
-    }
-</style>
-
-<div class="container p-2 form-container">
-    <div class="container mt-4 form-container-content">
-        <div class="row">
-            <div class="col text-center">
-                <h1>Add Relief Goods Pack</h1>
+        <!-- Pack Quantity -->
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <div class="d-flex align-items-center">
+                        <label class="form-label">
+                            Quantity of Total Packs:
+                            <span class="text-danger" style="padding: 5px">*</span>
+                        </label>
+                        <input type="number" class="form-control input-pack" name="packQty" id="packQty" placeholder="0" step="1" min="0" required />
+                    </div>
+                </div>
             </div>
         </div>
-        <form method="POST" id="addpack">
-            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-            <div class="row mb-3">
-                <p class="text-danger text-end">* Required field</p>
-            </div>
 
-            <!-- Pack Quantity -->
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <div class="d-flex align-items-center">
-                            <label class="form-label">
-                                Quantity of Total Packs:
-                                <span class="text-danger" style="padding: 5px">*</span>
-                            </label>
-                            <input type="number" class="form-control input-pack" name="packQty" id="packQty" placeholder="0" step="1" min="0" required />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Inclusion Quantity -->
-            <div class="row pt-4">
-                <div class="col-lg-12">
-                    <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                        <thead>
-                            <tr style="vertical-align:text-top;">
-                                <th>
+        <!-- Inclusion Quantity -->
+        <div class="row pt-4">
+            <div class="col-lg-12">
+                <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr style="vertical-align:text-top;">
+                            <th>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                    <label class="form-check-label"></label>
+                                </div>
+                            </th>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Unit Measure</th>
+                            <th>Available Qty</th>
+                            <th>Qty per Pack</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.listAvInventory)
+                        {
+                            <tr>
+                                <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.inventoryID" name="selectedInclusion[]">
                                         <label class="form-check-label"></label>
                                     </div>
-                                </th>
-                                <th>Item</th>
-                                <th style="text-align: center;">Type<br /></th>
-                                <th style="text-align: center;">Unit Measure</th>
-                                <th style="text-align: center;">Available Qty</th>
-                                <th style="text-align: center;">Qty per Pack</th>
+                                </td>
+                                <td width="20%">@item.itemName</td>
+                                <td width="15%">@item.itemType</td>
+                                <td width="20%">@item.unitMeasure</td>
+                                <td width="20%">@item.remainingQty</td>
+                                <td width="20%">
+                                    <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
+                                           data-max-qty="@item.remainingQty" disabled required />
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.listAvInventory)
-                            {
-                                <tr style="text-align: center;">
-                                    <td width="5%">
-                                        <div class="form-check">
-                                            <input class="form-check-input inclusion-checkbox" type="checkbox" value="@item.inventoryID" name="selectedInclusion[]">
-                                            <label class="form-check-label"></label>
-                                        </div>
-                                    </td>
-                                    <td width="20%">@item.itemName</td>
-                                    <td width="15%">@item.itemType</td>
-                                    <td width="20%">@item.unitMeasure</td>
-                                    <td width="20%">@item.remainingQty</td>
-                                    <td width="20%">
-                                        <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
-                                               data-max-qty="@item.remainingQty" disabled required />
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                    <!-- Cancel and Add Buttons -->
-                    <div class="button-spacer">
-                        <a class="btn btn-outline-secondary mr-10" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Cancel</a>
-                        <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>Add</button>
-                    </div>
-                </div>
+                        }
+                    </tbody>
+                </table>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <!-- Cancel and Save Selection Button -->
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID" role="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+            <button type="button" class="btn btn-primary px-4" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+                Add
+            </button>
+        </div>
+    </form>
 </div>
 
 <!-- Modal: Confirm Add -->
@@ -167,24 +135,49 @@
             }
         });
 
-        // Adding filters to specific columns
         table.columns([2]).every(function () {
             var column = this;
-            var select = $('<select><option value=""></option></select>')
-                .appendTo($(column.header()))
-                .on('change', function () {
-                    var val = $.fn.dataTable.util.escapeRegex(
-                        $(this).val()
-                    );
+            var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+            var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+            var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
 
-                    column
-                        .search(val ? '^' + val + '$' : '', true, false)
-                        .draw();
-                });
+            function updateFilterButton() {
+                var hasActiveFilter = column.search() !== '';
+                btn.toggleClass('btn-warning', hasActiveFilter);
+            }
 
             column.data().unique().sort().each(function (d, j) {
-                select.append('<option value="' + d + '">' + d + '</option>');
+                menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+                    '<label class="form-check-label ps-1">' + d + '</label></div>');
             });
+
+            menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+                '<label class="form-check-label ps-1">Select All</label></div>');
+
+            menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+            menu.find('.form-check-input, .clear-filter').on('click', function () {
+                var checked = $(this).prop('checked');
+
+                if ($(this).hasClass('form-check-input')) {
+                    if ($(this).val() === 'select-all') {
+                        menu.find('.form-check-input').prop('checked', checked);
+                    } else if (!checked) {
+                        menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                    }
+                } else {
+                    menu.find('.form-check-input').prop('checked', false);
+                    menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                }
+
+                var selectedValues = menu.find('.form-check-input:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+                updateFilterButton();
+            });
+            updateFilterButton();
         });
 
         // Disable checkboxes by default
