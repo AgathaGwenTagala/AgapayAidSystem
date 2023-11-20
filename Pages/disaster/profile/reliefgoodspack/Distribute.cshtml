@@ -1,11 +1,11 @@
 ﻿@page
 @model AgapayAidSystem.Pages.disaster.profile.reliefgoodspack.DistributeModel
 @{
-	ViewData["Title"] = "Distribute Pack to Evacuees";
+    ViewData["Title"] = "Distribute Pack to Evacuees";
 }
 
 <style>
-    table tr{
+    table tr {
         text-align: center;
     }
 </style>
@@ -51,76 +51,73 @@
 }
 
 <!-- Page Content -->
-<div class="container p-2 form-container">
-    <div class="container form-container-content">
-        <form method="POST" id="distributeForm">
-            <!-- Back Button -->
-            <div class="row">
-                <div class="col">
-                    <a class="btn btn-primary mb-2" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-                        <i class="bi bi-arrow-left-circle"></i> Go Back
-                    </a>
-                </div>
+<div class="bg-light rounded px-2 py-0 my-3">
+    <form method="POST" id="distributeForm">
+        <!-- Back Button -->
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary mb-2" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+                    <i class="bi bi-arrow-left-circle"></i> Go Back
+                </a>
             </div>
+        </div>
 
-            <!-- Title -->
-            <div class="row pt-3">
-                <div class="col text-center">
-                    <h1>Distribute Relief Pack to Evacuees</h1>
-                </div>
-            </div>
+        <!-- Title -->
+        <h1 class="display-5 fw-bold text-center">Distribute Relief Pack to Evacuees</h1>
+        <br />
 
-            <!-- Table -->
-            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-            <input type="hidden" name="packID" value="@Model.reliefPackInfo.packID" />
-            <div class="row pt-4">
-                <div class="col-lg-12">
-                    <div class="table-responsive">
-                        <table id="distributepack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Family Serial Number</th>
-                                    <th>Family Member</th>
-                                    <th>Pack Qty</th>
-                                    <th> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{ var counter = 1; }
-                                @foreach (var item in Model.listEligibleFam)
-                                {
-                                    <tr class="distribution-row">
-                                        <td width="5%">@counter</td>
-                                        <td width="25%">@item.serialNum</td>
-                                        <td width="40%">
-                                            <select class="form-select familyMemberSelect" name="entryLogID" required>
-                                                <option value="" selected>Select Family Member</option>
-                                                @{
-                                                    var eligibleMembers = Model.GetEligibleMember(item.familyID);
-                                                    foreach (var member in eligibleMembers)
-                                                    {
-                                                        <option value="@member.entryLogID">@member.fullName - @member.relationship</option>
-                                                    }
+        <!-- Table -->
+        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+        <input type="hidden" name="packID" value="@Model.reliefPackInfo.packID" />
+        <div class="row pt-4">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table id="distributepack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Family Serial Number</th>
+                                <th>Family Member</th>
+                                <th>Pack Qty</th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var counter = 1;
+                            }
+                            @foreach (var item in Model.listEligibleFam)
+                            {
+                                <tr class="distribution-row">
+                                    <td width="5%">@counter</td>
+                                    <td width="25%">@item.serialNum</td>
+                                    <td width="40%">
+                                        <select class="form-select familyMemberSelect" name="entryLogID" required>
+                                            <option value="" selected>Select Family Member</option>
+                                            @{
+                                                var eligibleMembers = Model.GetEligibleMember(item.familyID);
+                                                foreach (var member in eligibleMembers)
+                                                {
+                                                    <option value="@member.entryLogID">@member.fullName - @member.relationship</option>
                                                 }
-                                            </select>
-                                        </td>
-                                        <td width="15%">
-                                            <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" style="text-align:center;" required min="1" step="1" placeholder="0" />
-                                        </td>
-                                        <td width="15%">
-                                            <button type="button" class="btn btn-primary distributeBtn" data-bs-toggle="modal" data-bs-target="#confirmDistribute">Distribute</button>
-                                        </td>
-                                    </tr>
-                                    counter++;
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td width="15%">
+                                        <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" style="text-align:center;" required min="1" step="1" placeholder="0" />
+                                    </td>
+                                    <td width="15%">
+                                        <button type="button" class="btn btn-primary distributeBtn" data-bs-toggle="modal" data-bs-target="#confirmDistribute">Distribute</button>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <!-- Making the table responsive -->
