@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgapayAidSystem.Pages.Settings
 {
-    public class VulnerabilityAssessmentModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
