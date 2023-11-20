@@ -44,7 +44,7 @@
                                 </div>
                             </th>
                             <th>Name</th>
-                            <th style="text-align: center;">Sex</th>
+                            <th>Sex</th>
                             <th>Birthdate</th>
                             <th>Age</th>
                             <th>Barangay</th>
@@ -62,10 +62,10 @@
                                     </div>
                                 </td>
                                 <td width="25%">@item.fullName</td>
-                                <td width="5%" style="text-align: center;">@item.sex</td>
-                                <td width="20%" style="text-align: center;">@item.birthdate</td>
-                                <td width="5%" style="text-align: center;">@item.age</td>
-                                <td width="20%" style="text-align: center;">@item.barangayName</td>
+                                <td width="10%">@item.sex</td>
+                                <td width="15%">@item.birthdate</td>
+                                <td width="5%">@item.age</td>
+                                <td width="20%">@item.barangayName</td>
                                 <td>
                                     @{
                                         int age;
@@ -241,7 +241,7 @@
 <!-- Making the table responsive -->
 <script>
     $(document).ready(function () {
-        $('#entrylog-table').DataTable({
+        var table = $('#entrylog-table').DataTable({
             responsive: true,
             columnDefs: [
                 { "orderable": true, "targets": [1] }, // Sortable columns
@@ -250,6 +250,51 @@
             ],
             // Set initial sorting
             order: [[1, 'asc']]
+        });
+
+        table.columns([2, 5]).every(function () {
+            var column = this;
+            var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+            var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+            var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
+
+            function updateFilterButton() {
+                var hasActiveFilter = column.search() !== '';
+                btn.toggleClass('btn-warning', hasActiveFilter);
+            }
+
+            column.data().unique().sort().each(function (d, j) {
+                menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+                    '<label class="form-check-label ps-1">' + d + '</label></div>');
+            });
+
+            menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+                '<label class="form-check-label ps-1">Select All</label></div>');
+
+            menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+            menu.find('.form-check-input, .clear-filter').on('click', function () {
+                var checked = $(this).prop('checked');
+
+                if ($(this).hasClass('form-check-input')) {
+                    if ($(this).val() === 'select-all') {
+                        menu.find('.form-check-input').prop('checked', checked);
+                    } else if (!checked) {
+                        menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                    }
+                } else {
+                    menu.find('.form-check-input').prop('checked', false);
+                    menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                }
+
+                var selectedValues = menu.find('.form-check-input:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+                updateFilterButton();
+            });
+            updateFilterButton();
         });
     });
 </script>
