@@ -1,7 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.family.add.IndexModel
+@model AgapayAidSystem.Pages.family.add.MemberModel
 @{
-	ViewData["Title"] = "Add Family";
+	ViewData["Title"] = "Add Family Member";
 }
 
 <!-- Alert Banners -->
@@ -24,7 +24,20 @@
 		</div>
 	</div>
 }
+
 <style>
+	.radioAlign:nth-child(1) {
+		display: block;
+		width: 100%;
+		clear: both;
+	}
+
+	.radioAlign {
+		width: 50%;
+		display: block;
+		float: left;
+	}
+
 	.radio1x2:nth-child(1) {
 		display: block;
 		width: 100%;
@@ -43,12 +56,13 @@
 		<div class="row pt-4">
 			<div class="col text-center">
 				<h1>Add Family</h1>
-				<h5>Family Head</h5>
+				<h5>Family Member</h5>
 			</div>
 		</div>
 
 		<div class="row pt-4">
 			<form method="POST" id="add-family">
+				<input type="hidden" asp-for="familyID" />
 				<div class="row mb-3">
 					<p class="text-danger text-end">* Required field</p>
 				</div>
@@ -97,62 +111,6 @@
 					</div>
 				</div>
 
-				<div class="row">
-					<!-- Street Address -->
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">
-								Street Address:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="85" />
-						</div>
-					</div>
-
-					<!-- Barangay -->
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">
-								Barangay:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<select class="form-select" name="barangayID" id="barangayID" required>
-								<option value="" selected disabled>Select Barangay</option>
-								@if (Model.Barangays != null)
-								{
-									@foreach (var type in Model.Barangays)
-									{
-										<option value="@type.barangayID">@type.barangayName</option>
-									}
-								}
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div class="row mt-3">
-					<!-- Mobile No. -->
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">
-								Mobile Number:
-								<span class="text-danger" style="padding: 5px">*</span>
-							</label>
-							<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." required />
-						</div>
-					</div>
-
-					<!-- Tel No. -->
-					<div class="col-md-6">
-						<div class="mb-3">
-							<label class="form-label">
-								Telephone Number:
-							</label>
-							<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
-						</div>
-					</div>
-				</div>
-
 				<div class="row mt-3">
 					<!-- Sex -->
 					<div class="col-md-3">
@@ -176,8 +134,8 @@
 								Birthdate:
 								<span class="text-danger" style="padding: 5px">*</span>
 							</label>
-							<input type="date" class="form-control text-muted" name="birthdate" 
-							value="@Model.memberInfo.birthdate" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+							<input type="date" class="form-control text-muted" name="birthdate"
+								   value="@Model.memberInfo.birthdate" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")">
 						</div>
 					</div>
 
@@ -259,7 +217,7 @@
 							<input type="text" class="form-control" name="occupation" value="@Model.memberInfo.occupation" required maxlength="45" />
 						</div>
 					</div>
-				</div>				
+				</div>
 
 				<div class="row">
 					<!-- Remarks -->
@@ -328,31 +286,5 @@
 	document.getElementById('yesButton').addEventListener('click', function () {
 		document.getElementById('redirectType').value = 'add';
 		document.getElementById('add-family').submit();
-	});
-</script>
-
-<!-- Mobile and Tel Number Formatting -->
-<script>
-	const mobileInput = document.getElementById('mobileNum');
-	const telephoneInput = document.getElementById('telephoneNum');
-
-	mobileInput.addEventListener('input', function () {
-		let cleanedValue = this.value.replace(/[^0-9]/g, '');
-
-		if (cleanedValue.length >= 2) {
-			cleanedValue = '09' + cleanedValue.slice(2);
-		}
-
-		this.value = cleanedValue;
-	});
-
-	telephoneInput.addEventListener('input', function () {
-		let cleanedValue = this.value.replace(/[^0-9]/g, '');
-
-		if (cleanedValue.length >= 3) {
-			cleanedValue = '044' + cleanedValue.slice(3);
-		}
-
-		this.value = cleanedValue;
 	});
 </script>

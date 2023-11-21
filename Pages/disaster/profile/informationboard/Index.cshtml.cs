@@ -323,15 +323,15 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
             }
         }
 
-        public int GetTotalDistinctBeneficiaryCount()
+        public int GetTotalDistinctIPCount()
         {
             string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctBeneficiary " +
+            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctIP " +
                          "FROM evacuation_center_log ecl " +
                          "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
                          "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
                          "LEFT JOIN family f ON fm.familyID = f.familyID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND f.beneficiary = '4P''s';";
+                         "WHERE ecl.centerLogID = @centerLogID AND fm.isIndigenousPerson = 'Yes';";
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");

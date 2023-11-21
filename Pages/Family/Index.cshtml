@@ -78,14 +78,14 @@
 					<i class="bi bi-box-arrow-down"></i> Import .CSV File
 
 				</a>
-				<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/family/profile/add/index">
+				<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/family/add/index">
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family
 				</a>
 
 				<a class="btn btn-primary mb-2 button-spacing d-sm-none" href="/family">
 					<i class="bi bi-box-arrow-down"></i>
 				</a>
-				<a class="btn btn-primary mb-2 d-sm-none" href="/family/profile/add/index">
+				<a class="btn btn-primary mb-2 d-sm-none" href="/family/add/index">
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
 				</a>
 			</div>
@@ -100,7 +100,7 @@
 					<tr style="vertical-align: top;">
 						<th>#</th>
 						<th>Serial Number</th>
-						<th>Street Address</th>
+						<th>Name of Family Head</th>
 						<th>Barangay</th>
 						<th>City/Municipality</th>
 						<th style="text-align: center;">Family Size</th>
@@ -115,11 +115,11 @@
 						<tr>
 							<td width="5%">@counter</td>
 							<td width="20%">@item.serialNum</td>
-							<td width="20%">@item.streetAddress</td>
+							<td width="25%">@item.familyHead</td>
 							<td width="15%">@item.barangayName</td>
 							<td width="20%">@item.municipalityCity</td>
-							<td width="10%" style="text-align: center;">@item.familySize</td>
-							<td width="10%">
+							<td width="5%" style="text-align: center;">@item.familySize</td>
+							<td width="5%">
 								<!-- View button -->
 								<a class="btn btn-success edit-button" href="/family/profile/index?familyID=@item.familyID">
 									View
