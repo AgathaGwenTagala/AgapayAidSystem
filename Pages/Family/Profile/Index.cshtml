@@ -5,6 +5,46 @@
 	ViewData["Title"] = pageTitle;
 }
 
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
 <div class="container-fluid">
 	<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
 	<div class="row">
@@ -13,7 +53,7 @@
 			<div class="position-sticky">
 				<ul class="nav flex-column">
 					<li class="nav-item">
-						<a class="nav-link" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</a>
+						<a class="nav-link active" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/family/profile/ReliefDistributionRecord?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
@@ -35,12 +75,6 @@
 			</select>
 		</div>
 
-		<style>
-			#checkOut {
-				padding: 0px; /*to align the form to breadcrumb*/
-			}
-		</style>
-
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
 			<div class="container">
@@ -57,7 +91,7 @@
 
 
 				<!-- Title, Info Button, Menu Button -->
-				<div class="row p-2">
+				<div class="row pb-2">
 					<div class="col d-flex align-items-center">
 						<h1>@Model.familyInfo.serialNum</h1>
 					</div>
@@ -69,19 +103,13 @@
 							</a>
 							<ul class="dropdown-menu" aria-labelledby="recordOptions">
 								<li>
-									<a class="dropdown-item" href="/family/profile/add/member/?familyID=@Model.familyInfo.familyID">
+									<a class="dropdown-item" href="/family/add/member?familyID=@Model.familyInfo.familyID">
 										Add Family Member
 									</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="/family/profile/edit/family?familyID=@Model.familyInfo.familyID">
-										Edit Profile
-									</a>
-								</li>
-								<li>
-									<a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.familyInfo.familyID')"
-									   data-deleteid="@Model.familyInfo.familyID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-										Delete
+									<a class="dropdown-item" href="/family/edit/index?familyID=@Model.familyInfo.familyID">
+										Edit Family Information
 									</a>
 								</li>
 							</ul>
@@ -89,126 +117,93 @@
 					</div>
 				</div>
 
-				<div>
+				<div class="row pb-2">
 					<p>
-						<strong>Street Address:</strong>
-						@Model.familyInfo.streetAddress
+						<b>Address</b><br />
+						@Model.familyInfo.fullAddress
 					</p>
 					<p>
-						<strong>Barangay:</strong>
-						@Model.familyInfo.barangayName
-					</p>
-					<p>
-						<strong>Mobile Number:</strong>
+						<b>Mobile Number</b><br />
 						@Model.familyInfo.mobileNum
 					</p>
 					<p>
-						<strong>Telephone Number:</strong>
-						@Model.familyInfo.telephoneNum
-					</p>
-				</div>
+						@if (!string.IsNullOrEmpty(Model.familyInfo.telephoneNum))
+						{
+							<b>Telephone Number</b>
 
-				<div class="content">
-					<!-- Table -->
-					<div class="row p-2">
-						<div class="col-lg-12">
-							<table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-								<thead>
+							<br />
+							@Model.familyInfo.telephoneNum
+
+						}
+						else
+						{
+							<b>Telephone Number</b>
+
+							<br />
+							<text>-</text>
+						}
+					</p>
+					<h4>Family Members</h4>
+				</div>
+				
+				<!-- Family Members -->
+				<div class="row pb-2">
+					<div class="col-lg-12">
+						<table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Role</th>
+									<th>Sex</th>
+									<th>Birthdate</th>
+									<th>Age</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								@{ var counter = 1; }
+								@foreach (var item in Model.listMember)
+								{
 									<tr>
-										<th>#</th>
-										<th>Name</th>
-										<th>Role</th>
-										<th>Sex</th>
-										<th>Birth Date</th>
-										<th>Civil Status</th>
-										<th>Education</th>
-										<th>Occupation</th>
-										<th>Religion</th>
-										<th>Ethnicity</th>
-										<th>Health Condition</th>
-										<th></th>
+										<td width="5%">@counter</td>
+										<td width="30%">@item.fullName</td>
+										<td width="20%">@item.relationship</td>
+										<td width="5%">@item.sex</td>
+										<td width="20%">@item.birthdate</td>
+										<td width="5%">@item.age</td>
+										<td width="5%">
+											<div class="d-inline position-relative">
+												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+													<i class="bi bi-three-dots-vertical"></i>
+												</a>
+												<ul class="dropdown-menu" aria-labelledby="recordOptions">
+													<li>
+														<a href="#" class="dropdown-item"
+														   onclick="showInfo('@item.firstName', '@item.middleName', '@item.lastName', '@item.extName', '@item.sex', '@item.birthdate', '@item.civilStatus', '@item.education', '@item.occupation', '@item.religion', '@item.isIndigenousPerson', '@item.healthCondition', '@item.remarks')"
+														   data-bs-toggle="modal" data-bs-target="#profileModal">
+															View Profile
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
+															Edit
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									@{ var counter = 0; }
-									@foreach (var item in Model.listFamilyMember)
-									{
-										<tr>
-											<td width="15%">@item.firstName</td>
-											<td width="20%">@item.relationship</td>
-											<td width="15%">@item.sex</td>
-											<td width="15%">@item.birthdate</td>
-											<td width="15%">@item.civilStatus</td>
-											<td width="15%">@item.education</td>
-											<td width="15%">@item.occupation</td>
-											<td width="15%">@item.religion</td>
-											<td width="15%">@item.ethnicity</td>
-											<td width="15%">@item.healthCondition</td>
-											<td width="5%">
-												<div class="d-inline position-relative">
-													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bi bi-three-dots-vertical"></i>
-													</a>
-													<ul class="dropdown-menu" aria-labelledby="recordOptions">
-														<li>
-															<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
-																Edit Member
-															</a>
-														</li>
-														<li>
-															<a href="#" class="text-danger dropdown-item delete-member-button" onclick="prepareDeleteMember('@item.memberID')"
-															   data-deleteid="@item.memberID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																Delete Member
-															</a>
-														</li>
-													</ul>
-												</div>
-											</td>
-										</tr>
-										counter++;
-									}
-								</tbody>
-							</table>
-						</div>
+									counter++;
+								}
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
-<!-- Modal: Confirm Delete -->
-<div class="modal" id="deleteConfirmationModal" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Confirm Delete</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<p>Are you sure you want to delete this family?</p>
-				<p><strong class="text-danger">This cannot be undone.</strong></p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
-			</div>
-		</div>
 	</div>
 </div>
-
-<!-- For Info Button -->
-<script>
-	const toggleButton = document.getElementById('toggleButton');
-	const description = document.querySelector('.description');
-
-	toggleButton.addEventListener('click', () => {
-		if (description.style.display === 'none') {
-			description.style.display = 'block';
-		} else {
-			description.style.display = 'none';
-		}
-	});
-</script>
 
 <!-- Making the table responsive -->
 <script>
@@ -216,8 +211,8 @@
 		$('#eclog-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10] }, // Sortable columns
-				{ "orderable": false, "targets": [1, 11] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 5] }, // Sortable columns
+				{ "orderable": false, "targets": [2, 3, 4, 6] } // Non-sortable columns
 			],
 			language: {
 				emptyTable: "There are no family member to this family.",
@@ -226,32 +221,120 @@
 	});
 </script>
 
-<!-- Confirm Delete button in Modal -->
+<!-- Sidebar (Mobile) -->
 <script>
-	const deleteButtons = document.querySelectorAll('.edit-button');
-	let familyIdToDelete = null;
+	// Get the current page URL
+	var currentPage = window.location.pathname.toLowerCase();
 
-	deleteButtons.forEach(function (button) {
-		button.addEventListener('click', function () {
-			familyIdToDelete = this.getAttribute('data-deleteid');
-		});
-	});
+	// Get the select element
+	var pageSelect = document.getElementById('pageSelect');
 
-	// Function to prepare for delete action
-	function prepareDelete(familyID) {
-		if (familyID === null || familyID === undefined) {
-			// Retrieve familyID from the button's data-deleteid attribute
-			familyIdToDelete = event.currentTarget.getAttribute('data-deleteid');
-		} else {
-			familyIdToDelete = familyID;
+	// Loop through the options and set the selected attribute if it matches the current page
+	for (var i = 0; i < pageSelect.options.length; i++) {
+		if (pageSelect.options[i].value.toLowerCase().includes(currentPage)) {
+			pageSelect.options[i].selected = true;
+			break; // Exit the loop once the first match is found
 		}
 	}
 
-	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+	// Function to handle page redirection
+	function redirectToSelectedPage() {
+		var selectedOption = pageSelect.options[pageSelect.selectedIndex];
+		var selectedValue = selectedOption.value;
+		window.location.href = selectedValue;
+	}
 
-	confirmDeleteButton.addEventListener('click', function () {
-		if (familyIdToDelete !== null) {
-			window.location.href = "/family/profile/delete?familyID=" + familyIdToDelete;
-		}
-	});
+	// Attach the onchange event to the select element
+	pageSelect.addEventListener('change', redirectToSelectedPage);
+</script>
+
+<!-- Modal: View Profile -->
+<div class="modal fade" id="profileModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Family Member Profile</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<table>
+					<tr>
+						<th class="text-start pe-4">First Name</th>
+						<td id="firstName" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Middle Name</th>
+						<td id="middleName" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Last Name</th>
+						<td id="lastName" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Extension Name</th>
+						<td id="extName" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Sex</th>
+						<td id="sex" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Birthdate</th>
+						<td id="birthdate" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Civil Status</th>
+						<td id="civilStatus" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Education</th>
+						<td id="education" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Occupation</th>
+						<td id="occupation" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Religion</th>
+						<td id="religion" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Indigenous Person</th>
+						<td id="isIndigenousPerson" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Health Condition</th>
+						<td id="healthCondition" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Remarks</th>
+						<td id="remarks" class="text-start"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- View Profile Modal -->
+<script>
+	function showInfo(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, education, occupation, religion, isIndigenousPerson, healthCondition, remarks) {
+	// Set the content of the modal with the provided member info
+		document.getElementById('firstName').innerText = firstName;
+		document.getElementById('middleName').innerText = middleName || "-";
+		document.getElementById('lastName').innerText = lastName;
+		document.getElementById('extName').innerText = extName || "-";
+		document.getElementById('sex').innerText = sex;
+		document.getElementById('birthdate').innerText = birthdate;
+		document.getElementById('civilStatus').innerText = civilStatus;
+		document.getElementById('education').innerText = education;
+		document.getElementById('occupation').innerText = occupation;
+		document.getElementById('religion').innerText = religion;
+		document.getElementById('isIndigenousPerson').innerText = isIndigenousPerson;
+		document.getElementById('healthCondition').innerText = healthCondition;
+		document.getElementById('remarks').innerText = remarks || "-";
+	}
 </script>

@@ -1,4 +1,5 @@
 using AgapayAidSystem.Pages.Family;
+using AgapayAidSystem.Pages.Family.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -206,27 +207,5 @@ namespace AgapayAidSystem.Pages.family.add
 	{
 		public string barangayID { get; set; }
 		public string barangayName { get; set; }
-	}
-
-	public class MemberInfo
-	{
-		public string memberID { get; set; }
-		public string familyID { get; set; }
-		public string fullName { get; set; }
-		public string firstName { get; set; }
-		public string middleName { get; set; }
-		public string lastName { get; set; }
-		public string extName { get; set; }
-		public string sex { get; set; }
-		public string birthdate { get; set; }
-		public string age { get; set; }
-		public string relationship { get; set; }
-		public string civilStatus { get; set; }
-		public string education { get; set; }
-		public string occupation { get; set; }
-		public string religion { get; set; }
-		public string isIndigenousPerson { get; set; }
-		public string healthCondition { get; set; }
-		public string remarks { get; set; }
 	}
 }

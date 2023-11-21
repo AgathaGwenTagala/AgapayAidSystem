@@ -9,11 +9,12 @@ namespace AgapayAidSystem.Pages.Family.Profile
     {
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
-		public List<FamilyMemberInfo> listFamilyMember = new List<FamilyMemberInfo>();
+		public List<MemberInfo> listMember = new List<MemberInfo>();
 		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+
 		public void OnGet()
 		{
 			Barangays = GetBarangaysFromDatabase();
@@ -28,10 +29,12 @@ namespace AgapayAidSystem.Pages.Family.Profile
 					connection.Open();
 
 					// Fetch info of selected disaster from the database
-					string familySql = "SELECT f.*, b.barangayName FROM family f " +
-										"INNER JOIN barangay b ON f.barangayID = b.barangayID " +
-										"WHERE f.familyID = @familyID";
-
+					string familySql = "SELECT f.*, " +
+									   "CONCAT(f.streetAddress, ', Brgy. ', b.barangayName, ', ', " +
+									   "b.municipalityCity, ', ', b.province) AS fullAddress " + 
+									   "FROM family f " +
+									   "JOIN barangay b ON f.barangayID = b.barangayID " +
+									   "WHERE f.familyID = @familyID";
 					using (MySqlCommand familyCommand = new MySqlCommand(familySql, connection))
 					{
 						familyCommand.Parameters.AddWithValue("@familyID", familyID);
@@ -43,15 +46,15 @@ namespace AgapayAidSystem.Pages.Family.Profile
 								familyInfo.streetAddress = familyReader.GetString(1);
 								familyInfo.barangayID = familyReader.GetString(2);
 								familyInfo.mobileNum = familyReader.GetString(3);
-								familyInfo.telephoneNum = familyReader.GetString(4);
+								familyInfo.telephoneNum = familyReader.IsDBNull(4) ? null : familyReader.GetString(4);
 								familyInfo.serialNum = familyReader.GetString(5);
-								familyInfo.barangayName = familyReader.GetString(6);
+								familyInfo.fullAddress = familyReader.GetString(6);
 							}
 						}
 					}
 
 					// Fetch family member information
-					string familyMemberSql = "SELECT * FROM family_member WHERE familyID = @familyID";
+					string familyMemberSql = "SELECT * FROM family_member_view WHERE familyID = @familyID";
 					using (MySqlCommand familyMemberCommand = new MySqlCommand(familyMemberSql, connection))
 					{
 						familyMemberCommand.Parameters.AddWithValue("@familyID", familyID);
@@ -59,21 +62,28 @@ namespace AgapayAidSystem.Pages.Family.Profile
 						{
 							while (familyMemberReader.Read())
 							{
-								FamilyMemberInfo memberInfo = new FamilyMemberInfo
+								MemberInfo memberInfo = new MemberInfo
 								{
-									relationship = familyMemberReader.GetString(8),
+									familyID = familyMemberReader.GetString(0),
+									memberID = familyMemberReader.GetString(1),
 									firstName = familyMemberReader.GetString(2),
-									sex = familyMemberReader.GetString(6),
-									birthdate = familyMemberReader.GetString(7),
-									civilStatus = familyMemberReader.GetString(9),
-									education = familyMemberReader.GetString(10),
-									occupation = familyMemberReader.GetString(11),
-									religion = familyMemberReader.GetString(12),
-									ethnicity = familyMemberReader.GetString(13),
-									healthCondition = familyMemberReader.GetString(14),
-									memberID = familyMemberReader.GetString(16)
+									middleName = familyMemberReader.IsDBNull(3) ? null : familyMemberReader.GetString(3),
+									lastName = familyMemberReader.GetString(4),
+									extName = familyMemberReader.IsDBNull(5) ? null : familyMemberReader.GetString(5),
+									fullName = familyMemberReader.GetString(6),
+									sex = familyMemberReader.GetString(7),
+									birthdate = familyMemberReader.GetDateTime(8).ToString("MMM. d, yyyy"),
+									age = familyMemberReader.GetInt64(9).ToString(),
+									relationship = familyMemberReader.GetString(10),
+									civilStatus = familyMemberReader.GetString(11),
+									education = familyMemberReader.GetString(12),
+									occupation = familyMemberReader.GetString(13),
+									religion = familyMemberReader.GetString(14),
+									isIndigenousPerson = familyMemberReader.GetString(15),
+									healthCondition = familyMemberReader.GetString(16),
+									remarks = familyMemberReader.IsDBNull(17) ? null : familyMemberReader.GetString(17)
 								};
-								listFamilyMember.Add(memberInfo);
+								listMember.Add(memberInfo);
 							}
 						}
 					}
@@ -129,18 +139,25 @@ namespace AgapayAidSystem.Pages.Family.Profile
 		public string barangayName { get; set; }
 	}
 
-	public class FamilyMemberInfo
+	public class MemberInfo
 	{
-		public string relationship { get; set; }
+		public string memberID { get; set; }
+		public string familyID { get; set; }
+		public string fullName { get; set; }
 		public string firstName { get; set; }
+		public string middleName { get; set; }
+		public string lastName { get; set; }
+		public string extName { get; set; }
 		public string sex { get; set; }
 		public string birthdate { get; set; }
+		public string age { get; set; }
+		public string relationship { get; set; }
 		public string civilStatus { get; set; }
 		public string education { get; set; }
 		public string occupation { get; set; }
 		public string religion { get; set; }
-		public string ethnicity { get; set; }
+		public string isIndigenousPerson { get; set; }
 		public string healthCondition { get; set; }
-		public string memberID { get; set; }
+		public string remarks { get; set; }
 	}
 }
