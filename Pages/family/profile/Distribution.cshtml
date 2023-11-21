@@ -1,8 +1,7 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Family.Profile.IndexModel
+@model AgapayAidSystem.Pages.family.profile.DistributionModel
 @{
-	string pageTitle = $"{Model.familyInfo.serialNum}";
-	ViewData["Title"] = pageTitle;
+	ViewData["Title"] = "Relief Distribution Record";
 }
 
 <!-- Alert Banners -->
@@ -53,10 +52,10 @@
 			<div class="position-sticky">
 				<ul class="nav flex-column">
 					<li class="nav-item">
-						<a class="nav-link active" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</a>
+						<a class="nav-link" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
+						<a class="nav-link active" href="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</a>
@@ -71,7 +70,7 @@
 				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</option>
 				<option value="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
 				<option value="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
-				
+
 			</select>
 		</div>
 
@@ -89,107 +88,52 @@
 					</nav>
 				</div>
 
-
-				<!-- Title, Info Button, Menu Button -->
+				<!-- Title -->
 				<div class="row pb-2">
-					<div class="col d-flex align-items-center">
-						<h1>@Model.familyInfo.serialNum</h1>
-					</div>
-
-					<div class="col-auto button-spacer">
-						<div class="d-inline position-relative">
-							<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="bi bi-three-dots-vertical"></i>
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="recordOptions">
-								<li>
-									<a class="dropdown-item" href="/family/add/member?familyID=@Model.familyInfo.familyID">
-										Add Family Member
-									</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="/family/edit/index?familyID=@Model.familyInfo.familyID">
-										Edit Family Information
-									</a>
-								</li>
-							</ul>
+					<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 5px">
+						<div class="d-flex align-items-center">
+							<h1>Relief Distribution Record</h1>
 						</div>
 					</div>
 				</div>
 
-				<div class="row pb-2">
-					<p>
-						<b>Address</b><br />
-						@Model.familyInfo.fullAddress
-					</p>
-					<p>
-						<b>Mobile Number</b><br />
-						@Model.familyInfo.mobileNum
-					</p>
-					<p>
-						@if (!string.IsNullOrEmpty(Model.familyInfo.telephoneNum))
-						{
-							<b>Telephone Number</b>
-
-							<br />
-							@Model.familyInfo.telephoneNum
-
-						}
-						else
-						{
-							<b>Telephone Number</b>
-
-							<br />
-							<text>-</text>
-						}
-					</p>
-					<h4>Family Members</h4>
-				</div>
-				
 				<!-- Family Members -->
 				<div class="row pb-2">
 					<div class="col-lg-12">
-						<table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+						<table id="distribution-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Name</th>
-									<th>Role</th>
-									<th>Sex</th>
-									<th>Birthdate</th>
-									<th>Age</th>
+									<th>Pack ID</th>
+									<th>Received by</th>
+									@*<th>Distributed by</th>*@
+									<th>Receive Date</th>
 									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								@{ var counter = 1; }
-								@foreach (var item in Model.listMember)
+								@foreach (var item in Model.listRecord)
 								{
 									<tr>
 										<td width="5%">@counter</td>
-										<td width="30%">@item.fullName</td>
-										<td width="20%">@item.relationship</td>
-										<td width="15%">@item.sex</td>
-										<td width="20%">@item.birthdate</td>
-										<td width="5%">@item.age</td>
+										<td width="30%">@item.packID</td>
+										<td width="20%">@item.fullName</td>
+										@*<td width="15%">@item</td>*@
+										<td width="20%">@item.receiveDate</td>
 										<td width="5%">
 											<div class="d-inline position-relative">
 												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 													<i class="bi bi-three-dots-vertical"></i>
 												</a>
 												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													<li>
+													@*<li>
 														<a href="#" class="dropdown-item"
 														   onclick="showInfo('@item.firstName', '@item.middleName', '@item.lastName', '@item.extName', '@item.sex', '@item.birthdate', '@item.civilStatus', '@item.education', '@item.occupation', '@item.religion', '@item.isIndigenousPerson', '@item.healthCondition', '@item.remarks')"
 														   data-bs-toggle="modal" data-bs-target="#profileModal">
 															View Profile
 														</a>
-													</li>
-													<li>
-														<a class="dropdown-item" href="/family/profile/edit/member?memberID=@item.memberID">
-															Edit
-														</a>
-													</li>
+													</li>*@
 												</ul>
 											</div>
 										</td>
@@ -208,15 +152,15 @@
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		var table = $('#eclog-table').DataTable({
+		var table = $('#distribution-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 5] }, // Sortable columns
-				{ "orderable": false, "targets": [2, 3, 4, 6] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3] }, // Sortable columns
+				{ "orderable": false, "targets": [4] } // Non-sortable columns
 			]
 		});
 
-		table.columns([2, 3]).every(function () {
+		table.columns([2]).every(function () {
 			var column = this;
 			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
 			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
@@ -229,7 +173,7 @@
 
 			column.data().unique().sort().each(function (d, j) {
 				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-						'<label class="form-check-label ps-1">' + d + '</label></div>');
+					'<label class="form-check-label ps-1">' + d + '</label></div>');
 			});
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
 				'<label class="form-check-label ps-1">Select All</label></div>');
@@ -287,95 +231,4 @@
 
 	// Attach the onchange event to the select element
 	pageSelect.addEventListener('change', redirectToSelectedPage);
-</script>
-
-<!-- Modal: View Profile -->
-<div class="modal fade" id="profileModal" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Family Member Profile</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<table>
-					<tr>
-						<th class="text-start pe-4">First Name</th>
-						<td id="firstName" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Middle Name</th>
-						<td id="middleName" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Last Name</th>
-						<td id="lastName" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Extension Name</th>
-						<td id="extName" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Sex</th>
-						<td id="sex" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Birthdate</th>
-						<td id="birthdate" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Civil Status</th>
-						<td id="civilStatus" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Education</th>
-						<td id="education" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Occupation</th>
-						<td id="occupation" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Religion</th>
-						<td id="religion" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Indigenous Person</th>
-						<td id="isIndigenousPerson" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Health Condition</th>
-						<td id="healthCondition" class="text-start"></td>
-					</tr>
-					<tr>
-						<th class="text-start pe-4">Remarks</th>
-						<td id="remarks" class="text-start"></td>
-					</tr>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- View Profile Modal -->
-<script>
-	function showInfo(firstName, middleName, lastName, extName, sex, birthdate, civilStatus, education, occupation, religion, isIndigenousPerson, healthCondition, remarks) {
-	// Set the content of the modal with the provided member info
-		document.getElementById('firstName').innerText = firstName;
-		document.getElementById('middleName').innerText = middleName || "-";
-		document.getElementById('lastName').innerText = lastName;
-		document.getElementById('extName').innerText = extName || "-";
-		document.getElementById('sex').innerText = sex;
-		document.getElementById('birthdate').innerText = birthdate;
-		document.getElementById('civilStatus').innerText = civilStatus;
-		document.getElementById('education').innerText = education;
-		document.getElementById('occupation').innerText = occupation;
-		document.getElementById('religion').innerText = religion;
-		document.getElementById('isIndigenousPerson').innerText = isIndigenousPerson;
-		document.getElementById('healthCondition').innerText = healthCondition;
-		document.getElementById('remarks').innerText = remarks || "-";
-	}
 </script>

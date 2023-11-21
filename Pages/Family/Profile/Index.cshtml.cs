@@ -29,7 +29,7 @@ namespace AgapayAidSystem.Pages.Family.Profile
 				{
 					connection.Open();
 
-					// Fetch info of selected disaster from the database
+					// Fetch info of selected family from the database
 					string familySql = "SELECT f.*, " +
 									   "CONCAT(f.streetAddress, ', Brgy. ', b.barangayName, ', ', " +
 									   "b.municipalityCity, ', ', b.province) AS fullAddress " + 
