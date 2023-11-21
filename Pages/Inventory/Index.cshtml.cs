@@ -21,31 +21,25 @@ namespace AgapayAidSystem.Pages.Inventory
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "select i.*, d.disasterName, ec.centerName from inventory i " +
-                                 "join evacuation_center_log log ON i.centerLogID = log.centerLogID " +
-                                 "join disaster d ON log.disasterID = d.disasterID " +
-                                 "join evacuation_center ec ON log.centerID = ec.centerID;";
-                    
+                    string sql = "SELECT * FROM all_inventory_view;";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-
                                 InventoryInfo inventoryInfo = new InventoryInfo();
-
                                 inventoryInfo.inventoryID= reader.GetString(0);
-                                inventoryInfo.disasterName = reader.GetString(1);
-                                inventoryInfo.centerLogID = reader.GetString(2);
-                                inventoryInfo.centerName = reader.GetString(3);
-                                inventoryInfo.itemName = reader.GetString(4);
-                                inventoryInfo.itemType = reader.GetString(5);
-                                inventoryInfo.qty = reader.GetString(6);
-                                inventoryInfo.unitMeasure = reader.GetString(7);
-                                inventoryInfo.remarks = reader.IsDBNull(8) ? null : reader.GetString(8);
-
-                                listInventory.Add(inventoryInfo);
+                                inventoryInfo.centerLogID= reader.GetString(1);
+                                inventoryInfo.itemName = reader.GetString(2);
+                                inventoryInfo.itemType = reader.GetString(3);
+                                inventoryInfo.qty = reader.GetString(4);
+                                inventoryInfo.unitMeasure = reader.GetString(5);
+                                inventoryInfo.remarks = reader.IsDBNull(6) ? null : reader.GetString(6);
+								inventoryInfo.disasterName = reader.GetString(7);
+								inventoryInfo.centerName = reader.GetString(8);
+								inventoryInfo.remainingQty = reader.GetInt32(9).ToString();
+								listInventory.Add(inventoryInfo);
                             }
                         }
                     }
@@ -70,5 +64,6 @@ namespace AgapayAidSystem.Pages.Inventory
         public string qty { get; set; }
         public string unitMeasure { get; set; }
         public string remarks { get; set; }
+        public string remainingQty { get; set; }
     }
 }
