@@ -27,12 +27,12 @@
 			<tr style="vertical-align: top;">
 				<th>#</th>
 				<th>Name</th>
-				<th style="text-align: center;">Sex</th>
-				<th style="text-align: center;">Age</th>
+				<th>Sex</th>
+				<th>Age</th>
 				<th>Birthdate</th>
 				<th>Mobile Number</th>
 				<th>Email Address</th>
-				<th style="text-align: center;">Availability Status</th>
+				<th>Status</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,13 +43,13 @@
 			{
 				<tr>
 					<td width="5%">@counter</td>
-					<td width="23%" style="text-align: left;">@item.fullName</td>
+					<td width="20%" style="text-align: left;">@item.fullName</td>
 					<td width="13%">@item.sex</td>
 					<td width="5%">@item.age</td>
 					<td width="10%">@item.birthdate</td>
 					<td width="12%">@item.mobileNum</td>
-					<td width="12%" style="text-align: left;">@item.emailAddress</td>
-					<td width="10%">
+					<td width="10%" style="text-align: left;">@item.emailAddress</td>
+					<td width="15%">
 						@if (@item.availabilityStatus == "Available")
 						{
 							<span class="badge bg-success">@item.availabilityStatus</span>
