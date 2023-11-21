@@ -143,8 +143,8 @@
 									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
 										<td width="20%">@item.itemName</td>
-										<td width="12%">@item.itemType</td>
-										<td width="20%">@item.unitMeasure</td>
+										<td width="15%">@item.itemType</td>
+										<td width="17%">@item.unitMeasure</td>
 										<td width="18%">@item.remainingQty/@item.qty</td>
 										<td width="20%" style="text-align:left;">@item.remarks</td>
 										<td width="5%">
@@ -237,7 +237,7 @@
 			]
 		});
 
-		table.columns([1,2,3]).every(function () {
+		table.columns([2]).every(function () {
 			var column = this;
 			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
 			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
