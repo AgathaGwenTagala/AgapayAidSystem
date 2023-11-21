@@ -100,21 +100,21 @@
                         <table id="pack-inclusion" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr style="vertical-align:text-top;">
-                                    <th style="text-align:center;">#</th>
-                                    <th style="text-align:left;">Item</th>
-                                    <th style="text-align:center;">Type<br /></th>
-                                    <th style="text-align:center;">Qty per Pack</th>
-                                    <th style="text-align:center;">Total Qty</th>
-                                    <th style="text-align:center;">Unit Measure<br /></th>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Qty per Pack</th>
+                                    <th>Total Qty</th>
+                                    <th>Unit Measure</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{ var counter = 1; }
                                 @foreach (var item in Model.listPackInclusion)
                                 {
-                                    <tr style="text-align:center;">
+                                    <tr>
                                         <td width="5%">@counter</td>
-                                        <th width="25%" style="text-align:left;">@item.itemName</th>
+                                        <th width="25%">@item.itemName</th>
                                         <td width="15%">@item.itemType</td>
                                         <td width="15%">@item.qty</td>
                                         <td width="15%">@item.totalQty</td>
@@ -142,24 +142,49 @@
             ]
         });
 
-        // Adding filters to specific columns
         table.columns([2, 5]).every(function () {
             var column = this;
-            var select = $('<select><option value=""></option></select>')
-                .appendTo($(column.header()))
-                .on('change', function () {
-                    var val = $.fn.dataTable.util.escapeRegex(
-                        $(this).val()
-                    );
+            var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+            var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+            var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
 
-                    column
-                        .search(val ? '^' + val + '$' : '', true, false)
-                        .draw();
-                });
+            function updateFilterButton() {
+                var hasActiveFilter = column.search() !== '';
+                btn.toggleClass('btn-warning', hasActiveFilter);
+            }
 
             column.data().unique().sort().each(function (d, j) {
-                select.append('<option value="' + d + '">' + d + '</option>');
+                menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+                    '<label class="form-check-label ps-1">' + d + '</label></div>');
             });
+
+            menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+                '<label class="form-check-label ps-1">Select All</label></div>');
+
+            menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+            menu.find('.form-check-input, .clear-filter').on('click', function () {
+                var checked = $(this).prop('checked');
+
+                if ($(this).hasClass('form-check-input')) {
+                    if ($(this).val() === 'select-all') {
+                        menu.find('.form-check-input').prop('checked', checked);
+                    } else if (!checked) {
+                        menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                    }
+                } else {
+                    menu.find('.form-check-input').prop('checked', false);
+                    menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                }
+
+                var selectedValues = menu.find('.form-check-input:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+                updateFilterButton();
+            });
+            updateFilterButton();
         });
     });
 </script>

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AgapayAidSystem.Pages.Inventory
+namespace AgapayAidSystem.Pages.Settings
 {
-    public class EditItemModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

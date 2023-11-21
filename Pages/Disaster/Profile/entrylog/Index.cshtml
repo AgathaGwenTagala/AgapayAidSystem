@@ -298,16 +298,6 @@
 	pageSelect.addEventListener('change', redirectToSelectedPage);
 </script>
 
-<!-- JS for Filter Button -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<style>
-	.dropdown-menu {
-		min-width: 225px; /* Change for minimum width of the filter menu */
-	}
-</style>
-
-
 <script>
 	$(document).ready(function () {
 		var table = $('#entrylog-table').DataTable({
@@ -318,7 +308,6 @@
 				{ "responsivePriority": -1, "targets": [0, 1, 4] } // Disable responsive for status column
 			]
 		});
-
 
 		table.columns([1, 3, 4]).every(function () {
 			var column = this;
