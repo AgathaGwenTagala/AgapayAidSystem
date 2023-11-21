@@ -4,14 +4,26 @@
 	ViewData["Title"] = "Add Family";
 }
 
+<!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
-	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-		<strong>@Model.errorMessage</strong>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 	</div>
 }
 
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
 <style>
 	.radio1x2:nth-child(1) {
 		display: block;
@@ -27,9 +39,7 @@
 </style>
 
 <div class="container p-2 form-container">
-
 	<div class="container mt-4" id="disaster-form-container">
-
 		<div class="row pt-4">
 			<div class="col text-center">
 				<h1>Add Family</h1>
@@ -272,16 +282,16 @@
 	</div>
 </div>
 
-<!-- Modal: Add Family Members -->
+<!-- Modal: Add Family Member -->
 <div class="modal" id="confirmationModal" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Add Family Members</h5>
+				<h5 class="modal-title">Add Family Member</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				Do you want to add more family members to this family?
+				Do you want to add another family member to this family?
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" id="noButton">No</button>
@@ -346,4 +356,3 @@
 		this.value = cleanedValue;
 	});
 </script>
-
