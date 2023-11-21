@@ -69,16 +69,16 @@
         <thead>
             <tr>
                 <th width="5%">#</th>
-                <th width="20%">Disaster Name</th>
-                <th width="20%">Center Name</th>
-                <th width="22%">Item Name</th>
+                <th width="20%">Disaster</th>
+                <th width="20%">Evacuation Center</th>
+                <th width="22%">Item</th>
                 <th width="10%">Type</th>
                 <th width="15%">Unit Measure</th>
                 <th width="18%">
                     Qty<br />
                     <small>(Remaining/Total)</small>
                 </th>
-                <td width="25%" style="text-align:left;">Remarks</td>
+                <th width="25%" style="text-align:left;">Remarks</th>
                 <th> </th>
             </tr>
         </thead>
@@ -121,11 +121,57 @@
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		$('#inventory-table').DataTable({
+        var table = $('#inventory-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": false, "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 2, 3, 5] }, // Sortable columns
+                { "orderable": false, "targets": [4, 6, 7, 8] } // Non-sortable columns
 			]
 		});
+
+        table.columns([4]).every(function () {
+            var column = this;
+            var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+            var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+            var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
+
+            function updateFilterButton() {
+                var hasActiveFilter = column.search() !== '';
+                btn.toggleClass('btn-warning', hasActiveFilter);
+            }
+
+            column.data().unique().sort().each(function (d, j) {
+                menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+                    '<label class="form-check-label ps-1">' + d + '</label></div>');
+            });
+
+            menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+                '<label class="form-check-label ps-1">Select All</label></div>');
+
+            menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+            menu.find('.form-check-input, .clear-filter').on('click', function () {
+                var checked = $(this).prop('checked');
+
+                if ($(this).hasClass('form-check-input')) {
+                    if ($(this).val() === 'select-all') {
+                        menu.find('.form-check-input').prop('checked', checked);
+                    } else if (!checked) {
+                        menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                    }
+                } else {
+                    menu.find('.form-check-input').prop('checked', false);
+                    menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                }
+
+                var selectedValues = menu.find('.form-check-input:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+                updateFilterButton();
+            });
+            updateFilterButton();
+        });
 	});
 </script>

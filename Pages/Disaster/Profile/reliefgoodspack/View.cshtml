@@ -137,12 +137,12 @@
         var table = $('#pack-inclusion').DataTable({
             responsive: true,
             columnDefs: [
-                { "orderable": true, "targets": [0, 1, 3, 4] }, // Sortable columns
-                { "orderable": false, "targets": [2, 5] } // Non-sortable columns
+                { "orderable": true, "targets": [0, 1, 3, 4, 5] }, // Sortable columns
+                { "orderable": false, "targets": [2] } // Non-sortable columns
             ]
         });
 
-        table.columns([2, 5]).every(function () {
+        table.columns([2]).every(function () {
             var column = this;
             var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
             var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
