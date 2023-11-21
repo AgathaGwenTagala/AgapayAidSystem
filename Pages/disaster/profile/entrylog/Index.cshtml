@@ -138,7 +138,7 @@
 											<label class="form-check-label"></label>
 										</div>
 									</th>
-									<th>Serial Number</th>
+									<th>Family Serial Num</th>
 									<th>Name</th>
 									<th style="text-align: center;">Remarks</th>
 									<th style="text-align: center;">Status</th>
@@ -157,7 +157,7 @@
 											</div>
 										</td>
 										<td width="30%" style="text-align: center;">@item.serialNum	</td>
-										<td width="30%">@item.fullName</td>
+										<td width="25%">@item.fullName</td>
 										<td width="20%">@item.remarks</td>
 										<td width="15%" style="text-align: center;">
 											@if (@item.entryStatus == "Check-in")
@@ -169,7 +169,7 @@
 												<span class="badge rounded-pill bg-light">@item.entryStatus</span>
 											}
 										</td>
-										<td width="10%">
+										<td width="5%">
 											<div class="d-inline position-relative">
 												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 													<i class="bi bi-three-dots-vertical"></i>
