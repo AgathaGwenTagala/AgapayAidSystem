@@ -265,8 +265,24 @@
 			}
 
 			column.data().unique().sort().each(function (d, j) {
-				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-					'<label class="form-check-label ps-1">' + d + '</label></div>');
+				// Only add the options "Packed" and "Distributed" for the "Status" column
+				if (column.index() === 4) {
+					// Set specific filter options only if they haven't been added
+					if (menu.find("input[value='Packed']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Packed">' +
+							'<label class="form-check-label ps-1">Packed</label></div>');
+					}
+					if (menu.find("input[value='Distributed']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Distributed">' +
+							'<label class="form-check-label ps-1">Distributed</label></div>');
+					}
+				}
+
+				// For other columns, show all unique values as filter options
+				else {
+					menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+						'<label class="form-check-label ps-1">' + d + '</label></div>');
+				}
 			});
 
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
