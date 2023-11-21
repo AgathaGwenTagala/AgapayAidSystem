@@ -169,7 +169,7 @@
 										<td width="5%">@counter</td>
 										<td width="30%">@item.fullName</td>
 										<td width="20%">@item.relationship</td>
-										<td width="5%">@item.sex</td>
+										<td width="15%">@item.sex</td>
 										<td width="20%">@item.birthdate</td>
 										<td width="5%">@item.age</td>
 										<td width="5%">
@@ -208,15 +208,56 @@
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		$('#eclog-table').DataTable({
+		var table = $('#eclog-table').DataTable({
 			responsive: true,
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 5] }, // Sortable columns
 				{ "orderable": false, "targets": [2, 3, 4, 6] } // Non-sortable columns
-			],
-			language: {
-				emptyTable: "There are no family member to this family.",
+			]
+		});
+
+		table.columns([2, 3]).every(function () {
+			var column = this;
+			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+			var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
+
+			function updateFilterButton() {
+				var hasActiveFilter = column.search() !== '';
+				btn.toggleClass('btn-warning', hasActiveFilter);
 			}
+
+			column.data().unique().sort().each(function (d, j) {
+				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+						'<label class="form-check-label ps-1">' + d + '</label></div>');
+			});
+			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+				'<label class="form-check-label ps-1">Select All</label></div>');
+
+			menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+			menu.find('.form-check-input, .clear-filter').on('click', function () {
+				var checked = $(this).prop('checked');
+
+				if ($(this).hasClass('form-check-input')) {
+					if ($(this).val() === 'select-all') {
+						menu.find('.form-check-input').prop('checked', checked);
+					} else if (!checked) {
+						menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+					}
+				} else {
+					menu.find('.form-check-input').prop('checked', false);
+					menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+				}
+
+				var selectedValues = menu.find('.form-check-input:checked').map(function () {
+					return $(this).val();
+				}).get();
+
+				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+				updateFilterButton();
+			});
+			updateFilterButton();
 		});
 	});
 </script>
