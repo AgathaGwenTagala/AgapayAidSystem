@@ -20,7 +20,7 @@ namespace AgapayAidSystem.Pages.Family
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "SELECT * FROM family_list_view;";
+					string sql = "SELECT * FROM family_list_view ORDER BY familyHead;";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -36,7 +36,8 @@ namespace AgapayAidSystem.Pages.Family
 								familyInfo.serialNum = reader.GetString(5);
 								familyInfo.barangayName = reader.GetString(6);
 								familyInfo.municipalityCity = reader.GetString(7);
-								familyInfo.familySize = reader.GetInt64(8).ToString();
+								familyInfo.familyHead = reader.GetString(8);
+								familyInfo.familySize = reader.GetInt64(9).ToString();
 								listFamily.Add(familyInfo);
 							}
 						}
@@ -61,6 +62,7 @@ namespace AgapayAidSystem.Pages.Family
 		public string serialNum { get; set; }
 		public string barangayName { get; set; }
 		public string municipalityCity { get; set; }
+		public string familyHead { get; set; }
 		public string familySize { get; set; }
 	}
 }
