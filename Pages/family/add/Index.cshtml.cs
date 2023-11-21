@@ -1,10 +1,7 @@
 using AgapayAidSystem.Pages.Family;
-using AgapayAidSystem.Pages.Family.Profile.Add;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Bcpg;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.family.add
 {
