@@ -105,7 +105,7 @@ namespace AgapayAidSystem.Pages.Disaster
             if (errorOccurred)
             {
                 // Show an error message banner on the current page
-                Response.Redirect("/disaster/index?errorMessage=" + errorMessage);
+                Response.Redirect("/disaster/add?errorMessage=" + errorMessage);
             }
             else
             {

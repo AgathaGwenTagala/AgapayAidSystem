@@ -197,7 +197,7 @@ namespace AgapayAidSystem.Pages.family.add
 				}
 				else
 				{
-					Response.Redirect("/family/index?successMessage=" + successMessage);
+					Response.Redirect("/family/profile/index?familyID=" + newFamilyID + "&successMessage=" + successMessage);
 				}
 			}
 		}
