@@ -1,0 +1,164 @@
+﻿@page
+@model AgapayAidSystem.Pages.family.edit.FamilyModel
+@{
+	ViewData["Title"] = "Edit Family Information";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+<div class="bg-light rounded px-2 py-0 my-3 text-center">
+	<div class="col-lg-8 mx-auto">
+		<!--NOTE: Labels are longer so column sizes here are larger-->
+		<form method="POST" id="editForm">
+			<h1 class="display-5 fw-bold">Edit Family Information</h1>
+			<br />
+
+			<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
+
+			<!-- Street Address -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="streetAddress">Street Address:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="85" />
+				</div>
+			</div>
+
+			<!-- Barangay -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="barangayID">Barangay:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<select class="form-select" name="barangayID" id="barangayID" required>
+						<option value="" selected disabled>Select Barangay</option>
+						@if (Model.Barangays != null)
+						{
+							@foreach (var type in Model.Barangays)
+							{
+								if (type.barangayID == Model.familyInfo.barangayID)
+								{
+									<option value="@type.barangayID" selected>@type.barangayName</option>
+								}
+								else
+								{
+									<option value="@type.barangayID">@type.barangayName</option>
+								}
+							}
+						}
+					</select>
+				</div>
+			</div>
+
+			<!-- Mobile Number -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="barangayID">Mobile Number:<span class="text-danger" style="padding:5px">*</span></label>
+				<div class="col-sm-8">
+					<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" required maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
+				</div>
+			</div>
+
+			<!-- Telephone Number -->
+			<div class="row mb-1">
+				<label class="col-sm-4 col-form-label text-start" for="telephoneNum">Telephone Number:</label>
+				<div class="col-sm-8">
+					<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+				</div>
+			</div>
+
+			<br />
+
+			<!-- Cancel and Save Button -->
+			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+				<a href="/family/profile/index?familyID=@Model.familyInfo.familyID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+				<button type="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Modal: Confirm Save -->
+<div class="modal" id="editConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Edit</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to save the changes?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Format Mobile and Telephone Number -->
+<script>
+	const mobileInput = document.getElementById('mobileNum');
+	const telephoneInput = document.getElementById('telephoneNum');
+
+	mobileInput.addEventListener('input', function () {
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue.length >= 2) {
+			cleanedValue = '09' + cleanedValue.slice(2);
+		}
+
+		this.value = cleanedValue;
+	});
+
+	telephoneInput.addEventListener('input', function () {
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue.length >= 3) {
+			cleanedValue = '044' + cleanedValue.slice(3);
+		}
+
+		this.value = cleanedValue;
+	});
+</script>
+
+<!-- Enable/disable "Submit" button -->
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	submitButton.disabled = true;
+
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	form.addEventListener('input', checkFormValidity);
+</script>
+
+<!-- Save Changes -->
+<script>
+	document.getElementById('saveChangesButton').addEventListener('click', function () {
+		document.getElementById('editForm').submit();
+	});
+</script>

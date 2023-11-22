@@ -317,6 +317,19 @@
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
 
+	// Set initial values when the input fields receive focus
+	mobileInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('09')) {
+			this.value = '09';
+		}
+	});
+
+	telephoneInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('044')) {
+			this.value = '044';
+		}
+	});
+	
 	mobileInput.addEventListener('input', function () {
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 

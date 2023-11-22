@@ -186,7 +186,7 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			}
 			else
 			{
-				Response.Redirect("/evacuationcenter/index?successMessage=" + successMessage);
+				Response.Redirect("/evacuationcenter/profile?centerID=" + evacuationInfo.centerID + "&successMessage=" + successMessage);
 			}
 		}
 	}

@@ -4,11 +4,24 @@
 	ViewData["Title"] = "Edit Evacuation Center";
 }
 
+<!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
-	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-		<strong>@Model.errorMessage</strong>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
 	</div>
 }
 
@@ -71,7 +84,7 @@
 
 			<!-- Street Address -->
 			<div class="row mb-1">
-				<label class="col-sm-4 col-form-label text-start" for="streetAddress">Barangay:<span class="text-danger" style="padding:5px">*</span></label>
+				<label class="col-sm-4 col-form-label text-start" for="streetAddress">Street Address:<span class="text-danger" style="padding:5px">*</span></label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" name="streetAddress" value="@Model.evacuationInfo.streetAddress" required maxlength="85" />
 				</div>
@@ -108,7 +121,6 @@
 					<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.evacuationInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." />
 				</div>
 			</div>
-
 
 			<!-- Telephone Number -->
 			<div class="row mb-1">
