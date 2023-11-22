@@ -99,10 +99,12 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
 		public void OnPost()
 		{
+			bool errorOccurred = false;
+
 			if (!ModelState.IsValid)
 			{
 				errorMessage = "Please correct the errors below.";
-				return;
+				errorOccurred = true;
 			}
 
 			// Retrieve evacuation center details from the form
@@ -174,10 +176,18 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 			catch (Exception ex)
 			{
 				errorMessage = ex.Message;
-				return;
+				errorOccurred = true;
 			}
 
-			Response.Redirect("/evacuationcenter/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+			if (errorOccurred)
+			{
+				// Show an error message banner on the current page
+				Response.Redirect("/evacuationcenter/edit?centerID=" + evacuationInfo.centerID + "&errorMessage=" + errorMessage);
+			}
+			else
+			{
+				Response.Redirect("/evacuationcenter/index?successMessage=" + successMessage);
+			}
 		}
 	}
 }
