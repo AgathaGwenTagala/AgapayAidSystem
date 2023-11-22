@@ -142,6 +142,13 @@
 <script>
     const mobileInput = document.getElementById('mobileNum');
 
+    // Set initial values when the input fields receive focus
+    mobileInput.addEventListener('focus', function () {
+        if (!this.value.startsWith('09')) {
+            this.value = '09';
+        }
+    });
+
     mobileInput.addEventListener('input', function () {
         let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
@@ -149,7 +156,7 @@
             cleanedValue = '09' + cleanedValue.slice(2);
         }
 
-        this.value = cleanedValue;
+        this.value = cleanedValue.slice(0, 11);
     });
 </script>
 

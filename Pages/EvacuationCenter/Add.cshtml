@@ -179,45 +179,52 @@
 </div>
 
 
+<!-- Format Mobile and Telephone Number -->
 <script>
 	const mobileInput = document.getElementById('mobileNum');
 	const telephoneInput = document.getElementById('telephoneNum');
 
-	// Add an input event listener to format the mobile number
+	// Set initial values when the input fields receive focus
+	mobileInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('09')) {
+			this.value = '09';
+		}
+	});
+
+	telephoneInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('044')) {
+			this.value = '044';
+		}
+	});
+
 	mobileInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the mobile number starts with "09" if not null or empty
 		if (cleanedValue.length >= 2) {
 			cleanedValue = '09' + cleanedValue.slice(2);
 		}
 
-		// Update the input field with the formatted value
-		this.value = cleanedValue;
+		this.value = cleanedValue.slice(0, 11);
 	});
 
-	// Add an input event listener to format the telephone number
 	telephoneInput.addEventListener('input', function () {
-		// Remove any non-digit characters
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		// Ensure the telephone number starts with "044" if not null or empty
 		if (cleanedValue.length >= 3) {
 			cleanedValue = '044' + cleanedValue.slice(3);
 		}
 
-		// Update the input field with the formatted value
-		this.value = cleanedValue;
+		this.value = cleanedValue.slice(0, 10);
 	});
-	
+</script>
+
+<!-- Enable/disable "Submit" button -->
+<script>
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
 
-	// Disable the submit button by default
 	submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
 	function checkFormValidity() {
 		if (form.checkValidity()) {
 			submitButton.disabled = false;
@@ -226,6 +233,5 @@
 		}
 	}
 
-	// Add an event listener for the input event on form elements
 	form.addEventListener('input', checkFormValidity);
 </script>
