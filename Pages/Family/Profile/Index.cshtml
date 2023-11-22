@@ -1,7 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Family.Profile.IndexModel
 @{
-	string pageTitle = $"{Model.familyInfo.serialNum}";
+	string pageTitle = $"Information - {Model.familyInfo.serialNum}";
 	ViewData["Title"] = pageTitle;
 }
 
@@ -56,7 +56,7 @@
 						<a class="nav-link active" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
+						<a class="nav-link" href="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</a>
@@ -69,7 +69,7 @@
 		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
 			<select class="form-select" id="pageSelect">
 				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</option>
-				<option value="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
+				<option value="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
 				<option value="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
 				
 			</select>
@@ -83,7 +83,7 @@
 					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-							<li class="breadcrumb-item"><a href="/Family/index">Family</a></li>
+							<li class="breadcrumb-item"><a href="/family/index">Family</a></li>
 							<li class="breadcrumb-item active"><a><strong>@Model.familyInfo.serialNum</strong></a></li>
 						</ol>
 					</nav>

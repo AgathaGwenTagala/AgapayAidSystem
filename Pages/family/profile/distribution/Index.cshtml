@@ -1,8 +1,10 @@
 ﻿@page
-@model AgapayAidSystem.Pages.family.profile.DistributionModel
+@model AgapayAidSystem.Pages.family.profile.distribution.IndexModel
 @{
-	ViewData["Title"] = "Relief Distribution Record";
+	string pageTitle = $"Relief Distribution Record - {Model.familyInfo.serialNum}";
+	ViewData["Title"] = pageTitle;
 }
+
 
 <!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
@@ -55,7 +57,7 @@
 						<a class="nav-link" href="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" href="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
+						<a class="nav-link active" href="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</a>
@@ -68,7 +70,7 @@
 		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
 			<select class="form-select" id="pageSelect">
 				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information Board</option>
-				<option value="/family/profile/distribution?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
+				<option value="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
 				<option value="/family/profile/VulnerabilityAssessment?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
 
 			</select>
@@ -82,7 +84,7 @@
 					<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-							<li class="breadcrumb-item"><a href="/Family/index">Family</a></li>
+							<li class="breadcrumb-item"><a href="/family/index">Family</a></li>
 							<li class="breadcrumb-item active"><a><strong>@Model.familyInfo.serialNum</strong></a></li>
 						</ol>
 					</nav>
@@ -107,35 +109,28 @@
 									<th>Pack ID</th>
 									<th>Received by</th>
 									@*<th>Distributed by</th>*@
+									<th>Qty</th>
 									<th>Receive Date</th>
 									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								@{ var counter = 1; }
+								@{
+									var counter = 1;
+								}
 								@foreach (var item in Model.listRecord)
 								{
 									<tr>
 										<td width="5%">@counter</td>
-										<td width="30%">@item.packID</td>
-										<td width="20%">@item.fullName</td>
-										@*<td width="15%">@item</td>*@
-										<td width="20%">@item.receiveDate</td>
-										<td width="5%">
-											<div class="d-inline position-relative">
-												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="bi bi-three-dots-vertical"></i>
-												</a>
-												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													@*<li>
-														<a href="#" class="dropdown-item"
-														   onclick="showInfo('@item.firstName', '@item.middleName', '@item.lastName', '@item.extName', '@item.sex', '@item.birthdate', '@item.civilStatus', '@item.education', '@item.occupation', '@item.religion', '@item.isIndigenousPerson', '@item.healthCondition', '@item.remarks')"
-														   data-bs-toggle="modal" data-bs-target="#profileModal">
-															View Profile
-														</a>
-													</li>*@
-												</ul>
-											</div>
+										<td width="15%">@item.packID</td>
+										<td width="25%">@item.fullName</td>
+										@*<td width="25%">@item.staffName</td>*@
+										<td width="5%">@item.qty</td>
+										<td width="15%">@item.receiveDate</td>
+										<td width="10%">
+											<a class="btn btn-success edit-button" href="/family/profile/distribution/view?packID=@item.packID&familyID=@Model.familyInfo.familyID">
+												View
+											</a>
 										</td>
 									</tr>
 									counter++;
@@ -155,8 +150,8 @@
 		var table = $('#distribution-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3] }, // Sortable columns
-				{ "orderable": false, "targets": [4] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4] }, // Sortable columns
+				{ "orderable": false, "targets": [5] } // Non-sortable columns
 			]
 		});
 

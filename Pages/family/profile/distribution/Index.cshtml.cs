@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace AgapayAidSystem.Pages.family.profile
+namespace AgapayAidSystem.Pages.family.profile.distribution
 {
-    public class DistributionModel : PageModel
+    public class IndexModel : PageModel
     {
 		private readonly IConfiguration _configuration;
-		public DistributionModel(IConfiguration configuration) => _configuration = configuration;
+		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public List<RecordInfo> listRecord = new List<RecordInfo>();
 		public string errorMessage = "";
@@ -42,7 +42,7 @@ namespace AgapayAidSystem.Pages.family.profile
 
 					// Fetch distribution record of selected family
 					string sql = "SELECT * FROM family_distribution_record_view " +
-							     "WHERE familyID = @familyID ORDER BY receiveDate;";
+								 "WHERE familyID = @familyID ORDER BY receiveDate;";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@familyID", familyID);
@@ -57,7 +57,7 @@ namespace AgapayAidSystem.Pages.family.profile
 									assignmentID = reader.IsDBNull(2) ? null : reader.GetString(2),
 									entryLogID = reader.GetString(3),
 									qty = reader.GetInt32(4).ToString(),
-									receiveDate = reader.GetDateTime(5).ToString("YYYY-MM-DD"),
+									receiveDate = reader.GetDateTime(5).ToString("yyyy-MM-dd"),
 									disasterName = reader.GetString(6),
 									centerName = reader.GetString(7),
 									familyID = reader.GetString(8),
