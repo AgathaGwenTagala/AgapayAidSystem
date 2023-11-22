@@ -3,7 +3,6 @@ using AgapayAidSystem.Pages.Family.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using System.Net;
 
 namespace AgapayAidSystem.Pages.family.add
 {
@@ -126,7 +125,7 @@ namespace AgapayAidSystem.Pages.family.add
 			if (errorOccurred)
 			{
 				// Show an error message banner on the current page
-				Response.Redirect("/family/add/member?errorMessage=" + errorMessage);
+				Response.Redirect("/family/add/member?familyID=" + familyID + "&errorMessage=" + errorMessage);
 			}
 			else
 			{
@@ -136,10 +135,9 @@ namespace AgapayAidSystem.Pages.family.add
 				}
 				else
 				{
-					Response.Redirect("/family/index?successMessage=" + successMessage);
+					Response.Redirect("/family/profile/index?familyID=" +familyID + "&successMessage=" + successMessage);
 				}
 			}
 		}
-
     }
 }

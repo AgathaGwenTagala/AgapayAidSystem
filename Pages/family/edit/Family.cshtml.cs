@@ -23,7 +23,7 @@ namespace AgapayAidSystem.Pages.family.edit
 			// Fetch the list of barangays from database
 			Barangays = GetBarangaysFromDatabase();
 
-			// Fetch info of selected evacuation center from the database
+			// Fetch info of family from the database
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
