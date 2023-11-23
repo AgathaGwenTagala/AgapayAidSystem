@@ -65,13 +65,18 @@
     </div>
 
     <div class="col-auto">
-
-        <button class="btn btn-primary d-md-none" data-toggle="modal" data-target="#infoModal">
-            <i class="bi bi-info-circle-fill"></i>
+        <!-- Button with text and icon (visible on larger screens) -->
+        <button id="toggleButton" class="btn btn-primary d-none d-md-inline-block"
+                onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                data-bs-toggle="modal" data-bs-target="#infoModal">
+            <i class="bi bi-info-circle-fill" style="color:white"></i> Info
         </button>
 
-        <button class="btn btn-primary d-none d-md-inline" onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')">
-            <i class="bi bi-info-circle-fill"></i> Info
+        <!-- Button with icon only (visible on smaller screens) -->
+        <button id="toggleButtonMobile" class="btn btn-primary d-inline-block d-md-none"
+                onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                data-bs-toggle="modal" data-bs-target="#infoModal">
+            <i class="bi bi-info-circle-fill" style="color:white"></i>
         </button>
 
         <div class="btn btn-primary d-inline position-relative">
@@ -241,17 +246,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <tables>
+                <table>
                     <tr>
-                        <th width="35%" class="text-start pe-4">Type</th>
+                        <th class="text-start pe-4">Type</th>
                         <td id="disasterType" class="text-start"></td>
                     </tr>
                     <tr>
-                        <th width="35%" class=" text-start pe-4">Description</th>
+                        <th class="text-start pe-4">Description</th>
                         <td id="description" class="text-start"></td>
                     </tr>
                     <tr>
-                        <th width="35%" class=" text-start pe-4">Date Occurred</th>
+                        <th class="text-start pe-4">Date Occurred</th>
                         <td id="dateOccured" class="text-start"></td>
                     </tr>
                 </table>
@@ -270,8 +275,6 @@
         document.getElementById('disasterType').innerText = disasterType;
         document.getElementById('description').innerText = description;
         document.getElementById('dateOccured').innerText = dateOccured;
-
-        $('#infoModal').modal('show');
     }
 </script>
 

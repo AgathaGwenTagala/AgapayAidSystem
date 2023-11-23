@@ -28,6 +28,7 @@
 <div class="bg-light rounded px-2 py-0 my-3">
 	<form method="POST" id="add-family">
 		<h1 class="display-5 fw-bold text-center">Add Family</h1>
+		<p class="form-label" style="text-align:center">Family Head</p>
 		<br />
 
 		<div class="row">
@@ -219,7 +220,7 @@
 			<div class="col-md-6">
 				<div class="mb-3">
 					<label class="form-label">
-						Education:
+						Educational Attainment:
 						<span class="text-danger" style="padding: 5px">*</span>
 					</label>
 					<input type="text" class="form-control" name="education" value="@Model.memberInfo.education" required maxlength="45" />
