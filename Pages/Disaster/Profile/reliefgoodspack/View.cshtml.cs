@@ -64,6 +64,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 								inclusion.itemName = reader.GetString(5);
 								inclusion.itemType = reader.GetString(6);
 								inclusion.unitMeasure = reader.GetString(7);
+								inclusion.disasterName = reader.GetString(8);
+								inclusion.centerName = reader.GetString(9);
 								listPackInclusion.Add(inclusion);
 							}
 						}
@@ -88,5 +90,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 		public string itemName { get; set; }
 		public string itemType { get; set; }
 		public string unitMeasure { get; set; }
+		public string disasterName { get; set; }
+		public string centerName { get; set; }
 	}
 }

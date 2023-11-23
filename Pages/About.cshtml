@@ -17,6 +17,20 @@
     }
 </style>
 
+@if (Request.Query.ContainsKey("success"))
+{
+    <div class="alert alert-success" role="alert">
+        Email sent successfully!
+    </div>
+}
+
+@if (Request.Query.ContainsKey("error"))
+{
+    <div class="alert alert-danger" role="alert">
+        Error sending email: @Request.Query["error"]
+    </div>
+}
+
 <main class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded text-center custom-background">
         <div class="col-md-6 mx-auto">
@@ -92,18 +106,18 @@
                     <form id="contactForm">
                         <div class="mb-3">
                             <label class="form-label">Email address:</label>
-                            <input type="email" class="form-control" id="InputEmail">
+                            <input type="email" class="form-control" id="InputEmail" asp-for="SenderEmail">
                             <div class="form-text">We'll never share your email with anyone else.</div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Name:</label>
-                            <input class="form-control" id="InputName">
+                            <input class="form-control" id="InputName" asp-for="Name">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Message:</label>
-                            <input class="form-control" id="InputMessage">
+                            <textarea class="form-control" id="InputMessage" asp-for="Message"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -111,8 +125,5 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-
 </main>

@@ -60,7 +60,9 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 								inclusion.totalQty = reader.GetInt32(4).ToString();
 								inclusion.itemName = reader.GetString(5);
 								inclusion.itemType = reader.GetString(6);
-								inclusion.unitMeasure = reader.GetString(7);
+								inclusion.unitMeasure = reader.GetString(7).ToLower();
+								inclusion.disasterName = reader.GetString(8);
+								inclusion.centerName = reader.GetString(9);
 								listPackInclusion.Add(inclusion);
 							}
 						}

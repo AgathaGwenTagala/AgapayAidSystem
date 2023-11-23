@@ -64,7 +64,8 @@
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
 							<li class="breadcrumb-item"><a href="/family/index">Family</a></li>
-							<li class="breadcrumb-item active"><a><strong>@Model.familyInfo.serialNum</strong></a></li>
+							<li class="breadcrumb-item"><a href="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">@Model.familyInfo.serialNum</a></li>
+							<li class="breadcrumb-item active"><a><strong>Relief Distribution Record</strong></a></li>
 						</ol>
 					</nav>
 				</div>
@@ -74,12 +75,6 @@
 					<div class="d-flex align-items-center">
 						<h1>Pack Inclusions</h1>
 					</div>
-				</div>
-				<div class="row pb-2">
-					<div class="d-flex align-items-center">
-						<h5><b>Pack ID: @Model.packID</b></h5>
-					</div>
-
 				</div>
 
 				<!-- Table -->
@@ -91,8 +86,7 @@
 									<th>#</th>
 									<th>Item</th>
 									<th>Type</th>
-									<th>Qty</th>
-									<th>Unit Measure</th>
+									<th>Quantity</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -102,11 +96,10 @@
 								@foreach (var item in Model.listPackInclusion)
 								{
 									<tr>
-										<td width="5%">@counter</td>
+										<td width="10%">@counter</td>
 										<td width="30%">@item.itemName</td>
-										<td width="20%">@item.itemType</td>
-										<td width="15%">@item.qty</td>
-										<td width="30%">@item.unitMeasure</td>
+										<td width="25%">@item.itemType</td>
+										<td width="35%">@item.qty @item.unitMeasure</td>
 									</tr>
 									counter++;
 								}
@@ -125,7 +118,7 @@
 		var table = $('#pack-inclusion').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 3, 4] }, // Sortable columns
+				{ "orderable": true, "targets": [0, 1, 3] }, // Sortable columns
 				{ "orderable": false, "targets": [2] } // Non-sortable columns
 			]
 		});

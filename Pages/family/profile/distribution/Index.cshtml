@@ -103,7 +103,8 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Pack ID</th>
+									<th>Disaster</th>
+									<th>Evacuation Center</th>
 									<th>Received by</th>
 									@*<th>Distributed by</th>*@
 									<th>Qty</th>
@@ -119,12 +120,13 @@
 								{
 									<tr>
 										<td width="5%">@counter</td>
-										<td width="15%">@item.packID</td>
+										<td width="20%">@item.disasterName</td>
+										<td width="20%">@item.centerName</td>
 										<td width="25%">@item.fullName</td>
 										@*<td width="25%">@item.staffName</td>*@
 										<td width="5%">@item.qty</td>
 										<td width="15%">@item.receiveDate</td>
-										<td width="10%">
+										<td width="5%">
 											<a class="btn btn-success edit-button" href="/family/profile/distribution/view?packID=@item.packID&familyID=@Model.familyInfo.familyID">
 												View
 											</a>
@@ -147,12 +149,12 @@
 		var table = $('#distribution-table').DataTable({
 			responsive: true,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3, 4] }, // Sortable columns
-				{ "orderable": false, "targets": [5] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+				{ "orderable": false, "targets": [6] } // Non-sortable columns
 			]
 		});
 
-		table.columns([2]).every(function () {
+		table.columns([3]).every(function () {
 			var column = this;
 			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
 			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
