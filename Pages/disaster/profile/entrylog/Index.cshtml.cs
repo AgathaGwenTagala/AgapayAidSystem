@@ -51,7 +51,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 									  "THEN CONCAT(' ', mem.middleName) ELSE '' END), " +
 									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END), " +
 									  "(CASE WHEN (mem.extName IS NOT NULL) " +
-									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName, fam.serialNum " +
+									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName, fam.serialNum, fam.familyID " +
 									  "FROM entry_log e " +
 									  "INNER JOIN family_member mem ON e.memberID = mem.memberID " +
 									  "JOIN family fam ON mem.familyID = fam.familyID " +
@@ -73,6 +73,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								entryInfo.remarks = entryReader.IsDBNull(6) ? null : entryReader.GetString(6);
 								entryInfo.fullName = entryReader.GetString(7);
 								entryInfo.serialNum = entryReader.GetString(8);
+								entryInfo.familyID = entryReader.GetString(9);
 								listEntryLog.Add(entryInfo);
 							}
 						}
@@ -158,5 +159,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public string remarks { get; set; }
 		public string fullName { get; set; }
 		public string serialNum { get; set; }
+		public string familyID { get; set; }
 	}
 }
