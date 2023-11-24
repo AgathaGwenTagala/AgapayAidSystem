@@ -65,17 +65,20 @@
     </div>
 
     <div class="col-auto">
+
         <!-- Button with text and icon (visible on larger screens) -->
-        <button id="toggleButton" class="btn btn-primary d-none d-md-inline-block"
+        <button id="toggleButton" class="btn d-none d-md-inline-block"
                 onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                data-bs-toggle="modal" data-bs-target="#infoModal">
+                data-bs-toggle="modal" data-bs-target="#infoModal"
+                style="background-color: var(--bs-primary-color);color:white">
             <i class="bi bi-info-circle-fill" style="color:white"></i> Info
         </button>
 
         <!-- Button with icon only (visible on smaller screens) -->
-        <button id="toggleButtonMobile" class="btn btn-primary d-inline-block d-md-none"
+        <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
                 onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                data-bs-toggle="modal" data-bs-target="#infoModal">
+                data-bs-toggle="modal" data-bs-target="#infoModal"
+                style="background-color: var(--bs-primary-color);color:white">
             <i class="bi bi-info-circle-fill" style="color:white"></i>
         </button>
 
