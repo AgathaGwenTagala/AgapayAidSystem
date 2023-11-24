@@ -91,6 +91,64 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 			}
 		}
 
+        public void OnPost()
+        {
+            bool errorOccurred = false;
+
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "Please correct the errors below.";
+                errorOccurred = true;
+            }
+
+            string centerLogID = Request.Form["centerLogID"];
+            string disasterID = Request.Form["disasterID"];
+
+            if (string.IsNullOrEmpty(centerLogID))
+            {
+                errorMessage = "Missing centerLogID";
+            }
+
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Insert data into the 'disaster' table
+                    string sql = "UPDATE evacuation_center_log " +
+                                 "SET closingDateTime = CURRENT_TIMESTAMP(), status = 'Closed' " +
+                                 "WHERE centerLogID = @centerLogID";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@assignmentID", centerLogID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                successMessage = "Evacuation center closed successfully!";
+            }
+
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                errorOccurred = true;
+            }
+
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/disaster/profile/informationboard/index?centerLogID="+ centerLogID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                // Redirect to the Disaster page after successful close
+                Response.Redirect("/disaster/profile/index?disasterID="+ disasterID + "&successMessage=" + successMessage);
+            }
+        }
+
 		public int GetAssignedStaffCount()
 		{
 			string centerLogID = Request.Query["centerLogID"];
