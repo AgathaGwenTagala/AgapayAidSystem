@@ -4,6 +4,7 @@
     ViewData["Title"] = "User Management";
 }
 
+<!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
 {
     <div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
@@ -43,6 +44,14 @@
     </div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <!-- Breadcrumb -->
 <div class="row">
     <nav style="--bs-breadcrumb-divider: '/';">
@@ -76,8 +85,8 @@
         <thead>
             <tr>
                 <th width="5%">#</th>
-                <th width="20%">Username</th>
-                <th width="20%">User Type</th>
+                <th width="15%">Username</th>
+                <th width="25%">User Type</th>
                 <th width="25%">Created At</th>
                 <th width="10%"></th>
             </tr>

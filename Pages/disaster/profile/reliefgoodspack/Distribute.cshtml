@@ -5,8 +5,10 @@
 }
 
 <style>
-    table tr {
-        text-align: center;
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
     }
 </style>
 
@@ -63,15 +65,15 @@
         </div>
 
         <!-- Title -->
-        <h1 class="display-5 fw-bold text-center">Distribute Relief Pack to Evacuees</h1>
         <br />
+        <h1 class="display-5 fw-bold text-center">Distribute Relief Pack to Evacuees</h1>
 
         <!-- Table -->
         <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
         <input type="hidden" name="packID" value="@Model.reliefPackInfo.packID" />
         <div class="row pt-4">
             <div class="col-lg-12">
-                <div class="table-responsive">
+                <div style="overflow-x: auto; max-width: 100%;">
                     <table id="distributepack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -83,9 +85,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                var counter = 1;
-                            }
+                            @{ var counter = 1; }
                             @foreach (var item in Model.listEligibleFam)
                             {
                                 <tr class="distribution-row">
@@ -143,11 +143,11 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to distribute this pack to the evacuee?</p>
-                <p class="text-danger">This cannot be undone.</p>
+                <p class="text-danger"><b>This cannot be undone.</b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmDistributeButton">Confirm</button>
+                <button type="button" class="btn btn-primary" id="confirmDistributeButton">Distribute</button>
             </div>
         </div>
     </div>
