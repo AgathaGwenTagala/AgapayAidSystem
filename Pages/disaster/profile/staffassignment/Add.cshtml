@@ -24,6 +24,14 @@
 	</div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="assignment">
         <h1 class="display-5 fw-bold text-center">Assign Staff</h1>
@@ -73,6 +81,7 @@
                         }
                     </tbody>
                 </table>
+                <br />
 
                 <!-- Cancel and Save Selection Button -->
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
