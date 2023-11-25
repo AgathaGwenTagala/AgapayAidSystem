@@ -25,6 +25,14 @@
     </div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="addpack">
         <h1 class="display-5 fw-bold text-center">Add Relief Goods Pack</h1>
@@ -50,7 +58,8 @@
         <!-- Inclusion Quantity -->
         <div class="row pt-4">
             <div class="col-lg-12">
-                <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                <div style="overflow-x: auto; max-width: 100%;">
+                    <table id="inclusion-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr style="vertical-align:text-top;">
                             <th>
@@ -88,8 +97,10 @@
                         }
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
+        <br />
 
         <!-- Cancel and Save Selection Button -->
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -124,15 +135,11 @@
     $(document).ready(function () {
         // Making the table responsive
         var table = $('#inclusion-table').DataTable({
-            responsive: true,
+            responsive: false,
             columnDefs: [
                 { "orderable": true, "targets": [1, 2, 3, 4] }, // Sortable columns
-                { "orderable": false, "targets": [0, 5] }, // Non-sortable columns
-                { "responsivePriority": -1, "targets": [0, 5] } // Disable responsive for checkbox and qty per pack column
-            ],
-            language: {
-                emptyTable: "There are no relief pack inclusions available for this evacuation center.",
-            }
+                { "orderable": false, "targets": [0, 5] } // Non-sortable columns
+            ]
         });
 
         table.columns([2]).every(function () {

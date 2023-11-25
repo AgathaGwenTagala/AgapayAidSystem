@@ -44,6 +44,14 @@
 	</div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="container-fluid">
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 	<div class="row">
@@ -126,7 +134,8 @@
 					</div>
 
 					<div class="col-lg-12">
-						<table id="assignment-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+						<div style="overflow-x: auto; max-width: 100%;">
+							<table id="assignment-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 							<thead>
 								<tr style="vertical-align: top;">
 									<th>
@@ -198,6 +207,7 @@
 								}
 							</tbody>
 						</table>
+						</div>
 					</div>
 				</form>
 			</div>
@@ -233,8 +243,16 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<p id="assignmentDate"></p>
-				<p id="completionDate"></p>
+				<table>
+					<tr>
+						<th class="text-start pe-4">Date Assigned</th>
+						<td id="assignmentDate" class="text-start"></td>
+					</tr>
+					<tr>
+						<th class="text-start pe-4">Date Completed</th>
+						<td id="completionDate" class="text-start"></td>
+					</tr>
+				</table>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -247,8 +265,8 @@
 <script>
 	function showDatesPopup(assignmentDate, completionDate) {
 		// Set the content of the modal with the provided dates
-		document.getElementById('assignmentDate').innerText = 'Assignment Date: ' + assignmentDate;
-		document.getElementById('completionDate').innerText = 'Completion Date: ' + completionDate;
+		document.getElementById('assignmentDate').innerText = assignmentDate;
+		document.getElementById('completionDate').innerText = completionDate || "-";
 	}
 </script>
 
@@ -359,11 +377,11 @@
 <script>
 	$(document).ready(function () {
 		var table = $('#assignment-table').DataTable({
-			responsive: true,
+			responsive: false,
 			columnDefs: [
 				{ "orderable": true, "targets": [1] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 2, 3, 4, 5] }, // Non-sortable columns
-				{ "responsivePriority": -1, "targets": [0, 1, 4] } // Disable responsive for status column
+				{ "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns
+				//{ "responsivePriority": -1, "targets": [0, 1, 3, 4] } // Disable responsive for status column
 			]
 		});
 
