@@ -11,7 +11,7 @@ var configuration = new ConfigurationBuilder()
 
 // Get the connection string from appsettings.json or use the default one if not found
 string connectionString = configuration.GetConnectionString("DefaultConnection") ??
-						   "server=localhost;user=root;database=agapayaid;port=3306;password=12345;";
+                           "server=srv1237.hstgr.io;user=u550552682_admin;database=u550552682_agapayaid;port=3306;password=Agapayaid123project;";
 
 var app = builder.Build();
 
