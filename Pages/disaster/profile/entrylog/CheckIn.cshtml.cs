@@ -32,7 +32,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
 					// Fetch family members who either have no records in the entry_log table
 					// or have the latest entryStatus as 'Check-out'
-					string sql = "SELECT * FROM member_latest_entry_log";
+					string sql = "SELECT * FROM member_latest_entry_log ORDER BY fullName";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						using (MySqlDataReader reader = command.ExecuteReader())
@@ -43,11 +43,12 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								latestEntryInfo.memberID = reader.GetString(0);
 								latestEntryInfo.fullName = reader.GetString(1);
 								latestEntryInfo.sex = reader.GetString(2);
-								latestEntryInfo.birthdate = reader.GetDateTime(3).ToString("MMMM d, yyyy");
+								latestEntryInfo.birthdate = reader.GetDateTime(3).ToString("yyyy-MM-dd");
 								latestEntryInfo.barangayName = reader.GetString(4);
 								latestEntryInfo.entryStatus = reader.IsDBNull(5) ? null : reader.GetString(5);
 								latestEntryInfo.age = reader.GetInt64(6).ToString();
-								listLatestEntry.Add(latestEntryInfo);
+                                latestEntryInfo.serialNum = reader.GetString(7);
+                                listLatestEntry.Add(latestEntryInfo);
 							}
 						}
 					}
@@ -170,5 +171,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public string barangayName { get; set; }
 		public string entryStatus { get; set; }
 		public string age { get; set; }
+		public string serialNum { get; set; }
 	}
 }

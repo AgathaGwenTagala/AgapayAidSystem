@@ -24,6 +24,14 @@
     </div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px; /* Adjust the width as needed */
+        margin-right: 10px; /* Add margin for spacing if needed */
+    }
+</style>
+
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="checkIn">
         <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
@@ -34,121 +42,124 @@
 
         <div class="row pt-4">
             <div class="col-lg-12">
-                <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
-                                    <label class="form-check-label"></label>
-                                </div>
-                            </th>
-                            <th>Name</th>
-                            <th>Sex</th>
-                            <th>Birthdate</th>
-                            <th>Age</th>
-                            <th>Barangay</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.listLatestEntry)
-                        {
+                <div style="overflow-x: auto; max-width: 100%;">
+                    <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%" style="overflow-x: auto;">
+                        <thead>
                             <tr>
-                                <td width="5%">
+                                <th>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
                                         <label class="form-check-label"></label>
                                     </div>
-                                </td>
-                                <td width="25%">@item.fullName</td>
-                                <td width="10%">@item.sex</td>
-                                <td width="15%">@item.birthdate</td>
-                                <td width="5%">@item.age</td>
-                                <td width="20%">@item.barangayName</td>
-                                <td>
-                                    @{
-                                        int age;
-                                        if (int.TryParse(@item.age, out age))
-                                        {
-                                            if (@item.sex == "M")
-                                            {
-                                                if (age <= 17)
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="PWD">PWD</option>
-                                                        <option value="Children" selected>Children</option>
-                                                    </select>
-                                                }
-                                                else if (age >= 65)
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="Elderly" selected>Elderly</option>
-                                                        <option value="PWD">PWD</option>
-                                                    </select>
-                                                }
-                                                else
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="PWD">PWD</option>
-                                                    </select>
-                                                }
-                                            }
-                                            else if (@item.sex == "F")
-                                            {
-                                                if (age <= 17)
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="PWD">PWD</option>
-                                                        <option value="Children" selected>Children</option>
-                                                        <option value="Pregnant Woman">Pregnant Woman</option>
-                                                        <option value="Lactating Mother">Lactating Mother</option>
-                                                    </select>
-                                                }
-                                                else if (age >= 65)
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="Elderly" selected>Elderly</option>
-                                                        <option value="PWD">PWD</option>
-                                                        <option value="Pregnant Woman">Pregnant Woman</option>
-                                                        <option value="Lactating Mother">Lactating Mother</option>
-                                                    </select>
-                                                }
-                                                else
-                                                {
-                                                    <select class="form-select role-select" name="remarks[]" required disabled>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="None">None</option>
-                                                        <option value="PWD">PWD</option>
-                                                        <option value="Pregnant Woman">Pregnant Woman</option>
-                                                        <option value="Lactating Mother">Lactating Mother</option>
-                                                    </select>
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <p>Error: Invalid age</p>
-                                        }
-                                    }
-                                </td>
-
+                                </th>
+                                <th>Name</th>
+                                <th>Sex</th>
+                                <th>Birthdate</th>
+                                @*<th>Age</th>*@
+                                <th>Barangay</th>
+                                <th>Remarks</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listLatestEntry)
+                            {
+                                <tr>
+                                    <td width="5%">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                            <label class="form-check-label"></label>
+                                        </div>
+                                    </td>
+                                    <td width="25%">@item.serialNum</td>
+                                    <td width="25%">@item.fullName</td>
+                                    @*<td width="10%">@item.sex</td>*@
+                                    <td width="15%">@item.birthdate</td>
+                                    @*<td width="5%">@item.age</td>*@
+                                    <td width="15%">@item.barangayName</td>
+                                    <td width="15%">
+                                        @{
+                                            int age;
+                                            if (int.TryParse(@item.age, out age))
+                                            {
+                                                if (@item.sex == "M")
+                                                {
+                                                    if (age <= 17)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                }
+                                                else if (@item.sex == "F")
+                                                {
+                                                    if (age <= 17)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>Error: Invalid age</p>
+                                            }
+                                        }
+                                    </td>
 
-
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                
                 <!-- Cancel and Save Button -->
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                     <a href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
@@ -241,17 +252,15 @@
 <script>
     $(document).ready(function () {
         var table = $('#entrylog-table').DataTable({
-            responsive: true,
+            responsive: false,
             columnDefs: [
                 { "orderable": true, "targets": [1] }, // Sortable columns
-                { "orderable": false, "targets": [0, 2, 3, 4, 5, 6] }, // Non-sortable columns
-                { "responsivePriority": -1, "targets": [0, 6] } // Disable responsive for checkbox and remarks select column
-            ],
-            // Set initial sorting
-            order: [[1, 'asc']]
+                { "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns
+                //{ "responsivePriority": -1, "targets": [0, 1, 5] } // Disable responsive for checkbox and remarks select column
+            ]
         });
 
-        table.columns([2, 5]).every(function () {
+        table.columns([2, 4]).every(function () {
             var column = this;
             var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
             var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
