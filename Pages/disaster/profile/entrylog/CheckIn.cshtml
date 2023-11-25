@@ -27,18 +27,16 @@
 <style>
     /* Adjust the size of the DataTable search input */
     div.dataTables_wrapper div.dataTables_filter input {
-        width: 150px; /* Adjust the width as needed */
-        margin-right: 10px; /* Add margin for spacing if needed */
+        width: 150px;
+        margin-right: 10px;
     }
 </style>
 
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="checkIn">
-        <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
-
-        <br />
-
         <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+        <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
+        <br />
 
         <div class="row pt-4">
             <div class="col-lg-12">
@@ -52,10 +50,9 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </th>
+                                <th>Family Serial Num</th>
                                 <th>Name</th>
-                                <th>Sex</th>
                                 <th>Birthdate</th>
-                                @*<th>Age</th>*@
                                 <th>Barangay</th>
                                 <th>Remarks</th>
                             </tr>
@@ -72,9 +69,7 @@
                                     </td>
                                     <td width="25%">@item.serialNum</td>
                                     <td width="25%">@item.fullName</td>
-                                    @*<td width="10%">@item.sex</td>*@
                                     <td width="15%">@item.birthdate</td>
-                                    @*<td width="5%">@item.age</td>*@
                                     <td width="15%">@item.barangayName</td>
                                     <td width="15%">
                                         @{
@@ -256,11 +251,10 @@
             columnDefs: [
                 { "orderable": true, "targets": [1] }, // Sortable columns
                 { "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns
-                //{ "responsivePriority": -1, "targets": [0, 1, 5] } // Disable responsive for checkbox and remarks select column
             ]
         });
 
-        table.columns([2, 4]).every(function () {
+        table.columns([4]).every(function () {
             var column = this;
             var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
             var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
