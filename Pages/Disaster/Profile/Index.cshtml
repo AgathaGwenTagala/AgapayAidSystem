@@ -45,6 +45,14 @@
     </div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
 
 <!-- Breadcrumb -->
@@ -65,7 +73,6 @@
     </div>
 
     <div class="col-auto">
-
         <!-- Button with text and icon (visible on larger screens) -->
         <button id="toggleButton" class="btn d-none d-md-inline-block"
                 onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
@@ -172,7 +179,8 @@
 
 <!-- Table -->
 <div class="row">
-    <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+    <div style="overflow-x: auto; max-width: 100%;">
+        <table id="eclog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>#</th>
@@ -238,6 +246,7 @@
             }
         </tbody>
     </table>
+    </div>
 </div>
 
 <!-- Modal: Disaster Information -->
@@ -305,14 +314,11 @@
 <script>
     $(document).ready(function () {
         var table = $('#eclog-table').DataTable({
-            responsive: true,
+            responsive: false,
             columnDefs: [
                 { "orderable": true, "targets": [0, 1,] }, // Sortable columns
                 { "orderable": false, "targets": [2, 3, 4, 5] } // Non-sortable columns
             ],
-            language: {
-                emptyTable: "There are no evacuation centers allocated to this disaster.",
-            },
             initComplete: function () {
                 var rows = this.api().rows({ page: 'current' }).nodes();
 

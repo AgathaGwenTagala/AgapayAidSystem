@@ -25,6 +25,14 @@
     </div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="container-fluid">
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 	<div class="row">
@@ -61,7 +69,7 @@
 				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
 				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
 				<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
-				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID" selected>Relief Goods Pack</option>
 				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
 			</select>
 		</div>

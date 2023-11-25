@@ -45,6 +45,14 @@
 	</div>
 }
 
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="container-fluid">
 	<input type="hidden" name="familyID" value="@Model.familyInfo.familyID" />
 	<div class="row">
@@ -70,8 +78,7 @@
 			<select class="form-select" id="pageSelect">
 				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</option>
 				<option value="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
-				<option value="/family/profile/vulnerability?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
-
+				<option value="/family/profile/vulnerability?familyID=@Model.familyInfo.familyID" selected>Vulnerability Assessment</option>
 			</select>
 		</div>
 
