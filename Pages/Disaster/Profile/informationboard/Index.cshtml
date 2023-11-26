@@ -107,24 +107,29 @@
                 </div>
 
                 <!-- Title and Close Button -->
-                @*<form method="POST" id="completeAssign" style="padding: 0px;">*@
-                <form method="POST" style="padding: 0px;">
+                <form method="POST" id="closeEC" style="padding: 0px;">
                     <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-                    <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
+                    <input type="hidden" name="disasterID" value="@Model.logInfo.disasterID" />
+                    <input type="hidden" name="centerName" value="@Model.logInfo.centerName" />
                     <div class="row pb-2">
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
                                 <h1>@Model.logInfo.centerName</h1>
                             </div>
-
-                            <div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-                                <button id="completeButton" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
-                                    <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
-                                </button>
-                                <button id="completeButtonSmall" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
-                                    <i class="bi bi-x-circle pt" style="padding: 5px;"></i>
-                                </button>
-                            </div>
+                            @if (@Model.logInfo.status == "Open")
+                            {
+                                <div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+                                    <button id="completeButton" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+                                        <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
+                                    </button>
+                                    <button id="completeButtonSmall" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+                                        <i class="bi bi-x-circle pt" style="padding: 5px;"></i>
+                                    </button>
+                                </div>
+                            }
+                            else if (@Model.logInfo.status == "Closed")
+				            {
+                            }
                         </div>
                     </div>
                 </form>
@@ -338,7 +343,7 @@
 <!-- Complete Assignment button in Modal -->
 <script>
     document.getElementById('confirmSaveButton').addEventListener('click', function () {
-        document.getElementById('completeAssign').submit();
+        document.getElementById('closeEC').submit();
     });
 </script>
 

@@ -49,7 +49,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                     "CONCAT(ec.streetAddress, ', Brgy. ', b.barangayName, ', ', " +
                                     "b.municipalityCity, ', ', b.province) AS fullAddress, " +
                                     "ec.centerType, ec.mobileNum, ec.telephoneNum, " +
-                                    "log.openingDateTime, log.closingDateTime " +
+                                    "log.openingDateTime, log.closingDateTime, log.status " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -78,7 +78,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                 logInfo.telephoneNum = logReader.IsDBNull(13) ? null : logReader.GetString(13);
                                 logInfo.openingDateTime = logReader.GetDateTime(14).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
                                 logInfo.closingDateTime = logReader.IsDBNull(15) ? null : logReader.GetDateTime(15).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-
+                                logInfo.status = logReader.GetString(16);
                             }
                         }
 					}
@@ -103,6 +103,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 
             string centerLogID = Request.Form["centerLogID"];
             string disasterID = Request.Form["disasterID"];
+            string centerName = Request.Form["centerName"];
 
             if (string.IsNullOrEmpty(centerLogID))
             {
@@ -115,20 +116,15 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-
-                    // Insert data into the 'disaster' table
-                    string sql = "UPDATE evacuation_center_log " +
-                                 "SET closingDateTime = CURRENT_TIMESTAMP(), status = 'Closed' " +
-                                 "WHERE centerLogID = @centerLogID";
-
+                    string sql = "CALL close_evacuation_center(@centerLogID);";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@assignmentID", centerLogID);
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
                         command.ExecuteNonQuery();
                     }
                 }
 
-                successMessage = "Evacuation center closed successfully!";
+                successMessage = centerName + " closed successfully!";
             }
 
             catch (Exception ex)
@@ -146,7 +142,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
             {
                 // Redirect to the Disaster page after successful close
                 Response.Redirect("/disaster/profile/index?disasterID="+ disasterID + "&successMessage=" + successMessage);
-            }
+				//Response.Redirect("/disaster/profile/informationboard/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+			}
         }
 
 		public int GetAssignedStaffCount()
