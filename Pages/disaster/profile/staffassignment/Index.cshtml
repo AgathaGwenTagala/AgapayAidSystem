@@ -411,6 +411,7 @@
 	$(document).ready(function () {
 		var table = $('#assignment-table').DataTable({
 			responsive: false,
+			pageLength: 100;
 			columnDefs: [
 				{ "orderable": true, "targets": [1] }, // Sortable columns
 				{ "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns

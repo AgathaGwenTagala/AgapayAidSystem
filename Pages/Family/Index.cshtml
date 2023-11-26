@@ -146,6 +146,7 @@
 	$(document).ready(function () {
 		var table = $('#family-table').DataTable({
 			responsive: true,
+			pageLength: 100;
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 2, 4] }, // Sortable columns
 				{ "orderable": false, "targets": [3, 5] } // Non-sortable columns

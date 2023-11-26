@@ -1,0 +1,303 @@
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.entrylog.CheckInModel
+@{
+    ViewData["Title"] = "Check-in Evacuee";
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+<style>
+    /* Adjust the size of the DataTable search input */
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: 150px;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="bg-light rounded px-2 py-0 my-3">
+    <form method="POST" id="checkIn">
+        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+        <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
+        <br />
+
+        <div class="row pt-4">
+            <div class="col-lg-12">
+                <div style="overflow-x: auto; max-width: 100%;">
+                    <table id="entrylog-table" class="table display compact order-column table-hover" cellspacing="0" width="100%" style="overflow-x: auto;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+                                        <label class="form-check-label"></label>
+                                    </div>
+                                </th>
+                                <th>Family Serial Num</th>
+                                <th>Name</th>
+                                <th>Birthdate</th>
+                                <th>Barangay</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.listLatestEntry)
+                            {
+                                <tr>
+                                    <td width="5%">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="@item.memberID" name="selectedEvacuees[]">
+                                            <label class="form-check-label"></label>
+                                        </div>
+                                    </td>
+                                    <td width="25%">@item.serialNum</td>
+                                    <td width="25%">@item.fullName</td>
+                                    <td width="15%">@item.birthdate</td>
+                                    <td width="15%">@item.barangayName</td>
+                                    <td width="15%">
+                                        @{
+                                            int age;
+                                            if (int.TryParse(@item.age, out age))
+                                            {
+                                                if (@item.sex == "M")
+                                                {
+                                                    if (age <= 17)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                        </select>
+                                                    }
+                                                }
+                                                else if (@item.sex == "F")
+                                                {
+                                                    if (age <= 17)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Children" selected>Children</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else if (age >= 65)
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="Elderly" selected>Elderly</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-select role-select" name="remarks[]" required disabled>
+                                                            <option value="" selected disabled>Select</option>
+                                                            <option value="None">None</option>
+                                                            <option value="PWD">PWD</option>
+                                                            <option value="Pregnant Woman">Pregnant Woman</option>
+                                                            <option value="Lactating Mother">Lactating Mother</option>
+                                                        </select>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>Error: Invalid age</p>
+                                            }
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                
+                <!-- Cancel and Save Button -->
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+                    <button type="button" class="btn btn-primary" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Modal: Confirm Check-in -->
+<div class="modal" id="confirmSaveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Check-in</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to check-in the selected individuals as evacuees at @Model.logInfo.centerName?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSaveButton">Check-in</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Select All checkboxes and Enable/disable "Check-in" button -->
+<script>
+    const selectAllCheckbox = document.getElementById('selectAllCheckboxes');
+    const checkboxes = document.querySelectorAll('input[name="selectedEvacuees[]"]');
+    const roleSelects = document.querySelectorAll('.role-select');
+    const saveSelectionButton = document.querySelector('button[name="saveSelection"]');
+
+    // Event listener for the "Select All" checkbox
+    selectAllCheckbox.addEventListener('change', function () {
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.checked = selectAllCheckbox.checked;
+            roleSelects[index].disabled = !selectAllCheckbox.checked;
+            if (!selectAllCheckbox.checked) {
+                roleSelects[index].value = ""; // Reset the selected role when unchecked
+            }
+        });
+        updateSaveSelectionButtonState();
+    });
+
+    // Event listener for individual checkboxes
+    checkboxes.forEach((checkbox, index) => {
+        checkbox.addEventListener('change', function () {
+            updateSelectAllCheckboxState();
+            updateSaveSelectionButtonState();
+            roleSelects[index].disabled = !checkbox.checked;
+            if (!checkbox.checked) {
+                roleSelects[index].value = ""; // Reset the selected role when unchecked
+            }
+        });
+    });
+
+    // Event listener for role select elements
+    roleSelects.forEach((roleSelect, index) => {
+        roleSelect.addEventListener('change', function () {
+            updateSaveSelectionButtonState();
+        });
+    });
+
+    function updateSelectAllCheckboxState() {
+        const allEnabledCheckboxesChecked = Array.from(checkboxes)
+            .every(checkbox => checkbox.checked);
+        selectAllCheckbox.checked = allEnabledCheckboxesChecked;
+    }
+
+    function updateSaveSelectionButtonState() {
+        // Enable the "Check-in" button if for each checked checkbox, its corresponding role select has a value
+        saveSelectionButton.disabled = Array.from(checkboxes).some((checkbox, index) => {
+            return checkbox.checked && roleSelects[index].value === "";
+        });
+    }
+</script>
+
+<!-- Check-in button in Modal -->
+<script>
+    document.getElementById('confirmSaveButton').addEventListener('click', function () {
+        document.getElementById('checkIn').submit();
+    });
+</script>
+
+<!-- Making the table responsive -->
+<script>
+    $(document).ready(function () {
+        var table = $('#entrylog-table').DataTable({
+            responsive: false,
+            pageLength: 100;
+            columnDefs: [
+                { "orderable": true, "targets": [1] }, // Sortable columns
+                { "orderable": false, "targets": [0, 2, 3, 4, 5] } // Non-sortable columns
+            ]
+        });
+
+        table.columns([4]).every(function () {
+            var column = this;
+            var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
+            var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
+            var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
+
+            function updateFilterButton() {
+                var hasActiveFilter = column.search() !== '';
+                btn.toggleClass('btn-warning', hasActiveFilter);
+            }
+
+            column.data().unique().sort().each(function (d, j) {
+                menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+                    '<label class="form-check-label ps-1">' + d + '</label></div>');
+            });
+
+            menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
+                '<label class="form-check-label ps-1">Select All</label></div>');
+
+            menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
+
+            menu.find('.form-check-input, .clear-filter').on('click', function () {
+                var checked = $(this).prop('checked');
+
+                if ($(this).hasClass('form-check-input')) {
+                    if ($(this).val() === 'select-all') {
+                        menu.find('.form-check-input').prop('checked', checked);
+                    } else if (!checked) {
+                        menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                    }
+                } else {
+                    menu.find('.form-check-input').prop('checked', false);
+                    menu.find('.form-check-input[value="select-all"]').prop('checked', false);
+                }
+
+                var selectedValues = menu.find('.form-check-input:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+                updateFilterButton();
+            });
+            updateFilterButton();
+        });
+    });
+</script>

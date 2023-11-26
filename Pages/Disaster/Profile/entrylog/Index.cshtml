@@ -357,6 +357,7 @@
 	$(document).ready(function () {
 		var table = $('#entrylog-table').DataTable({
 			responsive: false,
+			pageLength: 100;
 			columnDefs: [
 				{ "orderable": true, "targets": [1, 2] }, // Sortable columns
 				{ "orderable": false, "targets": [0, 3, 4, 5] } // Non-sortable columns

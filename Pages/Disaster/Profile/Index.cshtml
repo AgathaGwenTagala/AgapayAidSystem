@@ -296,6 +296,7 @@
     $(document).ready(function () {
         var table = $('#eclog-table').DataTable({
             responsive: false,
+            pageLength: 100;
             columnDefs: [
                 { "orderable": true, "targets": [0, 1,] }, // Sortable columns
                 { "orderable": false, "targets": [2, 3, 4, 5] } // Non-sortable columns

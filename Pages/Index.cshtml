@@ -245,6 +245,7 @@
     $(document).ready(function () {
         var table = $('#ec').DataTable({
             responsive: true,
+            pageLength: 100;
             columnDefs: [
                 { "orderable": true, "targets": [0, 1] }, //Sortable columns
                 { "orderable": false, "targets": [2, 3, 4] } // Non-sortable columns
