@@ -1,0 +1,353 @@
+﻿@page
+@model AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily.IndexModel
+@{
+	ViewData["Title"] = "Entry Log - Add Family Index";
+}
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+<div class="bg-light rounded px-2 py-0 my-3">
+	<form method="POST" id="add-family">
+		<h1 class="display-5 fw-bold text-center">Add Family</h1>
+		<p class="form-label" style="text-align:center">Family Head</p>
+		<br />
+
+		<div class="row">
+			<!-- First Name -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						First Name:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="firstName" value="@Model.memberInfo.firstName" required maxlength="65" />
+				</div>
+			</div>
+
+			<!-- Middle Name -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Middle Name:
+					</label>
+					<input type="text" class="form-control" name="middleName" value="@Model.memberInfo.middleName" maxlength="65" />
+				</div>
+			</div>
+
+			<!-- Last Name -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Last Name:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="lastName" value="@Model.memberInfo.lastName" required maxlength="65" />
+				</div>
+			</div>
+
+			<!-- Extension Name -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Extension Name:
+					</label>
+					<input type="text" class="form-control" name="extName" value="@Model.memberInfo.extName" maxlength="45" />
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Street Address -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Street Address:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="streetAddress" value="@Model.familyInfo.streetAddress" required maxlength="85" />
+				</div>
+			</div>
+
+			<!-- Barangay -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Barangay:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<select class="form-select" name="barangayID" id="barangayID" required>
+						<option value="" selected disabled>Select Barangay</option>
+						@if (Model.Barangays != null)
+						{
+							@foreach (var type in Model.Barangays)
+							{
+								<option value="@type.barangayID">@type.barangayName</option>
+							}
+						}
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<!-- Mobile No. -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Mobile Number:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.familyInfo.mobileNum" placeholder="09XXXXXXXXX" maxlength="11" pattern="[0-9]{11}" title="Enter digits only." required />
+				</div>
+			</div>
+
+			<!-- Tel No. -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Telephone Number:
+					</label>
+					<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<!-- Sex -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label radio1x2">
+						Sex:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<select class="form-select" name="sex" required>
+						<option value="" selected disabled>Select Sex</option>
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Birthdate -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Birthdate:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="date" class="form-control text-muted" name="birthdate"
+						   value="@Model.memberInfo.birthdate" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+				</div>
+			</div>
+
+			<!-- Civil Status -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Civil Status:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<select class="form-select" name="civilStatus" required>
+						<option value="" selected disabled>Select Civil Status</option>
+						<option value="Single">Single</option>
+						<option value="Married">Married</option>
+						<option value="Widowed">Widowed</option>
+						<option value="Annulled">Annulled</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Indigenous Person -->
+			<div class="col-md-3">
+				<div class="mb-3">
+					<label class="form-label">
+						Is Indigenous Person?
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<select class="form-select" name="isIndigenousPerson" required>
+						<option value="" selected disabled>Select</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<!-- Religion -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Religion:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="religion" value="@Model.memberInfo.religion" maxlength="45" />
+				</div>
+			</div>
+
+			<!-- Health Condition -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Health Condition:
+					</label>
+					<input type="text" class="form-control" name="healthCondition" value="@Model.memberInfo.healthCondition" maxlength="45" />
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<!-- Education -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Educational Attainment:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="education" value="@Model.memberInfo.education" required maxlength="45" />
+				</div>
+			</div>
+
+			<!-- Occupation -->
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label class="form-label">
+						Occupation:
+						<span class="text-danger" style="padding: 5px">*</span>
+					</label>
+					<input type="text" class="form-control" name="occupation" value="@Model.memberInfo.occupation" required maxlength="45" />
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Remarks -->
+			<div class="mb-3">
+				<label class="form-label">
+					Remarks:
+				</label>
+				<textarea class="form-control" name="remarks" value="@Model.memberInfo.remarks" rows="3"></textarea>
+			</div>
+		</div>
+
+		<br />
+
+		<!-- Cancel and Save Selection Button -->
+		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+			<a href="/disaster/profile/entrylog/checkin" role="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+			<button type="button" class="btn btn-primary px-4" id="submitBtn"
+					data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>
+				Add
+			</button>
+		</div>
+
+		<input type="hidden" name="redirectType" id="redirectType" value="" />
+	</form>
+</div>
+
+<!-- Modal: Add Family Member -->
+<div class="modal" id="confirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Family Member</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Do you want to add another family member to this family?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="noButton">No</button>
+				<button type="button" class="btn btn-primary" id="yesButton">Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Enable/disable "Submit" button -->
+<script>
+	const submitButton = document.getElementById('submitBtn');
+	const form = document.querySelector('form');
+
+	submitButton.disabled = true;
+
+	function checkFormValidity() {
+		if (form.checkValidity()) {
+			submitButton.disabled = false;
+		} else {
+			submitButton.disabled = true;
+		}
+	}
+
+	form.addEventListener('input', checkFormValidity);
+</script>
+
+<!-- Save Changes -->
+<script>
+	document.getElementById('noButton').addEventListener('click', function () {
+		document.getElementById('add-family').submit();
+	});
+
+	document.getElementById('yesButton').addEventListener('click', function () {
+		document.getElementById('redirectType').value = 'add';
+		document.getElementById('add-family').submit();
+	});
+</script>
+
+<!-- Format Mobile and Telephone Number -->
+<script>
+	const mobileInput = document.getElementById('mobileNum');
+	const telephoneInput = document.getElementById('telephoneNum');
+
+	// Set initial values when the input fields receive focus
+	mobileInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('09')) {
+			this.value = '09';
+		}
+	});
+
+	telephoneInput.addEventListener('focus', function () {
+		if (!this.value.startsWith('044')) {
+			this.value = '044';
+		}
+	});
+
+	mobileInput.addEventListener('input', function () {
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue.length >= 2) {
+			cleanedValue = '09' + cleanedValue.slice(2);
+		}
+
+		this.value = cleanedValue.slice(0, 11);
+	});
+
+	telephoneInput.addEventListener('input', function () {
+		let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue.length >= 3) {
+			cleanedValue = '044' + cleanedValue.slice(3);
+		}
+
+		this.value = cleanedValue.slice(0, 10);
+	});
+</script>
