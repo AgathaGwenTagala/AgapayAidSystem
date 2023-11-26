@@ -63,8 +63,18 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
                 return;
             }
 
-            // Validate mobile number (should be exactly 11 characters)
-            if (mobileNum.Length != 11)
+			if (string.IsNullOrEmpty(middleName))
+			{
+				middleName = null;
+			}
+
+			if (string.IsNullOrEmpty(extName))
+			{
+				extName = null;
+			}
+
+			// Validate mobile number (should be exactly 11 characters)
+			if (mobileNum.Length != 11)
             {
                 errorMessage = "Mobile number should be exactly 11 characters long.";
                 return;
