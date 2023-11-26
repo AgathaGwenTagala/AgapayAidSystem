@@ -109,23 +109,36 @@
 				</div>
 
 				<!-- Title and Add Button -->
-				<div class="row pb-2">
-					<div class="col-12 d-flex align-items-center justify-content-between">
-						<div class="d-flex align-items-center">
-							<h1>Inventory</h1>
-						</div>
+				@if (@Model.logInfo.status == "Open")
+				{
+					<div class="row pb-2">
+						<div class="col-12 d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h1>Inventory</h1>
+							</div>
 
-						<div class="d-flex justify-content-end align-items-center">
-							<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-								Add Item
-							</a>
-							<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-							</a>
+							<div class="d-flex justify-content-end align-items-center">
+								<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+									Add Item
+								</a>
+								<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
+				}
+				else if (@Model.logInfo.status == "Closed")
+				{
+					<div class="row pb-2">
+						<div class="col-12 d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h1>Inventory</h1>
+							</div>
+						</div>
+					</div>
+				}
 
 				<div class="row pb-2">
 					<div class="col-lg-12">
@@ -156,24 +169,30 @@
 										<td width="18%">@item.remainingQty/@item.qty</td>
 										<td width="20%" style="text-align:left;">@item.remarks</td>
 										<td width="5%">
-											<div class="d-inline position-relative">
-												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="bi bi-three-dots-vertical"></i>
-												</a>
-												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													<li>
-														<a class="dropdown-item" href="/disaster/profile/inventory/edit?inventoryID=@item.inventoryID">
-															Edit
-														</a>
-													</li>
-													<li>
-														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
-														   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete
-														</a>
-													</li>
-												</ul>
-											</div>
+											@if (@Model.logInfo.status == "Open")
+											{
+												<div class="d-inline position-relative">
+													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots-vertical"></i>
+													</a>
+													<ul class="dropdown-menu" aria-labelledby="recordOptions">
+														<li>
+															<a class="dropdown-item" href="/disaster/profile/inventory/edit?inventoryID=@item.inventoryID">
+																Edit
+															</a>
+														</li>
+														<li>
+															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
+															   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																Delete
+															</a>
+														</li>
+													</ul>
+												</div>
+											}
+											else if (@Model.logInfo.status == "Closed")
+											{
+											}
 										</td>
 									</tr>
 									counter++;

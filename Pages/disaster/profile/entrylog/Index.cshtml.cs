@@ -47,16 +47,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                     }
 
 					// Fetch entry log data related to the selected center log
-					string entrySql = "SELECT e.*, CONCAT(mem.lastName, ', ', mem.firstName, " +
-									  "(CASE WHEN (mem.middleName IS NOT NULL) " +
-									  "THEN CONCAT(' ', mem.middleName) ELSE '' END), " +
-									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END), " +
-									  "(CASE WHEN (mem.extName IS NOT NULL) " +
-									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName, fam.serialNum, fam.familyID " +
-									  "FROM entry_log e " +
-									  "INNER JOIN family_member mem ON e.memberID = mem.memberID " +
-									  "JOIN family fam ON mem.familyID = fam.familyID " +
-									  "WHERE centerLogID = @centerLogID ORDER BY e.checkInDate;";
+					string entrySql = "SELECT * FROM entry_log_view " +
+									  "WHERE centerLogID = @centerLogID;";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
 						entryCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
