@@ -117,21 +117,42 @@
 								<h1>Entry Log</h1>
 							</div>
 
-							<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-								<a id="checkInButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
-								</a>
-								<a id="checkInButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
-								</a>
+							@if (@Model.logInfo.status == "Open")
+							{
+								<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+									<a id="checkInButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+									</a>
+									<a id="checkInButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+									</a>
 
-								<button id="checkOutButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-									<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
-								</button>
-								<button id="checkOutButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-									<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
-								</button>
-							</div>
+									<button id="checkOutButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+										<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
+									</button>
+									<button id="checkOutButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+										<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
+									</button>
+								</div>
+							}
+							else if (@Model.logInfo.status == "Closed")
+							{
+								<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+									<button class="btn btn-primary mb-2 d-none d-sm-inline" href="#" disabled>
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+									</button>
+									<button class="btn btn-primary mb-2 d-sm-none" href="#" disabled>
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+									</button>
+
+									<button style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" disabled>
+										<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
+									</button>
+									<button style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" disabled>
+										<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
+									</button>
+								</div>
+							}
 						</div>
 					</div>
 
@@ -142,10 +163,20 @@
 							<thead>
 								<tr>
 									<th>
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
-											<label class="form-check-label"></label>
-										</div>
+										@if (@Model.logInfo.status == "Open")
+										{
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+												<label class="form-check-label"></label>
+											</div>
+										}
+										else if (@Model.logInfo.status == "Closed")
+										{
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" disabled>
+												<label class="form-check-label"></label>
+											</div>
+										}
 									</th>
 									<th>Family Serial Num</th>
 									<th>Name</th>
@@ -159,11 +190,21 @@
 								{
 									<tr>
 										<td width="5%">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="@item.entryLogID"
+											@if (@Model.logInfo.status == "Open")
+											{
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" value="@item.entryLogID"
 													   name="selectedEvacuees[]" @((item.entryStatus == "Check-out") ? "disabled" : "")>
-												<label class="form-check-label"></label>
-											</div>
+													<label class="form-check-label"></label>
+												</div>
+											}
+											else if (@Model.logInfo.status == "Closed")
+											{
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" disabled>
+													<label class="form-check-label"></label>
+												</div>
+											}
 										</td>
 										<td width="30%" style="text-align: center;">@item.serialNum	</td>
 										<td width="25%">@item.fullName</td>
