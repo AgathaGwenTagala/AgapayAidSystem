@@ -108,105 +108,138 @@
 					</nav>
 				</div>
 
+				<!-- Title, Add and Mark Completed Buttons -->
+				
 				<form method="POST" id="completeAssign" style="padding: 0px;">
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-					<div class="row pb-2">
-						<div class="col d-flex align-items-center">
-							<h1>Staff Assignment</h1>
-						</div>
+					@if (@Model.logInfo.status == "Open")
+					{
+						<div class="row pb-2">
+							<div class="col d-flex align-items-center">
+								<h1>Staff Assignment</h1>
+							</div>
+							<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+								<a id="addButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
+								</a>
+								<a id="addButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+								</a>
 
-						<!-- Add and Mark Completed Buttons -->
-						<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-							<a id="addButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
-							</a>
-							<a id="addButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-							</a>
-
-							<button id="completeButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-								<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Mark Completed
-							</button>
-							<button id="completeButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-								<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
-							</button>
+								<button id="completeButton" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+									<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Mark Completed
+								</button>
+								<button id="completeButtonSmall" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+									<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+								</button>
+							</div>
 						</div>
-					</div>
+					}
+					else if (@Model.logInfo.status == "Closed")
+					{
+						<div class="row pb-2">
+							<div class="col d-flex align-items-center">
+								<h1>Staff Assignment</h1>
+							</div>
+						</div>
+					}
 
 					<div class="col-lg-12">
 						<div style="overflow-x: auto; max-width: 100%;">
 							<table id="assignment-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-							<thead>
-								<tr style="vertical-align: top;">
-									<th>
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
-											<label class="form-check-label"></label>
-										</div>
-									</th>
-									<th>Name</th>
-									<th>Sex</th>
-									<th>Role</th>
-									<th>Status</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach (var item in Model.listAssignment)
-								{
+								<thead>
 									<tr>
-										<td width="5%">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="@item.assignmentID"
-													   name="selectedStaff[]" @((item.status == "Completed") ? "disabled" : "")>
-												<label class="form-check-label"></label>
-											</div>
-										</td>
-										<td width="35%">@item.fullName</td>
-										<td width="15%">@item.sex</td>
-										<td width="20%">@item.role</td>
-										<td width="20%">
-											@if (@item.status == "Assigned")
+										<th>
+											@if (@Model.logInfo.status == "Open")
 											{
-												<span class="badge bg-success">@item.status</span>
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
+													<label class="form-check-label"></label>
+												</div>
 											}
-											else if (@item.status == "Completed")
+											else if (@Model.logInfo.status == "Closed")
 											{
-												<span class="badge rounded-pill bg-light">@item.status</span>
+												<text>#</text>
 											}
-										</td>
-										<td width="5%">
-											<div class="d-inline position-relative">
-												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="bi bi-three-dots-vertical"></i>
-												</a>
-												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													<li>
-														<a href="#" class="dropdown-item"
-														   onclick="showStaffInfo('@item.fullName', '@item.sex', '@item.age', '@item.birthdate', '@item.mobileNum', '@item.emailAddress')"
-														   data-bs-toggle="modal" data-bs-target="#profileModal">
-															View Profile
-														</a>
-													</li>
-													<li>
-														<a href="#" class="dropdown-item" onclick="showDatesPopup('@item.assignmentDate', '@item.completionDate')"
-														   data-bs-toggle="modal" data-bs-target="#datesModal">
-															View Assignment Details
-														</a>
-													</li>
-													<li>
-														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
-														   data-deleteid="@item.assignmentID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete
-														</a>
-													</li>
-												</ul>
-											</div>
-										</td>
+										</th>
+										<th>Name</th>
+										<th>Sex</th>
+										<th>Role</th>
+										<th>Status</th>
+										<th></th>
 									</tr>
-								}
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									@{ var counter = 1; }
+									@foreach (var item in Model.listAssignment)
+									{
+										<tr>
+											<td width="5%">
+												@if (@Model.logInfo.status == "Open")
+												{
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox" value="@item.assignmentID"
+															   name="selectedStaff[]" @((item.status == "Completed") ? "disabled" : "")>
+														<label class="form-check-label"></label>
+													</div>
+												}
+												else if (@Model.logInfo.status == "Closed")
+												{
+													@counter
+												}
+											</td>
+											<td width="35%">@item.fullName</td>
+											<td width="15%">@item.sex</td>
+											<td width="20%">@item.role</td>
+											<td width="20%">
+												@if (@item.status == "Assigned")
+												{
+													<span class="badge bg-success">@item.status</span>
+												}
+												else if (@item.status == "Completed")
+												{
+													<span class="badge rounded-pill bg-light">@item.status</span>
+												}
+											</td>
+											<td width="5%">
+												<div class="d-inline position-relative">
+													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots-vertical"></i>
+													</a>
+													<ul class="dropdown-menu" aria-labelledby="recordOptions">
+														<li>
+															<a href="#" class="dropdown-item"
+															   onclick="showStaffInfo('@item.fullName', '@item.sex', '@item.age', '@item.birthdate', '@item.mobileNum', '@item.emailAddress')"
+															   data-bs-toggle="modal" data-bs-target="#profileModal">
+																View Profile
+															</a>
+														</li>
+														<li>
+															<a href="#" class="dropdown-item" onclick="showDatesPopup('@item.assignmentDate', '@item.completionDate')"
+															   data-bs-toggle="modal" data-bs-target="#datesModal">
+																View Assignment Details
+															</a>
+														</li>
+														@if (@Model.logInfo.status == "Open")
+														{
+															<li>
+																<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
+																   data-deleteid="@item.assignmentID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																	Delete
+																</a>
+															</li>
+														}
+														else if (@Model.logInfo.status == "Closed")
+														{
+														}
+													</ul>
+												</div>
+											</td>
+										</tr>
+										counter++;
+									}
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</form>

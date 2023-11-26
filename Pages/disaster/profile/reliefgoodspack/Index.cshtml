@@ -128,82 +128,91 @@
 				
 				<div class="col-lg-12">
 					<table id="reliefpack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Pack ID</th>
-									<th>
-										Qty<br />
-										<small>(Remaining/Total)</small>
-									</th>
-									<th>Date Distributed</th>
-									<th>Status</th>
-									<th> </th>
-									<th> </th>
-								</tr>
-							</thead>
-							<tbody>
-								@{ var counter = 1; }
-								@foreach (var item in Model.listReliefPack)
-								{
-									<tr style="text-align:center;">
-										<td width="5%">@counter</td>
-										<td width="15%">@item.packID</td>
-										<td width="15%">@item.remainingQty/@item.packQty</td>
-										<td width="20%">@item.distributedAt</td>
-										<td width="15%">
-											@if (@item.status == "Distributed")
-											{
-												<span class="badge bg-success">@item.status</span>
-											}
-											else if (@item.status == "Packed")
-											{
-												<span class="badge rounded-pill bg-light">@item.status</span>
-											}
-										</td>
-										<td width="15%">
-											@if (@item.status == "Distributed")
-											{
-												<button class="btn btn-primary edit-button" disabled>
-													Distribute
-												</button>
-											}
-											else if (@item.status == "Packed")
-											{
-												<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-													Distribute
-												</a>
-											}
-										</td>
-										<td width="5%">
-											<div class="d-inline position-relative">
-												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-													<i class="bi bi-three-dots-vertical"></i>
-												</a>
-												<ul class="dropdown-menu" aria-labelledby="recordOptions">
-													<li>
-														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-															View Pack Inclusions</a>
-													</li>
-													<li>
-														<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/record?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-															View Distribution Record
-														</a>
-													</li>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Pack ID</th>
+								<th>
+									Qty<br />
+									<small>(Remaining/Total)</small>
+								</th>
+								<th>Date Distributed</th>
+								<th>Status</th>
+								<th> </th>
+								<th> </th>
+							</tr>
+						</thead>
+						<tbody>
+							@{
+								var counter = 1;
+							}
+							@foreach (var item in Model.listReliefPack)
+							{
+								<tr style="text-align:center;">
+									<td width="5%">@counter</td>
+									<td width="15%">@item.packID</td>
+									<td width="15%">@item.remainingQty/@item.packQty</td>
+									<td width="20%">@item.distributedAt</td>
+									<td width="15%">
+										@if (@item.status == "Distributed")
+										{
+											<span class="badge bg-success">@item.status</span>
+										}
+										else if (@item.status == "Packed")
+										{
+											<span class="badge rounded-pill bg-light">@item.status</span>
+										}
+									</td>
+									<td width="15%">
+										@if (@item.status == "Distributed")
+										{
+											<button class="btn btn-primary edit-button" disabled>
+												Distribute
+											</button>
+										}
+										else if (@item.status == "Packed")
+										{
+											<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+												Distribute
+											</a>
+										}
+									</td>
+									<td width="5%">
+										<div class="d-inline position-relative">
+											<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+												<i class="bi bi-three-dots-vertical"></i>
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="recordOptions">
+												<li>
+													<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+														View Pack Inclusions
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/record?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+														View Distribution Record
+													</a>
+												</li>
+												@if (@Model.logInfo.status == "Open")
+												{
 													<li>
 														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
 														   data-deleteid="@item.packID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 															Delete
 														</a>
 													</li>
-												</ul>
-											</div>
-										</td>
-									</tr>
-									counter++;
-								}
-							</tbody>
-						</table>
+												}
+												else if (@Model.logInfo.status == "Closed")
+												{
+												}
+											</ul>
+										</div>
+									</td>
+								</tr>
+								counter++;
+							}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

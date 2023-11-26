@@ -78,12 +78,13 @@
 		<div class="col-12 d-flex align-items-center justify-content-between">
 			<h1><i class="bi bi-people-fill" style="padding: 0 5px 0 5px;"></i>Family</h1>
 			<div class="d-flex justify-content-end align-items-center">
-				<a class="btn btn-primary mb-2 button-spacing d-none d-sm-inline" href="#" id="importCsvButton">
-					<i class="bi bi-box-arrow-down"></i> Import .CSV File
-				</a>
-				<input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleFile()" />
-
-
+				<form method="POST">
+					<a class="btn btn-primary mb-2 button-spacing d-none d-sm-inline" href="#" id="importCsvButton">
+						<i class="bi bi-box-arrow-up"></i> Upload CSV
+					</a>
+					<input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleFile()" />
+				</form>
+				
 				<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/family/add/index">
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family
 				</a>
@@ -197,7 +198,7 @@
 	});
 
 
-<!--import .CSV File-- >
+	// Upload File
 	document.getElementById('importCsvButton').addEventListener('click', function () {
 		document.getElementById('csvInput').click();
 	});
@@ -236,5 +237,4 @@
 				console.error(error);
 			});
 	}
-
 </script>

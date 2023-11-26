@@ -84,7 +84,17 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
             mobileNum = Request.Form["mobileNum"];
             emailAddress = Request.Form["emailAddress"];
 
-            try
+			if (string.IsNullOrEmpty(middleName))
+			{
+				middleName = null;
+			}
+
+			if (string.IsNullOrEmpty(extName))
+			{
+				extName = null;
+			}
+
+			try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (MySqlConnection connection = new MySqlConnection(connectionString))

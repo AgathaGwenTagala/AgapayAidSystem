@@ -25,7 +25,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                     connection.Open();
 
 					// Fetch info of selected center log from the database
-					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, log.status " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -41,21 +41,14 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								logInfo.disasterID = logReader.GetString(1);
 								logInfo.disasterName = logReader.GetString(2);
 								logInfo.centerName = logReader.GetString(3);
+								logInfo.status = logReader.GetString(4);
 							}
                         }
                     }
 
 					// Fetch entry log data related to the selected center log
-					string entrySql = "SELECT e.*, CONCAT(mem.lastName, ', ', mem.firstName, " +
-									  "(CASE WHEN (mem.middleName IS NOT NULL) " +
-									  "THEN CONCAT(' ', mem.middleName) ELSE '' END), " +
-									  "(CASE WHEN (mem.middleName IS NOT NULL) THEN ' ' ELSE ' ' END), " +
-									  "(CASE WHEN (mem.extName IS NOT NULL) " +
-									  "THEN CONCAT(' ', mem.extName) ELSE '' END)) AS fullName, fam.serialNum, fam.familyID " +
-									  "FROM entry_log e " +
-									  "INNER JOIN family_member mem ON e.memberID = mem.memberID " +
-									  "JOIN family fam ON mem.familyID = fam.familyID " +
-									  "WHERE centerLogID = @centerLogID ORDER BY e.checkInDate;";
+					string entrySql = "SELECT * FROM entry_log_view " +
+									  "WHERE centerLogID = @centerLogID;";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
 						entryCommand.Parameters.AddWithValue("@centerLogID", centerLogID);

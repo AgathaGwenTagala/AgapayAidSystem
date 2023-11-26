@@ -25,7 +25,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 					connection.Open();
 
 					// Fetch info of selected center log from the database
-					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, log.status " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -41,6 +41,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 								logInfo.disasterID = logReader.GetString(1);
 								logInfo.disasterName = logReader.GetString(2);
 								logInfo.centerName = logReader.GetString(3);
+								logInfo.status = logReader.GetString(4);
 							}
 						}
 					}
