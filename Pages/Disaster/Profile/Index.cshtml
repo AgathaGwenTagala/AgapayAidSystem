@@ -218,13 +218,15 @@
                         }
                     </td>
                     <td width="10%">
+                        <div class="position-relative">
                         <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
-                            View
+                            <span>View</span>
                         </a>
                         @if (@Model.GetNotificationCount(@item.centerLogID) != 0)
                         {
-                            <span class="badge rounded-pill bg-primary ps-2">@Model.GetNotificationCount(@item.centerLogID)</span>
+                                    <span class="badge rounded-pill bg-danger position-absolute top-0 end-0 translate-middle translate-middle-y">@Model.GetNotificationCount(@item.centerLogID)</span>
                         }
+                        </div>
                     </td>
                 </tr>
                 counter++;
