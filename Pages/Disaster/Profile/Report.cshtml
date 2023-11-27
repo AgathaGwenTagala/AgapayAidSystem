@@ -37,7 +37,6 @@
 </style>
 
 <div class="content" id="makepdf">
-
     <a class="navbar-brand pb-2">
         <img src="/green-logo-horizontal.png" alt="" height="45" id="logo">
     </a>
@@ -202,7 +201,8 @@
 </div>
 
 <div class="content">
-    <a class="btn btn-secondary" href="\Disaster\Profile\Index">Go Back</a>
+    <input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
+    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" role="button" class="btn btn-secondary">Go Back</a>
     <button class="btn btn-primary" id="button">Save as PDF</button>
 </div>
 
