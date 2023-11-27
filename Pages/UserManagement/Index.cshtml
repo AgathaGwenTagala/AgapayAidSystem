@@ -203,6 +203,7 @@
     $(document).ready(function () {
         var table = $('#user-table').DataTable({
             responsive: true,
+            pageLength: 100,
             columnDefs: [
                 { "orderable": true, "targets": [0, 1, 3] }, // Sortable columns
                 { "orderable": false, "targets": [2, 4] } // Non-sortable columns
