@@ -91,59 +91,134 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 			}
 		}
 
-        public void OnPost()
+		public void OnPost()
+		{
+			bool errorOccurred = false;
+
+			if (!ModelState.IsValid)
+			{
+				errorMessage = "Please correct the errors below.";
+				errorOccurred = true;
+			}
+
+			string centerLogID = Request.Form["centerLogID"];
+			string disasterID = Request.Form["disasterID"];
+			string centerName = Request.Form["centerName"];
+
+			if (string.IsNullOrEmpty(centerLogID))
+			{
+				errorMessage = "Missing centerLogID";
+			}
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					string sql = "CALL close_evacuation_center(@centerLogID);";
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@centerLogID", centerLogID);
+						command.ExecuteNonQuery();
+					}
+				}
+
+				successMessage = centerName + " closed successfully!";
+			}
+
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				errorOccurred = true;
+			}
+
+			if (errorOccurred)
+			{
+				// Show an error message banner on the current page
+				Response.Redirect("/disaster/profile/informationboard/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+			}
+			else
+			{
+				// Redirect to the Disaster page after successful close
+				Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&successMessage=" + successMessage);
+				//Response.Redirect("/disaster/profile/informationboard/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
+			}
+		}
+
+		public int GetRemainingInventoryCount()
         {
-            bool errorOccurred = false;
-
-            if (!ModelState.IsValid)
-            {
-                errorMessage = "Please correct the errors below.";
-                errorOccurred = true;
-            }
-
-            string centerLogID = Request.Form["centerLogID"];
-            string disasterID = Request.Form["disasterID"];
-            string centerName = Request.Form["centerName"];
-
-            if (string.IsNullOrEmpty(centerLogID))
-            {
-                errorMessage = "Missing centerLogID";
-            }
-
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT count(*) FROM inventory_item_view " +
+                         "WHERE centerLogID = @centerLogID AND remainingQty > 0;";
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "CALL close_evacuation_center(@centerLogID);";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        command.ExecuteNonQuery();
+                        return Convert.ToInt32(command.ExecuteScalar());
                     }
                 }
-
-                successMessage = centerName + " closed successfully!";
             }
-
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
-                errorOccurred = true;
+                return 0;
             }
+        }
 
-            if (errorOccurred)
+        public int GetRemainingPackCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT count(*) AS remainingPacks FROM pack " +
+                         "WHERE centerLogID = @centerLogID AND status = 'Packed';";
+            try
             {
-                // Show an error message banner on the current page
-                Response.Redirect("/disaster/profile/informationboard/index?centerLogID="+ centerLogID + "&errorMessage=" + errorMessage);
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Redirect to the Disaster page after successful close
-                Response.Redirect("/disaster/profile/index?disasterID="+ disasterID + "&successMessage=" + successMessage);
-				//Response.Redirect("/disaster/profile/informationboard/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
-			}
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+
+        public int GetRemainingAssessmentCount()
+        {
+            string centerLogID = Request.Query["centerLogID"];
+            string sql = "SELECT count(*) AS remainingAssessment FROM distinct_family_head_view " +
+                         "WHERE centerLogID = @centerLogID;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
         }
 
 		public int GetAssignedStaffCount()

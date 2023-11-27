@@ -80,7 +80,82 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
                 errorMessage = ex.Message;
             }
         }
-    }
+
+		public int GetRemainingInventoryCount()
+		{
+			string centerLogID = Request.Query["centerLogID"];
+			string sql = "SELECT count(*) FROM inventory_item_view " +
+						 "WHERE centerLogID = @centerLogID AND remainingQty > 0;";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@centerLogID", centerLogID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+		public int GetRemainingPackCount()
+		{
+			string centerLogID = Request.Query["centerLogID"];
+			string sql = "SELECT count(*) AS remainingPacks FROM pack " +
+						 "WHERE centerLogID = @centerLogID AND status = 'Packed';";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@centerLogID", centerLogID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+
+		public int GetRemainingAssessmentCount()
+		{
+			string centerLogID = Request.Query["centerLogID"];
+			string sql = "SELECT count(*) AS remainingAssessment FROM distinct_family_head_view " +
+						 "WHERE centerLogID = @centerLogID;";
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+					using (MySqlCommand command = new MySqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@centerLogID", centerLogID);
+						return Convert.ToInt32(command.ExecuteScalar());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+				return 0;
+			}
+		}
+	}
 
     public class DistributionInfo
     {
