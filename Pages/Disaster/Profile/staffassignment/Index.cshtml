@@ -56,7 +56,7 @@
 	<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 	<div class="row">
 		<!-- Sidebar (desktop) -->
-		<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block d-none sidebar">
+		<nav id="sidebar" class="col-md-3 col-lg-3 d-md-block d-none sidebar">
 			<div class="position-sticky">
 				<ul class="nav flex-column">
 					<li class="nav-item">
@@ -72,7 +72,7 @@
 						<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</a>
+						<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">1</span></a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
@@ -82,19 +82,19 @@
 		</nav>
 
 		<!-- Sidebar (mobile) -->
-		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
+		<div id="sidebarMobile" class="col-md-3 col-lg-3 d-md-none bg-light p-2">
 			<select class="form-select" id="pageSelect">
 				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
 				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
 				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
 				<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
-				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack<span class="badge rounded-pill bg-primary ps-2"> (1 remaining pack/s)</span></option>
 				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
 			</select>
 		</div>
 
 		<!-- Page Content -->
-		<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-3 pt-3">
+		<div class="col-md-9 ms-sm-auto col-lg-9 px-md-4 pb-3 pt-3">
 			<div class="container">
 				<!-- Breadcrumb -->
 				<div class="row pb-2" aria-label="breadcrumb">
