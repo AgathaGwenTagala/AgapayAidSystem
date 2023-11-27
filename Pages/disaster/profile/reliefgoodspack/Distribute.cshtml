@@ -72,7 +72,9 @@
         <h1 class="display-5 fw-bold text-center">Distribute Relief Pack to Evacuees</h1>
         @if (!string.IsNullOrEmpty(Model.reliefPackInfo.remainingQty) && int.Parse(Model.reliefPackInfo.remainingQty) == 0)
         {
-            <h3>All relief packs have been distributed.</h3>
+            <div class="alert alert-warning pt-2 pb-2" role="alert">
+                <i class="bi bi-exclamation-diamond-fill p-2"></i>All relief packs have been distributed
+            </div>
         }
 
         <!-- Table -->       
