@@ -76,17 +76,13 @@
         <thead>
             <tr>
                 <th width="5%">#</th>
-                <th width="20%">Disaster</th>
-                <th width="20%">Evacuation Center</th>
-                <th width="22%">Item</th>
-                <th width="10%">Type</th>
-                <th width="15%">Unit Measure</th>
-                <th width="18%">
-                    Qty<br />
-                    <small>(Remaining/Total)</small>
-                </th>
-                <th width="25%" style="text-align:left;">Remarks</th>
-                <th> </th>
+                <th width="15%">Disaster</th>
+                <th width="25%">Evacuation Center</th>
+                <th width="20%">Item</th>
+                <th width="15%">Type</th>
+                <th width="10%">Remaining Qty</th>
+                <th width="10%">Unit Measure</th>               
+                <th width="5%"></th>
             </tr>
         </thead>
         <tbody>
@@ -95,30 +91,58 @@
             }
             @foreach (var item in Model.listInventory)
             {
-                <tr>
-                    <td>@counter</td>
-                    <td>@item.disasterName</td>
-                    <td>@item.centerName</td>
-                    <td>@item.itemName</td>
-                    <td>@item.itemType</td>
-                    <td>@item.unitMeasure</td>
-                    <td>@item.remainingQty/@item.qty</td>
-                    <td>@item.remarks</td>
-                    <td width="5%">
-                        <div class="d-inline position-relative">
-                            <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                                <li>
-                                    <a class="dropdown-item" href="/disaster/profile/inventory/index?centerLogID=@item.centerLogID">
-                                        View the Inventory
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
+                @if (int.Parse(item.remainingQty) > 0)
+                {
+                    <tr style="font-weight:bold;">
+                        <td>@counter</td>
+                        <td>@item.disasterName</td>
+                        <td>@item.centerName</td>
+                        <td>@item.itemName</td>
+                        <td>@item.itemType</td>
+                        <td>@item.remainingQty</td>
+                        <td>@item.unitMeasure</td>
+                        <td>
+                            <div class="d-inline position-relative">
+                                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                    <li>
+                                        <a class="dropdown-item" href="/disaster/profile/inventory/index?centerLogID=@item.centerLogID">
+                                            View the Inventory
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@item.disasterName</td>
+                        <td>@item.centerName</td>
+                        <td>@item.itemName</td>
+                        <td>@item.itemType</td>
+                        <td>@item.remainingQty</td>
+                        <td>@item.unitMeasure</td>
+                        <td>
+                            <div class="d-inline position-relative">
+                                <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                                    <li>
+                                        <a class="dropdown-item" href="/disaster/profile/inventory/index?centerLogID=@item.centerLogID">
+                                            View the Inventory
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
                 counter++;
             }
         </tbody>
@@ -133,11 +157,11 @@
             pageLength: 25,
 			columnDefs: [
                 { "orderable": true, "targets": [0, 1, 2, 3, 5] }, // Sortable columns
-                { "orderable": false, "targets": [4, 6, 7, 8] } // Non-sortable columns
+                { "orderable": false, "targets": [4, 6, 7] } // Non-sortable columns
 			]
 		});
 
-        table.columns([1,2,3,4]).every(function () {
+        table.columns([1,2,4,5]).every(function () {
             var column = this;
             var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
             var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
