@@ -55,6 +55,9 @@
 <!-- Page Content -->
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="distributeForm">
+        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+        <input type="hidden" name="packID" value="@Model.reliefPackInfo.packID" />
+
         <!-- Back Button -->
         <div class="row">
             <div class="col">
@@ -67,10 +70,12 @@
         <!-- Title -->
         <br />
         <h1 class="display-5 fw-bold text-center">Distribute Relief Pack to Evacuees</h1>
+        @if (!string.IsNullOrEmpty(Model.reliefPackInfo.remainingQty) && int.Parse(Model.reliefPackInfo.remainingQty) == 0)
+        {
+            <h3>All relief packs have been distributed.</h3>
+        }
 
-        <!-- Table -->
-        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-        <input type="hidden" name="packID" value="@Model.reliefPackInfo.packID" />
+        <!-- Table -->       
         <div class="row pt-4">
             <div class="col-lg-12">
                 <div style="overflow-x: auto; max-width: 100%;">
@@ -104,7 +109,7 @@
                                         </select>
                                     </td>
                                     <td width="15%">
-                                        <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" style="text-align:center;" required min="1" step="1" placeholder="0" />
+                                        <input type="number" class="form-control mx-auto qtyInput" name="qty" value="" style="text-align:center;" required min="1" max="@Model.reliefPackInfo.remainingQty" step="1" placeholder="0" />
                                     </td>
                                     <td width="15%">
                                         <button type="button" class="btn btn-primary distributeBtn" data-bs-toggle="modal" data-bs-target="#confirmDistribute">Distribute</button>
