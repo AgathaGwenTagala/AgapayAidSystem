@@ -162,6 +162,10 @@
 				btn.toggleClass('btn-warning', hasActiveFilter);
 			}
 
+				function escapeRegExp(string) {
+					return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				}
+
 			column.data().unique().sort().each(function (d, j) {
 				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
 					'<label class="form-check-label ps-1">' + d + '</label></div>');
@@ -189,7 +193,7 @@
 					return $(this).val();
 				}).get();
 
-				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
+					column.search(selectedValues.length > 0 ? '^(' + selectedValues.map(escapeRegExp).join('|') + ')$' : '', true, false).draw();
 				updateFilterButton();
 			});
 			updateFilterButton();
