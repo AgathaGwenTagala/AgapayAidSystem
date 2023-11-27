@@ -359,7 +359,36 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 				return 0;
 			}
 		}
-	}
+
+        public int GetNotificationCount(string centerLogID)
+        {
+            string sql = "SELECT SUM(total) AS grandTotal FROM (" +
+                         "SELECT COUNT(*) AS total FROM inventory_item_view WHERE centerLogID = @centerLogID AND remainingQty > 0 " +
+                         "UNION ALL " +
+                         "SELECT COUNT(*) AS total FROM pack WHERE centerLogID = @centerLogID AND status = 'Packed' " +
+                         "UNION ALL " +
+                         "SELECT COUNT(*) AS total FROM distinct_family_head_view WHERE centerLogID = @centerLogID " +
+                         ") AS subquery;";
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return 0;
+            }
+        }
+    }
 
 	public class EvacuationCenterLogInfo
     {

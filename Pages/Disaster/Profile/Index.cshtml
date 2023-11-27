@@ -221,6 +221,10 @@
                         <a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
                             View
                         </a>
+                        @if (@Model.GetNotificationCount(@item.centerLogID) != 0)
+                        {
+                            <span class="badge rounded-pill bg-primary ps-2">@Model.GetNotificationCount(@item.centerLogID)</span>
+                        }
                     </td>
                 </tr>
                 counter++;
