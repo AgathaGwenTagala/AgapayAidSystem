@@ -68,15 +68,56 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">1</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</a>
-					</li>
+					@if (@Model.GetRemainingInventoryCount() == 0)
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+								Inventory
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+								Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingInventoryCount()</span>
+							</a>
+						</li>
+					}
+
+					@if (@Model.GetRemainingPackCount() == 0)
+					{
+						<li class="nav-item">
+							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+								Relief Goods Pack
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+							Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingPackCount()</span>
+						</a>
+					</li>						
+					}
+
+					@if (@Model.GetRemainingAssessmentCount() == 0)
+					{
+						<li class="nav-item">
+						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+							Vulnerability Assessment
+						</a>
+					</li>						
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+								Vulnerability Assessment <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingAssessmentCount()</span>
+							</a>
+						</li>
+					}
 				</ul>
 			</div>
 		</nav>
@@ -87,9 +128,39 @@
 				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
 				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
 				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
-				<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
-				<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack<span class="badge rounded-pill bg-primary ps-2"> (1 remaining pack/s)</span></option>
-				<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+				@if (@Model.GetRemainingInventoryCount() == 0)
+				{
+					<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
+				}
+				else
+				{
+					<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+						Inventory <span>(@Model.GetRemainingInventoryCount())</span>
+					</option>
+				}
+				
+				@if (@Model.GetRemainingPackCount() == 0)
+				{
+					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
+				}
+				else
+				{
+					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+						Relief Goods Pack <span>(@Model.GetRemainingPackCount())</span>
+					</option>
+				}
+				
+				@if (@Model.GetRemainingAssessmentCount() == 0)
+				{
+					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
+				}
+				else
+				{
+					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+						Vulnerability Assessment <span>(@Model.GetRemainingAssessmentCount())</span>
+					</option>
+				}
+				
 			</select>
 		</div>
 
