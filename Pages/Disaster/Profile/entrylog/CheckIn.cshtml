@@ -34,8 +34,17 @@
 
 <div class="bg-light rounded px-2 py-0 my-3">
     <form method="POST" id="checkIn">
-        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-        <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
+        <div class="col-12 d-flex justify-content-between align-items-center" style="gap: 30px">
+            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+            <h1 class="display-5 fw-bold text-center">Check-in Evacuee</h1>
+
+            <div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+                 <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/addfamily/index">
+                     <i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family
+                 </a>
+            </div>
+        </div>
+
         <br />
 
         <div class="row pt-4">
