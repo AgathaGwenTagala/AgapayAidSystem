@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.disaster.profile.entrylog;
 using AgapayAidSystem.Pages.Family;
 using AgapayAidSystem.Pages.Family.Profile;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 	{
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
+		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
 		public FamilyInfo familyInfo { get; set; } = new FamilyInfo();
 		public MemberInfo memberInfo { get; set; } = new MemberInfo();
 		public List<BarangayInfo> Barangays { get; set; }
@@ -20,6 +22,48 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 		{
 			// Fetch the list of barangays from database
 			Barangays = GetBarangaysFromDatabase();
+
+			string centerLogID = Request.Query["centerLogID"];
+
+			if (string.IsNullOrEmpty(centerLogID))
+			{
+				errorMessage = "Invalid centerLogID.";
+			}
+
+			try
+			{
+				string connectionString = _configuration.GetConnectionString("DefaultConnection");
+				using (MySqlConnection connection = new MySqlConnection(connectionString))
+				{
+					connection.Open();
+
+					// Fetch info of selected center log from the database
+					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+									"FROM evacuation_center_log AS log " +
+									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
+									"WHERE log.centerLogID = @centerLogID";
+					using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+					{
+						logCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+						using (MySqlDataReader logReader = logCommand.ExecuteReader())
+						{
+							if (logReader.Read())
+							{
+								logInfo.centerLogID = logReader.GetString(0);
+								logInfo.disasterID = logReader.GetString(1);
+								logInfo.disasterName = logReader.GetString(2);
+								logInfo.centerName = logReader.GetString(3);
+							}
+						}
+					}
+				}
+			}
+
+			catch (Exception ex)
+			{
+				errorMessage = ex.Message;
+			}
 		}
 
 		private List<BarangayInfo> GetBarangaysFromDatabase()
@@ -90,6 +134,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 			memberInfo.remarks = Request.Form["remarks"];
 
 			// Others
+			string centerLogID = Request.Form["centerLogID"];
 			string redirectType = Request.Form["redirectType"];
 			string newFamilyID = null;
 
@@ -187,17 +232,17 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 			if (errorOccurred)
 			{
 				// Show an error message banner on the current page
-				Response.Redirect("/disaster/profile/entrylog/addfamily/index?errorMessage=" + errorMessage);
+				Response.Redirect("/disaster/profile/entrylog/addfamily/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
 			}
 			else
 			{
 				if (redirectType == "add")
 				{
-					Response.Redirect("/disaster/profile/entrylog/addfamily/member?familyID=" + newFamilyID);
+					Response.Redirect("/disaster/profile/entrylog/addfamily/member?familyID=" + newFamilyID + "&centerLogID=" + centerLogID);
 				}
 				else
 				{
-					Response.Redirect("/disaster/profile/entrylog/checkin?familyID=" + newFamilyID + "&successMessage=" + successMessage);
+					Response.Redirect("/disaster/profile/entrylog/checkin?centerLogID=" + centerLogID + "&successMessage=" + successMessage);
 				}
 			}
 		}

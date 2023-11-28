@@ -282,31 +282,50 @@
 													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
 														<i class="bi bi-three-dots-vertical"></i>
 													</a>
-													<ul class="dropdown-menu" aria-labelledby="recordOptions">
-														<li>
-															<a class="dropdown-item" href="/family/profile/index?familyID=@item.familyID">
-																View Family Profile
-															</a>
-														</li>
-														<li>
-															<a href="#" class="dropdown-item" onclick="showDatesPopup('@item.checkInDate', '@item.checkOutDate')"
-															   data-bs-toggle="modal" data-bs-target="#datesModal">
-															   View Entry Details
-															</a>
-														</li>
-														@if (@Model.logInfo.status == "Open")
-														{
+													@if (@item.entryStatus == "Check-in")
+													{
+														<ul class="dropdown-menu" aria-labelledby="recordOptions">
 															<li>
-																<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
-																   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																	Delete
+																<a class="dropdown-item" href="/family/profile/index?familyID=@item.familyID">
+																	View Family Profile
 																</a>
 															</li>
-														}
-														else if (@Model.logInfo.status == "Closed")
-														{
-														}
-													</ul>
+															<li>
+																<a href="#" class="dropdown-item" onclick="showDatesPopup('@item.checkInDate', '@item.checkOutDate')"
+																   data-bs-toggle="modal" data-bs-target="#datesModal">
+																	View Entry Details
+																</a>
+															</li>
+															@if (@Model.logInfo.status == "Open")
+															{
+																<li>
+																	<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+																	   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																		Delete
+																	</a>
+																</li>
+															}
+															else if (@Model.logInfo.status == "Closed")
+															{
+															}
+														</ul>
+													}
+													else if (@item.entryStatus == "Check-out")
+													{
+														<ul class="dropdown-menu" aria-labelledby="recordOptions">
+															<li>
+																<a class="dropdown-item" href="/family/profile/index?familyID=@item.familyID">
+																	View Family Profile
+																</a>
+															</li>
+															<li>
+																<a href="#" class="dropdown-item" onclick="showDatesPopup('@item.checkInDate', '@item.checkOutDate')"
+																   data-bs-toggle="modal" data-bs-target="#datesModal">
+																	View Entry Details
+																</a>
+															</li>
+														</ul>
+													}
 												</div>
 											</td>
 										</tr>

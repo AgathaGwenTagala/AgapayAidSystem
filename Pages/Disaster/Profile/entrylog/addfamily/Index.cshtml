@@ -27,6 +27,7 @@
 
 <div class="bg-light rounded px-2 py-0 my-3">
 	<form method="POST" id="add-family">
+		<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 		<h1 class="display-5 fw-bold text-center">Add Family</h1>
 		<p class="form-label" style="text-align:center">Family Head</p>
 		<br />
@@ -154,8 +155,12 @@
 						Birthdate:
 						<span class="text-danger" style="padding: 5px">*</span>
 					</label>
-					<input type="date" class="form-control text-muted" name="birthdate"
-						   value="@Model.memberInfo.birthdate" required onkeydown="return false" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+					@{
+						DateTime minDate = DateTime.Now.AddYears(-100);
+						string minDateString = minDate.ToString("yyyy-MM-dd");
+					}
+					<input type="date" class="form-control" name="birthdate" value="@Model.memberInfo.birthdate" 
+						min="@minDateString" max="@DateTime.Now.ToString("yyyy-MM-dd")" required>
 				</div>
 			</div>
 
@@ -253,7 +258,7 @@
 
 		<!-- Cancel and Save Selection Button -->
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-			<a href="/disaster/profile/entrylog/checkin" role="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+			<a href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID" role="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
 			<button type="button" class="btn btn-primary px-4" id="submitBtn"
 					data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>
 				Add
