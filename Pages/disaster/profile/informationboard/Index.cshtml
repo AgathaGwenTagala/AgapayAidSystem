@@ -376,9 +376,18 @@
                         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                             @if (@Model.logInfo.status == "Open")
                             {
-                                <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
-                                    <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
-                                </button>
+                                if (@Model.GetRemainingInventoryCount() != 0 || @Model.GetRemainingPackCount() != 0 || @Model.GetRemainingAssessmentCount() != 0)
+                                {
+                                    <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+                                        <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+                                        <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
+                                    </button>
+                                }
                             }
                             else if (@Model.logInfo.status == "Closed")
                             {
