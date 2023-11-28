@@ -98,59 +98,62 @@
 
 		<ul class="list-group mb-3">
 			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Type</h6></div>
-				<span>@Model.evacuationInfo.centerType</span>
+				<p class="my-0"><b>Type:  </b>@Model.evacuationInfo.centerType</p>
 			</li>
 
 			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Address</h6></div>
-				<span>@Model.evacuationInfo.streetAddress, Brgy. @Model.evacuationInfo.barangayName</span>
+				<p class="my-0"><b>Address:  </b>@Model.evacuationInfo.streetAddress, Brgy. @Model.evacuationInfo.barangayName</p>
 			</li>
 
 			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Mobile Number</h6></div>
-				@if (!string.IsNullOrEmpty(Model.evacuationInfo.mobileNum))
-				{
-					<span>@Model.evacuationInfo.mobileNum</span>
-
-				}
-				else
-				{
-					<text>-</text>
-				}
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Telephone Number</h6></div>
-				@if (!string.IsNullOrEmpty(Model.evacuationInfo.telephoneNum))
-				{
-					<span>@Model.evacuationInfo.telephoneNum</span>
-
-				}
-				else
-				{
-					<text>-</text>
-				}
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Max Capacity</h6></div>
-				<span>@Model.evacuationInfo.maxCapacity</span>
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Status</h6></div>
-				<span class="badge bg-success">
-					@if (@Model.evacuationInfo.status == "Active")
+				<p class="my-0">
+					<b>Mobile Number:  </b>
+					@if (!string.IsNullOrEmpty(Model.evacuationInfo.mobileNum))
 					{
-						<span class="badge bg-success">@Model.evacuationInfo.status</span>
+						<span>@Model.evacuationInfo.mobileNum</span>
+
 					}
-					else if (@Model.evacuationInfo.status == "Inactive")
+					else
 					{
-						<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
+						<text>-</text>
 					}
-				</span>
+				</p>
 			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<p class="my-0">
+					<b>Telephone Number:  </b>	
+					@if (!string.IsNullOrEmpty(Model.evacuationInfo.telephoneNum))
+					{
+						<span>@Model.evacuationInfo.telephoneNum</span>
+
+					}
+					else
+					{
+						<text>-</text>
+					}
+				</p>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<p class="my-0"><b>Max Capacity:  </b>@Model.evacuationInfo.maxCapacity</p>
+			</li>
+
+			<li class="list-group-item d-flex justify-content-between lh-sm">
+				<p class="my-0">
+					<b>Status:  </b>				
+					<span class="badge bg-success">
+						@if (@Model.evacuationInfo.status == "Active")
+						{
+							<span class="badge bg-success">@Model.evacuationInfo.status</span>
+						}
+						else if (@Model.evacuationInfo.status == "Inactive")
+						{
+							<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
+						}
+					</span>
+				</p>
+			</li>	
 		</ul>
 	</div>
 
@@ -190,6 +193,8 @@
 		</ul>
 	</div>
 </div>
+
+<br />
 
 <!-- Table -->
 <h4 class="d-flex justify-content-between align-items-center mb-3">Disaster Log</h4>
