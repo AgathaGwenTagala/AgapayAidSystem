@@ -95,63 +95,63 @@
 <div class="row">
 	<div class="col-md-6 col-lg-7">
 		<h4 class="d-flex justify-content-between align-items-center mb-3">Information</h4>
-
-		<ul class="list-group mb-3">
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Type</h6></div>
-				<span>@Model.evacuationInfo.centerType</span>
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Address</h6></div>
-				<span>@Model.evacuationInfo.streetAddress, Brgy. @Model.evacuationInfo.barangayName</span>
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Mobile Number</h6></div>
-				@if (!string.IsNullOrEmpty(Model.evacuationInfo.mobileNum))
-				{
-					<span>@Model.evacuationInfo.mobileNum</span>
-
-				}
-				else
-				{
-					<text>-</text>
-				}
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Telephone Number</h6></div>
-				@if (!string.IsNullOrEmpty(Model.evacuationInfo.telephoneNum))
-				{
-					<span>@Model.evacuationInfo.telephoneNum</span>
-
-				}
-				else
-				{
-					<text>-</text>
-				}
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Max Capacity</h6></div>
-				<span>@Model.evacuationInfo.maxCapacity</span>
-			</li>
-
-			<li class="list-group-item d-flex justify-content-between lh-sm">
-				<div><h6 class="my-0">Status</h6></div>
-				<span class="badge bg-success">
-					@if (@Model.evacuationInfo.status == "Active")
+		<table class="table" style="x">
+			<tr>
+				<td>Type</td>
+				<td>@Model.evacuationInfo.centerType</td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td>@Model.evacuationInfo.streetAddress, Brgy. @Model.evacuationInfo.barangayName</td>
+			</tr>
+			<tr>
+				<td>Mobile Number</td>
+				<td>
+					@if (!string.IsNullOrEmpty(Model.evacuationInfo.mobileNum))
 					{
-						<span class="badge bg-success">@Model.evacuationInfo.status</span>
+						<span>@Model.evacuationInfo.mobileNum</span>
+
 					}
-					else if (@Model.evacuationInfo.status == "Inactive")
+					else
 					{
-						<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
+						<text>-</text>
 					}
-				</span>
-			</li>
-		</ul>
+				</td>
+			</tr>
+			<tr>
+				<td>Telephone Number</td>
+				<td>
+					@if (!string.IsNullOrEmpty(Model.evacuationInfo.telephoneNum))
+					{
+						<span>@Model.evacuationInfo.telephoneNum</span>
+
+					}
+					else
+					{
+						<text>-</text>
+					}
+				</td>
+			</tr>
+			<tr>
+				<td>Max Capacity</td>
+				<td>@Model.evacuationInfo.maxCapacity</td>
+			</tr>
+			<tr>
+				<td>Status</td>
+				<td>
+					<span class="badge bg-success">
+						@if (@Model.evacuationInfo.status == "Active")
+						{
+							<span class="badge bg-success">@Model.evacuationInfo.status</span>
+						}
+						else if (@Model.evacuationInfo.status == "Inactive")
+						{
+							<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
+						}
+					</span>
+				</td>
+			</tr>
+		</table>
 	</div>
 
 	<div class="col-md-6 col-lg-5 order-md-last">
