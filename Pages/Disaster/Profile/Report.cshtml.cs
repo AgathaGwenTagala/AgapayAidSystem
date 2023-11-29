@@ -1,6 +1,8 @@
+using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.Disaster.Profile
 {
@@ -9,6 +11,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         private readonly IConfiguration _configuration;
         public ReportModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+        public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
         public string errorMessage = "";
         public string successMessage = "";
 
@@ -23,8 +26,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 
             try
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                string d_connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(d_connectionString))
                 {
                     connection.Open();
                     // Fetch info of selected disaster from the database
@@ -44,6 +47,38 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             }
                         }
                     }
+
+                    // Fetch evacuation center log data related to the selected disaster
+                    string logSql = "SELECT log.*, ec.centerName, ec.maxCapacity, b.barangayName, " +
+                                    "(SELECT COUNT(assignmentID) FROM ec_staff_assignment " +
+                                    "WHERE centerLogID = log.centerLogID AND status = 'Assigned') AS totalStaff " +
+                                    "FROM evacuation_center_log AS log " +
+                                    "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+                                    "INNER JOIN barangay AS b ON ec.barangayID = b.barangayID " +
+                                    "WHERE log.disasterID = @disasterID ORDER BY openingDateTime";
+                    using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+                    {
+                        logCommand.Parameters.AddWithValue("@disasterID", disasterID);
+                        using (MySqlDataReader logReader = logCommand.ExecuteReader())
+                        {
+                            while (logReader.Read())
+                            {
+                                EvacuationCenterLogInfo logInfo = new EvacuationCenterLogInfo();
+                                logInfo.centerLogID = logReader.GetString(0);
+                                logInfo.disasterID = logReader.GetString(1);
+                                logInfo.centerID = logReader.GetString(2);
+                                logInfo.occupancy = logReader.GetInt32(3).ToString();
+                                logInfo.openingDateTime = logReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.closingDateTime = logReader.IsDBNull(5) ? null : logReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                logInfo.status = logReader.GetString(6);
+                                logInfo.centerName = logReader.GetString(7);
+                                logInfo.maxCapacity = logReader.GetInt32(8).ToString();
+                                logInfo.barangayName = logReader.GetString(9);
+                                logInfo.totalStaff = logReader.GetInt32(10).ToString();
+                                listCenterLog.Add(logInfo);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -51,6 +86,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             {
                 errorMessage = ex.Message;
             }
+
         }
     }
 }
