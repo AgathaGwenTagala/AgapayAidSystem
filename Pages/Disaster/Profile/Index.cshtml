@@ -68,49 +68,47 @@
 
 <!-- Title, Info Button, Menu Button -->
 <div class="row">
-    <div class="col d-flex align-items-center pb-2">
+    <div class="col-12 d-flex align-items-center justify-content-between">
         <h1>@Model.disasterInfo.disasterName</h1>
-    </div>
 
-    <div class="col-auto">
-        <!-- Button with text and icon (visible on larger screens) -->
-        <button id="toggleButton" class="btn d-none d-md-inline-block"
-                onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                data-bs-toggle="modal" data-bs-target="#infoModal"
-                style="background-color: var(--bs-primary-color);color:white">
-            <i class="bi bi-info-circle-fill" style="color:white"></i> Info
-        </button>
+        <div class="d-flex gap-2 justify-content-end align-items-center">
+            <!-- Button with text and icon (visible on larger screens) -->
+            <button class="btn btn-primary d-none d-md-inline-block text-white"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
+                <i class="bi bi-info-circle-fill" style="color:white"></i> Info
+            </button>
 
-        <!-- Button with icon only (visible on smaller screens) -->
-        <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
-                onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                data-bs-toggle="modal" data-bs-target="#infoModal"
-                style="background-color: var(--bs-primary-color);color:white">
-            <i class="bi bi-info-circle-fill" style="color:white"></i>
-        </button>
+            <!-- Button with icon only (visible on smaller screens) -->
+            <button class="btn btn-primary d-inline-block d-md-none text-white"
+                    onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
+                <i class="bi bi-info-circle-fill" style="color:white"></i>
+            </button>
 
-        <div class="btn btn-primary d-inline position-relative">
-            <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-three-dots-vertical" style="color:white"></i>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="recordOptions">
-                <li>
-                    <a class="dropdown-item" href="/disaster/profile/report?disasterID=@Model.disasterInfo.disasterID">
-                        Generate Report
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
-                        Edit
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
-                       data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                        Delete
-                    </a>
-                </li>
-            </ul>
+            <div class="d-inline position-relative">
+                <a class="btn btn-primary" href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical" style="color:white"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                    <li>
+                        <a class="dropdown-item" href="/disaster/profile/report?disasterID=@Model.disasterInfo.disasterID">
+                            Generate Report
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
+                            Edit
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
+                           data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                            Delete
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
