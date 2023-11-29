@@ -5,6 +5,10 @@
 }
 
 <style>
+    body{
+        background-color:#f8f9fa !important;
+    }
+
     /* Adjust the size of the DataTable search input */
     div.dataTables_wrapper div.dataTables_filter input {
         width: 150px;
@@ -86,37 +90,36 @@
 
 <div class="container form-container1">
     <div class="container form-container-content1">
+        <!-- Title, Info Button, Menu Button -->
         <div class="row">
-            <div class="col d-flex align-items-center pb-2">
+            <div class="col-12 d-flex align-items-center justify-content-between">
                 <h1>@Model.disasterInfo.disasterName</h1>
-            </div>
 
-            <div class="col-auto button-spacer">
-                <!-- Button with text and icon (visible on larger screens) -->
-                <button id="toggleButton" class="btn d-none d-md-inline-block"
-                        onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                        data-bs-toggle="modal" data-bs-target="#infoModal"
-                        style="background-color: var(--bs-primary-color);color:white">
-                    <i class="bi bi-info-circle-fill"></i> Info
-                </button>
+                <div class="d-flex gap-2 justify-content-end align-items-center">
+                    <!-- Button with text and icon (visible on larger screens) -->
+                    <button class="btn btn-primary d-none d-md-inline-block text-white"
+                            onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                            data-bs-toggle="modal" data-bs-target="#infoModal">
+                        <i class="bi bi-info-circle-fill" style="color:white"></i> Info
+                    </button>
 
-                <!-- Button with icon only (visible on smaller screens) -->
-                <button id="toggleButtonMobile" class="btn d-inline-block d-md-none"
-                        onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
-                        data-bs-toggle="modal" data-bs-target="#infoModal"
-                        style="background-color: var(--bs-primary-color);color:white">
-                    <i class="bi bi-info-circle-fill"></i>
-                </button>
+                    <!-- Button with icon only (visible on smaller screens) -->
+                    <button class="btn btn-primary d-inline-block d-md-none text-white"
+                            onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
+                            data-bs-toggle="modal" data-bs-target="#infoModal">
+                        <i class="bi bi-info-circle-fill" style="color:white"></i>
+                    </button>
 
-                <!-- Button with text and icon (visible on larger screens) -->
-                <a id="toggleButton" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn d-none d-md-inline-block position-relative" role="button" style="background-color: var(--bs-primary-color);color:white">
-                    View More <i class="bi bi-arrow-right-circle"></i>
-                </a>
+                    <!-- Button with text and icon (visible on larger screens) -->
+                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-none d-md-inline-block position-relative" role="button">
+                        View More <i class="bi bi-arrow-right-circle"></i>
+                    </a>
 
-                <!-- Button with text and icon (visible on smaller screens) -->
-                <a id="toggleButtonMobile" href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn d-inline-block d-md-none" role="button" style="background-color: var(--bs-primary-color);color:white">
-                    <i class="bi bi-arrow-right-circle"></i>
-                </a>
+                    <!-- Button with text and icon (visible on smaller screens) -->
+                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-inline-block d-md-none" role="button">
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
