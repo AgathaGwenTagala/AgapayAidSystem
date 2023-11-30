@@ -292,12 +292,19 @@
 														</li>
 														@if (@Model.logInfo.status == "Open")
 														{
-															<li>
-																<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
-																   data-deleteid="@item.assignmentID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																	Delete
-																</a>
-															</li>
+															if (@item.status == "Assigned")
+															{
+																<li>
+																	<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
+																	   data-deleteid="@item.assignmentID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																		Delete
+																	</a>
+																</li>
+															}
+															else if (@item.status == "Completed")
+															{
+																
+															}
 														}
 														else if (@Model.logInfo.status == "Closed")
 														{
