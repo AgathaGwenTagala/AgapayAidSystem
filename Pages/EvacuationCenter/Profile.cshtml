@@ -71,8 +71,7 @@
 	<div class="col-2 text-end">
 		<div class="col-auto button-spacer">
 			<div class="d-inline position-relative">
-				@*<a class="btn btn-primary edit-button" href="/evacuationcenter/profile/?centerID=@Model.evacuationInfo.centerID">Edit</a>*@
-				<a class="btn btn-primary edit-button" href="/evacuationcenter/profile/?centerID=@Model.evacuationInfo.centerID">
+				<a class="btn btn-primary edit-button" href="/evacuationcenter/edit?centerID=@Model.evacuationInfo.centerID">
 					<i class="bi bi-pencil"></i>
 				</a>
 			</div>
@@ -213,7 +212,7 @@
 				<td style="text-align:left;">@item.description</td>
 				<td>@item.dateOccured</td>
 				<td>
-					<a class="btn btn-success edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+					<a class="btn btn-primary edit-button" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
 						View
 					</a>
 				</td>
