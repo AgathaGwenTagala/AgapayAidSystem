@@ -71,20 +71,10 @@
 	<div class="col-2 text-end">
 		<div class="col-auto button-spacer">
 			<div class="d-inline position-relative">
-				<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="bi bi-three-dots-vertical"></i>
+				@*<a class="btn btn-primary edit-button" href="/evacuationcenter/profile/?centerID=@Model.evacuationInfo.centerID">Edit</a>*@
+				<a class="btn btn-primary edit-button" href="/evacuationcenter/profile/?centerID=@Model.evacuationInfo.centerID">
+					<i class="bi bi-pencil"></i>
 				</a>
-				<ul class="dropdown-menu" aria-labelledby="recordOptions">
-					<li>
-						<a class="dropdown-item" href="/evacuationcenter/edit?centerID=@Model.evacuationInfo.centerID">Edit</a>
-					</li>
-					<li>
-						<a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.evacuationInfo.centerID')"
-						   data-deleteid="@Model.evacuationInfo.centerID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-							Delete
-						</a>
-					</li>
-				</ul>
 			</div>
 		</div>
 	</div>
