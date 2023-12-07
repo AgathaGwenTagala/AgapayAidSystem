@@ -13,6 +13,15 @@ var configuration = new ConfigurationBuilder()
 string connectionString = configuration.GetConnectionString("DefaultConnection") ??
                            "server=srv1237.hstgr.io;user=u550552682_admin;database=u550552682_agapayaid;port=3306;password=Agapayaid123project;";
 
+// Configure session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(120); // Set session timeout as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +30,8 @@ if (!app.Environment.IsDevelopment())
 	app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 
