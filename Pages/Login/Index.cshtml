@@ -1,6 +1,7 @@
 ﻿@page
 @model AgapayAidSystem.Pages.Login.IndexModel
 @{
+    ViewData["Title"] = "Login";
 }
 
 <style>
@@ -88,16 +89,13 @@
     }
 </style>
 
-
-
-
 <body>
 
 	<div class="wrapper">
 		<div class="form-box login">
             <ion-icon class="ion-icon" name="log-in"></ion-icon>
-            <h2 class="form-header">Log in</h2>
-			<form action="#">
+            <h2 class="form-header">Login</h2>
+			<form method="POST">
                 <div class="labels-container">
                     <label>Username</label>
 				        <div class="input-box">
