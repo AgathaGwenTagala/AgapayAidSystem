@@ -15,9 +15,21 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
         public string errorMessage = "";
         public string successMessage = "";
         public string packID = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
         public void OnGet()
         {
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
             string centerLogID = Request.Query["centerLogID"];
             packID = Request.Query["packID"];
             try
