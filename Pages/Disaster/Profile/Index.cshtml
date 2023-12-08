@@ -96,17 +96,20 @@
                             Generate Report
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
-                            Edit
-                        </a>
-                    </li>
-                    <li>
+                    @if (Model.UserType != "EC Staff")
+                    {
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
+                                Edit
+                            </a>
+                        </li>
+                    }
+                    @*<li>
                         <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
                            data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
                             Delete
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </div>
@@ -162,16 +165,18 @@
 <div class="row pb-1 mb-2">
     <div class="col-12 d-flex align-items-center justify-content-between">
         <h1><i class="bi bi-building-fill" style="padding-right:5px;"></i>Evacuation Center</h1>
-
-        <div class="d-flex justify-content-end align-items-center">
-            <a class="btn btn-primary mb-2 d-none d-md-inline" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
-                <i class="bi bi-building-add" style="padding-right: 5px;"></i>
-                Allocate Evacuation Center
-            </a>
-            <a class="btn btn-primary mb-2 d-md-none" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
-                <i class="bi bi-building-add"></i>
-            </a>
-        </div>
+        @if (Model.UserType != "EC Staff")
+        {
+            <div class="d-flex justify-content-end align-items-center">
+                <a class="btn btn-primary mb-2 d-none d-md-inline" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
+                    <i class="bi bi-building-add" style="padding-right: 5px;"></i>
+                    Allocate Evacuation Center
+                </a>
+                <a class="btn btn-primary mb-2 d-md-none" href="/disaster/profile/allocateec?disasterID=@Model.disasterInfo.disasterID">
+                    <i class="bi bi-building-add"></i>
+                </a>
+            </div>
+        }
     </div>
 </div>
 
