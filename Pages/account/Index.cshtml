@@ -1,4 +1,234 @@
 ﻿@page
 @model AgapayAidSystem.Pages.account.IndexModel
 @{
+	ViewData["Title"] = "Profile";
 }
+
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+    <div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>@Request.Query["successMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <script>
+        const successNotification = document.getElementById('success-notification');
+        if (successNotification) {
+            setTimeout(function () {
+                successNotification.style.display = 'none';
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Model.errorMessage</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Error: @Request.Query["errorMessage"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+<style>
+    .label-col {
+        flex: 0 0 200px;
+    }
+
+    .edit-controls {
+        display: none;
+    }
+
+        .edit-controls button {
+            margin-left: 10px;
+            padding: 5px 10px;
+        }
+
+    .mobile-number-edit-controls {
+        display: none;
+    }
+
+        .mobile-number-edit-controls button {
+            margin-left: 10px;
+            padding: 5px 10px;
+        }
+
+    .password-controls button {
+        margin-left: 10px;
+        padding: 5px 10px;
+    }
+</style>
+
+<!-- Title and Edit Button-->
+<div class="row mb-2">
+    <div class="col-12 d-flex align-items-center justify-content-between">
+        <h1><i class="bi bi-person-fill" style="padding: 0 5px 0 5px;"></i>Profile</h1>
+
+        @if (Model.UserType == "EC Staff" || Model.UserType == "LGU Staff")
+        {
+            <div class="d-flex justify-content-end align-items-center">
+                <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/account/settings">
+                    <i class="bi bi-pencil pt" style="padding-right: 5px;"></i>
+                    Edit Profile
+                </a>
+                <a class="btn btn-primary mb-2 d-sm-none" href="/account/settings">
+                    <i class="bi bi-pencil pt"></i>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-lg-12 ec-info">
+        <div class="container">
+            @if (Model.UserType == "Admin")
+            {
+                <!-- Personal Details -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Personal Details</h4>
+                <div class="col">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Admin Name</h6></div>
+                            <span>@Model.profileInfo.adminName</span>
+                        </li>
+                    </ul>
+                </div>
+                <br />
+            }
+            
+            @if (Model.UserType == "EC Staff" || Model.UserType == "LGU Staff")
+            {
+                <!-- Personal Details -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Personal Details</h4>
+                <div class="col">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">First Name</h6></div>
+                            <span>@Model.profileInfo.firstName</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Middle Name</h6></div>
+                            <span>@Model.profileInfo.middleName</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Last Name</h6></div>
+                            <span>@Model.profileInfo.lastName</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Extension Name</h6></div>
+                            <span>@Model.profileInfo.extName</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Sex</h6></div>
+                            <span>@Model.profileInfo.sex</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Birthdate</h6></div>
+                            <span>@Model.profileInfo.birthdate</span>
+                        </li>
+                    </ul>
+                </div>
+                <br />
+
+                <!-- Contact Information-->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Contact Information</h4>
+                <div class="col">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Email Address</h6></div>
+                            <span>@Model.profileInfo.emailAddress</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
+                            <span>@Model.profileInfo.mobileNum</span>
+                        </li>
+                    </ul>
+                </div>
+                <br />
+            }
+            
+            @if (Model.UserType == "EC Staff")
+            {
+                <!-- Availability Status -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Availability Status</h4>
+                <div class="col">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Status</h6></div>
+                            <span>@Model.profileInfo.availabilityStatus</span>
+                        </li>
+                    </ul>
+                </div>
+                <br />
+
+                <!-- Assignment History -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Assignment History</h4>
+                <div class="row justify-content-center">
+                    <div class="row">
+                        <table id="center-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr style="vertical-align: top;">
+                                    <th width="5%">#</th>
+                                    <th width="20%">Disaster</th>
+                                    <th width="20%">Evacuation Center</th>
+                                    <th width="15%">Role</th>
+                                    <th width="20%">Date Assigned</th>
+                                    <th width="20%">Date Completed</th>
+                                    <th width="15%">Status</th>
+                                    <th width="5%"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var counter = 1;
+                                }
+                                @foreach (var item in Model.listAssignment)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@item.disasterName</td>
+                                        <td>@item.centerName</td>
+                                        <td>@item.role</td>
+                                        <td>@item.assignmentDate</td>
+                                        <td>@item.completionDate</td>
+                                        <td>
+                                            @if (@item.status == "Assigned")
+                                            {
+                                                <span class="badge bg-success">@item.status</span>
+                                            }
+                                            else if (@item.status == "Completed")
+                                            {
+                                                <span class="badge rounded-pill bg-light">@item.status</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="/disaster/profile/informationboard/index?centerLogID=@item.centerLogID">
+                                                View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
