@@ -13,10 +13,28 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public List<LatestEntryInfo> listLatestEntry = new List<LatestEntryInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
 		{
-			string centerLogID = Request.Query["centerLogID"];
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType != "Admin" || UserType != "EC Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
+            string centerLogID = Request.Query["centerLogID"];
 
             if (string.IsNullOrEmpty(centerLogID))
             {
