@@ -4,6 +4,46 @@
 	ViewData["Title"] = "EC Staff";
 }
 
+<!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
+@if (!string.IsNullOrEmpty(Model.errorMessage))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
+{
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+}
+
 <style>
 	/* Adjust the size of the DataTable search input */
 	div.dataTables_wrapper div.dataTables_filter input {
@@ -60,9 +100,13 @@
 					<td width="15%">
 						@if (@item.availabilityStatus == "Available")
 						{
-							<span class="badge bg-success">@item.availabilityStatus</span>
+							<span class="badge rounded-pill bg-success">@item.availabilityStatus</span>
 						}
 						else if (@item.availabilityStatus == "On Duty")
+						{
+							<span class="badge rounded-pill bg-danger">@item.availabilityStatus</span>
+						}
+						else if (@item.availabilityStatus == "Inactive" || @item.availabilityStatus == "On Leave")
 						{
 							<span class="badge rounded-pill bg-light">@item.availabilityStatus</span>
 						}
@@ -108,6 +152,14 @@
 					if (menu.find("input[value='On Duty']").length === 0) {
 						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="On Duty">' +
 							'<label class="form-check-label ps-1">On Duty</label></div>');
+					}
+					if (menu.find("input[value='On Leave']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="On Leave">' +
+							'<label class="form-check-label ps-1">On Leave</label></div>');
+					}
+					if (menu.find("input[value='Inactive']").length === 0) {
+						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Inactive">' +
+							'<label class="form-check-label ps-1">Inactive</label></div>');
 					}
 				}
 				// For other columns, show all unique values as filter options

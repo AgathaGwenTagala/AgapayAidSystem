@@ -18,6 +18,10 @@ namespace AgapayAidSystem.Pages.ECStaff
 
         public void OnGet()
 		{
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
             if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
             {
                 Response.Redirect("/login/index");
