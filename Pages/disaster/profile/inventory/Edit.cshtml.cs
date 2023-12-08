@@ -12,10 +12,22 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 		public InventoryInfo inventoryInfo { get; set; } = new InventoryInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
 		{
-			string inventoryID = Request.Query["inventoryID"];	
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            string inventoryID = Request.Query["inventoryID"];	
 
 			if (string.IsNullOrEmpty(inventoryID))
 			{
