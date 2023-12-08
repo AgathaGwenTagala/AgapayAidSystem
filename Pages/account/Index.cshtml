@@ -170,7 +170,18 @@
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex lh-sm">
                             <div class="label-col"><h6 class="my-0">Status</h6></div>
-                            <span>@Model.profileInfo.availabilityStatus</span>
+                            @if (@Model.profileInfo.availabilityStatus == "Available")
+                            {
+                                <span class="badge rounded-pill bg-success">@Model.profileInfo.availabilityStatus</span>
+                            }
+                            else if (@Model.profileInfo.availabilityStatus == "On Duty")
+                            {
+                                <span class="badge rounded-pill bg-danger">@Model.profileInfo.availabilityStatus</span>
+                            }
+                            else if (@Model.profileInfo.availabilityStatus == "Inactive" || @Model.profileInfo.availabilityStatus == "On Leave")
+                            {
+                                <span class="badge rounded-pill bg-light">@Model.profileInfo.availabilityStatus</span>
+                            }
                         </li>
                     </ul>
                 </div>
