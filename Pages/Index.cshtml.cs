@@ -49,7 +49,7 @@ namespace AgapayAidSystem.Pages
 								disasterInfo.disasterName = reader.GetString(1);
 								disasterInfo.disasterType = reader.GetString(2);
 								disasterInfo.description = reader.GetString(3);
-								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("MMMM dd, yyyy");
+								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("MMMM d, yyyy");
 							}
 						}
 					}
