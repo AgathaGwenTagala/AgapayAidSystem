@@ -80,7 +80,8 @@
 
 			<div class="d-flex justify-content-end align-items-center">
 				<a class="btn btn-primary mb-2 button-spacing d-none d-sm-inline" href="#" id="importCsvButton">
-					<i class="bi bi-box-arrow-up"></i> Upload CSV
+					@*<i class="bi bi-box-arrow-up"></i> Upload CSV*@
+					<i class="bi bi-upload" style="padding: 5px;"></i> Upload CSV
 				</a>
 				<input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleFile()" />
 
@@ -88,8 +89,8 @@
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Family
 				</a>
 
-				<a class="btn btn-primary mb-2 button-spacing d-sm-none" href="/family">
-					<i class="bi bi-box-arrow-down"></i>
+				<a class="btn btn-primary mb-2 button-spacing d-sm-none" href="#">
+					<i class="bi bi-upload"></i>
 				</a>
 				<a class="btn btn-primary mb-2 d-sm-none" href="/family/add/index">
 					<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
