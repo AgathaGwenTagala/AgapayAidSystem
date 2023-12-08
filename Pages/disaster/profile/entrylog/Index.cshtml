@@ -243,6 +243,7 @@
 										<th style="text-align: center;">Remarks</th>
 										<th style="text-align: center;">Status</th>
 										<th></th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -328,6 +329,7 @@
 													}
 												</div>
 											</td>
+											<td>@item.checkInDate</td>
 										</tr>
 										counter++;
 									}
@@ -449,12 +451,15 @@
 
 		var table = $('#entrylog-table').DataTable({
 			responsive: false,
-			pageLength: 50,
+			pageLength: 25,
 			columnDefs: [
-				{ "orderable": true, "targets": [1, 2] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 3, 4, 5] } // Non-sortable columns
-			], order: [[1, 'asc']],
+				{ "orderable": true, "targets": [1, 2, 6] }, // Sortable columns
+				{ "orderable": false, "targets": [0, 3, 4, 5] }, // Non-sortable columns
+				{ "visible": false, "targets": 6 } // Hidden column
+			],
+			order:[[6, 'asc']],
 
+			// Group By button
 			drawCallback: function (settings) {
 				if (!drawCallbackEnabled) {
 					return;
@@ -490,6 +495,13 @@
 		// Toggle drawCallback on button click
 		groupby_family.on('click', function () {
 			drawCallbackEnabled = !drawCallbackEnabled;
+
+			// Set default ordering when group by is enabled
+			if (drawCallbackEnabled) {
+				table.order([[1, 'asc']]);
+			} else {
+				table.order([[6, 'asc']]);
+			}
 
 			// Redraw the table to apply the changes
 			table.draw();

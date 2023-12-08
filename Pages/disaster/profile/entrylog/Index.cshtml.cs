@@ -61,7 +61,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
 					// Fetch entry log data related to the selected center log
 					string entrySql = "SELECT * FROM entry_log_view " +
-									  "WHERE centerLogID = @centerLogID;";
+									  "WHERE centerLogID = @centerLogID ";
 					using (MySqlCommand entryCommand = new MySqlCommand(entrySql, connection))
 					{
 						entryCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
