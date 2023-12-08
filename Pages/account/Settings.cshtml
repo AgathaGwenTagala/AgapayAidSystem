@@ -110,17 +110,20 @@
             </div>
             <br />
 
-            <!-- Availability Status -->
-            <h4 class="d-flex justify-content-between align-items-center mb-3">Availability Status</h4>
-            <div class="col">
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex lh-sm">
-                        <div class="label-col"><h6 class="my-0">Status</h6></div>
-                        <span>@Model.profileInfo.availabilityStatus</span>
-                    </li>
-                </ul>
-            </div>
-            <br />
+            @if (Model.UserType == "EC Staff")
+            {
+                <!-- Availability Status -->
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Availability Status</h4>
+                <div class="col">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Status</h6></div>
+                            <span>@Model.profileInfo.availabilityStatus</span>
+                        </li>
+                    </ul>
+                </div>
+                <br />
+            }
 
             <!-- Change Password -->
             <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password</h4>

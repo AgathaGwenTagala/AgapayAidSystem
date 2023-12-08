@@ -26,44 +26,80 @@ namespace AgapayAidSystem.Pages.account
                 return;
             }
 
-            try
+			if (UserType == "Admin")
+			{
+				Response.Redirect("/accessdenied");
+				return;
+			}
+
+			try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    if (UserType == "EC Staff")
-                    {
-                        string userSql = "SELECT * FROM ec_profile_view " +
-                                         "WHERE userID = @userID ";
-                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
-                        {
-                            userCommand.Parameters.AddWithValue("@userID", UserId);
-                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
-                            {
-                                if (userReader.Read())
-                                {
-                                    profileInfo.userID = userReader.GetString(0);
-                                    profileInfo.username = userReader.GetString(1);
-                                    profileInfo.password = userReader.GetString(2);
-                                    profileInfo.userType = userReader.GetString(3);
-                                    profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-                                    profileInfo.ecStaffID = userReader.GetString(5);
-                                    profileInfo.firstName = userReader.GetString(6);
-                                    profileInfo.middleName = userReader.IsDBNull(7) ? "-" : userReader.GetString(7);
-                                    profileInfo.lastName = userReader.GetString(8);
-                                    profileInfo.extName = userReader.IsDBNull(9) ? "-" : userReader.GetString(9);
-                                    profileInfo.sex = userReader.GetString(10);
-                                    profileInfo.birthdate = userReader.GetDateTime(11).ToString("MMMM d, yyyy");
-                                    profileInfo.mobileNum = userReader.GetString(12);
-                                    profileInfo.emailAddress = userReader.GetString(13);
-                                    profileInfo.availabilityStatus = userReader.GetString(14);
-                                }
-                            }
-                        }
-                    }
-                }
+					if (UserType == "EC Staff")
+					{
+						string userSql = "SELECT * FROM ec_profile_view " +
+										 "WHERE userID = @userID ";
+						using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+						{
+							userCommand.Parameters.AddWithValue("@userID", UserId);
+							using (MySqlDataReader userReader = userCommand.ExecuteReader())
+							{
+								if (userReader.Read())
+								{
+									profileInfo.userID = userReader.GetString(0);
+									profileInfo.username = userReader.GetString(1);
+									profileInfo.password = userReader.GetString(2);
+									profileInfo.userType = userReader.GetString(3);
+									profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+									profileInfo.ecStaffID = userReader.GetString(5);
+									profileInfo.firstName = userReader.GetString(6);
+									profileInfo.middleName = userReader.IsDBNull(7) ? "-" : userReader.GetString(7);
+									profileInfo.lastName = userReader.GetString(8);
+									profileInfo.extName = userReader.IsDBNull(9) ? "-" : userReader.GetString(9);
+									profileInfo.sex = userReader.GetString(10);
+									profileInfo.birthdate = userReader.GetDateTime(11).ToString("MMMM d, yyyy");
+									profileInfo.mobileNum = userReader.GetString(12);
+									profileInfo.emailAddress = userReader.GetString(13);
+									profileInfo.availabilityStatus = userReader.GetString(14);
+								}
+							}
+						}
+					}
+
+					if (UserType == "LGU Staff")
+					{
+						string userSql = "SELECT * FROM lgu_profile_view " +
+										 "WHERE userID = @userID ";
+						using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+						{
+							userCommand.Parameters.AddWithValue("@userID", UserId);
+							using (MySqlDataReader userReader = userCommand.ExecuteReader())
+							{
+								if (userReader.Read())
+								{
+									profileInfo.userID = userReader.GetString(0);
+									profileInfo.username = userReader.GetString(1);
+									profileInfo.password = userReader.GetString(2);
+									profileInfo.userType = userReader.GetString(3);
+									profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+									profileInfo.lguStaffID = userReader.GetString(5);
+									profileInfo.firstName = userReader.GetString(6);
+									profileInfo.middleName = userReader.IsDBNull(7) ? "-" : userReader.GetString(7);
+									profileInfo.lastName = userReader.GetString(8);
+									profileInfo.extName = userReader.IsDBNull(9) ? "-" : userReader.GetString(9);
+									profileInfo.sex = userReader.GetString(10);
+									profileInfo.birthdate = userReader.GetDateTime(11).ToString("MMMM d, yyyy");
+									profileInfo.mobileNum = userReader.GetString(12);
+									profileInfo.emailAddress = userReader.GetString(13);
+								}
+							}
+						}
+					}
+				}
             }
 
             catch (Exception ex)
