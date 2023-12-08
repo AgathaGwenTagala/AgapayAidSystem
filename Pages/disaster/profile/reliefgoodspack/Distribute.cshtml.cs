@@ -31,7 +31,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
                 return;
             }
             
-            if (UserType != "Admin" || UserType != "EC Staff")
+            if (UserType == "LGU Staff")
             {
                 Response.Redirect("/accessdenied");
                 return;

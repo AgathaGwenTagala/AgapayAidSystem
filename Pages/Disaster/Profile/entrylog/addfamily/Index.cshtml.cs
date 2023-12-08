@@ -32,7 +32,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
                 return;
             }
 
-            if (UserType != "Admin" || UserType != "EC Staff")
+            if (UserType == "LGU Staff")
             {
                 Response.Redirect("/accessdenied");
                 return;
