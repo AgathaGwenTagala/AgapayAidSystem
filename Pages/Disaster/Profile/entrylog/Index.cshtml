@@ -178,7 +178,6 @@
 						</ol>
 					</nav>
 				</div>
-
 				<form method="POST" id="checkOut" style="padding: 0px;">
 					<input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
 					<!-- Title, Check-In and Check-Out Buttons -->
@@ -190,21 +189,24 @@
 									<h1>Entry Log</h1>
 								</div>
 
-								<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-									<a id="checkInButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-										<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
-									</a>
-									<a id="checkInButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
-										<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
-									</a>
+								@if (Model.UserType != "LGU Staff")
+								{
+									<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+										<a id="checkInButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+											<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Check-in Evacuee
+										</a>
+										<a id="checkInButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/entrylog/checkin?centerLogID=@Model.logInfo.centerLogID">
+											<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+										</a>
 
-									<button id="checkOutButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-										<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
-									</button>
-									<button id="checkOutButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-										<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
-									</button>
-								</div>
+										<button id="checkOutButton" style="display: none;" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+											<i class="bi bi-x-circle pt" style="padding: 5px;"></i> Check-out Evacuee
+										</button>
+										<button id="checkOutButtonSmall" style="display: none;" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+											<i class="bi bi-x-circle pt" style="padding: 5px;"></i>
+										</button>
+									</div>
+								}
 							</div>
 						</div>
 					}
@@ -242,6 +244,7 @@
 										<th>Name</th>
 										<th style="text-align: center;">Remarks</th>
 										<th style="text-align: center;">Status</th>
+										<th></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -298,12 +301,15 @@
 															</li>
 															@if (@Model.logInfo.status == "Open")
 															{
-																<li>
-																	<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
-																	   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																		Delete
-																	</a>
-																</li>
+																@if (Model.UserType != "LGU Staff")
+																{
+																	<li>
+																		<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+																		   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																			Delete
+																		</a>
+																	</li>
+																}
 															}
 															else if (@Model.logInfo.status == "Closed")
 															{
@@ -328,6 +334,7 @@
 													}
 												</div>
 											</td>
+											<td>@item.checkInDate</td>
 										</tr>
 										counter++;
 									}
@@ -449,12 +456,15 @@
 
 		var table = $('#entrylog-table').DataTable({
 			responsive: false,
-			pageLength: 50,
+			pageLength: 25,
 			columnDefs: [
-				{ "orderable": true, "targets": [1, 2] }, // Sortable columns
-				{ "orderable": false, "targets": [0, 3, 4, 5] } // Non-sortable columns
-			], order: [[1, 'asc']],
+				{ "orderable": true, "targets": [1, 2, 6] }, // Sortable columns
+				{ "orderable": false, "targets": [0, 3, 4, 5] }, // Non-sortable columns
+				{ "visible": false, "targets": 6 } // Hidden column
+			],
+			order:[[6, 'asc']],
 
+			// Group By button
 			drawCallback: function (settings) {
 				if (!drawCallbackEnabled) {
 					return;
@@ -490,6 +500,13 @@
 		// Toggle drawCallback on button click
 		groupby_family.on('click', function () {
 			drawCallbackEnabled = !drawCallbackEnabled;
+
+			// Set default ordering when group by is enabled
+			if (drawCallbackEnabled) {
+				table.order([[1, 'asc']]);
+			} else {
+				table.order([[6, 'asc']]);
+			}
 
 			// Redraw the table to apply the changes
 			table.draw();
