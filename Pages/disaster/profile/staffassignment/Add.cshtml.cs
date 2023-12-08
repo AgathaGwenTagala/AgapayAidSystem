@@ -2,6 +2,7 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Crypto.Tls;
 
 namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 {
@@ -13,9 +14,27 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
         public List<AvailableStaffInfo> listAvailable = new List<AvailableStaffInfo>();
         public string errorMessage = "";
         public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
         public void OnGet()
         {
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType == "EC Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
             string centerLogID = Request.Query["centerLogID"];
 
             if (string.IsNullOrEmpty(centerLogID))

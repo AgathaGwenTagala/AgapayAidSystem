@@ -22,9 +22,27 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
         public string availabilityStatus { get; set; } = "";
         public string errorMessage = "";
         public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
         public void OnGet()
         {
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType != "Admin")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
             userID = Request.Query["userID"];
 
             // Fetch info of selected user from the database

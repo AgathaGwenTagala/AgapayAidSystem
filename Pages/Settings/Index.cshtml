@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Settings Profile";
 }
+
 <style>
         .label-col {
             flex: 0 0 200px; 
@@ -30,118 +31,113 @@
             margin-left: 10px;
             padding: 5px 10px;
         }
+</style>
 
-    </style>
+<div class="row pb-2">
+    <div class="col-lg-12 ec-info">
 
-                    <div class="row pb-2">
-                        <div class="col-lg-12 ec-info">
-
-                            <div class="container">
-                                <h1>Profile Settings</h1>
-                                <hr />
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">Account Details:</h4>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <ul class="list-group mb-3">
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Username</h6></div>
-                                                <span>g_tagala</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">First Name</h6></div>
-                                                <span>Gwen</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Middle Name</h6></div>
-                                                <span>Ignacio</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Last Name</h6></div>
-                                                <span>Tagala</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Extension Name</h6></div>
-                                                <span>-</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Sex</h6></div>
-                                                <span>F</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Birthdate</h6></div>
-                                                <span>03/20/2003</span>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Email Address</h6></div>
-                                                <div class="d-flex align-items-center">
-                                                    <span id="emailText">gwentagala@drrm.com</span>
-                                                    <input type="text" class="form-control" id="emailInput" style="display: none;" />
-                                                    <div class="edit-controls">
-                                                    <button class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
-                                                        <button class="btn btn-success" onclick="saveChanges()">Save</button>
-                                                    </div>
-                                                    <!-- Add a pencil icon to toggle the edit mode -->
-                                                    <span class="icon-pencil" onclick="toggleEditInput()">&#9998;</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
-                                                <div class="d-flex align-items-center">
-                                                    <span id="mobileNumberText">0912-123-6789</span>
-                                                    <input type="text" class="form-control" id="mobileNumberInput" style="display: none;" />
-                                                    <div class="mobile-number-edit-controls">
-                                                        <button class="btn btn-secondary" onclick="cancelMobileNumberEdit()">Cancel</button>
-                                                        <button class="btn btn-success" onclick="saveMobileNumberChanges()">Save</button>
-                                                    </div>
-                                                    <!-- Add a pencil icon to toggle the edit mode -->
-                                                    <span class="mobile-number-icon-pencil" onclick="toggleMobileNumberEditInput()">&#9998;</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+        <div class="container">
+            <h1>Profile Settings</h1>
+            <hr />
+            <h4 class="d-flex justify-content-between align-items-center mb-3">Account Details:</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Username</h6></div>
+                            <span>g_tagala</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">First Name</h6></div>
+                            <span>Gwen</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Middle Name</h6></div>
+                            <span>Ignacio</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Last Name</h6></div>
+                            <span>Tagala</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Extension Name</h6></div>
+                            <span>-</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Sex</h6></div>
+                            <span>F</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Birthdate</h6></div>
+                            <span>03/20/2003</span>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Email Address</h6></div>
+                            <div class="d-flex align-items-center">
+                                <span id="emailText">gwentagala@drrm.com</span>
+                                <input type="text" class="form-control" id="emailInput" style="display: none;" />
+                                <div class="edit-controls">
+                                    <button class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
+                                    <button class="btn btn-success" onclick="saveChanges()">Save</button>
                                 </div>
+                                <!-- Add a pencil icon to toggle the edit mode -->
+                                <span class="icon-pencil" onclick="toggleEditInput()">&#9998;</span>
                             </div>
-                            <hr />
-                            <div class="container">
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password:</h4>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-8">
-                                        <ul class="list-group mb-3">
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Current Password</h6></div>
-                                                <div class="input-col">
-                                                    <input type="password" class="form-control" id="currentPasswordInput" >
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">New Password</h6></div>
-                                                <div class="input-col">
-                                                    <input type="password" class="form-control" id="newPasswordInput">
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item d-flex lh-sm">
-                                                <div class="label-col"><h6 class="my-0">Confirm Password</h6></div>
-                                                <div class="input-col">
-                                                    <input type="password" class="form-control" id="confirmPasswordInput" >
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="password-controls" id="passwordButtons" style="display: none;">
-                                             <button class="btn btn-secondary" onclick="cancelPassword()">Cancel</button>
-                                             <button class="btn btn-success" onclick="savePassword()">Save</button>
-                                        </div>
-                                    </div>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
+                            <div class="d-flex align-items-center">
+                                <span id="mobileNumberText">0912-123-6789</span>
+                                <input type="text" class="form-control" id="mobileNumberInput" style="display: none;" />
+                                <div class="mobile-number-edit-controls">
+                                    <button class="btn btn-secondary" onclick="cancelMobileNumberEdit()">Cancel</button>
+                                    <button class="btn btn-success" onclick="saveMobileNumberChanges()">Save</button>
                                 </div>
+                                <!-- Add a pencil icon to toggle the edit mode -->
+                                <span class="mobile-number-icon-pencil" onclick="toggleMobileNumberEditInput()">&#9998;</span>
                             </div>
-
-                        </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="container">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password:</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Current Password</h6></div>
+                            <div class="input-col">
+                                <input type="password" class="form-control" id="currentPasswordInput">
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">New Password</h6></div>
+                            <div class="input-col">
+                                <input type="password" class="form-control" id="newPasswordInput">
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Confirm Password</h6></div>
+                            <div class="input-col">
+                                <input type="password" class="form-control" id="confirmPasswordInput">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="password-controls" id="passwordButtons" style="display: none;">
+                        <button class="btn btn-secondary" onclick="cancelPassword()">Cancel</button>
+                        <button class="btn btn-success" onclick="savePassword()">Save</button>
                     </div>
-			    
-		    
-	   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Email Address Edit button -->
 <script>
-<!-- Email Address Edit button --> 
     function toggleEditInput() {
         var inputField = document.getElementById('emailInput');
         var spanText = document.getElementById('emailText');
@@ -172,42 +168,44 @@
         // Add logic to cancel the edit mode
         toggleEditInput();
     }
+</script>
 
-
- <!-- Mobile Number Edit button --> 
+<!-- Mobile Number Edit button -->
+<script>
     function toggleMobileNumberEditInput() {
-    var inputField = document.getElementById('mobileNumberInput');
-    var spanText = document.getElementById('mobileNumberText');
-    var editControls = document.querySelector('.mobile-number-edit-controls');
-    var pencilIcon = document.querySelector('.mobile-number-icon-pencil');
+        var inputField = document.getElementById('mobileNumberInput');
+        var spanText = document.getElementById('mobileNumberText');
+        var editControls = document.querySelector('.mobile-number-edit-controls');
+        var pencilIcon = document.querySelector('.mobile-number-icon-pencil');
 
-    if (inputField.style.display === 'none' || inputField.style.display === '') {
-        inputField.style.display = 'inline';
-        spanText.style.display = 'none';
-        editControls.style.display = 'flex'; // Change to 'flex' for proper alignment
-        inputField.value = spanText.innerText; // Set the initial value of the input field
-        pencilIcon.style.display = 'none'; // Hide the pencil icon
-    } else {
-        inputField.style.display = 'none';
-        spanText.style.display = 'inline';
-        editControls.style.display = 'none';
-        pencilIcon.style.display = 'inline'; // Show the pencil icon
+        if (inputField.style.display === 'none' || inputField.style.display === '') {
+            inputField.style.display = 'inline';
+            spanText.style.display = 'none';
+            editControls.style.display = 'flex'; // Change to 'flex' for proper alignment
+            inputField.value = spanText.innerText; // Set the initial value of the input field
+            pencilIcon.style.display = 'none'; // Hide the pencil icon
+        } else {
+            inputField.style.display = 'none';
+            spanText.style.display = 'inline';
+            editControls.style.display = 'none';
+            pencilIcon.style.display = 'inline'; // Show the pencil icon
+        }
     }
-}
 
-function saveMobileNumberChanges() {
-    // Add logic to save changes for mobile number
-    alert('Mobile Number changes saved!');
-    toggleMobileNumberEditInput();
-}
+    function saveMobileNumberChanges() {
+        // Add logic to save changes for mobile number
+        alert('Mobile Number changes saved!');
+        toggleMobileNumberEditInput();
+    }
 
-function cancelMobileNumberEdit() {
-    // Add logic to cancel mobile number edit
-    toggleMobileNumberEditInput();
-}
+    function cancelMobileNumberEdit() {
+        // Add logic to cancel mobile number edit
+        toggleMobileNumberEditInput();
+    }
+</script>
 
-
-<!-- Change password --> 
+<!-- Change password -->
+<script>
 function checkInputs() {
         var currentPassword = document.getElementById('currentPasswordInput').value;
         var newPassword = document.getElementById('newPasswordInput').value;
@@ -239,4 +237,3 @@ function checkInputs() {
     document.getElementById('newPasswordInput').addEventListener('input', showPasswordButtons);
     document.getElementById('confirmPasswordInput').addEventListener('input', showPasswordButtons);
 </script>
-

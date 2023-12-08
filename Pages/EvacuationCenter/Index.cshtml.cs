@@ -11,10 +11,22 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public List<EvacuationInfo> listEvacuation = new List<EvacuationInfo>();
 		public string successMessage = "";
 		public string errorMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
         {
-			try
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))

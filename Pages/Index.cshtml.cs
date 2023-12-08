@@ -21,10 +21,16 @@ namespace AgapayAidSystem.Pages
 		public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
         {
-			try
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -43,7 +49,7 @@ namespace AgapayAidSystem.Pages
 								disasterInfo.disasterName = reader.GetString(1);
 								disasterInfo.disasterType = reader.GetString(2);
 								disasterInfo.description = reader.GetString(3);
-								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("MMMM dd, yyyy");
+								disasterInfo.dateOccured = reader.GetDateTime("dateOccured").ToString("MMMM d, yyyy");
 							}
 						}
 					}

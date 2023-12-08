@@ -15,13 +15,31 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 		public MemberInfo memberInfo { get; set; } = new MemberInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		[BindProperty(SupportsGet = true)]
+        [BindProperty(SupportsGet = true)]
 		public string familyID { get; set; }
 
 		public void OnGet()
 		{
-			familyID = Request.Query["familyID"];
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType == "LGU Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
+            familyID = Request.Query["familyID"];
 			string centerLogID = Request.Query["centerLogID"];
 
 			if (string.IsNullOrEmpty(familyID))
