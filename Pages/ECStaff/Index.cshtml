@@ -81,6 +81,7 @@
 				<th>Mobile Number</th>
 				<th>Email Address</th>
 				<th>Status</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -110,6 +111,21 @@
 						{
 							<span class="badge rounded-pill bg-light">@item.availabilityStatus</span>
 						}
+					</td>
+					<td width="5%">
+						<div class="d-inline position-relative">
+							<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-three-dots-vertical"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="recordOptions">
+								<li>
+									<a class="dropdown-item" href="/ecstaff/assignmenthistory?ecStaffID=@item.ecStaffID">
+										View Assignment History
+									</a>
+								</li>
+							</ul>
+						</div>
+					</td>
 				</tr>
 				counter++;
 			}
@@ -125,7 +141,7 @@
 			pageLength: 25,
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 3, 4] }, // Sortable columns
-				{ "orderable": false, "targets": [2, 5, 6, 7] }, // Non-sortable columns
+				{ "orderable": false, "targets": [2, 5, 6, 7, 8] }, // Non-sortable columns
 				{ "responsivePriority": -1, "targets": [0, 1, 7] } // Disable responsive for specific columns
 			]
 		});
