@@ -14,13 +14,25 @@ namespace AgapayAidSystem.Pages.family.add
 		public MemberInfo memberInfo { get; set; } = new MemberInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
-		
-		[BindProperty(SupportsGet = true)]
+        public string UserId { get; set; }
+        public string UserType { get; set; }
+
+        [BindProperty(SupportsGet = true)]
 		public string familyID { get; set; }
 
 		public void OnGet()
         {
-			familyID = Request.Query["familyID"];
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            familyID = Request.Query["familyID"];
 
 			if (string.IsNullOrEmpty(familyID))
 			{

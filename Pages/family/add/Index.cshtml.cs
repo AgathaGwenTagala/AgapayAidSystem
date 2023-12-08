@@ -15,11 +15,23 @@ namespace AgapayAidSystem.Pages.family.add
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
         {
-			// Fetch the list of barangays from database
-			Barangays = GetBarangaysFromDatabase();
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            // Fetch the list of barangays from database
+            Barangays = GetBarangaysFromDatabase();
 		}
 
 		private List<BarangayInfo> GetBarangaysFromDatabase()

@@ -13,10 +13,23 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 		public List<RecordInfo> listRecord = new List<RecordInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
 		{
-			string familyID = Request.Query["familyID"];
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            string familyID = Request.Query["familyID"];
+			
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
