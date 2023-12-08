@@ -1,4 +1,3 @@
-using AgapayAidSystem.Pages.disaster.profile.inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -12,9 +11,27 @@ namespace AgapayAidSystem.Pages.Inventory
         public List<InventoryInfo> listInventory = new List<InventoryInfo>();
         public string errorMessage = "";
         public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
         public void OnGet()
         {
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType != "Admin" || UserType != "LGU Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
