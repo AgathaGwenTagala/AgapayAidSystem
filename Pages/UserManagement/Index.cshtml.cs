@@ -22,14 +22,12 @@ namespace AgapayAidSystem.Pages.UserManagement
 
             if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
             {
-                // Redirect to the login page or handle unauthorized access
                 Response.Redirect("/login/index");
                 return;
             }
 
             if (UserType != "Admin")
             {
-                // Redirect to the login page or handle unauthorized access
                 Response.Redirect("/accessdenied");
                 return;
             }
