@@ -62,7 +62,7 @@ namespace AgapayAidSystem.Pages.Login
                     }
                 }
 
-                successMessage = "Login successful";
+                successMessage = $"Hello, {userInfo.username}!";
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace AgapayAidSystem.Pages.Login
             }
             else
             {
-                Response.Redirect("/usermanagement/index?successMessage=" + successMessage);
+                Response.Redirect("/index?successMessage=" + successMessage);
             }
         }
 
