@@ -13,10 +13,28 @@ namespace AgapayAidSystem.Pages.disaster.profile
 		public List<string> DisasterTypes { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
 		{
-			string disasterID = Request.Query["disasterID"];
+            // Check if UserId is set in the session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType != "Admin" || UserType != "LGU Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
+            string disasterID = Request.Query["disasterID"];
 
 			// Fetch the list of disaster types from your database
 			DisasterTypes = GetDisasterTypesFromDatabase();
