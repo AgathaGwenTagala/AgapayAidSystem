@@ -27,6 +27,12 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
                 return;
             }
 
+            if (UserType != "Admin" || UserType != "LGU Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
             string centerID = Request.Query["centerID"];
 
 			// Fetch the list of barangays from database

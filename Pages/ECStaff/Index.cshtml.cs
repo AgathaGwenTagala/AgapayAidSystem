@@ -13,10 +13,24 @@ namespace AgapayAidSystem.Pages.ECStaff
 		public List<ECStaffInfo> listECStaff = new List<ECStaffInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
+        public string UserId { get; set; }
+        public string UserType { get; set; }
 
-		public void OnGet()
+        public void OnGet()
 		{
-			try
+            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
+            {
+                Response.Redirect("/login/index");
+                return;
+            }
+
+            if (UserType != "Admin" || UserType != "LGU Staff")
+            {
+                Response.Redirect("/accessdenied");
+                return;
+            }
+
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
