@@ -56,7 +56,13 @@ namespace AgapayAidSystem.Pages.Login
                                 HttpContext.Session.SetString("UserId", userInfo.userID);
                                 HttpContext.Session.SetString("UserType", userInfo.userType);
                             }
-                        }
+							else
+					        {
+								// No user found with the provided credentials
+								errorMessage = "Invalid username or password.";
+								errorOccurred = true;
+							}
+						}
                         
                         Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
                     }
@@ -82,4 +88,15 @@ namespace AgapayAidSystem.Pages.Login
         }
 
     }
+
+    public class TableLogInfo
+    {
+        public string logID { get; set; }
+        public string userID { get; set; }
+        public string tableName { get; set; }
+        public string tableID { get; set; }
+        public string logType { get; set; }
+        public string description { get; set; }
+        public string loggedAt { get; set; }
+	}
 }
