@@ -71,6 +71,10 @@
         margin-left: 10px;
         padding: 5px 10px;
     }
+
+    .short-dropdown {
+        max-width: 210px; /* Adjust the width as needed */
+    }
 </style>
 
 <div class="row pb-2">
@@ -80,6 +84,7 @@
             <br />
 
             <!-- Account Information -->
+            <form>
             <h4 class="d-flex justify-content-between align-items-center mb-3">Account Information</h4>
             <div class="col">
                 <ul class="list-group mb-3">
@@ -93,68 +98,213 @@
                     </li>
                 </ul>
             </div>
+            </form>
             <br />
 
-            <h4 class="d-flex justify-content-between align-items-center mb-3">Contact Information</h4>
-            <div class="col">
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex lh-sm">
-                        <div class="label-col"><h6 class="my-0">Email Address</h6></div>
-                        <span>@Model.profileInfo.emailAddress</span>
-                    </li>
-                    <li class="list-group-item d-flex lh-sm">
-                        <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
-                        <span>@Model.profileInfo.mobileNum</span>
-                    </li>
-                </ul>
-            </div>
-            <br />
-
-            @if (Model.UserType == "EC Staff")
-            {
-                <!-- Availability Status -->
-                <h4 class="d-flex justify-content-between align-items-center mb-3">Availability Status</h4>
+            <!-- Contact Information -->
+            <form id="contactInformationForm" method="POST">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Contact Information</h4>
                 <div class="col">
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex lh-sm">
-                            <div class="label-col"><h6 class="my-0">Status</h6></div>
-                            <span>@Model.profileInfo.availabilityStatus</span>
+                            <div class="label-col"><h6 class="my-0">Email Address</h6></div>
+                            <div class="input-col">
+                                <input type="text" class="form-control" name="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="60">
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex lh-sm">
+                            <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
+                            <div class="input-col">
+                                <input type="text" class="form-control" name="mobileNum" value="@Model.profileInfo.mobileNum" required maxlength="11">
+                            </div>
                         </li>
                     </ul>
                 </div>
-                <br />
-            }
+
+
+                @if (Model.UserType == "EC Staff")
+                {
+                    <!-- Availability Status -->
+                    <br />
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">Availability Status</h4>
+                    <div class="col">
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex lh-sm">
+                                <div class="label-col"><h6 class="my-0">Status</h6></div>
+                                <select class="form-select short-dropdown" name="statusType" required onchange="handleAvailabilityStatusChange(this)">
+                                    <option value="" selected disabled>Select Availability Status</option>
+                                    @{
+                                        if (Model.profileInfo.availabilityStatus == "Available")
+                                        {
+                                            <option value="Available" selected>Available</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Available">Available</option>
+                                        }
+
+                                        if (Model.profileInfo.availabilityStatus == "On Duty")
+                                        {
+                                            <option value="On Duty" selected>On Duty</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="On Duty">On Duty</option>
+                                        }
+
+                                        if (Model.profileInfo.availabilityStatus == "On Leave")
+                                        {
+                                            <option value="On Leave" selected>On Leave</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="On Leave">On Leave</option>
+                                        }
+                                        if (Model.profileInfo.availabilityStatus == "Inactive")
+                                        {
+                                            <option value="Inactive" selected>Inactive</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Inactive">Inactive</option>
+                                        }
+                                    }
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <div class="edit-controls">
+                    <button type="button" class="btn btn-secondary" onclick="cancelContactInformation()">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveChangesButton">Save</button>
+                </div>
+            </form>
 
             <!-- Change Password -->
-            <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password</h4>
-            <div class="row justify-content-center">
-                <div class="col">
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex lh-sm">
-                            <div class="label-col"><h6 class="my-0">Current Password</h6></div>
-                            <div class="input-col">
-                                <input type="password" class="form-control" id="currentPasswordInput">
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex lh-sm">
-                            <div class="label-col"><h6 class="my-0">New Password</h6></div>
-                            <div class="input-col">
-                                <input type="password" class="form-control" id="newPasswordInput">
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex lh-sm">
-                            <div class="label-col"><h6 class="my-0">Confirm Password</h6></div>
-                            <div class="input-col">
-                                <input type="password" class="form-control" id="confirmPasswordInput">
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="password-controls" id="passwordButtons" style="display: none;">
-                        <button class="btn btn-secondary" onclick="cancelPassword()">Cancel</button>
-                        <button class="btn btn-success" onclick="savePassword()">Save</button>
+            <form id="changePasswordForm" method="POST">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password</h4>
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex lh-sm">
+                                <div class="label-col"><h6 class="my-0">Current Password</h6></div>
+                                <div class="input-col">
+                                    <input type="password" class="form-control" id="currentPasswordInput">
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex lh-sm">
+                                <div class="label-col"><h6 class="my-0">New Password</h6></div>
+                                <div class="input-col">
+                                    <input type="password" class="form-control" id="newPasswordInput">
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex lh-sm">
+                                <div class="label-col"><h6 class="my-0">Confirm Password</h6></div>
+                                <div class="input-col">
+                                    <input type="password" class="form-control" id="confirmPasswordInput">
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="password-controls" id="passwordButtons" style="display: none;">
+                            <button type="button" class="btn btn-secondary" onclick="cancelPassword()">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="saveChangesPassword">Save</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+<script>
+    // Store original values when the page loads
+    var originalContactInfo = {
+        emailAddress: "@Model.profileInfo.emailAddress",
+        mobileNum: "@Model.profileInfo.mobileNum"
+    };
+
+    var originalAvailabilityStatus = "@Model.profileInfo.availabilityStatus";
+
+    // Function to set the form fields to their original values
+    function revertToOriginalState() {
+        // Revert contact information form
+        document.getElementById('contactInformationForm').querySelector('input[name="emailAddress"]').value = originalContactInfo.emailAddress;
+        document.getElementById('contactInformationForm').querySelector('input[name="mobileNum"]').value = originalContactInfo.mobileNum;
+
+        // Revert availability status dropdown
+        var statusDropdown = document.getElementById('contactInformationForm').querySelector('select[name="statusType"]');
+        var options = statusDropdown.options;
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === originalAvailabilityStatus) {
+                options[i].selected = true;
+            } else {
+                options[i].selected = false;
+            }
+        }
+
+        // Hide edit controls
+        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'none';
+    }
+
+    function editContactInformation() {
+        // Display edit controls when the user clicks "Edit Contact Information"
+        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+    }
+
+    function cancelContactInformation() {
+        // Revert to the original state when the user clicks "Cancel"
+        revertToOriginalState();
+    }
+
+    // Add event listeners to the input fields in the contact information form
+    const contactFormInputs = document.getElementById('contactInformationForm').querySelectorAll('input');
+    contactFormInputs.forEach(input => {
+        input.addEventListener('input', handleContactFormInput);
+    });
+
+    function handleContactFormInput() {
+        // Show edit controls when the user types in any input field in the contact information form
+        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+    }
+
+    function cancelPassword() {
+        // Hide password controls when the user clicks "Cancel" in the change password form
+        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
+    }
+
+    // Add event listeners to the input fields in the change password form
+    const passwordFormInputs = document.getElementById('changePasswordForm').querySelectorAll('input');
+    passwordFormInputs.forEach(input => {
+        input.addEventListener('input', handlePasswordFormInput);
+    });
+
+    function handlePasswordFormInput() {
+        // Show password controls when the user types in all input fields in the change password form
+        const passwordInputs = document.getElementById('changePasswordForm').querySelectorAll('input[type="password"]');
+        const isAllFilled = Array.from(passwordInputs).every(input => input.value.trim() !== '');
+        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = isAllFilled ? 'flex' : 'none';
+    }
+
+    function handleAvailabilityStatusChange(dropdown) {
+        // Show edit controls when the user changes the availability status
+        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+
+        // You can add additional logic here if needed
+    }
+
+    function clearPasswordForm() {
+        // Clear input fields in the change password form
+        document.getElementById('changePasswordForm').querySelector('input[id="currentPasswordInput"]').value = '';
+        document.getElementById('changePasswordForm').querySelector('input[id="newPasswordInput"]').value = '';
+        document.getElementById('changePasswordForm').querySelector('input[id="confirmPasswordInput"]').value = '';
+
+        // Hide password controls
+        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
+    }
+
+    function cancelPassword() {
+        // Clear password form and hide controls when the user clicks "Cancel"
+        clearPasswordForm();
+    }
+</script>
