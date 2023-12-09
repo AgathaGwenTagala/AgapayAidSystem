@@ -55,6 +55,11 @@ namespace AgapayAidSystem.Pages.Login
                                 // Set user information in the session
                                 HttpContext.Session.SetString("UserId", userInfo.userID);
                                 HttpContext.Session.SetString("UserType", userInfo.userType);
+
+                                successMessage = $"Hello, {userInfo.username}!";
+
+                                // Log the successful login
+                                LogLoginSuccess(userInfo.userID, userInfo.userType, userInfo.username);
                             }
 							else
 					        {
@@ -67,8 +72,6 @@ namespace AgapayAidSystem.Pages.Login
                         Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
                     }
                 }
-
-                successMessage = $"Hello, {userInfo.username}!";
             }
             catch (Exception ex)
             {
@@ -87,6 +90,45 @@ namespace AgapayAidSystem.Pages.Login
             }
         }
 
+        private void LogLoginSuccess(string userID, string userType, string username)
+        {
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Insert log entry into table_log
+                    string logSql = "INSERT INTO table_log (userID, tableName, tableID, logType, description) " +
+                                    "VALUES (@userID, 'user', @userID, 'Login', CONCAT(@userType, ' ', @username, ' logged in'))";
+
+                    using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+                    {
+                        logCommand.Parameters.AddWithValue("@userID", userID);
+                        logCommand.Parameters.AddWithValue("@userType", userType);
+                        logCommand.Parameters.AddWithValue("@username", username);
+
+                        int rowsAffected = logCommand.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            // Log entry inserted successfully
+                            Console.WriteLine("Login log entry inserted successfully");
+                        }
+                        else
+                        {
+                            // Failed to insert log entry
+                            Console.WriteLine("Failed to insert login log entry");
+                        }
+                    }
+                }
+            }   
+            catch (Exception ex)
+            {
+                // Handle the exception or log an error message if logging fails
+                Console.WriteLine($"Error inserting login log entry: {ex.Message}");
+            }
+        }
     }
 
     public class TableLogInfo
