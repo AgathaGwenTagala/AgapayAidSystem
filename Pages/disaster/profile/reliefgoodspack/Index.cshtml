@@ -234,20 +234,31 @@
 											<span class="badge rounded-pill bg-light">@item.status</span>
 										}
 									</td>
-									<td width="15%">
-										@if (@item.status == "Distributed")
-										{
+									@if (!string.IsNullOrEmpty(Model.assignmentInfo.status))
+									{
+										<td width="15%">
+											@if (@item.status == "Distributed")
+											{
+												<button class="btn btn-primary edit-button" disabled>
+													Distribute
+												</button>
+											}
+											else if (@item.status == "Packed")
+											{
+												<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+													Distribute
+												</a>
+											}
+										</td>
+									}
+									else
+									{
+										<td width="15%">
 											<button class="btn btn-primary edit-button" disabled>
 												Distribute
 											</button>
-										}
-										else if (@item.status == "Packed")
-										{
-											<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-												Distribute
-											</a>
-										}
-									</td>
+										</td>
+									}
 									<td width="5%">
 										<div class="d-inline position-relative">
 											<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
