@@ -27,12 +27,6 @@ namespace AgapayAidSystem.Pages.account
                 return;
             }
 
-			if (UserType == "Admin")
-			{
-				Response.Redirect("/accessdenied");
-				return;
-			}
-
 			try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -40,38 +34,30 @@ namespace AgapayAidSystem.Pages.account
                 {
                     connection.Open();
 
-					if (UserType == "EC Staff")
-					{
-						string userSql = "SELECT * FROM ec_profile_view " +
-										 "WHERE userID = @userID ";
-						using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
-						{
-							userCommand.Parameters.AddWithValue("@userID", UserId);
-							using (MySqlDataReader userReader = userCommand.ExecuteReader())
-							{
-								if (userReader.Read())
-								{
-									profileInfo.userID = userReader.GetString(0);
-									profileInfo.username = userReader.GetString(1);
-									profileInfo.password = userReader.GetString(2);
-									profileInfo.userType = userReader.GetString(3);
-									profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-									profileInfo.ecStaffID = userReader.GetString(5);
-									profileInfo.firstName = userReader.GetString(6);
-									profileInfo.middleName = userReader.IsDBNull(7) ? "-" : userReader.GetString(7);
-									profileInfo.lastName = userReader.GetString(8);
-									profileInfo.extName = userReader.IsDBNull(9) ? "-" : userReader.GetString(9);
-									profileInfo.sex = userReader.GetString(10);
-									profileInfo.birthdate = userReader.GetDateTime(11).ToString("MMMM d, yyyy");
-									profileInfo.mobileNum = userReader.GetString(12);
-									profileInfo.emailAddress = userReader.GetString(13);
-									profileInfo.availabilityStatus = userReader.GetString(14);
-								}
-							}
-						}
-					}
+                    if (UserType == "Admin")
+                    {
+                        string userSql = "SELECT * FROM user_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", UserId);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.userID = userReader.GetString(0);
+                                    profileInfo.username = userReader.GetString(1);
+                                    profileInfo.password = userReader.GetString(2);
+                                    profileInfo.userType = userReader.GetString(3);
+                                    profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                    profileInfo.adminID = userReader.GetString(5);
+                                    profileInfo.adminName = userReader.GetString(6);
+                                }
+                            }
+                        }
+                    }
 
-					if (UserType == "LGU Staff")
+                    if (UserType == "LGU Staff")
 					{
 						string userSql = "SELECT * FROM lgu_profile_view " +
 										 "WHERE userID = @userID ";
@@ -100,7 +86,38 @@ namespace AgapayAidSystem.Pages.account
 							}
 						}
 					}
-				}
+
+                    if (UserType == "EC Staff")
+                    {
+                        string userSql = "SELECT * FROM ec_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", UserId);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.userID = userReader.GetString(0);
+                                    profileInfo.username = userReader.GetString(1);
+                                    profileInfo.password = userReader.GetString(2);
+                                    profileInfo.userType = userReader.GetString(3);
+                                    profileInfo.createdAt = userReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                    profileInfo.ecStaffID = userReader.GetString(5);
+                                    profileInfo.firstName = userReader.GetString(6);
+                                    profileInfo.middleName = userReader.IsDBNull(7) ? "-" : userReader.GetString(7);
+                                    profileInfo.lastName = userReader.GetString(8);
+                                    profileInfo.extName = userReader.IsDBNull(9) ? "-" : userReader.GetString(9);
+                                    profileInfo.sex = userReader.GetString(10);
+                                    profileInfo.birthdate = userReader.GetDateTime(11).ToString("MMMM d, yyyy");
+                                    profileInfo.mobileNum = userReader.GetString(12);
+                                    profileInfo.emailAddress = userReader.GetString(13);
+                                    profileInfo.availabilityStatus = userReader.GetString(14);
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             catch (Exception ex)
@@ -121,6 +138,7 @@ namespace AgapayAidSystem.Pages.account
             profileInfo.mobileNum = Request.Form["mobileNum"];
             profileInfo.availabilityStatus = Request.Form["availabilityStatus"];
             UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
 
             try
             {
@@ -129,22 +147,42 @@ namespace AgapayAidSystem.Pages.account
                 {
                     connection.Open();
 
-                    // Insert updated data into the 'ec_staff' table
-                    string sql = "UPDATE ec_staff " +
+                    if (UserType == "EC Staff")
+                    {
+                        // Insert updated data into the 'ec_staff' table
+                        string sql = "UPDATE ec_staff " +
                                  "SET emailAddress = @emailAddress, mobileNum = @mobileNum, " +
                                  "availabilityStatus = @availabilityStatus " +
                                  "WHERE userID = @userID";
 
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@emailAddress", profileInfo.emailAddress);
-                        command.Parameters.AddWithValue("@mobileNum", profileInfo.mobileNum);
-                        command.Parameters.AddWithValue("@availabilityStatus", profileInfo.availabilityStatus);
-                        command.Parameters.AddWithValue("@userID", UserId);
-                        command.ExecuteNonQuery();
+                        using (MySqlCommand command = new MySqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@emailAddress", profileInfo.emailAddress);
+                            command.Parameters.AddWithValue("@mobileNum", profileInfo.mobileNum);
+                            command.Parameters.AddWithValue("@availabilityStatus", profileInfo.availabilityStatus);
+                            command.Parameters.AddWithValue("@userID", UserId);
+                            command.ExecuteNonQuery();
+                        }
                     }
+
+                    if (UserType == "LGU Staff")
+                    {
+                        // Insert updated data into the 'lgu_staff' table
+                        string sql = "UPDATE lgu_staff " +
+                                     "SET emailAddress = @emailAddress, mobileNum = @mobileNum " +
+                                     "WHERE userID = @userID";
+                        
+                        using (MySqlCommand command = new MySqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@emailAddress", profileInfo.emailAddress);
+                            command.Parameters.AddWithValue("@mobileNum", profileInfo.mobileNum);
+                            command.Parameters.AddWithValue("@userID", UserId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
                 }
-                successMessage = "Contact information updated successfully!";
+                successMessage = "Information updated successfully!";
             }
             catch (Exception ex)
             {
