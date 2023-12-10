@@ -130,17 +130,15 @@
 
 			<li class="list-group-item d-flex justify-content-between lh-sm">
 				<p class="my-0">
-					<b>Status:  </b>				
-					<span class="badge bg-success">
-						@if (@Model.evacuationInfo.status == "Active")
-						{
-							<span class="badge bg-success">@Model.evacuationInfo.status</span>
-						}
-						else if (@Model.evacuationInfo.status == "Inactive")
-						{
-							<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
-						}
-					</span>
+					<b>Status:  </b>
+					@if (@Model.evacuationInfo.status == "Active")
+					{
+						<span class="badge rounded-pill bg-success">@Model.evacuationInfo.status</span>
+					}
+					else if (@Model.evacuationInfo.status == "Inactive")
+					{
+						<span class="badge rounded-pill bg-light">@Model.evacuationInfo.status</span>
+					}
 				</p>
 			</li>	
 		</ul>

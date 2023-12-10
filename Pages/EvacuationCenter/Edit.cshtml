@@ -69,13 +69,13 @@
 								<option value="School EC">School EC</option>
 							}
 
-							if (Model.evacuationInfo.centerType == "Community-based EC")
+							if (Model.evacuationInfo.centerType == "Barangay Designated EC")
 							{
-								<option value="Community-based EC" selected>Community-based EC</option>
+								<option value="Barangay Designated EC" selected>Barangay Designated EC</option>
 							}
 							else
 							{
-								<option value="Community-based EC">Community-based EC</option>
+								<option value="Barangay Designated EC">Barangay Designated EC</option>
 							}
 						}
 					</select>
@@ -244,8 +244,8 @@
 	});
 
 	telephoneInput.addEventListener('focus', function () {
-		if (!this.value.startsWith('044')) {
-			this.value = '044';
+		if (!this.value.startsWith('046')) {
+			this.value = '046';
 		}
 	});
 
@@ -263,7 +263,7 @@
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
 		if (cleanedValue.length >= 3) {
-			cleanedValue = '044' + cleanedValue.slice(3);
+			cleanedValue = '046' + cleanedValue.slice(3);
 		}
 
 		this.value = cleanedValue.slice(0, 10);

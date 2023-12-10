@@ -57,7 +57,7 @@
 					<select class="form-select" name="centerType" required>
 						<option value="" selected disabled>Select Evacuation Center Type</option>
 						<option value="School EC">School EC</option>
-						<option value="Community-based EC">Community-based EC</option>
+						<option value="Barangay Designated EC">Barangay Designated EC</option>
 					</select>
 				</div>
 			</div>
@@ -192,8 +192,8 @@
 	});
 
 	telephoneInput.addEventListener('focus', function () {
-		if (!this.value.startsWith('044')) {
-			this.value = '044';
+		if (!this.value.startsWith('046')) {
+			this.value = '046';
 		}
 	});
 
@@ -211,7 +211,7 @@
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
 		if (cleanedValue.length >= 3) {
-			cleanedValue = '044' + cleanedValue.slice(3);
+			cleanedValue = '046' + cleanedValue.slice(3);
 		}
 
 		this.value = cleanedValue.slice(0, 10);
