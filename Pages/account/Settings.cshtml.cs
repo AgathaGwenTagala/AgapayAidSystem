@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.Disaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -106,6 +107,52 @@ namespace AgapayAidSystem.Pages.account
             {
                 errorMessage = ex.Message;
             }
+        }
+
+        public void OnPostContactInformation()
+        {
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "Please correct the errors below.";
+            }
+
+            // Retrieve information from the form
+            profileInfo.emailAddress = Request.Form["emailAddress"];
+            profileInfo.mobileNum = Request.Form["mobileNum"];
+            profileInfo.availabilityStatus = Request.Form["availabilityStatus"];
+            UserId = HttpContext.Session.GetString("UserId");
+
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Insert updated data into the 'ec_staff' table
+                    string sql = "UPDATE ec_staff " +
+                                 "SET emailAddress = @emailAddress, mobileNum = @mobileNum, " +
+                                 "availabilityStatus = @availabilityStatus " +
+                                 "WHERE userID = @userID";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@emailAddress", profileInfo.emailAddress);
+                        command.Parameters.AddWithValue("@mobileNum", profileInfo.mobileNum);
+                        command.Parameters.AddWithValue("@availabilityStatus", profileInfo.availabilityStatus);
+                        command.Parameters.AddWithValue("@userID", UserId);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                successMessage = "Contact information updated successfully!";
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error updating contact information: " + ex.Message;
+            }
+
+            // Redirect back to the Settings page with success or error message
+            Response.Redirect("/account/settings?successMessage=" + successMessage + "&errorMessage=" + errorMessage);
         }
     }
 }

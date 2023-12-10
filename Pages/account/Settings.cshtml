@@ -77,39 +77,24 @@
     }
 </style>
 
-<div class="row pb-2">
+<div class="row mb-2">
     <div class="col-lg-12 ec-info">
         <div class="container">
-            <h1>Settings</h1>
-            <br />
+            <form id="contactInformationForm" method="POST" asp-page-handler="ContactInformation">
+                <!-- Title -->
+                <div class="col-12 d-flex align-items-center justify-content-between">
+                    <h1><i class="bi bi-gear" style="padding: 0 5px 0 5px;"></i>Settings</h1>
+                </div>
+                <br />
 
-            <!-- Account Information -->
-            <form>
-            <h4 class="d-flex justify-content-between align-items-center mb-3">Account Information</h4>
-            <div class="col">
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex lh-sm">
-                        <div class="label-col"><h6 class="my-0">Username</h6></div>
-                        <span>@Model.profileInfo.username</span>
-                    </li>
-                    <li class="list-group-item d-flex lh-sm">
-                        <div class="label-col"><h6 class="my-0">User Type</h6></div>
-                        <span>@Model.profileInfo.userType</span>
-                    </li>
-                </ul>
-            </div>
-            </form>
-            <br />
-
-            <!-- Contact Information -->
-            <form id="contactInformationForm" method="POST">
+                <!-- Contact Information -->
                 <h4 class="d-flex justify-content-between align-items-center mb-3">Contact Information</h4>
                 <div class="col">
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex lh-sm">
                             <div class="label-col"><h6 class="my-0">Email Address</h6></div>
                             <div class="input-col">
-                                <input type="text" class="form-control" name="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="60">
+                                <input type="text" class="form-control" name="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="65">
                             </div>
                         </li>
                         <li class="list-group-item d-flex lh-sm">
@@ -131,45 +116,44 @@
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Status</h6></div>
-                                <select class="form-select short-dropdown" name="statusType" required onchange="handleAvailabilityStatusChange(this)">
-                                    <option value="" selected disabled>Select Availability Status</option>
-                                    @{
-                                        if (Model.profileInfo.availabilityStatus == "Available")
-                                        {
-                                            <option value="Available" selected>Available</option>
+                                @if (Model.profileInfo.availabilityStatus == "On Duty")
+                                {
+                                    <select class="form-select short-dropdown" name="availabilityStatus" disabled>
+                                        <option value="On Duty" selected>On Duty</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select class="form-select short-dropdown" name="availabilityStatus" required onchange="handleAvailabilityStatusChange(this)">
+                                        <option value="" selected disabled>Select Availability Status</option>
+                                        @{
+                                            if (Model.profileInfo.availabilityStatus == "Available")
+                                            {
+                                                <option value="Available" selected>Available</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="Available">Available</option>
+                                            }
+                                            if (Model.profileInfo.availabilityStatus == "On Leave")
+                                            {
+                                                <option value="On Leave" selected>On Leave</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="On Leave">On Leave</option>
+                                            }
+                                            if (Model.profileInfo.availabilityStatus == "Inactive")
+                                            {
+                                                <option value="Inactive" selected>Inactive</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="Inactive">Inactive</option>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <option value="Available">Available</option>
-                                        }
-
-                                        if (Model.profileInfo.availabilityStatus == "On Duty")
-                                        {
-                                            <option value="On Duty" selected>On Duty</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="On Duty">On Duty</option>
-                                        }
-
-                                        if (Model.profileInfo.availabilityStatus == "On Leave")
-                                        {
-                                            <option value="On Leave" selected>On Leave</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="On Leave">On Leave</option>
-                                        }
-                                        if (Model.profileInfo.availabilityStatus == "Inactive")
-                                        {
-                                            <option value="Inactive" selected>Inactive</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="Inactive">Inactive</option>
-                                        }
-                                    }
-                                </select>
+                                    </select>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -181,7 +165,7 @@
             </form>
 
             <!-- Change Password -->
-            <form id="changePasswordForm" method="POST">
+            <form id="changePasswordForm" method="POST" asp-page-handler="ChangePassword">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">Change Password</h4>
                 <div class="row justify-content-center">
                     <div class="col">
@@ -307,4 +291,15 @@
         // Clear password form and hide controls when the user clicks "Cancel"
         clearPasswordForm();
     }
+</script>
+
+<!-- Save Button for Forms -->
+<script>
+    document.getElementById('saveChangesButton').addEventListener('click', function () {
+        document.getElementById('contactInformationForm').submit();
+    });
+
+    document.getElementById('saveChangesPassword').addEventListener('click', function () {
+        document.getElementById('changePasswordForm').submit();
+    });
 </script>
