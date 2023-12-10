@@ -140,28 +140,25 @@
                     <button class="btn btn-primary d-none d-md-inline-block text-white"
                             onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
                             data-bs-toggle="modal" data-bs-target="#infoModal">
-                        <i class="bi bi-info-circle-fill" style="color:white"></i> Info
+                        <i class="bi bi-info-circle-fill" style="padding-right: 5px;"></i> Info
                     </button>
 
                     <!-- Button with icon only (visible on smaller screens) -->
                     <button class="btn btn-primary d-inline-block d-md-none text-white"
                             onclick="showInfo('@Model.disasterInfo.disasterType', '@Model.disasterInfo.description', '@Model.disasterInfo.dateOccured')"
                             data-bs-toggle="modal" data-bs-target="#infoModal">
-                        <i class="bi bi-info-circle-fill" style="color:white"></i>
+                        <i class="bi bi-info-circle-fill"></i>
                     </button>
 
-                    @if (!string.IsNullOrEmpty(Model.UserId))
-                    {
-                        <!-- Button with text and icon (visible on larger screens) -->
-                        <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-none d-md-inline-block position-relative" role="button">
-                            View More <i class="bi bi-arrow-right-circle"></i>
-                        </a>
+                    <!-- Button with text and icon (visible on larger screens) -->
+                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-none d-md-inline-block position-relative" role="button">
+                        View More <i class="bi bi-arrow-right-circle" style="padding-left: 5px;"></i>
+                    </a>
 
-                        <!-- Button with text and icon (visible on smaller screens) -->
-                        <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-inline-block d-md-none" role="button">
-                            <i class="bi bi-arrow-right-circle"></i>
-                        </a>
-                    }                    
+                    <!-- Button with text and icon (visible on smaller screens) -->
+                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-inline-block d-md-none" role="button">
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </a>                  
                 </div>
             </div>
         </div>
@@ -239,7 +236,7 @@
                         {
                             <tr>
                                 <td width="5%">@counter</td>
-                                <td width="25%">@item.centerName</td>
+                                <td width="25%" style="text-align: left;">@item.centerName</td>
                                 <td width="25%" style="text-align: center;">@item.barangayName</td>
                                 <td width="30%" style="text-align: center;">
                                     <div class="progress-container">
