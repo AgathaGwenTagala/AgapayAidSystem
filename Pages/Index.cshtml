@@ -150,15 +150,18 @@
                         <i class="bi bi-info-circle-fill" style="color:white"></i>
                     </button>
 
-                    <!-- Button with text and icon (visible on larger screens) -->
-                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-none d-md-inline-block position-relative" role="button">
-                        View More <i class="bi bi-arrow-right-circle"></i>
-                    </a>
+                    @if (!string.IsNullOrEmpty(Model.UserId))
+                    {
+                        <!-- Button with text and icon (visible on larger screens) -->
+                        <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-none d-md-inline-block position-relative" role="button">
+                            View More <i class="bi bi-arrow-right-circle"></i>
+                        </a>
 
-                    <!-- Button with text and icon (visible on smaller screens) -->
-                    <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-inline-block d-md-none" role="button">
-                        <i class="bi bi-arrow-right-circle"></i>
-                    </a>
+                        <!-- Button with text and icon (visible on smaller screens) -->
+                        <a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" class="btn btn-primary d-inline-block d-md-none" role="button">
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </a>
+                    }                    
                 </div>
             </div>
         </div>
