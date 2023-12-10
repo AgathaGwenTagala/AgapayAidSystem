@@ -229,15 +229,8 @@
         document.getElementById('contactInformationForm').querySelector('input[name="mobileNum"]').value = originalContactInfo.mobileNum;
 
         // Revert availability status dropdown
-        var statusDropdown = document.getElementById('contactInformationForm').querySelector('select[name="statusType"]');
-        var options = statusDropdown.options;
-        for (var i = 0; i < options.length; i++) {
-            if (options[i].value === originalAvailabilityStatus) {
-                options[i].selected = true;
-            } else {
-                options[i].selected = false;
-            }
-        }
+        var statusDropdown = document.getElementById('contactInformationForm').querySelector('select[name="availabilityStatus"]');
+        statusDropdown.value = originalAvailabilityStatus;
 
         // Hide edit controls
         document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'none';
