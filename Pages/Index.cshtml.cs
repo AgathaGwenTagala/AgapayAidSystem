@@ -18,6 +18,7 @@ namespace AgapayAidSystem.Pages
 			_configuration = configuration;
 		}
 		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+		public DashboardInfo dashboardInfo { get; set; } = new DashboardInfo();
 		public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
@@ -86,7 +87,30 @@ namespace AgapayAidSystem.Pages
 							}
 						}
 					}
-				}
+
+                    // Fetch evacuation center dashboard data related to the selected disaster
+                    string dashboardSql = "CALL get_disaster_summary(@disasterID)";
+                    using (MySqlCommand dashboardCommand = new MySqlCommand(dashboardSql, connection))
+                    {
+                        dashboardCommand.Parameters.AddWithValue("@disasterID", disasterID);
+                        using (MySqlDataReader dashboardReader = dashboardCommand.ExecuteReader())
+                        {
+                            if (dashboardReader.Read())
+                            {
+                                dashboardInfo.totalDistinctEvacuees = dashboardReader.GetInt32(0).ToString();
+                                dashboardInfo.totalCheckIn = dashboardReader.GetInt32(1).ToString();
+                                dashboardInfo.totalCheckOut = dashboardReader.GetInt32(2).ToString();
+                                dashboardInfo.totalCenter = dashboardReader.GetInt32(3).ToString();
+                                dashboardInfo.totalOpenCenter = dashboardReader.GetInt32(4).ToString();
+                                dashboardInfo.totalClosedCenter = dashboardReader.GetInt32(5).ToString();
+                                dashboardInfo.totalDistinctBarangays = dashboardReader.GetInt32(6).ToString();
+                                dashboardInfo.totalDistinctFamilies = dashboardReader.GetInt32(7).ToString();
+                                dashboardInfo.totalDistinctFemale = dashboardReader.GetInt32(8).ToString();
+                                dashboardInfo.totalDistinctMale = dashboardReader.GetInt32(9).ToString();
+                            }
+                        }
+                    }
+                }
 			}
 
 			catch (Exception ex)
@@ -95,272 +119,286 @@ namespace AgapayAidSystem.Pages
 			}
 		}
 
-        public int GetTotalDistinctEvacueesCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctEvacueesPerDisaster " +
-                         "FROM disaster d " +
-                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE d.disasterID = @disasterID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalDistinctEvacueesCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctEvacuees " +
+        //                 "FROM disaster d " +
+        //                 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+        //                 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+        //                 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+        //                 "WHERE d.disasterID = @disasterID;";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalCheckInCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
-                         "FROM entry_log e " +
-                         "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
-                         "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-in'";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalCheckInCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(e.entryLogID) AS totalCheckIn " +
+        //                 "FROM entry_log e " +
+        //                 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
+        //                 "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-in'";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalCheckOutCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(e.entryLogID) AS totalEvacuees " +
-                         "FROM entry_log e " +
-                         "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
-                         "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-out'";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalCheckOutCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(e.entryLogID) AS totalCheckOut " +
+        //                 "FROM entry_log e " +
+        //                 "JOIN evacuation_center_log el ON e.centerLogID = el.centerLogID " +
+        //                 "WHERE el.disasterID = @disasterID AND e.entryStatus = 'Check-out'";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalCenterCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(centerLogID) AS totalCenter " +
-                         "FROM evacuation_center_log " +
-                         "WHERE disasterID = @disasterID";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalCenterCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(centerLogID) AS totalCenter " +
+        //                 "FROM evacuation_center_log " +
+        //                 "WHERE disasterID = @disasterID";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalOpenCenterCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(centerLogID) AS totalOpenCenter " +
-                         "FROM evacuation_center_log " +
-                         "WHERE disasterID = @disasterID AND status = 'Open'";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalOpenCenterCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(centerLogID) AS totalOpenCenter " +
+        //                 "FROM evacuation_center_log " +
+        //                 "WHERE disasterID = @disasterID AND status = 'Open'";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalClosedCenterCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(centerLogID) AS totalClosedCenter " +
-                         "FROM evacuation_center_log " +
-                         "WHERE disasterID = @disasterID AND status = 'Closed'";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalClosedCenterCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(centerLogID) AS totalClosedCenter " +
+        //                 "FROM evacuation_center_log " +
+        //                 "WHERE disasterID = @disasterID AND status = 'Closed'";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalDistinctBarangaysCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctBarangaysPerDisaster " +
-                         "FROM disaster d " +
-                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "LEFT JOIN family f ON fm.familyID = f.familyID " +
-                         "WHERE d.disasterID = @disasterID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalDistinctBarangaysCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(DISTINCT f.barangayID) AS totalDistinctBarangays " +
+        //                 "FROM disaster d " +
+        //                 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+        //                 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+        //                 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+        //                 "LEFT JOIN family f ON fm.familyID = f.familyID " +
+        //                 "WHERE d.disasterID = @disasterID;";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalDistinctFamiliesCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctFamiliesPerDisaster " +
-                         "FROM disaster d " +
-                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE d.disasterID = @disasterID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalDistinctFamiliesCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctFamilies " +
+        //                 "FROM disaster d " +
+        //                 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+        //                 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+        //                 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+        //                 "WHERE d.disasterID = @disasterID;";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalDistinctFemaleCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctFemalePerDisaster " +
-                         "FROM disaster d " +
-                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE d.disasterID = @disasterID AND fm.sex = 'F';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalDistinctFemaleCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctFemale " +
+        //                 "FROM disaster d " +
+        //                 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+        //                 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+        //                 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+        //                 "WHERE d.disasterID = @disasterID AND fm.sex = 'F';";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
 
-        public int GetTotalDistinctMaleCount(string disasterID)
-        {
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctMalePerDisaster " +
-                         "FROM disaster d " +
-                         "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE d.disasterID = @disasterID AND fm.sex = 'M';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@disasterID", disasterID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
+        //public int GetTotalDistinctMaleCount(string disasterID)
+        //{
+        //    string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctMale " +
+        //                 "FROM disaster d " +
+        //                 "LEFT JOIN evacuation_center_log ecl ON d.disasterID = ecl.disasterID " +
+        //                 "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
+        //                 "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
+        //                 "WHERE d.disasterID = @disasterID AND fm.sex = 'M';";
+        //    try
+        //    {
+        //        string connectionString = _configuration.GetConnectionString("DefaultConnection");
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand command = new MySqlCommand(sql, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@disasterID", disasterID);
+        //                return Convert.ToInt32(command.ExecuteScalar());
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorMessage = ex.Message;
+        //        return 0;
+        //    }
+        //}
+    }
+
+    public class DashboardInfo
+    {
+        public string totalDistinctEvacuees { get; set; }
+        public string totalCheckIn { get; set; }
+        public string totalCheckOut { get; set; }
+        public string totalCenter { get; set; }
+        public string totalOpenCenter { get; set; }
+        public string totalClosedCenter { get; set; }
+        public string totalDistinctBarangays { get; set; }
+        public string totalDistinctFamilies { get; set; }
+        public string totalDistinctFemale { get; set; }
+        public string totalDistinctMale { get; set; }
     }
 }
