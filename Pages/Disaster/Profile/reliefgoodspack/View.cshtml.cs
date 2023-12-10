@@ -9,6 +9,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 		private readonly IConfiguration _configuration;
 		public ViewModel(IConfiguration configuration) => _configuration = configuration;
         public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
+        public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
         public List<PackInclusionInfo> listPackInclusion { get; set; } = new List<PackInclusionInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
@@ -37,6 +38,22 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
+
+                    // Fetch ec log notification count
+                    string notifSql = "CALL get_eclog_notification(@centerLogID)";
+                    using (MySqlCommand notifCommand = new MySqlCommand(notifSql, connection))
+                    {
+                        notifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader notifReader = notifCommand.ExecuteReader())
+                        {
+                            if (notifReader.Read())
+                            {
+                                ecLogNotif.remainingInventoryCount = notifReader.GetInt32(0);
+                                ecLogNotif.remainingPackCount = notifReader.GetInt32(1);
+                                ecLogNotif.remainingAssessmentCount = notifReader.GetInt32(2);
+                            }
+                        }
+                    }
 
                     // Fetch info of selected center log from the database
                     string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
@@ -89,81 +106,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 			catch (Exception ex)
 			{
 				errorMessage = ex.Message;
-			}
-		}
-
-		public int GetRemainingInventoryCount()
-		{
-			string centerLogID = Request.Query["centerLogID"];
-			string sql = "SELECT count(*) FROM inventory_item_view " +
-						 "WHERE centerLogID = @centerLogID AND remainingQty > 0;";
-			try
-			{
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						command.Parameters.AddWithValue("@centerLogID", centerLogID);
-						return Convert.ToInt32(command.ExecuteScalar());
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				errorMessage = ex.Message;
-				return 0;
-			}
-		}
-
-		public int GetRemainingPackCount()
-		{
-			string centerLogID = Request.Query["centerLogID"];
-			string sql = "SELECT count(*) AS remainingPacks FROM pack " +
-						 "WHERE centerLogID = @centerLogID AND status = 'Packed';";
-			try
-			{
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						command.Parameters.AddWithValue("@centerLogID", centerLogID);
-						return Convert.ToInt32(command.ExecuteScalar());
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				errorMessage = ex.Message;
-				return 0;
-			}
-		}
-
-		public int GetRemainingAssessmentCount()
-		{
-			string centerLogID = Request.Query["centerLogID"];
-			string sql = "SELECT count(*) AS remainingAssessment FROM distinct_family_head_view " +
-						 "WHERE centerLogID = @centerLogID;";
-			try
-			{
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						command.Parameters.AddWithValue("@centerLogID", centerLogID);
-						return Convert.ToInt32(command.ExecuteScalar());
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				errorMessage = ex.Message;
-				return 0;
 			}
 		}
 	}
