@@ -88,7 +88,7 @@ namespace AgapayAidSystem.Pages
 						}
 					}
 
-                    // Fetch evacuation center dashboard data related to the selected disaster
+                    // Fetch dashboard data related to the selected disaster
                     string dashboardSql = "CALL get_disaster_summary(@disasterID)";
                     using (MySqlCommand dashboardCommand = new MySqlCommand(dashboardSql, connection))
                     {
