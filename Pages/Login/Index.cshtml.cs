@@ -108,8 +108,9 @@ namespace AgapayAidSystem.Pages.Login
                         logCommand.Parameters.AddWithValue("@userID", userID);
                         logCommand.Parameters.AddWithValue("@userType", userType);
                         logCommand.Parameters.AddWithValue("@username", username);
+                        logCommand.ExecuteNonQuery();
 
-                        int rowsAffected = logCommand.ExecuteNonQuery();
+                        /*int rowsAffected = logCommand.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
                             // Log entry inserted successfully
@@ -119,7 +120,7 @@ namespace AgapayAidSystem.Pages.Login
                         {
                             // Failed to insert log entry
                             Console.WriteLine("Failed to insert login log entry");
-                        }
+                        }*/
                     }
                 }
             }   

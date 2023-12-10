@@ -5,14 +5,19 @@
 @page
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Mvc.RazorPages
+@using MySql.Data.MySqlClient
 @inject IConfiguration Configuration
 
 @{
     string errorMessage = "";
     string successMessage = "";
+    bool errorOccurred = false;
 
     try
     {
+        // Log the successful logout
+        LogLogoutSuccess();
+
         // Clear the user's session
         HttpContext.Session.Clear();
 
@@ -20,9 +25,74 @@
     }
     catch (Exception ex)
     {
+        errorOccurred = true;
         errorMessage = ex.Message;
+    }  
+
+    if (errorOccurred)
+    {
+        // Show an error message banner on the current page
+        Response.Redirect("/index?errorMessage=" + errorMessage);
+    }
+    else
+    {
+        Response.Redirect("/login/index?successMessage=" + successMessage);
     }
 
-    // Redirect to the Index page after logout or encountering an error
-    Response.Redirect("/login/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+    @functions
+    {
+        private void LogLogoutSuccess()
+        {
+            try
+            {
+                string userID = HttpContext.Session.GetString("UserId");
+                string userType = HttpContext.Session.GetString("UserType");
+                string username = "";
+
+                // Fetch username from the database based on userID
+                string connectionString = Configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Query to fetch username based on userID
+                    string usernameQuery = "SELECT username FROM user WHERE userID = @userID";
+
+                    using (MySqlCommand usernameCommand = new MySqlCommand(usernameQuery, connection))
+                    {
+                        usernameCommand.Parameters.AddWithValue("@userID", userID);
+
+                        // Execute the query to fetch the username
+                        object result = usernameCommand.ExecuteScalar();
+                        if (result != null)
+                        {
+                            username = result.ToString();
+                        }
+                    }
+                }
+
+                // Insert log entry into table_log
+                string logSql = "INSERT INTO table_log (userID, tableName, tableID, logType, description) " +
+                                "VALUES (@userID, 'user', @userID, 'Logout', CONCAT(@userType, ' ', @username, ' logged out'))";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+                    {
+                        logCommand.Parameters.AddWithValue("@userID", userID);
+                        logCommand.Parameters.AddWithValue("@userType", userType);
+                        logCommand.Parameters.AddWithValue("@username", username);
+                        logCommand.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception or log an error message if logging fails
+                Console.WriteLine($"Error inserting logout log entry: {ex.Message}");
+            }
+        }
+    }
 }
