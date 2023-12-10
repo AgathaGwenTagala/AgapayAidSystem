@@ -216,90 +216,90 @@
 </div>
 
 
-<script>
-    // Store original values when the page loads
-    var originalContactInfo = {
-        emailAddress: "@Model.profileInfo.emailAddress",
-        mobileNum: "@Model.profileInfo.mobileNum"
-    };
+    <script>
+        // Store original values when the page loads
+        var originalContactInfo = {
+            emailAddress: "@Model.profileInfo.emailAddress",
+            mobileNum: "@Model.profileInfo.mobileNum"
+        };
 
-    var originalAvailabilityStatus = "@Model.profileInfo.availabilityStatus";
+        var originalAvailabilityStatus = "@Model.profileInfo.availabilityStatus";
 
-    // Function to set the form fields to their original values
-    function revertToOriginalState() {
-        // Revert contact information form
-        document.getElementById('contactInformationForm').querySelector('input[name="emailAddress"]').value = originalContactInfo.emailAddress;
-        document.getElementById('contactInformationForm').querySelector('input[name="mobileNum"]').value = originalContactInfo.mobileNum;
+        // Function to set the form fields to their original values
+        function revertToOriginalState() {
+            // Revert contact information form
+            document.getElementById('contactInformationForm').querySelector('input[name="emailAddress"]').value = originalContactInfo.emailAddress;
+            document.getElementById('contactInformationForm').querySelector('input[name="mobileNum"]').value = originalContactInfo.mobileNum;
 
-        // Revert availability status dropdown
-        var statusDropdown = document.getElementById('contactInformationForm').querySelector('select[name="availabilityStatus"]');
-        statusDropdown.value = originalAvailabilityStatus;
+            // Revert availability status dropdown
+            var statusDropdown = document.getElementById('contactInformationForm').querySelector('select[name="availabilityStatus"]');
+            statusDropdown.value = originalAvailabilityStatus;
 
-        // Hide edit controls
-        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'none';
-    }
+            // Hide edit controls
+            document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'none';
+        }
 
-    function editContactInformation() {
-        // Display edit controls when the user clicks "Edit Contact Information"
-        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
-    }
+        function editContactInformation() {
+            // Display edit controls when the user clicks "Edit Contact Information"
+            document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+        }
 
-    function cancelContactInformation() {
-        // Revert to the original state when the user clicks "Cancel"
-        revertToOriginalState();
-    }
+        function cancelContactInformation() {
+            // Revert to the original state when the user clicks "Cancel"
+            revertToOriginalState();
+        }
 
-    // Add event listeners to the input fields in the contact information form
-    const contactFormInputs = document.getElementById('contactInformationForm').querySelectorAll('input');
-    contactFormInputs.forEach(input => {
-        input.addEventListener('input', handleContactFormInput);
-    });
+        // Add event listeners to the input fields in the contact information form
+        const contactFormInputs = document.getElementById('contactInformationForm').querySelectorAll('input');
+        contactFormInputs.forEach(input => {
+            input.addEventListener('input', handleContactFormInput);
+        });
 
-    function handleContactFormInput() {
-        // Show edit controls when the user types in any input field in the contact information form
-        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
-    }
+        function handleContactFormInput() {
+            // Show edit controls when the user types in any input field in the contact information form
+            document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+        }
 
-    function cancelPassword() {
-        // Hide password controls when the user clicks "Cancel" in the change password form
-        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
-    }
+        function cancelPassword() {
+            // Hide password controls when the user clicks "Cancel" in the change password form
+            document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
+        }
 
-    // Add event listeners to the input fields in the change password form
-    const passwordFormInputs = document.getElementById('changePasswordForm').querySelectorAll('input');
-    passwordFormInputs.forEach(input => {
-        input.addEventListener('input', handlePasswordFormInput);
-    });
+        // Add event listeners to the input fields in the change password form
+        const passwordFormInputs = document.getElementById('changePasswordForm').querySelectorAll('input');
+        passwordFormInputs.forEach(input => {
+            input.addEventListener('input', handlePasswordFormInput);
+        });
 
-    function handlePasswordFormInput() {
-        // Show password controls when the user types in all input fields in the change password form
-        const passwordInputs = document.getElementById('changePasswordForm').querySelectorAll('input[type="password"]');
-        const isAllFilled = Array.from(passwordInputs).every(input => input.value.trim() !== '');
-        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = isAllFilled ? 'flex' : 'none';
-    }
+        function handlePasswordFormInput() {
+            // Show password controls when the user types in all input fields in the change password form
+            const passwordInputs = document.getElementById('changePasswordForm').querySelectorAll('input[type="password"]');
+            const isAllFilled = Array.from(passwordInputs).every(input => input.value.trim() !== '');
+            document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = isAllFilled ? 'flex' : 'none';
+        }
 
-    function handleAvailabilityStatusChange(dropdown) {
-        // Show edit controls when the user changes the availability status
-        document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
+        function handleAvailabilityStatusChange(dropdown) {
+            // Show edit controls when the user changes the availability status
+            document.getElementById('contactInformationForm').querySelector('.edit-controls').style.display = 'flex';
 
-        // You can add additional logic here if needed
-    }
+            // You can add additional logic here if needed
+        }
 
-    function clearPasswordForm() {
-        // Clear input fields in the change password form
-        document.getElementById('changePasswordForm').querySelector('input[id="currentPasswordInput"]').value = '';
-        document.getElementById('changePasswordForm').querySelector('input[id="newPasswordInput"]').value = '';
-        document.getElementById('changePasswordForm').querySelector('input[id="confirmPasswordInput"]').value = '';
+        function clearPasswordForm() {
+            // Clear input fields in the change password form
+            document.getElementById('changePasswordForm').querySelector('input[id="currentPasswordInput"]').value = '';
+            document.getElementById('changePasswordForm').querySelector('input[id="newPasswordInput"]').value = '';
+            document.getElementById('changePasswordForm').querySelector('input[id="confirmPasswordInput"]').value = '';
 
-        // Hide password controls
-        document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
-    }
+            // Hide password controls
+            document.getElementById('changePasswordForm').querySelector('.password-controls').style.display = 'none';
+        }
 
-    function cancelPassword() {
-        // Clear password form and hide controls when the user clicks "Cancel"
-        clearPasswordForm();
-    }
-</script>
+        function cancelPassword() {
+            // Clear password form and hide controls when the user clicks "Cancel"
+            clearPasswordForm();
+        }
+    </script>
 
     <!-- Save Button for Forms -->
     <script>
