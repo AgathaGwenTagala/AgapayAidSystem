@@ -96,13 +96,15 @@
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Email Address</h6></div>
                                 <div class="input-col">
-                                    <input type="text" class="form-control" name="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="65">
+                                    <input type="email" class="form-control" name="emailAddress" id="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="65" placeholder="example@email.com">
+                                    <small id="emailAddressError" class="text-danger" style="display:none;">Invalid email address format</small>
                                 </div>
                             </li>
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Mobile Number</h6></div>
                                 <div class="input-col">
-                                    <input type="text" class="form-control" name="mobileNum" value="@Model.profileInfo.mobileNum" required maxlength="11">
+                                    <input type="tel" class="form-control" name="mobileNum" id="mobileNum" value="@Model.profileInfo.mobileNum" required maxlength="11" pattern="[0-9]{11}" placeholder="09XXXXXXXXX">
+                                    <small id="mobileNumError" class="text-danger" style="display:none;">Invalid mobile number format</small>
                                 </div>
                             </li>
                         </ul>
@@ -185,19 +187,20 @@
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Current Password</h6></div>
                                 <div class="input-col">
-                                    <input type="password" class="form-control" id="currentPasswordInput">
+                                    <input type="password" class="form-control" id="currentPasswordInput" name="currentPassword">
                                 </div>
                             </li>
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">New Password</h6></div>
                                 <div class="input-col">
-                                    <input type="password" class="form-control" id="newPasswordInput">
+                                    <input type="password" class="form-control" id="newPasswordInput" name="newPassword">
                                 </div>
                             </li>
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Confirm Password</h6></div>
                                 <div class="input-col">
-                                    <input type="password" class="form-control" id="confirmPasswordInput">
+                                    <input type="password" class="form-control" id="confirmPasswordInput" name="confirmPassword">
+                                    <small id="passwordMatchError" class="text-danger" style="display:none;">Passwords do not match</small>
                                 </div>
                             </li>
                         </ul>
@@ -305,13 +308,97 @@
     }
 </script>
 
-<!-- Save Button for Forms -->
-<script>
-    document.getElementById('saveChangesButton').addEventListener('click', function () {
-        document.getElementById('contactInformationForm').submit();
-    });
+    <!-- Save Button for Forms -->
+    <script>
+        document.getElementById('saveChangesButton').addEventListener('click', function () {
+            document.getElementById('contactInformationForm').submit();
+        });
+        document.getElementById('saveChangesPassword').addEventListener('click', function () {
+            document.getElementById('changePasswordForm').submit();
+        });
+    </script>
 
-    document.getElementById('saveChangesPassword').addEventListener('click', function () {
-        document.getElementById('changePasswordForm').submit();
-    });
-</script>
+    <!-- Password Match Checker -->
+    <script>
+        var newPasswordInput = document.getElementById('newPasswordInput');
+        var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+        var passwordMatchError = document.getElementById('passwordMatchError');
+        var passwordButtons = document.getElementById('passwordButtons');
+
+        // Function to check if passwords match
+        function checkPasswordMatch() {
+            var newPassword = newPasswordInput.value;
+            var confirmPassword = confirmPasswordInput.value;
+            var passwordsMatch = newPassword === confirmPassword;
+
+            // Toggle the visibility of passwordButtons based on password match status
+            passwordButtons.style.display = passwordsMatch ? 'block' : 'none';
+            passwordMatchError.style.display = passwordsMatch ? 'none' : 'block';
+        }
+
+        // Event listener for input event on confirmPasswordInput
+        newPasswordInput.addEventListener('input', checkPasswordMatch);
+
+        // Event listener for input event on confirmPasswordInput
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+    </script>
+    
+    <!-- Mobile Num and Email Address Input Checker -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileInput = document.getElementById('mobileNum');
+            const emailAddressInput = document.getElementById('emailAddress');
+            const mobileErrorElement = document.getElementById('mobileNumError');
+            const emailAddressErrorElement = document.getElementById('emailAddressError');
+            const submitButton = document.getElementById('saveChangesButton');
+
+            // Mobile Number input handling
+            mobileInput.addEventListener('focus', function () {
+                if (!this.value.startsWith('09')) {
+                    this.value = '09';
+                }
+            });
+
+            mobileInput.addEventListener('input', function () {
+                let cleanedValue = this.value.replace(/[^0-9]/g, '');
+
+                if (cleanedValue.length >= 2) {
+                    cleanedValue = '09' + cleanedValue.slice(2);
+                }
+
+                this.value = cleanedValue.slice(0, 11);
+
+                // Check if the input meets the minlength and maxlength requirements
+                const isValidMobileLength = this.value.length === 11;
+
+                if (isValidMobileLength) {
+                    mobileErrorElement.style.display = 'none';
+                } else {
+                    mobileErrorElement.style.display = 'block';
+                }
+
+                checkFormValidity();
+            });
+
+            // Email Address input handling
+            emailAddressInput.addEventListener('input', function () {
+                const isValidEmail = emailAddressInput.checkValidity();
+
+                if (isValidEmail) {
+                    emailAddressErrorElement.style.display = 'none';
+                } else {
+                    emailAddressErrorElement.style.display = 'block';
+                }
+
+                checkFormValidity();
+            });
+
+            // Enable/disable "Submit" button
+            function checkFormValidity() {
+                const isValidMobile = mobileInput.checkValidity();
+                const isValidEmail = emailAddressInput.checkValidity();
+
+                submitButton.disabled = !(isValidMobile && isValidEmail);
+            }
+        });
+    </script>

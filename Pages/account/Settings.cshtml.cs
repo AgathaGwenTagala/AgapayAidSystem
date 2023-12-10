@@ -137,6 +137,8 @@ namespace AgapayAidSystem.Pages.account
             profileInfo.emailAddress = Request.Form["emailAddress"];
             profileInfo.mobileNum = Request.Form["mobileNum"];
             profileInfo.availabilityStatus = Request.Form["availabilityStatus"];
+
+            // Retrieve details of user in session
             UserId = HttpContext.Session.GetString("UserId");
             UserType = HttpContext.Session.GetString("UserType");
 
@@ -187,6 +189,74 @@ namespace AgapayAidSystem.Pages.account
             catch (Exception ex)
             {
                 errorMessage = "Error updating contact information: " + ex.Message;
+            }
+
+            // Redirect back to the Settings page with success or error message
+            Response.Redirect("/account/settings?successMessage=" + successMessage + "&errorMessage=" + errorMessage);
+        }
+
+        public void OnPostChangePassword()
+        {
+            if (!ModelState.IsValid)
+            {
+                errorMessage = "Please correct the errors below.";
+            }
+
+            // Retrieve details of user in session
+            UserId = HttpContext.Session.GetString("UserId");
+            UserType = HttpContext.Session.GetString("UserType");
+
+            // Retrieve passwords from the form
+            string currentPassword = Request.Form["currentPassword"];
+            string newPassword = Request.Form["newPassword"];
+            string confirmPassword = Request.Form["confirmPassword"];
+
+            if (newPassword != confirmPassword)
+            {
+                errorMessage = "Passwords do not match.";
+                return;
+            }
+
+            try
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Check if the current password matches the one in the database
+                    string checkPasswordSql = "SELECT password FROM user WHERE userID = @userID";
+                    using (MySqlCommand checkPasswordCommand = new MySqlCommand(checkPasswordSql, connection))
+                    {
+                        checkPasswordCommand.Parameters.AddWithValue("@userID", UserId);
+                        string storedPassword = checkPasswordCommand.ExecuteScalar()?.ToString();
+
+                        // Compare the stored password with the entered current password
+                        if (storedPassword != currentPassword)
+                        {
+                            errorMessage = "Current password is incorrect. Please enter the correct current password.";
+                            return;
+                        }
+                    }
+
+                    // Insert updated data into the 'user' table
+                    string sql = "UPDATE user " +
+                                 "SET password = @password " +
+                                 "WHERE userID = @userID";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@password", confirmPassword);
+                        command.Parameters.AddWithValue("@userID", UserId);
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                successMessage = "Password changed successfully!";
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Error changing password: " + ex.Message;
             }
 
             // Redirect back to the Settings page with success or error message
