@@ -8,6 +8,18 @@
     .hidden-radio {
         display: none;
     }
+
+    .user-type-images {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+   .user-type-images img {
+        width: 200px; /* Adjust the width as needed */
+        height: auto;
+        cursor: pointer;
+        }
 </style>
 
 @if (!string.IsNullOrEmpty(Model.errorMessage))
@@ -25,14 +37,16 @@
             <p class="form-label">Select a User Type</p>
             <br />
 
-            <div class="mb-3 text-start">
+            <div class="mb-3 text-start user-type-images">
                 <div class="form-check mb-1">
                     <input class="form-check-input visually-hidden" type="radio" name="userType" value="Admin" id="adminRadio"
                     @if (Model.userInfo.userType == "Admin")
                     {
                         <text>checked</text>
                     }>
-                    <img id="adminImage" src="/images/admin-b.png" alt="Admin" class="img-fluid" />
+                    <label class="form-check-label" for="adminRadio">
+                        <img id="adminImage" src="/images/admin-b.png" alt="Admin" class="img-fluid" />
+                    </label>
                 </div>
 
                 <div class="form-check mb-1">
@@ -41,7 +55,9 @@
                     {
                         <text>checked</text>
                     }>
-                    <img id="lguImage" src="/images/lgu-b.png" alt="LGU Staff" class="img-fluid" />
+                    <label class="form-check-label" for="lguRadio">
+                        <img id="lguImage" src="/images/lgu-b.png" alt="LGU Staff" class="img-fluid" />
+                    </label>
                 </div>
 
                 <div class="form-check mb-1">
@@ -50,7 +66,9 @@
                     {
                         <text>checked</text>
                     }>
-                    <img id="ecImage" src="/images/ec-b.png" alt="EC Staff" class="img-fluid" />
+                    <label class="form-check-label" for="ecRadio">
+                        <img id="ecImage" src="/images/ec-b.png" alt="EC Staff" class="img-fluid" />
+                    </label>
                 </div>
             </div>
 
@@ -81,6 +99,7 @@
 
 
 <script>
+
     document.addEventListener('DOMContentLoaded', function () {
         const submitButton = document.getElementById('submitBtn');
         const form = document.querySelector('form');
@@ -97,6 +116,17 @@
             }
         }
 
+        // Function to reset all image sources to their original states
+        function resetImages() {
+            const adminImage = document.getElementById('adminImage');
+            const lguImage = document.getElementById('lguImage');
+            const ecImage = document.getElementById('ecImage');
+
+            adminImage.src = '/images/admin-b.png';
+            lguImage.src = '/images/lgu-b.png';
+            ecImage.src = '/images/ec-b.png';
+        }
+
         // Add an event listener for the input event on form elements
         form.addEventListener('input', checkFormValidity);
 
@@ -106,17 +136,23 @@
         const ecImage = document.getElementById('ecImage');
 
         adminImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
             document.getElementById('adminRadio').checked = true;
+            adminImage.src = '/images/admin-w.png'; // Change the image source
             checkFormValidity();
         });
 
         lguImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
             document.getElementById('lguRadio').checked = true;
+            lguImage.src = '/images/lgu-w.png'; // Change the image source
             checkFormValidity();
         });
 
         ecImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
             document.getElementById('ecRadio').checked = true;
+            ecImage.src = '/images/ec-w.png'; // Change the image source
             checkFormValidity();
         });
     });
