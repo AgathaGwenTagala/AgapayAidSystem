@@ -85,11 +85,12 @@
 
     <input type="hidden" name="centerLogID" value="@Model.disasterInfo.disasterID" />
 
+    
     <div class="row">
         <!-- REPORT INFORMATION -->
         <div class="col left-aligned order-1">
-            <p><b>Province: </b>Bulacan</p>
-            <p><b>City/Municipality: </b>San Jose del Monte City</p>
+            <p><b>Province: </b>Cavite</p>
+            <p><b>City/Municipality: </b>City of Imus</p>
         </div>
         <div class="col-auto left-aligned order-2">
             <p><b>Date of Report Generated:</b> <span id="currentDate"></span></p>
@@ -99,14 +100,10 @@
 
     <br />
 
-    <!--DISASTER INFORMATION-->
+    <!-- SITUATION OVERVIEW -->
     <div>
-        <h4 class="pb-2"><strong>DISASTER INFORMATION:</strong></h4>
+        <h4 class="pb-2"><strong>SITUATION OVERVIEW</strong></h4>
         <table class="display compact order-column table-hover" cellspacing="0" width="30%">
-            <tr>
-                <th class="text-start">ID</th>
-                <td class="text-start">@Model.disasterInfo.disasterID</td>
-            </tr>
             <tr>
                 <th class="text-start pe-4">NAME</th>
                 <td class="text-start">@Model.disasterInfo.disasterName</td>
@@ -128,10 +125,10 @@
 
     <br />
 
-    <!--EVACUATION INFORMATION-->
+    <!-- EVACUATION CENTERS USED -->
     <div>
-        <h4 class="pb-2"><strong>EVACUATION CENTER USED:</strong></h4>
-        <table class="table display compact order-column table-hover" cellspacing="0" width="100%">
+        <h4 class="pb-2"><strong>EVACUATION CENTERS USED</strong></h4>
+        <table class="table display compact order-column" cellspacing="0" width="100%">
             <thead>
                 <tr style="vertical-align: top;">
                     <th width="5%">#</th>
@@ -144,10 +141,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    var counter = 1;
+                }
                 @foreach (var item in Model.listCenterLog)
                 {
                     <tr>
-                        <td>@item.centerID</td>
+                        <td>@counter</td>
                         <td>@item.centerName</td>
                         <td>@item.occupancy</td>
                         <td>@item.openingDateTime</td>
@@ -155,6 +155,7 @@
                         <td>@item.barangayName</td>
                         <td>@item.totalStaff</td>
                     </tr>
+                    counter++;
                 }
             </tbody>
         </table>
@@ -163,19 +164,14 @@
     <br />
 
     <div>
-        <h4 class="pb-2"><strong>STATUS OF DISASTER OPERATIONS:</strong></h4>
+        <h4 class="pb-2"><strong>STATUS OF DISASTER OPERATIONS</strong></h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="center-header" rowspan="4">AFFECTED BARANGAY</th>
-                    <th colspan="3" rowspan="3">NUMBER AFFECTED</th>
-                    <th colspan="2" rowspan="3">NUMBER OF ECs</th>
-                    <th colspan="4">SERVED</th>
-                    <th colspan="4" rowspan="3">TOTAL SERVED</th>
-                </tr>
-                <tr>
-                    <th colspan="4">Inside E.C</th>
-                </tr>
+                    <th class="center-header" rowspan="2">AFFECTED BARANGAYS</th>
+                    <th colspan="2">NUMBER OF AFFECTED</th>
+                    <th colspan="2">NUMBER SERVED INSIDE EVACUATION CENTER</th>
+                </tr>                
                 <tr>
                     <th>Families</th>
                     <th>Persons</th>
@@ -183,27 +179,6 @@
                     <th>Families</th>
                     <th>Persons</th>
                 </tr>
-                <tr>
-                    <th>Barangay</th>
-                    <th>Families</th>
-                    <th>Persons</th>
-
-                    <th>Cum</th>
-                    <th>Now</th>
-
-                    <th>Cum</th>
-                    <th>Now</th>
-
-                    <th>Cum</th>
-                    <th>Now</th>
-
-                    <th>Cum</th>
-                    <th>Now</th>
-
-                    <th>Cum</th>
-                    <th>Now</th>
-                </tr>
-
             </thead>
 
             <tbody>
@@ -213,15 +188,6 @@
                     <td>60</td>
                     <td>30</td>
                     <td>80</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
                 </tr>
                 <tr>
                     <td>Barangay B</td>
@@ -229,46 +195,19 @@
                     <td>60</td>
                     <td>30</td>
                     <td>80</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
                 </tr>
                 <tr>
-                    <td>Barangay B</td>
+                    <td>Barangay C</td>
                     <td>50</td>
                     <td>60</td>
                     <td>30</td>
                     <td>80</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
-                    <td>20</td>
                 </tr>
             </tbody>
 
             <tfoot>
                 <tr>
                     <th>SUB-TOTAL</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
