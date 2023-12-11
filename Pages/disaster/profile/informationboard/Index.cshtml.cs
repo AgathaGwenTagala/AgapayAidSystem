@@ -3,6 +3,7 @@ using AgapayAidSystem.Pages.Disaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using System.Reflection.Metadata;
 
 namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 {
@@ -107,8 +108,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 							if (infoReader.Read())
 							{
 								infoBoard.assignedStaffCount = infoReader.GetInt32(0);
-								infoBoard.assignedManager = infoReader.GetString(1);
-								infoBoard.assignedAsstManager = infoReader.GetString(2);
+								infoBoard.assignedManager = infoReader.IsDBNull(1) ? null : infoReader.GetString(1);
+								infoBoard.assignedAsstManager = infoReader.IsDBNull(2) ? null : infoReader.GetString(2);
 								infoBoard.totalDistinctFamilies = infoReader.GetInt32(3);
 								infoBoard.totalDistinctIndividuals = infoReader.GetInt32(4);
 								infoBoard.totalDistinctMale = infoReader.GetInt32(5);
