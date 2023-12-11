@@ -4,6 +4,12 @@
 	ViewData["Title"] = "Add User";
 }
 
+<style>
+    .hidden-radio {
+        display: none;
+    }
+</style>
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -21,30 +27,30 @@
 
             <div class="mb-3 text-start">
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="Admin" id="adminRadio"
                     @if (Model.userInfo.userType == "Admin")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="adminRadio">Admin</label>
+                    <img id="adminImage" src="/images/admin-b.png" alt="Admin" class="img-fluid" />
                 </div>
 
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="LGU Staff" id="lguRadio"
                     @if (Model.userInfo.userType == "LGU Staff")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="lguRadio">LGU Staff</label>
+                    <img id="lguImage" src="/images/lgu-b.png" alt="LGU Staff" class="img-fluid" />
                 </div>
 
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="EC Staff" id="ecRadio"
                     @if (Model.userInfo.userType == "EC Staff")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="ecRadio">EC Staff</label>
+                    <img id="ecImage" src="/images/ec-b.png" alt="EC Staff" class="img-fluid" />
                 </div>
             </div>
 
@@ -75,21 +81,43 @@
 
 
 <script>
-	const submitButton = document.getElementById('submitBtn');
-	const form = document.querySelector('form');
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submitBtn');
+        const form = document.querySelector('form');
 
-	// Disable the submit button by default
-	submitButton.disabled = true;
+        // Disable the submit button by default
+        submitButton.disabled = true;
 
-	// Function to check form validity and enable/disable the submit button
-	function checkFormValidity() {
-		if (form.checkValidity()) {
-			submitButton.disabled = false;
-		} else {
-			submitButton.disabled = true;
-		}
-	}
+        // Function to check form validity and enable/disable the submit button
+        function checkFormValidity() {
+            if (form.checkValidity()) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
 
-	// Add an event listener for the input event on form elements
-	form.addEventListener('input', checkFormValidity);
+        // Add an event listener for the input event on form elements
+        form.addEventListener('input', checkFormValidity);
+
+        // Add click event listeners to the images to check the corresponding radio button
+        const adminImage = document.getElementById('adminImage');
+        const lguImage = document.getElementById('lguImage');
+        const ecImage = document.getElementById('ecImage');
+
+        adminImage.addEventListener('click', function () {
+            document.getElementById('adminRadio').checked = true;
+            checkFormValidity();
+        });
+
+        lguImage.addEventListener('click', function () {
+            document.getElementById('lguRadio').checked = true;
+            checkFormValidity();
+        });
+
+        ecImage.addEventListener('click', function () {
+            document.getElementById('ecRadio').checked = true;
+            checkFormValidity();
+        });
+    });
 </script>
