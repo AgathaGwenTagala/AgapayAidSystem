@@ -147,4 +147,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
 		public string createdAt { get; set; }
 		public string distributedAt { get; set; }
 	}
+
+	public class EcLogNotification
+	{
+        public int remainingInventoryCount { get; set; }
+        public int remainingPackCount { get; set; }
+        public int remainingAssessmentCount { get; set; }
+    }
 }

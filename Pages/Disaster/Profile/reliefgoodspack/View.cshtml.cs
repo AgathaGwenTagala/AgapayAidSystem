@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -19,8 +20,6 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 
         public void OnGet()
         {
-			
-			string centerLogID = Request.Query["centerLogID"];
             // Check if UserId is set in the session
             UserId = HttpContext.Session.GetString("UserId");
             UserType = HttpContext.Session.GetString("UserType");
@@ -30,8 +29,9 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                 Response.Redirect("/login/index");
                 return;
             }
-            
-			packID = Request.Query["packID"];
+
+            string centerLogID = Request.Query["centerLogID"];
+            packID = Request.Query["packID"];
 			try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
