@@ -4,6 +4,24 @@
 	ViewData["Title"] = "Add User";
 }
 
+<style>
+    .hidden-radio {
+        display: none;
+    }
+
+    .user-type-images {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+   .user-type-images img {
+        width: 200px; /* Adjust the width as needed */
+        height: auto;
+        cursor: pointer;
+        }
+</style>
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -19,32 +37,38 @@
             <p class="form-label">Select a User Type</p>
             <br />
 
-            <div class="mb-3 text-start">
+            <div class="mb-3 text-start user-type-images">
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="Admin" id="adminRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="Admin" id="adminRadio"
                     @if (Model.userInfo.userType == "Admin")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="adminRadio">Admin</label>
+                    <label class="form-check-label" for="adminRadio">
+                        <img id="adminImage" src="/images/admin-b.png" alt="Admin" class="img-fluid" />
+                    </label>
                 </div>
 
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="LGU Staff" id="lguRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="LGU Staff" id="lguRadio"
                     @if (Model.userInfo.userType == "LGU Staff")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="lguRadio">LGU Staff</label>
+                    <label class="form-check-label" for="lguRadio">
+                        <img id="lguImage" src="/images/lgu-b.png" alt="LGU Staff" class="img-fluid" />
+                    </label>
                 </div>
 
                 <div class="form-check mb-1">
-                    <input class="form-check-input" type="radio" name="userType" value="EC Staff" id="ecRadio"
+                    <input class="form-check-input visually-hidden" type="radio" name="userType" value="EC Staff" id="ecRadio"
                     @if (Model.userInfo.userType == "EC Staff")
                     {
                         <text>checked</text>
                     }>
-                    <label class="form-check-label" for="ecRadio">EC Staff</label>
+                    <label class="form-check-label" for="ecRadio">
+                        <img id="ecImage" src="/images/ec-b.png" alt="EC Staff" class="img-fluid" />
+                    </label>
                 </div>
             </div>
 
@@ -75,21 +99,61 @@
 
 
 <script>
-	const submitButton = document.getElementById('submitBtn');
-	const form = document.querySelector('form');
 
-	// Disable the submit button by default
-	submitButton.disabled = true;
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submitBtn');
+        const form = document.querySelector('form');
 
-	// Function to check form validity and enable/disable the submit button
-	function checkFormValidity() {
-		if (form.checkValidity()) {
-			submitButton.disabled = false;
-		} else {
-			submitButton.disabled = true;
-		}
-	}
+        // Disable the submit button by default
+        submitButton.disabled = true;
 
-	// Add an event listener for the input event on form elements
-	form.addEventListener('input', checkFormValidity);
+        // Function to check form validity and enable/disable the submit button
+        function checkFormValidity() {
+            if (form.checkValidity()) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        // Function to reset all image sources to their original states
+        function resetImages() {
+            const adminImage = document.getElementById('adminImage');
+            const lguImage = document.getElementById('lguImage');
+            const ecImage = document.getElementById('ecImage');
+
+            adminImage.src = '/images/admin-b.png';
+            lguImage.src = '/images/lgu-b.png';
+            ecImage.src = '/images/ec-b.png';
+        }
+
+        // Add an event listener for the input event on form elements
+        form.addEventListener('input', checkFormValidity);
+
+        // Add click event listeners to the images to check the corresponding radio button
+        const adminImage = document.getElementById('adminImage');
+        const lguImage = document.getElementById('lguImage');
+        const ecImage = document.getElementById('ecImage');
+
+        adminImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
+            document.getElementById('adminRadio').checked = true;
+            adminImage.src = '/images/admin-w.png'; // Change the image source
+            checkFormValidity();
+        });
+
+        lguImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
+            document.getElementById('lguRadio').checked = true;
+            lguImage.src = '/images/lgu-w.png'; // Change the image source
+            checkFormValidity();
+        });
+
+        ecImage.addEventListener('click', function () {
+            resetImages(); // Reset all images
+            document.getElementById('ecRadio').checked = true;
+            ecImage.src = '/images/ec-w.png'; // Change the image source
+            checkFormValidity();
+        });
+    });
 </script>
