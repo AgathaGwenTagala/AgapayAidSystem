@@ -91,19 +91,19 @@
                     <i class="bi bi-three-dots-vertical" style="color:white"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="recordOptions">
+                    @if (Model.UserType != "EC Staff")
+                    {
+                        <li>
+                            <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
+                                Edit Information
+                            </a>
+                        </li>
+                    }
                     <li>
                         <a class="dropdown-item" href="/disaster/profile/report?disasterID=@Model.disasterInfo.disasterID">
                             Generate Report
                         </a>
                     </li>
-                    @if (Model.UserType != "EC Staff")
-                    {
-                        <li>
-                            <a class="dropdown-item" href="/disaster/profile/edit?disasterID=@Model.disasterInfo.disasterID">
-                                Edit
-                            </a>
-                        </li>
-                    }
                     @*<li>
                         <a href="#" class="text-danger dropdown-item" onclick="prepareDelete('@Model.disasterInfo.disasterID')"
                            data-deleteid="@Model.disasterInfo.disasterID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
