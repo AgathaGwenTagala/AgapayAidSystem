@@ -68,7 +68,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
 					</li>
-					@if (@Model.GetRemainingInventoryCount() == 0)
+					@if (@Model.ecLogNotif.remainingInventoryCount == 0)
 					{
 						<li class="nav-item">
 							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
@@ -80,12 +80,12 @@
 					{
 						<li class="nav-item">
 							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
-								Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingInventoryCount()</span>
+								Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingInventoryCount</span>
 							</a>
 						</li>
 					}
 
-					@if (@Model.GetRemainingPackCount() == 0)
+					@if (@Model.ecLogNotif.remainingPackCount == 0)
 					{
 						<li class="nav-item">
 							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
@@ -97,12 +97,12 @@
 					{
 						<li class="nav-item">
 						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-							Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingPackCount()</span>
+							Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
 						</a>
 					</li>						
 					}
 
-					@if (@Model.GetRemainingAssessmentCount() == 0)
+					@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 					{
 						<li class="nav-item">
 						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
@@ -114,7 +114,7 @@
 					{
 						<li class="nav-item">
 							<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-								Vulnerability Assessment <span class="badge rounded-pill bg-primary ps-2">@Model.GetRemainingAssessmentCount()</span>
+								Vulnerability Assessment <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingAssessmentCount</span>
 							</a>
 						</li>
 					}
@@ -128,36 +128,36 @@
 				<option value="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</option>
 				<option value="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</option>
 				<option value="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</option>
-				@if (@Model.GetRemainingInventoryCount() == 0)
+				@if (@Model.ecLogNotif.remainingInventoryCount == 0)
 				{
 					<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">Inventory</option>
 				}
 				else
 				{
 					<option value="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
-						Inventory <span>(@Model.GetRemainingInventoryCount())</span>
+						Inventory <span>(@Model.ecLogNotif.remainingInventoryCount)</span>
 					</option>
 				}
 				
-				@if (@Model.GetRemainingPackCount() == 0)
+				@if (@Model.ecLogNotif.remainingPackCount == 0)
 				{
 					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
 				}
 				else
 				{
 					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-						Relief Goods Pack <span>(@Model.GetRemainingPackCount())</span>
+						Relief Goods Pack <span>(@Model.ecLogNotif.remainingPackCount)</span>
 					</option>
 				}
 				
-				@if (@Model.GetRemainingAssessmentCount() == 0)
+				@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 				{
 					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
 				}
 				else
 				{
 					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-						Vulnerability Assessment <span>(@Model.GetRemainingAssessmentCount())</span>
+						Vulnerability Assessment <span>(@Model.ecLogNotif.remainingAssessmentCount)</span>
 					</option>
 				}
 				
@@ -185,15 +185,18 @@
 						<div class="d-flex align-items-center">
 							<h1>Relief Goods Pack</h1>
 						</div>
-
-						<div class="d-flex justify-content-end align-items-center">
-							<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Pack
-							</a>
-							<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
-								<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-							</a>
-						</div>
+						@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff" || Model.assignmentInfo.status == "Assigned")
+						{
+							<div class="d-flex justify-content-end align-items-center">
+								<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Pack
+								</a>
+								<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+								</a>
+							</div>
+						}
+						
 					</div>
 				</div>
 				
@@ -234,20 +237,31 @@
 											<span class="badge rounded-pill bg-light">@item.status</span>
 										}
 									</td>
-									<td width="15%">
-										@if (@item.status == "Distributed")
-										{
+									@if (Model.assignmentInfo.status == "Assigned")
+									{
+										<td width="15%">
+											@if (@item.status == "Distributed")
+											{
+												<button class="btn btn-primary edit-button" disabled>
+													Distribute
+												</button>
+											}
+											else if (@item.status == "Packed")
+											{
+												<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
+													Distribute
+												</a>
+											}
+										</td>
+									}
+									else
+									{
+										<td width="15%">
 											<button class="btn btn-primary edit-button" disabled>
 												Distribute
 											</button>
-										}
-										else if (@item.status == "Packed")
-										{
-											<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-												Distribute
-											</a>
-										}
-									</td>
+										</td>
+									}
 									<td width="5%">
 										<div class="d-inline position-relative">
 											<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
@@ -264,17 +278,17 @@
 														View Distribution Record
 													</a>
 												</li>
-												@if (@Model.logInfo.status == "Open")
+												@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff" || Model.assignmentInfo.status == "Assigned")
 												{
-													<li>
-														<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
-														   data-deleteid="@item.packID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-															Delete
-														</a>
-													</li>
-												}
-												else if (@Model.logInfo.status == "Closed")
-												{
+													@if (@Model.logInfo.status == "Open" && @item.remainingQty == @item.packQty)
+													{
+														<li>
+															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
+															   data-deleteid="@item.packID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																Delete
+															</a>
+														</li>
+													}
 												}
 											</ul>
 										</div>

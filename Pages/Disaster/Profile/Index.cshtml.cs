@@ -173,4 +173,11 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public string mobileNum { get; set; }
         public string telephoneNum { get; set; }
     }
+
+	public class EcLogNotification
+	{
+		public int remainingInventoryCount { get; set; }
+		public int remainingPackCount { get; set; }
+		public int remainingAssessmentCount { get; set; }
+	}
 }
