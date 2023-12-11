@@ -50,7 +50,7 @@
                             <span class="text-danger" style="padding: 5px">*</span>
                         </label>
                         <div class="col-5">
-                            <input type="number" class="form-control input-pack" name="packQty" id="packQty" placeholder="0" step="1" min="0" required />
+                            <input type="number" class="form-control input-pack" name="packQty" id="packQty" placeholder="0" step="1" min="0" style="text-align:center" required />
                         </div>
                     </div>
                 </div>
@@ -87,13 +87,13 @@
                                         <label class="form-check-label"></label>
                                     </div>
                                 </td>
-                                <td width="20%">@item.itemName</td>
-                                <td width="15%">@item.itemType</td>
+                                <td width="25%">@item.itemName</td>
+                                <td width="20%">@item.itemType</td>
                                 <td width="20%">@item.unitMeasure</td>
-                                <td width="20%">@item.remainingQty</td>
-                                <td width="20%">
+                                <td width="15%">@item.remainingQty</td>
+                                <td width="15%">
                                     <input type="number" class="form-control input-inclusion qty" name="qty[]" step="1" placeholder="0" min="0"
-                                           data-max-qty="@item.remainingQty" disabled required />
+                                           data-max-qty="@item.remainingQty" style="text-align:center" disabled required />
                                 </td>
                             </tr>
                         }
