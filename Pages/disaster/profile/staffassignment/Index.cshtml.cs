@@ -129,8 +129,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 						using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
 						{
 							insertCommand.Parameters.AddWithValue("@assignmentID", assignmentID);
+                            insertCommand.ExecuteNonQuery();
 
-							int rowsInserted = insertCommand.ExecuteNonQuery();
+                            /*int rowsInserted = insertCommand.ExecuteNonQuery();
 							if (rowsInserted == 1)
 							{
 								successMessage = "Assignment completed.";
@@ -138,12 +139,12 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 							else
 							{
 								errorMessage = "Failed to complete one or more assignment.";
-							}
+							}*/
 						}
 					}
 
 					// If all selected staff assignment were successfully completed
-					//successMessage = "Selected staff assigment completed successfully!";
+					successMessage = "Selected staff assignment completed successfully!";
 				}
 			}
 			catch (Exception ex)
