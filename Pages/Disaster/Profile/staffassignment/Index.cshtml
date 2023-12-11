@@ -189,21 +189,24 @@
 							<div class="col d-flex align-items-center">
 								<h1>Staff Assignment</h1>
 							</div>
-							<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
-								<a id="addButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
-								</a>
-								<a id="addButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-								</a>
+							@if (Model.UserType != "EC Staff")
+							{
+								<div class="col-auto d-flex justify-content-between align-items-center" style="gap: 5px">
+									<a id="addButton" class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Assign Staff
+									</a>
+									<a id="addButtonSmall" class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/staffassignment/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+									</a>
 
-								<button id="completeButton" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-									<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Mark Completed
-								</button>
-								<button id="completeButtonSmall" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-									<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
-								</button>
-							</div>
+									<button id="completeButton" type="button" class="btn btn-danger mb-2 d-none d-sm-inline" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i> Mark Completed
+									</button>
+									<button id="completeButtonSmall" type="button" class="btn btn-danger mb-2 d-sm-none" name="saveSelectionSmall" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+										<i class="bi bi-check-circle pt" style="padding: 5px;"></i>
+									</button>
+								</div>
+							}
 						</div>
 					}
 					else if (@Model.logInfo.status == "Closed")
