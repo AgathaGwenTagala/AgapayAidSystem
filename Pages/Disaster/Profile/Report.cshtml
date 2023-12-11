@@ -171,30 +171,54 @@
 <!--REMAINING INVENTORY COUNT-->
 <div>
     <h4 class="pb-2"><strong>REMAINING INVENTORY COUNT:</strong></h4>
-    <table class="display compact order-column table-hover" cellspacing="0" width="30%">
-        <tr>
-            <th class="text-start">ID</th>
-            <td class="text-start">K</td>
-        </tr>
-        <tr>
-            <th class="text-start pe-4">NAME</th>
-            <td class="text-start">K</td>
-        </tr>
-        <tr>
-            <th class="text-start">TYPE</th>
-            <td class="text-start">G</td>
-        </tr>
-        <tr>
-            <th class="text-start">DESCRIPTION</th>
-            <td class="text-start">G</td>
-        </tr>
-        <tr>
-            <th class="text-start">DATE OCCURRED</th>
-            <td class="text-start">G</td>
-        </tr>
+    <table id="inventory-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th width="5%">#</th>
+                <th width="15%">Disaster</th>
+                <th width="25%">Evacuation Center</th>
+                <th width="20%">Item</th>
+                <th width="15%">Type</th>
+                <th width="10%">Remaining Qty</th>
+                <th width="10%">Unit Measure</th>
+                <th width="5%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var counter = 1;
+            }
+            @foreach (var item in Model.listInventory)
+            {
+                @if (int.Parse(item.remainingQty) > 0)
+                {
+                    <tr style="font-weight:bold;">
+                        <td>@counter</td>
+                        <td>@item.disasterName</td>
+                        <td>@item.centerName</td>
+                        <td>@item.itemName</td>
+                        <td>@item.itemType</td>
+                        <td>@item.remainingQty</td>
+                        <td>@item.unitMeasure</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@item.disasterName</td>
+                        <td>@item.centerName</td>
+                        <td>@item.itemName</td>
+                        <td>@item.itemType</td>
+                        <td>@item.remainingQty</td>
+                        <td>@item.unitMeasure</td>
+                    </tr>
+                }
+                counter++;
+            }
+        </tbody>
     </table>
 </div>
-
 
 <div>
     <h4 class="pb-2"><strong>STATUS OF DISASTER OPERATIONS:</strong></h4>

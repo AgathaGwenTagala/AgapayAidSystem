@@ -12,6 +12,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public ReportModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
+        
         public string errorMessage = "";
         public string successMessage = "";
         public string UserId { get; set; }
@@ -91,7 +92,34 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             }
                         }
                     }
-                }
+
+                    string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                    using (MySqlConnection inv_connection = new MySqlConnection(connectionString))
+                    {
+                        inv_connection.Open();
+                        string sql = "SELECT * FROM all_inventory_view;";
+                        using (MySqlCommand command = new MySqlCommand(sql, inv_connection))
+                        {
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    InventoryInfo inventoryInfo = new InventoryInfo();
+                                    inventoryInfo.inventoryID = reader.GetString(0);
+                                    inventoryInfo.centerLogID = reader.GetString(1);
+                                    inventoryInfo.itemName = reader.GetString(2);
+                                    inventoryInfo.itemType = reader.GetString(3);
+                                    inventoryInfo.qty = reader.GetString(4);
+                                    inventoryInfo.unitMeasure = reader.GetString(5);
+                                    inventoryInfo.remarks = reader.IsDBNull(6) ? null : reader.GetString(6);
+                                    inventoryInfo.disasterName = reader.GetString(7);
+                                    inventoryInfo.centerName = reader.GetString(8);
+                                    inventoryInfo.remainingQty = reader.GetInt32(9).ToString();
+                                    listInventory.Add(inventoryInfo);
+                                }
+                            }
+                        }
+                    }
             }
 
             catch (Exception ex)
