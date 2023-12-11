@@ -182,6 +182,7 @@ namespace AgapayAidSystem.Pages.account
         public string middleName { get; set; }
         public string lastName { get; set; }
         public string extName { get; set; }
+        public string fullName { get; set; }
         public string sex { get; set; }
         public string birthdate { get; set; }
         public string mobileNum { get; set; }
