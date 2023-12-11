@@ -105,7 +105,7 @@
     }
 
     .forgot-password {
-        float: right; /* Float the link to the right */
+        
         margin-bottom: 10px;
         text-decoration: none;
     }
@@ -145,14 +145,17 @@
                     <input name="username" type="text" required placeholder="Enter your username">
                 </div>
 
+                <label>Password</label>
                 <div class="input-box">
-                    <label class="password-label">Password</label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
                     <input name="password" type="password" required placeholder="Enter your password">
                 </div>
             </div>
 
             <button type="submit" class="btnlogin-popup">Login</button>
+            
+            <div class="d-flex justify-content- align-items-center">
+                <a href="#" style="text-decoration: none;">Forgot Password?</a>
+            </div>
         </form>
     </div>
 </div>
