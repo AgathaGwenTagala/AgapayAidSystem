@@ -64,18 +64,22 @@
     </nav>
 </div>
 
-<input type="hidden" name="centerID" value="@Model.evacuationInfo.centerID" />
-
-<div class="row align-items-center">
-	<h1 class="col-10 display-5 fw-bold">@Model.evacuationInfo.centerName</h1>
-	<div class="col-2 text-end">
-		<div class="col-auto button-spacer">
-			<div class="d-inline position-relative">
-				<a class="btn btn-primary edit-button" href="/evacuationcenter/edit?centerID=@Model.evacuationInfo.centerID">
-					<i class="bi bi-pencil"></i>
+<!-- Title and Edit Button-->
+<div class="row mb-2">
+	<div class="col-12 d-flex align-items-center justify-content-between">
+		<h1 class="col-10 display-5 fw-bold">@Model.evacuationInfo.centerName</h1>
+		@if (Model.UserType != "EC Staff")
+		{
+			<div class="d-flex justify-content-end align-items-center">
+				<a class="btn btn-primary mb-2 d-none d-md-inline" href="/evacuationcenter/edit?centerID=@Model.evacuationInfo.centerID">
+					<i class="bi bi-pencil pt" style="padding-right: 5px;"></i>
+					Edit
+				</a>
+				<a class="btn btn-primary mb-2 d-md-none" href="/evacuationcenter/edit?centerID=@Model.evacuationInfo.centerID">
+					<i class="bi bi-pencil pt" style="padding-right: 5px;"></i>
 				</a>
 			</div>
-		</div>
+		}
 	</div>
 </div>
 	
