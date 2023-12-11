@@ -148,16 +148,16 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
                     connection.Open();
 
                     // Implement code to delete the record with the given userID
-                    String sql = "DELETE FROM user WHERE userID = @userID";
+                    string sql = "DELETE FROM user WHERE userID = @userID";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
-                        command.Parameters.AddWithValue("@userID", userID);
+                        command.Parameters.AddWithValue("@userID", userIDToDelete);
                         int rowsAffected = command.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {
                             // User deleted successfully
-                            successMessage = "User addition aborted";
+                            // successMessage = "User addition aborted";
                         }
                         else
                         {
