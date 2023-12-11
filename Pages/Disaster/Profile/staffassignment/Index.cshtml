@@ -222,8 +222,8 @@
 							<table id="assignment-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 								<thead>
 									<tr>
-										<th>
-											@if (@Model.logInfo.status == "Open")
+										<th>							
+											@if (@Model.logInfo.status == "Open" && Model.UserType != "EC Staff")
 											{
 												<div class="form-check">
 													<input class="form-check-input" type="checkbox" id="selectAllCheckboxes">
@@ -231,6 +231,10 @@
 												</div>
 											}
 											else if (@Model.logInfo.status == "Closed")
+											{
+												<text>#</text>
+											}
+											else if (Model.UserType == "EC Staff")
 											{
 												<text>#</text>
 											}
@@ -248,7 +252,7 @@
 									{
 										<tr>
 											<td width="5%">
-												@if (@Model.logInfo.status == "Open")
+												@if (@Model.logInfo.status == "Open" && Model.UserType != "EC Staff")
 												{
 													<div class="form-check">
 														<input class="form-check-input" type="checkbox" value="@item.assignmentID"
@@ -257,6 +261,10 @@
 													</div>
 												}
 												else if (@Model.logInfo.status == "Closed")
+												{
+													@counter
+												}
+												else if (Model.UserType == "EC Staff")
 												{
 													@counter
 												}
