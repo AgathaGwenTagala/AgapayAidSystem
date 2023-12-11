@@ -11,8 +11,10 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+		public InformationBoard infoBoard { get; set; } = new InformationBoard();
 		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-		public string errorMessage = "";
+        public List<string> staffFullName = new List<string>();
+        public string errorMessage = "";
 		public string successMessage = "";
         public string UserId { get; set; }
         public string UserType { get; set; }
@@ -32,7 +34,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
             string disasterID = Request.Query["disasterID"];
 			string centerLogID = Request.Query["centerLogID"];
 
-			try
+            try
 			{
 				string connectionString = _configuration.GetConnectionString("DefaultConnection");
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -94,6 +96,47 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                             }
                         }
 					}
+
+					// Fetch information board data related to the selected center log
+					string infoSql = "CALL get_information_board(@centerLogID)";
+					using (MySqlCommand infoCommand = new MySqlCommand(infoSql, connection))
+					{
+						infoCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+						using (MySqlDataReader infoReader = infoCommand.ExecuteReader())
+						{
+							if (infoReader.Read())
+							{
+								infoBoard.assignedStaffCount = infoReader.GetInt32(0);
+								infoBoard.assignedManager = infoReader.GetString(1);
+								infoBoard.assignedAsstManager = infoReader.GetString(2);
+								infoBoard.totalDistinctFamilies = infoReader.GetInt32(3);
+								infoBoard.totalDistinctIndividuals = infoReader.GetInt32(4);
+								infoBoard.totalDistinctMale = infoReader.GetInt32(5);
+								infoBoard.totalDistinctFemale = infoReader.GetInt32(6);
+								infoBoard.totalDistinctPregnantWoman = infoReader.GetInt32(7);
+								infoBoard.totalDistinctChildren = infoReader.GetInt32(8);
+								infoBoard.totalDistinctElderly = infoReader.GetInt32(9);
+								infoBoard.totalDistinctPwd = infoReader.GetInt32(10);
+								infoBoard.totalDistinctIP = infoReader.GetInt32(11);
+							}
+						}
+					}
+
+                    // Fetch list of assigned staff related to the selected center log
+                    string staffSql = "SELECT staffFullName " +
+                                      "FROM assigned_staff_view " +
+                                      "WHERE role = 'Staff' AND centerLogID = @centerLogID;";
+                    using (MySqlCommand staffCommand = new MySqlCommand(staffSql, connection))
+                    {
+                        staffCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader staffReader = staffCommand.ExecuteReader())
+                        {
+                            while (staffReader.Read())
+                            {
+                                staffFullName.Add(staffReader.GetString(0));
+                            }
+                        }
+                    }
                 }
 			}
 
@@ -232,378 +275,21 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                 return 0;
             }
         }
-
-		public int GetAssignedStaffCount()
-		{
-			string centerLogID = Request.Query["centerLogID"];
-			string sql = "SELECT COUNT(*) " +
-						 "FROM ec_staff_assignment " +
-						 "WHERE centerLogID = @centerLogID and status = 'Assigned';";
-			try
-			{
-				string connectionString = _configuration.GetConnectionString("DefaultConnection");
-				using (MySqlConnection connection = new MySqlConnection(connectionString))
-				{
-					connection.Open();
-					using (MySqlCommand command = new MySqlCommand(sql, connection))
-					{
-						command.Parameters.AddWithValue("@centerLogID", centerLogID);
-						return Convert.ToInt32(command.ExecuteScalar());
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				errorMessage = ex.Message;
-				return 0;
-			}
-		}
-
-        public string GetAssignedManagerFullName()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string staffFullName = null;
-
-            string sql = "SELECT staffFullName " +
-                         "FROM assigned_staff_view " +
-                         "WHERE role = 'Manager' AND centerLogID = @centerLogID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        staffFullName = (string)command.ExecuteScalar();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-            }
-
-            return staffFullName;
-        }
-
-        public string GetAssignedAsstManagerFullName()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string staffFullName = null;
-
-            string sql = "SELECT staffFullName " +
-                         "FROM assigned_staff_view " +
-                         "WHERE role = 'Asst. Manager' AND centerLogID = @centerLogID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        staffFullName = (string)command.ExecuteScalar();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-            }
-
-            return staffFullName;
-        }
-
-        public List<string> GetAssignedStaffFullName()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            List<string> staffFullName = new List<string>();
-
-            string sql = "SELECT staffFullName " +
-                         "FROM assigned_staff_view " +
-                         "WHERE role = 'Staff' AND centerLogID = @centerLogID;";
-
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                staffFullName.Add(reader.GetString(0));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-            }
-
-            return staffFullName;
-        }
-
-        public int GetTotalDistinctFamiliesCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.familyID) AS totalDistinctFamilies " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctIndividualsCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctIndividuals " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID;";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctFemaleCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctFemale " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND fm.sex = 'F';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctMaleCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctMale " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND fm.sex = 'M';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctIPCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctIP " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "LEFT JOIN family f ON fm.familyID = f.familyID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND fm.isIndigenousPerson = 'Yes';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctPregnantWomanCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctPregnantWoman " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND el.remarks = 'Pregnant Woman';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctChildrenCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctChildren " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND el.remarks = 'Children';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctElderlyCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctElderly " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND el.remarks = 'Elderly';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
-
-        public int GetTotalDistinctPwdCount()
-        {
-            string centerLogID = Request.Query["centerLogID"];
-            string sql = "SELECT COUNT(DISTINCT fm.memberID) AS totalDistinctPwd " +
-                         "FROM evacuation_center_log ecl " +
-                         "LEFT JOIN entry_log el ON ecl.centerLogID = el.centerLogID " +
-                         "LEFT JOIN family_member fm ON el.memberID = fm.memberID " +
-                         "WHERE ecl.centerLogID = @centerLogID AND el.remarks = 'PWD';";
-            try
-            {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(sql, connection))
-                    {
-                        command.Parameters.AddWithValue("@centerLogID", centerLogID);
-                        return Convert.ToInt32(command.ExecuteScalar());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMessage = ex.Message;
-                return 0;
-            }
-        }
     }
+
+    public class InformationBoard
+    {
+		public int assignedStaffCount { get; set; }
+		public string assignedManager { get; set; }
+		public string assignedAsstManager { get; set; }
+		public int totalDistinctFamilies { get; set; }
+		public int totalDistinctIndividuals { get; set; }
+		public int totalDistinctMale { get; set; }
+		public int totalDistinctFemale { get; set; }
+		public int totalDistinctPregnantWoman { get; set; }
+		public int totalDistinctChildren { get; set; }
+		public int totalDistinctElderly { get; set; }
+		public int totalDistinctPwd { get; set; }
+		public int totalDistinctIP { get; set; }
+	}
 }
