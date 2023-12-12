@@ -15,8 +15,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 		public InformationBoard infoBoard { get; set; } = new InformationBoard();
 		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
         public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
-
-        public string errorMessage = "";
         public List<string> staffFullName = new List<string>();
         public string errorMessage = "";
 		public string successMessage = "";
