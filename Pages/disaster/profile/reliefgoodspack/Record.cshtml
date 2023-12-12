@@ -69,7 +69,7 @@
 					@if (@Model.ecLogNotif.remainingPackCount == 0)
 					{
 						<li class="nav-item">
-							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
 								Relief Goods Pack
 							</a>
 						</li>
@@ -77,19 +77,19 @@
 					else
 					{
 						<li class="nav-item">
-						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-							Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
-						</a>
-					</li>						
+							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+								Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
+							</a>
+						</li>
 					}
 
 					@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 					{
 						<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-							Vulnerability Assessment
-						</a>
-					</li>						
+							<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+								Vulnerability Assessment
+							</a>
+						</li>
 					}
 					else
 					{
@@ -119,7 +119,7 @@
 						Inventory <span>(@Model.ecLogNotif.remainingInventoryCount)</span>
 					</option>
 				}
-				
+
 				@if (@Model.ecLogNotif.remainingPackCount == 0)
 				{
 					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
@@ -130,7 +130,7 @@
 						Relief Goods Pack <span>(@Model.ecLogNotif.remainingPackCount)</span>
 					</option>
 				}
-				
+
 				@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 				{
 					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
@@ -141,7 +141,7 @@
 						Vulnerability Assessment <span>(@Model.ecLogNotif.remainingAssessmentCount)</span>
 					</option>
 				}
-				
+
 			</select>
 		</div>
 
