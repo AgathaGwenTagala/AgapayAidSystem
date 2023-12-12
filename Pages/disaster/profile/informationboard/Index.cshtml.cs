@@ -3,7 +3,7 @@ using AgapayAidSystem.Pages.Disaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using System.Reflection.Metadata;
+using AgapayAidSystem.Pages.disaster.profile.staffassignment;
 
 namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 {
@@ -14,6 +14,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 		public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
 		public InformationBoard infoBoard { get; set; } = new InformationBoard();
 		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
+        public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
         public List<string> staffFullName = new List<string>();
         public string errorMessage = "";
 		public string successMessage = "";
