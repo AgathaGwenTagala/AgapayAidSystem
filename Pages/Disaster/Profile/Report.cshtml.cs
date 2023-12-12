@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.account;
 using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         private readonly IConfiguration _configuration;
         public ReportModel(IConfiguration configuration) => _configuration = configuration;
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
+        public ProfileInfo profileInfo = new ProfileInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
         public string errorMessage = "";
         public string successMessage = "";
@@ -42,6 +44,69 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                 using (MySqlConnection connection = new MySqlConnection(d_connectionString))
                 {
                     connection.Open();
+
+                    // Fetch user information
+                    if (UserType == "Admin")
+                    {
+                        string userSql = "SELECT adminName FROM user_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", UserId);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.adminName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
+                    if (UserType == "LGU Staff")
+                    {
+                        string userSql = "SELECT CONCAT(firstName," +
+                                         "CASE WHEN middleName IS NOT NULL THEN CONCAT(' ', LEFT(middleName, 1),'.') ELSE '' END," +
+                                         "CASE WHEN middleName IS NOT NULL THEN ' ' ELSE ' ' END, lastName," +
+                                         "CASE WHEN extName IN('Jr', 'Sr') THEN CONCAT(' ', extName, '.') " +
+                                         "WHEN extName IS NOT NULL THEN CONCAT(' ', extName) ELSE '' END) AS fullName " +
+                                         "FROM lgu_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", UserId);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.fullName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
+                    if (UserType == "EC Staff")
+                    {
+                        string userSql = "SELECT CONCAT(firstName," +
+                                         "CASE WHEN middleName IS NOT NULL THEN CONCAT(' ', LEFT(middleName, 1),'.') ELSE '' END," +
+                                         "CASE WHEN middleName IS NOT NULL THEN ' ' ELSE ' ' END, lastName," +
+                                         "CASE WHEN extName IN('Jr', 'Sr') THEN CONCAT(' ', extName, '.') " +
+                                         "WHEN extName IS NOT NULL THEN CONCAT(' ', extName) ELSE '' END) AS fullName " +
+                                         "FROM ec_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", UserId);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.fullName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
                     // Fetch info of selected disaster from the database
                     string disasterSql = "SELECT * FROM disaster where disasterID = @disasterID";
                     using (MySqlCommand disasterCommand = new MySqlCommand(disasterSql, connection))

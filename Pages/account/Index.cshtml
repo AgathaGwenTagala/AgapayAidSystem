@@ -77,16 +77,15 @@
 <div class="row mb-2">
     <div class="col-12 d-flex align-items-center justify-content-between">
         <h1><i class="bi bi-person-circle" style="padding: 0 5px 0 5px;"></i>Profile</h1>
-
         @if (Model.UserType == "EC Staff" || Model.UserType == "LGU Staff")
         {
             <div class="d-flex justify-content-end align-items-center">
-                <a class="btn btn-primary mb-2 d-none d-sm-inline" href="/account/settings">
+                <a class="btn btn-primary mb-2 d-none d-md-inline" href="/account/settings">
                     <i class="bi bi-pencil pt" style="padding-right: 5px;"></i>
                     Edit Profile
                 </a>
-                <a class="btn btn-primary mb-2 d-sm-none" href="/account/settings">
-                    <i class="bi bi-pencil pt"></i>
+                <a class="btn btn-primary mb-2 d-md-none" href="/account/settings">
+                    <i class="bi bi-pencil pt" style="padding-right: 5px;"></i>
                 </a>
             </div>
         }

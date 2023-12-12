@@ -58,6 +58,8 @@
 
     /* Style your form container and form elements as needed */
     .form-box {
+        width: 80%; /* Set the desired width */
+        max-width: 400px; /* Set a maximum width if needed */
         background: #fff;
         padding: 20px;
         border-radius: 5px;
@@ -104,7 +106,7 @@
     }
 
     .forgot-password {
-        float: right; /* Float the link to the right */
+        
         margin-bottom: 10px;
         text-decoration: none;
     }
@@ -118,9 +120,6 @@
     .btnlogin-popup{
         width: 100%;
         height: 45px;
-        background: #3f8f8b;
-        border: none;
-        outline: none;
         border-radius: 6px;
         cursor: pointer;
         color: #ffffff;
@@ -144,14 +143,18 @@
                     <input name="username" type="text" required placeholder="Enter your username">
                 </div>
 
+                <label>Password</label>
                 <div class="input-box">
-                    <label class="password-label">Password</label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
                     <input name="password" type="password" required placeholder="Enter your password">
                 </div>
             </div>
 
-            <button type="submit" class="btnlogin-popup">Login</button>
+
+            <button type="submit" class="btn btn-primary btnlogin-popup">Login</button>
+            
+            <div class="mt-3 d-flex justify-content-center align-items-center">
+                <a href="#" style="text-decoration: none;">Forgot Password?</a>
+            </div>
         </form>
     </div>
 </div>

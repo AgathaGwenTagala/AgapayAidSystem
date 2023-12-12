@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.disaster.profile.staffassignment;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +12,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
         private readonly IConfiguration _configuration;
         public DistributeModel(IConfiguration configuration) => _configuration = configuration;
         public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-        public ReliefPackInfo reliefPackInfo { get; set; } = new ReliefPackInfo();
+		public StaffAssignmentInfo assignmentInfo { get; set; } = new StaffAssignmentInfo();
+		public ReliefPackInfo reliefPackInfo { get; set; } = new ReliefPackInfo();
         public DistributionInfo distributionInfo { get; set; } = new DistributionInfo();
         public List<EligibleFamInfo> listEligibleFam { get; set; } = new List<EligibleFamInfo>();
         public string errorMessage = "";
@@ -46,8 +48,38 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
                 {
                     connection.Open();
 
-                    // Fetch info of selected center log from the database
-                    string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+					// Fetch assigned staff user information
+					string assignedSql = "SELECT esa.* " +
+										 "FROM ec_staff_assignment esa " +
+										 "JOIN ec_staff ec ON esa.ecStaffID = ec.ecStaffID " +
+										 "WHERE ec.userID = @userID AND esa.status = 'Assigned';";
+					using (MySqlCommand assignedCommand = new MySqlCommand(assignedSql, connection))
+					{
+						assignedCommand.Parameters.AddWithValue("@userID", UserId);
+						using (MySqlDataReader assignedReader = assignedCommand.ExecuteReader())
+						{
+							if (assignedReader.Read())
+							{
+								assignmentInfo.assignmentID = assignedReader.GetString(0);
+								assignmentInfo.centerLogID = assignedReader.GetString(1);
+								assignmentInfo.ecStaffID = assignedReader.GetString(2);
+								assignmentInfo.role = assignedReader.GetString(3);
+								assignmentInfo.assignmentDate = assignedReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								assignmentInfo.completionDate = assignedReader.IsDBNull(5) ? null : assignedReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								assignmentInfo.status = assignedReader.GetString(6);
+
+								if (assignmentInfo.status != "Assigned")
+								{
+									Response.Redirect("/accessdenied");
+									return;
+								}
+
+							}
+						}
+					}
+
+					// Fetch info of selected center log from the database
+					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
                                     "FROM evacuation_center_log AS log " +
                                     "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
                                     "INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +

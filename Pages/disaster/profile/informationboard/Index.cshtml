@@ -246,15 +246,15 @@
                         <hr />
 
                         <p class="p-2"><b>Assigned Staff </b>
-                            <span class="badge rounded-pill bg-primary pb-1">@Model.GetAssignedStaffCount()</span>
+                            <span class="badge rounded-pill bg-primary pb-1">@Model.infoBoard.assignedStaffCount</span>
                         </p>
                         <table class="table">
                             <tr>
                                 <th>Manager</th>
                                 <td>
-                                    @if (!string.IsNullOrEmpty(Model.GetAssignedManagerFullName()))
+                                    @if (!string.IsNullOrEmpty(Model.infoBoard.assignedManager))
                                     {
-                                        @Model.GetAssignedManagerFullName()
+                                        @Model.infoBoard.assignedManager
                                        
                                     }
                                     else
@@ -266,10 +266,9 @@
                             <tr>
                                 <th>Assistant Manager</th>
                                 <td>
-                                    @if (!string.IsNullOrEmpty(Model.GetAssignedAsstManagerFullName()))
+                                    @if (!string.IsNullOrEmpty(Model.infoBoard.assignedAsstManager))
                                     {
-                                        @Model.GetAssignedAsstManagerFullName()
-
+                                        @Model.infoBoard.assignedAsstManager
                                     }
                                     else
                                     {
@@ -280,10 +279,10 @@
                             <tr>
                                 <th>EC Staff</th>
                                 <td>
-                                    @if (Model.GetAssignedStaffFullName().Any())
+                                    @if (Model.staffFullName.Any())
                                     {
                                         <ul style="padding: 0; margin:0; vertical-align: central;">
-                                            @foreach (var staffFullName in Model.GetAssignedStaffFullName())
+                                            @foreach (var staffFullName in Model.staffFullName)
                                             {
                                                 <li>@staffFullName</li>
                                             }
@@ -301,39 +300,39 @@
                         <table class="table">
                             <tr>
                                 <th>No. of Families</th>
-                                <td>@Model.GetTotalDistinctFamiliesCount()</td>
+                                <td>@Model.infoBoard.totalDistinctFamilies</td>
                             </tr>
                             <tr>
                                 <th>No. of Individuals</th>
-                                <td>@Model.GetTotalDistinctIndividualsCount()</td>
+                                <td>@Model.infoBoard.totalDistinctIndividuals</td>
                             </tr>
                             <tr>
                                 <th>No. of Males</th>
-                                <td>@Model.GetTotalDistinctMaleCount()</td>
+                                <td>@Model.infoBoard.totalDistinctMale</td>
                             </tr>
                             <tr>
                                 <th>No. of Females</th>
-                                <td>@Model.GetTotalDistinctFemaleCount()</td>
+                                <td>@Model.infoBoard.totalDistinctFemale</td>
                             </tr>
                             <tr>
                                 <th>No. of Pregnant Women</th>
-                                <td>@Model.GetTotalDistinctPregnantWomanCount()</td>
+                                <td>@Model.infoBoard.totalDistinctPregnantWoman</td>
                             </tr>
                             <tr>
                                 <th>No. of Children</th>
-                                <td>@Model.GetTotalDistinctChildrenCount()</td>
+                                <td>@Model.infoBoard.totalDistinctChildren</td>
                             </tr>
                             <tr>
                                 <th>No. of Elderly</th>
-                                <td>@Model.GetTotalDistinctElderlyCount()</td>
+                                <td>@Model.infoBoard.totalDistinctElderly</td>
                             </tr>
                             <tr>
                                 <th>No. of Persons with Disabilities (PWDs)</th>
-                                <td>@Model.GetTotalDistinctPwdCount()</td>
+                                <td>@Model.infoBoard.totalDistinctPwd</td>
                             </tr>
                             <tr>
                                 <th>No. of Indigenous Persons</th>
-                                <td>@Model.GetTotalDistinctIPCount()</td>
+                                <td>@Model.infoBoard.totalDistinctIP</td>
                             </tr>
                         </table>
 

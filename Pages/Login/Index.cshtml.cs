@@ -14,6 +14,16 @@ namespace AgapayAidSystem.Pages.Login
         public string successMessage = "";
         public string errorMessage = "";
 
+        public void OnGet()
+        {
+            // Check if there is already a user in session
+            if (HttpContext.Session.GetString("UserId") != null)
+            {
+                Response.Redirect("/index");
+                return;
+            }
+        }
+
         public void OnPost()
         {
             bool errorOccurred = false;

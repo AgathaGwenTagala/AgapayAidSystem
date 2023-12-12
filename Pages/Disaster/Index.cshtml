@@ -66,16 +66,18 @@
 <div class="row mb-2">
 	<div class="col-12 d-flex align-items-center justify-content-between">
 		<h1><i class="bi bi-fire" style="padding: 0 5px 0 5px;"></i>Disaster</h1>
-
-		<div class="d-flex justify-content-end align-items-center">
-			<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/add">
-				<i class="bi bi-plus-circle pt" style="padding-right: 5px;"></i>
-				Add Disaster
-			</a>
-			<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/add">
-				<i class="bi bi-plus-circle pt"></i>
-			</a>
-		</div>
+		@if (Model.UserType != "EC Staff")
+		{
+			<div class="d-flex justify-content-end align-items-center">
+				<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/add">
+					<i class="bi bi-plus-circle pt" style="padding-right: 5px;"></i>
+					Add Disaster
+				</a>
+				<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/add">
+					<i class="bi bi-plus-circle pt"></i>
+				</a>
+			</div>
+		}
 	</div>
 </div>
 
