@@ -10,7 +10,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-		public List<StaffAssignmentInfo> listAssignment { get; set; } = new List<StaffAssignmentInfo>();
+        public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
+        public List<StaffAssignmentInfo> listAssignment { get; set; } = new List<StaffAssignmentInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
         public string UserId { get; set; }

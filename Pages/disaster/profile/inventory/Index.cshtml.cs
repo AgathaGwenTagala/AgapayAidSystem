@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.disaster.profile.staffassignment;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +11,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
 		public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-		public List<InventoryInfo> listInventory { get; set; } = new List<InventoryInfo>();
+        public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
+        public StaffAssignmentInfo assignmentInfo { get; set; } = new StaffAssignmentInfo();
+        public List<InventoryInfo> listInventory { get; set; } = new List<InventoryInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
         public string UserId { get; set; }
