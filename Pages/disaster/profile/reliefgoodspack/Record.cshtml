@@ -86,7 +86,7 @@ else
 					@if (@Model.ecLogNotif.remainingPackCount == 0)
 					{
 						<li class="nav-item">
-							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
 								Relief Goods Pack
 							</a>
 						</li>
@@ -94,7 +94,7 @@ else
 					else
 					{
 						<li class="nav-item">
-							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
 								Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
 							</a>
 						</li>
