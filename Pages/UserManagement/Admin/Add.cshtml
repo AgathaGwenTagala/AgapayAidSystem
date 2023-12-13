@@ -4,6 +4,23 @@
     ViewData["Title"] = "Add User - Admin";
 }
 
+@if (Model.UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+    Layout = "_Layout - EC Staff";
+}
+else
+{
+    Layout = "_Login";
+}
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
