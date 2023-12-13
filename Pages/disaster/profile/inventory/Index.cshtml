@@ -71,7 +71,7 @@
 					@if (@Model.ecLogNotif.remainingInventoryCount == 0)
 					{
 						<li class="nav-item">
-							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link active" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
 								Inventory
 							</a>
 						</li>
@@ -79,7 +79,7 @@
 					else
 					{
 						<li class="nav-item">
-							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link active" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
 								Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingInventoryCount</span>
 							</a>
 						</li>
@@ -239,7 +239,14 @@
 										<td width="15%">@item.itemType</td>
 										<td width="17%">@item.unitMeasure</td>
 										<td width="18%">@item.remainingQty/@item.qty</td>
-										<td width="20%" style="text-align:left;">@item.remarks</td>
+										@if (@item.remarks == "-")
+										{
+											<td width="20%" style="text-align:center;">@item.remarks</td>
+										}
+										else
+										{
+											<td width="20%" style="text-align:left;">@item.remarks</td>
+										}
 										<td width="5%">
 											@if (@Model.logInfo.status == "Open")
 											{
@@ -261,9 +268,6 @@
 														</li>
 													</ul>
 												</div>
-											}
-											else if (@Model.logInfo.status == "Closed")
-											{
 											}
 										</td>
 									</tr>

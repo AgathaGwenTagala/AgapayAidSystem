@@ -39,8 +39,24 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 				{
 					connection.Open();
 
-					// Fetch info of selected center log from the database
-					string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, log.status " +
+                    // Fetch ec log notification count
+                    string notifSql = "CALL get_eclog_notification(@centerLogID)";
+                    using (MySqlCommand notifCommand = new MySqlCommand(notifSql, connection))
+                    {
+                        notifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader notifReader = notifCommand.ExecuteReader())
+                        {
+                            if (notifReader.Read())
+                            {
+                                ecLogNotif.remainingInventoryCount = notifReader.GetInt32(0);
+                                ecLogNotif.remainingPackCount = notifReader.GetInt32(1);
+                                ecLogNotif.remainingAssessmentCount = notifReader.GetInt32(2);
+                            }
+                        }
+                    }
+
+                    // Fetch info of selected center log from the database
+                    string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName, log.status " +
 									"FROM evacuation_center_log AS log " +
 									"INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
 									"INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
@@ -78,7 +94,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 								inventoryInfo.itemType = inventoryReader.GetString(3);
 								inventoryInfo.qty = inventoryReader.GetInt32(4).ToString();
 								inventoryInfo.unitMeasure = inventoryReader.GetString(5);
-								inventoryInfo.remarks = inventoryReader.IsDBNull(6) ? null : inventoryReader.GetString(6);
+								inventoryInfo.remarks = inventoryReader.IsDBNull(6) ? "-" : inventoryReader.GetString(6);
 								inventoryInfo.packedQty = inventoryReader.GetInt32(7).ToString();
 								inventoryInfo.remainingQty = inventoryReader.GetInt32(8).ToString();
 								listInventory.Add(inventoryInfo);
