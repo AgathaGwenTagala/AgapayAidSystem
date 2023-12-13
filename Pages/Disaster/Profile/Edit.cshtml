@@ -1,7 +1,8 @@
 ﻿@page
-@model AgapayAidSystem.Pages.Disaster.AddModel
+@model AgapayAidSystem.Pages.disaster.profile.EditModel
 @{
-	ViewData["Title"] = "Add Disaster";
+	string pageTitle = $"Edit {Model.disasterInfo.disasterName}";
+	ViewData["Title"] = pageTitle;
 }
 
 @if (Model.UserType == "Admin")
@@ -41,23 +42,28 @@ else
 	</div>
 }
 
+
 <div class="bg-light rounded px-2 py-0 my-3 text-center">
 	<div class="col-lg-6 mx-auto">
-		<form method="POST">
-			<h1 class="display-5 fw-bold">Add Disaster</h1>
+		<!--NOTE: Labels are longer so column sizes here are larger-->
+		<form method="POST" id="editDisasterForm">
+			<h1 class="display-5 fw-bold">Edit Disaster</h1>
+
 			<br />
+
+			<input type="hidden" name="disasterID" value="@Model.disasterInfo.disasterID" />
 
 			<!-- Disaster Name -->
 			<div class="row mb-1">
 				<label class="col-sm-4 col-form-label text-start" for="disasterName">Disaster Name:<span class="text-danger" style="padding:5px">*</span></label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="ex. Typhoon Pedro" required maxlength="65">
+					<input type="text" class="form-control" name="disasterName" value="@Model.disasterInfo.disasterName" placeholder="e.g. Typhoon Pedro" required maxlength="65">
 				</div>
 			</div>
 
 			<!-- Disaster Type -->
 			<div class="row mb-1">
-				<label class="col-sm-4 col-form-label text-start" for="disasterType">Disaster Type:<span class="text-danger" style="padding:5px">*</span></label>
+				<label class="col-sm-4 col-form-label text-start" for="disasterName">Disaster Type:<span class="text-danger" style="padding:5px">*</span></label>
 				<div class="col-sm-8">
 					<select class="form-select" name="disasterType" required>
 						<option value="" selected disabled>Select Disaster Type</option>
@@ -74,7 +80,7 @@ else
 
 			<!-- Date Occurred -->
 			<div class="row mb-1">
-				<label class="col-sm-4 col-form-label text-start" for="dateOccured">
+				<label class="col-sm-4 col-form-label text-start" for="disasterName">
 					Date Occured:
 					<span class="text-danger" style="padding:5px">*</span>
 				</label>
@@ -90,32 +96,56 @@ else
 
 			<!-- Disaster Description -->
 			<div class="row mb-1">
-				<label class="col-sm-4 col-form-label text-start" for="description">Description:<span class="text-danger" style="padding:5px">*</span></label>
+				<label class="col-sm-4 col-form-label text-start" for="disasterName">Description:<span class="text-danger" style="padding:5px">*</span></label>
 				<div class="col-sm-8">
-					<textarea class="form-control" name="description" value="@Model.disasterInfo.description" rows="4" required></textarea>
+					<textarea class="form-control" name="description" rows="4" required>@Model.disasterInfo.description</textarea>
 				</div>
 			</div>
 
-			@if (!string.IsNullOrEmpty(Model.successMessage))
-
-			{
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
-					<strong>@Model.successMessage</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			}
-			
 			<br />
 
 			<!-- Cancel and Save Button -->
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<a href="/disaster/index" role="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
-				<button type="submit" class="btn btn-primary px-4" id="submitBtn">Save</button>
+				<a href="/disaster/profile/index?disasterID=@Model.disasterInfo.disasterID" type="button" class="btn btn-outline-secondary px-4 gap-3">Cancel</a>
+				<button type ="button" id="submitBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editConfirmationModal">Save</button>
 			</div>
 		</form>
 	</div>
 </div>
 
+<!-- Modal: Confirm Save -->
+<div class="modal" id="editConfirmationModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm Edit</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to save the changes?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Selected option: disasterType -->
+<script>
+	var selectedDisasterType = "@Model.disasterInfo.disasterType";
+	var select = document.querySelector('select[name="disasterType"]');
+
+	for (var option of select.options) {
+		if (option.value === selectedDisasterType) {
+			option.selected = true;
+			break;
+		}
+	}
+</script>
+
+<!-- Enable/disable "Submit" button -->
 <script>
 	const submitButton = document.getElementById('submitBtn');
 	const form = document.querySelector('form');
@@ -131,4 +161,11 @@ else
 	}
 
 	form.addEventListener('input', checkFormValidity);
+</script>
+
+<!-- Save Changes -->
+<script>
+	document.getElementById('saveChangesButton').addEventListener('click', function () {
+		document.getElementById('editDisasterForm').submit();
+	});
 </script>
