@@ -4,6 +4,23 @@
 	ViewData["Title"] = "Access Denied";
 }
 
+@if (Model.UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+    Layout = "_Layout - ECStaff";
+}
+else
+{
+    Layout = "_Login";
+}
+
 <style>
 
     .custom-margin {
