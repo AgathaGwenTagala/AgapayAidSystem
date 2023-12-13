@@ -43,8 +43,24 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 				{
 					connection.Open();
 
-					// Fetch info of selected disaster from the database
-					string sql = "SELECT disasterID, disasterName FROM disaster where disasterID = @disasterID";
+                    // Fetch ec log notification count
+                    string notifSql = "CALL get_eclog_notification(@centerLogID)";
+                    using (MySqlCommand notifCommand = new MySqlCommand(notifSql, connection))
+                    {
+                        notifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        using (MySqlDataReader notifReader = notifCommand.ExecuteReader())
+                        {
+                            if (notifReader.Read())
+                            {
+                                ecLogNotif.remainingInventoryCount = notifReader.GetInt32(0);
+                                ecLogNotif.remainingPackCount = notifReader.GetInt32(1);
+                                ecLogNotif.remainingAssessmentCount = notifReader.GetInt32(2);
+                            }
+                        }
+                    }
+
+                    // Fetch info of selected disaster from the database
+                    string sql = "SELECT disasterID, disasterName FROM disaster where disasterID = @disasterID";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@disasterID", disasterID);
