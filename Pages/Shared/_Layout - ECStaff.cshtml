@@ -50,24 +50,20 @@
                     <li><a href="/disaster/index" class="nav-link px-3 text-white">Disaster</a></li>
                     <li><a href="/evacuationcenter/index" class="nav-link px-3 text-white">Centers</a></li>
                     <li><a href="/family/index" class="nav-link px-3 text-white">Family</a></li>
+                    <li class="nav-item dropdown text-end">
+                        <a class="d-block link-dark text-decoration-none dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle text-white"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/account/index">Profile</a></li>
+                            <li><a class="dropdown-item" href="/account/notifications">Notifications</a></li>
+                            <li><a class="dropdown-item" href="/account/settings">Settings</a></li>
+                            @*<li><a class="dropdown-item" href="#">Profile</a></li>*@
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <div class="flex-shrink-0 dropdown">
-                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle text-white"></i>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                        <li><a class="dropdown-item" href="/account/index">Profile</a></li>
-                        <li><a class="dropdown-item" href="/account/notifications">Notifications</a></li>
-                        <li><a class="dropdown-item" href="/account/settings">Settings</a></li>
-                        @*<li><a class="dropdown-item" href="#">Profile</a></li>*@
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/account/logout">Logout</a></li>
-                    </ul>
-                </div>
-
-                @*<div class="text-md-end ps-md-5 ps-3">
-                    <a href="/login" type="button" class="btn btn-secondary text-primary me-2">Login</a>
-                </div>*@
             </div>
         </div>
     </nav>
