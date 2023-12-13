@@ -1,7 +1,8 @@
 ﻿@page
-@model AgapayAidSystem.Pages.family.profile.distribution.ViewModel
+@model AgapayAidSystem.Pages.family.profile.distribution.IndexModel
 @{
-	ViewData["Title"] = "Pack Inclusions";
+	string pageTitle = $"Relief Distribution Record - {Model.familyInfo.serialNum}";
+	ViewData["Title"] = pageTitle;
 }
 
 @if (Model.UserType == "Admin")
@@ -22,24 +23,43 @@ else
 }
 
 <!-- Alert Banners -->
+@if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
+{
+	<div id="success-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>@Request.Query["successMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+
+	<script>
+		const successNotification = document.getElementById('success-notification');
+		if (successNotification) {
+			setTimeout(function () {
+				successNotification.style.display = 'none';
+			}, 5000); // 5000 milliseconds = 5 seconds
+		}
+	</script>
+}
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Error: @Model.errorMessage</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Model.errorMessage</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
 }
 
 @if (!string.IsNullOrEmpty(Request.Query["errorMessage"]))
 {
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Error: @Request.Query["errorMessage"]</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
+	<div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Error: @Request.Query["errorMessage"]</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
 }
 
 <style>
@@ -74,8 +94,8 @@ else
 		<div id="sidebarMobile" class="col-md-3 col-lg-2 d-md-none bg-light p-2">
 			<select class="form-select" id="pageSelect">
 				<option value="/family/profile/index?familyID=@Model.familyInfo.familyID">Information</option>
-				<option value="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID" selected>Relief Distribution Record</option>
-				<option value="/family/profile/vulnerability?familyID=@Model.familyInfo.familyID">Vulnerability Assessment</option>
+				<option value="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">Relief Distribution Record</option>
+				<option value="/family/profile/vulnerability?familyID=@Model.familyInfo.familyID" selected>Vulnerability Assessment</option>
 			</select>
 		</div>
 
@@ -88,8 +108,7 @@ else
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
 							<li class="breadcrumb-item"><a href="/family/index">Family</a></li>
-							<li class="breadcrumb-item"><a href="/family/profile/distribution/index?familyID=@Model.familyInfo.familyID">@Model.familyInfo.serialNum</a></li>
-							<li class="breadcrumb-item active"><a><strong>Relief Distribution Record</strong></a></li>
+							<li class="breadcrumb-item active"><a><strong>@Model.familyInfo.serialNum</strong></a></li>
 						</ol>
 					</nav>
 				</div>
@@ -97,33 +116,45 @@ else
 				<!-- Title -->
 				<div class="row pb-2">
 					<div class="d-flex align-items-center">
-						<h1>Pack Inclusions</h1>
+						<h1>Relief Distribution Record</h1>
 					</div>
 				</div>
 
 				<!-- Table -->
 				<div class="row pb-2">
 					<div class="col-lg-12">
-						<table id="pack-inclusion" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+						<table id="distribution-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
 							<thead>
-								<tr style="vertical-align:text-top;">
+								<tr>
 									<th>#</th>
-									<th>Item</th>
-									<th>Type</th>
-									<th>Quantity</th>
+									<th>Disaster</th>
+									<th>Evacuation Center</th>
+									<th>Received by</th>
+									@*<th>Distributed by</th>*@
+									<th>Qty</th>
+									<th>Receive Date</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								@{
 									var counter = 1;
 								}
-								@foreach (var item in Model.listPackInclusion)
+								@foreach (var item in Model.listRecord)
 								{
 									<tr>
-										<td width="10%">@counter</td>
-										<td width="30%">@item.itemName</td>
-										<td width="25%">@item.itemType</td>
-										<td width="35%">@item.qty @item.unitMeasure</td>
+										<td width="5%">@counter</td>
+										<td width="20%">@item.disasterName</td>
+										<td width="20%">@item.centerName</td>
+										<td width="25%">@item.fullName</td>
+										@*<td width="25%">@item.staffName</td>*@
+										<td width="5%">@item.qty</td>
+										<td width="15%">@item.receiveDate</td>
+										<td width="5%">
+											<a class="btn btn-primary edit-button" href="/family/profile/distribution/view?packID=@item.packID&familyID=@Model.familyInfo.familyID">
+												View
+											</a>
+										</td>
 									</tr>
 									counter++;
 								}
@@ -139,16 +170,16 @@ else
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		var table = $('#pack-inclusion').DataTable({
+		var table = $('#distribution-table').DataTable({
 			responsive: true,
 			pageLength: 25,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 3] }, // Sortable columns
-				{ "orderable": false, "targets": [2] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
+				{ "orderable": false, "targets": [6] } // Non-sortable columns
 			]
 		});
 
-		table.columns([2]).every(function () {
+		table.columns([3]).every(function () {
 			var column = this;
 			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
 			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
@@ -163,7 +194,6 @@ else
 				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
 					'<label class="form-check-label ps-1">' + d + '</label></div>');
 			});
-
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
 				'<label class="form-check-label ps-1">Select All</label></div>');
 
