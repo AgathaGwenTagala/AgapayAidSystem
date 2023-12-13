@@ -11,7 +11,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		private readonly IConfiguration _configuration;
 		public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public EvacuationCenterLogInfo logInfo { get; set; } = new EvacuationCenterLogInfo();
-		public EcLogNotification ecLogNotif { get; set; } = new EcLogNotification();
 		public StaffAssignmentInfo assignmentInfo { get; set; } = new StaffAssignmentInfo();
 		public List<EntryLogInfo> listEntryLog { get; set; } = new List<EntryLogInfo>();
 		public string errorMessage = "";
@@ -59,22 +58,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								assignmentInfo.assignmentDate = assignedReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								assignmentInfo.completionDate = assignedReader.IsDBNull(5) ? null : assignedReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
 								assignmentInfo.status = assignedReader.GetString(6);
-							}
-						}
-					}
-
-					// Fetch ec log notification count
-					string notifSql = "CALL get_eclog_notification(@centerLogID)";
-					using (MySqlCommand notifCommand = new MySqlCommand(notifSql, connection))
-					{
-						notifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
-						using (MySqlDataReader notifReader = notifCommand.ExecuteReader())
-						{
-							if (notifReader.Read())
-							{
-								ecLogNotif.remainingInventoryCount = notifReader.GetInt32(0);
-								ecLogNotif.remainingPackCount = notifReader.GetInt32(1);
-								ecLogNotif.remainingAssessmentCount = notifReader.GetInt32(2);
 							}
 						}
 					}

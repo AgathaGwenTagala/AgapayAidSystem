@@ -1,7 +1,24 @@
-﻿@page
+@page
 @model AgapayAidSystem.Pages.UserManagement.AddUserModel
 @{ 
 	ViewData["Title"] = "Add User";
+}
+
+@if (Model.UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+    Layout = "_Layout - EC Staff";
+}
+else
+{
+    Layout = "_Login";
 }
 
 <style>

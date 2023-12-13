@@ -4,6 +4,28 @@
     ViewData["Title"] = "Agapay Aid";
 }
 
+@{
+    var UserId = HttpContext.Session.GetString("UserId");
+    var UserType = HttpContext.Session.GetString("UserType");
+}
+
+@if (UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (UserType == "EC Staff")
+{
+    Layout = "_Layout - EC Staff";
+}
+else
+{
+    Layout = "_Login";
+}
+
 <!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
 {

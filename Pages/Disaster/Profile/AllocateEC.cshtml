@@ -4,6 +4,23 @@
 	ViewData["Title"] = "Allocate Evacuation Center";
 }
 
+@if (Model.UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+    Layout = "_Layout - EC Staff";
+}
+else
+{
+    Layout = "_Login";
+}
+
 @if (!string.IsNullOrEmpty(Model.errorMessage))
 {
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 1000;">

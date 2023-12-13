@@ -4,6 +4,23 @@
 	ViewData["Title"] = "Inventory";
 }
 
+@if (Model.UserType == "Admin")
+{
+	Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+	Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+	Layout = "_Layout - EC Staff";
+}
+else
+{
+	Layout = "_Login";
+}
+
 <!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
 {
@@ -71,7 +88,7 @@
 					@if (@Model.ecLogNotif.remainingInventoryCount == 0)
 					{
 						<li class="nav-item">
-							<a class="nav-link active" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
 								Inventory
 							</a>
 						</li>

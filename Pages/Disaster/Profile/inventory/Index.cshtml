@@ -1,7 +1,7 @@
-@page
-@model AgapayAidSystem.Pages.disaster.profile.reliefgoodspack.IndexModel
+﻿@page
+@model AgapayAidSystem.Pages.disaster.profile.inventory.IndexModel
 @{
-	ViewData["Title"] = "Relief Goods Pack";
+	ViewData["Title"] = "Inventory";
 }
 
 @if (Model.UserType == "Admin")
@@ -62,11 +62,11 @@ else
 }
 
 <style>
-    /* Adjust the size of the DataTable search input */
-    div.dataTables_wrapper div.dataTables_filter input {
-        width: 150px;
-        margin-right: 10px;
-    }
+	/* Adjust the size of the DataTable search input */
+	div.dataTables_wrapper div.dataTables_filter input {
+		width: 150px;
+		margin-right: 10px;
+	}
 </style>
 
 <div class="container-fluid">
@@ -105,7 +105,7 @@ else
 					@if (@Model.ecLogNotif.remainingPackCount == 0)
 					{
 						<li class="nav-item">
-							<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
 								Relief Goods Pack
 							</a>
 						</li>
@@ -113,19 +113,19 @@ else
 					else
 					{
 						<li class="nav-item">
-						<a class="nav-link active" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-							Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
-						</a>
-					</li>						
+							<a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+								Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
+							</a>
+						</li>
 					}
 
 					@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 					{
 						<li class="nav-item">
-						<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-							Vulnerability Assessment
-						</a>
-					</li>						
+							<a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+								Vulnerability Assessment
+							</a>
+						</li>
 					}
 					else
 					{
@@ -155,7 +155,7 @@ else
 						Inventory <span>(@Model.ecLogNotif.remainingInventoryCount)</span>
 					</option>
 				}
-				
+
 				@if (@Model.ecLogNotif.remainingPackCount == 0)
 				{
 					<option value="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">Relief Goods Pack</option>
@@ -166,7 +166,7 @@ else
 						Relief Goods Pack <span>(@Model.ecLogNotif.remainingPackCount)</span>
 					</option>
 				}
-				
+
 				@if (@Model.ecLogNotif.remainingAssessmentCount == 0)
 				{
 					<option value="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">Vulnerability Assessment</option>
@@ -177,9 +177,10 @@ else
 						Vulnerability Assessment <span>(@Model.ecLogNotif.remainingAssessmentCount)</span>
 					</option>
 				}
-				
+
 			</select>
 		</div>
+
 
 		<!-- Page Content -->
 		<div class="col-md-9 ms-sm-auto col-lg-9 px-md-4 pb-3 pt-3">
@@ -196,125 +197,98 @@ else
 					</nav>
 				</div>
 
-				<div class="row pb-2">
-					<!-- Title and Add Button -->
-					<div class="col-12 d-flex justify-content-between align-items-center" style="gap: 30px">
-						<div class="d-flex align-items-center">
-							<h1>Relief Goods Pack</h1>
-						</div>
-						@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff" || Model.assignmentInfo.status == "Assigned")
-						{
+				<!-- Title and Add Button -->
+				@if (@Model.logInfo.status == "Open")
+				{
+					<div class="row pb-2">
+						<div class="col-12 d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h1>Inventory</h1>
+							</div>
+
 							<div class="d-flex justify-content-end align-items-center">
-								<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i> Add Pack
+								<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+									Add Item
 								</a>
-								<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/reliefgoodspack/add?centerLogID=@Model.logInfo.centerLogID">
+								<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
 									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
 								</a>
 							</div>
-						}
-						
+						</div>
 					</div>
-				</div>
-				
-				<div class="col-lg-12">
-					<table id="reliefpack-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Pack ID</th>
-								<th>
-									Qty<br />
-									<small>(Remaining/Total)</small>
-								</th>
-								<th>Date Distributed</th>
-								<th>Status</th>
-								<th> </th>
-								<th> </th>
-							</tr>
-						</thead>
-						<tbody>
-							@{
-								var counter = 1;
-							}
-							@foreach (var item in Model.listReliefPack)
-							{
-								<tr style="text-align:center;">
-									<td width="5%">@counter</td>
-									<td width="15%">@item.packID</td>
-									<td width="15%">@item.remainingQty/@item.packQty</td>
-									<td width="20%">@item.distributedAt</td>
-									<td width="15%">
-										@if (@item.status == "Distributed")
-										{
-											<span class="badge rounded-pill bg-success">@item.status</span>
-										}
-										else if (@item.status == "Packed")
-										{
-											<span class="badge rounded-pill bg-light">@item.status</span>
-										}
-									</td>
-									@if (Model.assignmentInfo.status == "Assigned")
-									{
-										<td width="15%">
-											@if (@item.status == "Distributed")
+				}
+				else if (@Model.logInfo.status == "Closed")
+				{
+					<div class="row pb-2">
+						<div class="col-12 d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center">
+								<h1>Inventory</h1>
+							</div>
+						</div>
+					</div>
+				}
+
+				<div class="row pb-2">
+					<div class="col-lg-12">
+						<table id="inventory-table" class="table display compact order-column table-hover" cellspacing="0" width="100%">
+							<thead>
+								<tr style="vertical-align:text-top;">
+									<th style="text-align:center;">#</th>
+									<th style="text-align:center;">Item</th>
+									<th style="text-align:center;">Type</th>
+									<th style="text-align:center;">Unit Measure</th>
+									<th style="text-align:center;">
+										Qty<br />
+										<small>(Remaining/Total)</small>
+									</th>
+									<th style="text-align:center;">Remarks</th>
+									<th> </th>
+								</tr>
+							</thead>
+							<tbody>
+								@{ var counter = 1; }
+								@foreach (var item in Model.listInventory)
+								{
+									<tr style="text-align:center;">
+										<td width="5%">@counter</td>
+										<td width="20%">@item.itemName</td>
+										<td width="15%">@item.itemType</td>
+										<td width="17%">@item.unitMeasure</td>
+										<td width="18%">@item.remainingQty/@item.qty</td>
+										<td width="20%" style="text-align:left;">@item.remarks</td>
+										<td width="5%">
+											@if (@Model.logInfo.status == "Open")
 											{
-												<button class="btn btn-primary edit-button" disabled>
-													Distribute
-												</button>
-											}
-											else if (@item.status == "Packed")
-											{
-												<a class="btn btn-success edit-button" href="/disaster/profile/reliefgoodspack/distribute?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-													Distribute
-												</a>
-											}
-										</td>
-									}
-									else
-									{
-										<td width="15%">
-											<button class="btn btn-primary edit-button" disabled>
-												Distribute
-											</button>
-										</td>
-									}
-									<td width="5%">
-										<div class="d-inline position-relative">
-											<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
-												<i class="bi bi-three-dots-vertical"></i>
-											</a>
-											<ul class="dropdown-menu" aria-labelledby="recordOptions">
-												<li>
-													<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/view?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-														View Pack Inclusions
+												<div class="d-inline position-relative">
+													<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+														<i class="bi bi-three-dots-vertical"></i>
 													</a>
-												</li>
-												<li>
-													<a class="dropdown-item" href="/disaster/profile/reliefgoodspack/record?packID=@item.packID&centerLogID=@Model.logInfo.centerLogID">
-														View Distribution Record
-													</a>
-												</li>
-												@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff" || Model.assignmentInfo.status == "Assigned")
-												{
-													@if (@Model.logInfo.status == "Open" && @item.remainingQty == @item.packQty)
-													{
+													<ul class="dropdown-menu" aria-labelledby="recordOptions">
 														<li>
-															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.packID')"
-															   data-deleteid="@item.packID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+															<a class="dropdown-item" href="/disaster/profile/inventory/edit?inventoryID=@item.inventoryID">
+																Edit
+															</a>
+														</li>
+														<li>
+															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
+															   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
 																Delete
 															</a>
 														</li>
-													}
-												}
-											</ul>
-										</div>
-									</td>
-								</tr>
-								counter++;
-							}
-						</tbody>
-					</table>
+													</ul>
+												</div>
+											}
+											else if (@Model.logInfo.status == "Closed")
+											{
+											}
+										</td>
+									</tr>
+									counter++;
+								}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -330,7 +304,7 @@ else
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<p>Are you sure you want to delete this pack?</p>
+				<p>Are you sure you want to delete this item from @Model.logInfo.centerName's inventory?</p>
 				<p><strong class="text-danger">This cannot be undone.</strong></p>
 			</div>
 			<div class="modal-footer">
@@ -371,17 +345,16 @@ else
 <!-- Making the table responsive -->
 <script>
 	$(document).ready(function () {
-		var table = $('#reliefpack-table').DataTable({
+		var table = $('#inventory-table').DataTable({
 			responsive: true,
 			pageLength: 25,
 			columnDefs: [
 				{ "orderable": true, "targets": [0, 1, 3] }, // Sortable columns
-				{ "orderable": false, "targets": [2, 4, 5, 6] }, // Non-sortable columns
-				{ "responsivePriority": -1, "targets": [0, 1, 4] } // Disable responsive for specific columns
+				{ "orderable": false, "targets": [2, 4, 5, 6] } // Non-sortable columns
 			]
 		});
 
-		table.columns([4]).every(function () {
+		table.columns([2]).every(function () {
 			var column = this;
 			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
 			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
@@ -393,24 +366,8 @@ else
 			}
 
 			column.data().unique().sort().each(function (d, j) {
-				// Only add the options "Packed" and "Distributed" for the "Status" column
-				if (column.index() === 4) {
-					// Set specific filter options only if they haven't been added
-					if (menu.find("input[value='Packed']").length === 0) {
-						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Packed">' +
-							'<label class="form-check-label ps-1">Packed</label></div>');
-					}
-					if (menu.find("input[value='Distributed']").length === 0) {
-						menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="Distributed">' +
-							'<label class="form-check-label ps-1">Distributed</label></div>');
-					}
-				}
-
-				// For other columns, show all unique values as filter options
-				else {
-					menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-						'<label class="form-check-label ps-1">' + d + '</label></div>');
-				}
+				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
+					'<label class="form-check-label ps-1">' + d + '</label></div>');
 			});
 
 			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
@@ -447,22 +404,22 @@ else
 <!-- Confirm Delete -->
 <script>
 	const deleteButtons = document.querySelectorAll('.edit-button');
-	let packIdToDelete = null;
+	let inventoryIdToDelete = null;
 	let centerLogID = null;
 
 	deleteButtons.forEach(function (button) {
 		button.addEventListener('click', function () {
-			packIdToDelete = this.getAttribute('data-deleteid');
+			inventoryIdToDelete = this.getAttribute('data-deleteid');
 		});
 	});
 
 	// Function to prepare for delete action
-	function prepareDelete(packID) {
-		if (packID === null || packID === undefined) {
-			// Retrieve packID from the button's data-deleteid attribute
-			packIdToDelete = event.currentTarget.getAttribute('data-deleteid');
+	function prepareDelete(inventoryID) {
+		if (inventoryID === null || inventoryID === undefined) {
+			// Retrieve inventoryID from the button's data-deleteid attribute
+			inventoryIdToDelete = event.currentTarget.getAttribute('data-deleteid');
 		} else {
-			packIdToDelete = packID;
+			inventoryIdToDelete = inventoryID;
 		}
 
 		// Retrieve centerLogID from the query string
@@ -473,8 +430,8 @@ else
 	const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
 	confirmDeleteButton.addEventListener('click', function () {
-		if (packIdToDelete !== null) {
-			window.location.href = "/disaster/profile/reliefgoodspack/delete?packID=" + packIdToDelete + "&centerLogID=" + centerLogID;
+		if (inventoryIdToDelete !== null) {
+			window.location.href = "/disaster/profile/inventory/delete?inventoryID=" + inventoryIdToDelete + "&centerLogID=" + centerLogID;
 		}
 	});
 </script>

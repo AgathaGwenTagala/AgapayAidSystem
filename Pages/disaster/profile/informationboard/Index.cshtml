@@ -4,6 +4,23 @@
 	ViewData["Title"] = "Information Board";
 }
 
+@if (Model.UserType == "Admin")
+{
+    Layout = "_Layout";
+}
+else if (Model.UserType == "LGU Staff")
+{
+    Layout = "_Layout - LGU";
+}
+else if (Model.UserType == "EC Staff")
+{
+    Layout = "_Layout - EC Staff";
+}
+else
+{
+    Layout = "_Login";
+}
+
 <!-- Alert Banners -->
 @if (!string.IsNullOrEmpty(Request.Query["successMessage"]))
 {
@@ -52,7 +69,7 @@
             <div class="position-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
+                        <a class="nav-link" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
