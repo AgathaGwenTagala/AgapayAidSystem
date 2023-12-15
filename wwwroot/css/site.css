@@ -518,12 +518,14 @@ form {
     border-radius: 3px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column; /* Set flex direction to column */
-    align-items: center; /* Align children in the center */
+    flex-direction: column; 
+    align-items: center; 
     width: 300px;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
     z-index: 1000;
+
+    /* scrollable when 3+ notifs */
     overflow-y: auto;
     max-height: 410px;
     overflow-x: hidden;
