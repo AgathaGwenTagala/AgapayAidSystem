@@ -318,7 +318,7 @@ else
 															</li>
 															@if (@Model.logInfo.status == "Open")
 															{
-																@if (Model.UserType != "LGU Staff")
+																@if (Model.UserType == "Admin")
 																{
 																	<li>
 																		<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
@@ -327,9 +327,18 @@ else
 																		</a>
 																	</li>
 																}
-															}
-															else if (@Model.logInfo.status == "Closed")
-															{
+																else if (Model.UserType == "EC Staff")
+																{
+																	if (Model.assignmentInfo.status == "Assigned")
+																	{
+																		<li>
+																			<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.entryLogID')"
+																			   data-deleteid="@item.entryLogID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																				Delete
+																			</a>
+																		</li>
+																	}																	
+																}
 															}
 														</ul>
 													}

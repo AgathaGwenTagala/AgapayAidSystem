@@ -39,8 +39,31 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 				{
 					connection.Open();
 
-                    // Fetch ec log notification count
-                    string notifSql = "CALL get_eclog_notification(@centerLogID)";
+					// Fetch assigned staff user information
+					string assignedSql = "SELECT esa.* " +
+										 "FROM ec_staff_assignment esa " +
+										 "JOIN ec_staff ec ON esa.ecStaffID = ec.ecStaffID " +
+										 "WHERE ec.userID = @userID AND esa.status = 'Assigned';";
+					using (MySqlCommand assignedCommand = new MySqlCommand(assignedSql, connection))
+					{
+						assignedCommand.Parameters.AddWithValue("@userID", UserId);
+						using (MySqlDataReader assignedReader = assignedCommand.ExecuteReader())
+						{
+							if (assignedReader.Read())
+							{
+								assignmentInfo.assignmentID = assignedReader.GetString(0);
+								assignmentInfo.centerLogID = assignedReader.GetString(1);
+								assignmentInfo.ecStaffID = assignedReader.GetString(2);
+								assignmentInfo.role = assignedReader.GetString(3);
+								assignmentInfo.assignmentDate = assignedReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								assignmentInfo.completionDate = assignedReader.IsDBNull(5) ? null : assignedReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								assignmentInfo.status = assignedReader.GetString(6);
+							}
+						}
+					}
+
+					// Fetch ec log notification count
+					string notifSql = "CALL get_eclog_notification(@centerLogID)";
                     using (MySqlCommand notifCommand = new MySqlCommand(notifSql, connection))
                     {
                         notifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);

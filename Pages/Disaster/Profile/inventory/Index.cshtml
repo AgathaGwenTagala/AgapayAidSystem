@@ -200,23 +200,57 @@ else
 				<!-- Title and Add Button -->
 				@if (@Model.logInfo.status == "Open")
 				{
-					<div class="row pb-2">
-						<div class="col-12 d-flex align-items-center justify-content-between">
-							<div class="d-flex align-items-center">
-								<h1>Inventory</h1>
-							</div>
+					@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff")
+					{
+						<div class="row pb-2">
+							<div class="col-12 d-flex align-items-center justify-content-between">
+								<div class="d-flex align-items-center">
+									<h1>Inventory</h1>
+								</div>
 
-							<div class="d-flex justify-content-end align-items-center">
-								<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-									Add Item
-								</a>
-								<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
-									<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
-								</a>
+								<div class="d-flex justify-content-end align-items-center">
+									<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+										Add Item
+									</a>
+									<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
+					}
+					else if (Model.UserType == "EC Staff" && Model.assignmentInfo.status == "Assigned")
+					{
+						<div class="row pb-2">
+							<div class="col-12 d-flex align-items-center justify-content-between">
+								<div class="d-flex align-items-center">
+									<h1>Inventory</h1>
+								</div>
+
+								<div class="d-flex justify-content-end align-items-center">
+									<a class="btn btn-primary mb-2 d-none d-sm-inline" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+										Add Item
+									</a>
+									<a class="btn btn-primary mb-2 d-sm-none" href="/disaster/profile/inventory/add?centerLogID=@Model.logInfo.centerLogID">
+										<i class="bi bi-plus-circle pt" style="padding: 5px;"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					}
+					else
+					{
+						<div class="row pb-2">
+							<div class="col-12 d-flex align-items-center justify-content-between">
+								<div class="d-flex align-items-center">
+									<h1>Inventory</h1>
+								</div>
+							</div>
+						</div>
+					}
+
 				}
 				else if (@Model.logInfo.status == "Closed")
 				{
@@ -277,12 +311,18 @@ else
 																Edit
 															</a>
 														</li>
-														<li>
-															<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
-															   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-																Delete
-															</a>
-														</li>
+														@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff" || Model.assignmentInfo.status == "Assigned")
+														{
+															@if (@Model.logInfo.status == "Open" && @item.remainingQty == @item.qty)
+															{
+																<li>
+																	<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.inventoryID')"
+																	   data-deleteid="@item.inventoryID" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+																		Delete
+																	</a>
+																</li>
+															}
+														}
 													</ul>
 												</div>
 											}

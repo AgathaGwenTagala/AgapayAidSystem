@@ -318,9 +318,9 @@ else
 																View Assignment Details
 															</a>
 														</li>
-														@if (@Model.logInfo.status == "Open")
+														@if (Model.UserType == "Admin" || Model.UserType == "LGU Staff")
 														{
-															if (@item.status == "Assigned")
+															@if (@Model.logInfo.status == "Open" && @item.status == "Assigned")
 															{
 																<li>
 																	<a href="#" class="dropdown-item text-danger" onclick="prepareDelete('@item.assignmentID')"
@@ -329,13 +329,6 @@ else
 																	</a>
 																</li>
 															}
-															else if (@item.status == "Completed")
-															{
-																
-															}
-														}
-														else if (@Model.logInfo.status == "Closed")
-														{
 														}
 													</ul>
 												</div>
