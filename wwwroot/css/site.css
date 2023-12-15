@@ -499,3 +499,67 @@ form {
 .select2-search--dropdown .select2-search__field {
     padding: 0.5rem 1rem;
 }
+
+
+
+/* NOTIFICATION FOR EC STAFF */
+.nav-item {
+    position: relative;
+}
+
+.notification {
+    font-family: poppins;
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #495057;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Set flex direction to column */
+    align-items: center; /* Align children in the center */
+    width: 300px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+    max-height: 410px;
+    overflow-x: hidden;
+}
+
+    .notification.show {
+        opacity: 1;
+    }
+
+.notifi-heading-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.notifi-heading {
+    text-decoration: none;
+    color: #408c8c;
+    font-size: 18px;
+    flex: 1;
+    text-align: left;
+    padding: 10px;
+}
+
+.notifi-text {
+    width: 100%; /* Make the notification text take the full width */
+    text-align: left; /* Align the text to the left */
+}
+
+.notifi-text-margin {
+    margin-left: 16px;
+    margin-top: 16px;
+}
+
+.unread {
+    background-color: #edf0fd;
+    border-radius: 3px;
+}
