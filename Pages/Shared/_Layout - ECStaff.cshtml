@@ -44,6 +44,18 @@
             var notification = document.getElementById("notification");
             notification.classList.toggle("show");
         }
+
+        // Add event listener to close notification on document click
+        document.addEventListener('click', function (event) {
+            var notification = document.getElementById("notification");
+            var bellIcon = document.querySelector('.notification-trigger');
+
+            if (!notification.contains(event.target) && !bellIcon.contains(event.target)) {
+                notification.classList.remove("show");
+            }
+        });
+
+
     </script>
 </head>
 <body>
@@ -79,8 +91,8 @@
                             <div class="notifi-text">
                                 <div class="notifi-text-margin">
                                     <!-- href for specific evacuation!!! -->
-                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile;" style="cursor: pointer;">
-                                        <a><strong>You have a new assignment!</strong></a>
+                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
+                                        <a><strong>Assigned</strong></a>
                                         <p>
                                             <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
                                             Severina Covered Court<br>
@@ -100,33 +112,23 @@
                             <div class="notifi-text unread">
                                 <!-- "add unread if its new notification!! -->
                                 <div class="notifi-text-margin">
-                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile;" style="cursor: pointer;">
+                                    <!-- href for specific evacuation!!! -->
+                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
                                         <a><strong>You have a new assignment!</strong></a>
                                         <p>
-                                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>You you you<br>
-                                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>You you you<br>
-                                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>You you you
+                                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
+                                            Barangay Merville Health Center<br>
+                                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>
+                                            Magnitude 5.5 Earthquake<br>
+                                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
+                                            2023-12-28 04:59 AM
                                         </p>
                                     </div>
                                 </div>
                                 <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
                             </div>
 
-                            <!-- notif3 -->
-                            <div class="notifi-text unread">
-                                <!-- "add unread if its new notification!! -->
-                                <div class="notifi-text-margin">
-                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile;" style="cursor: pointer;">
-                                        <a><strong>You have a new assignment!</strong></a>
-                                        <p>
-                                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>You you you<br>
-                                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>You you you<br>
-                                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>You you you
-                                        </p>
-                                    </div>
-                                </div>
-                                <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
-                            </div>
+                            
 
                         </div>
                     </li>
