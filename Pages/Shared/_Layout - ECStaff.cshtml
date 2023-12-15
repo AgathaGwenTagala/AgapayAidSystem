@@ -31,6 +31,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        function markAllAsRead() {
+            var checkboxes = document.querySelectorAll('.form-check-input');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+        }
+
+        function toggleNotification() {
+            var notification = document.getElementById("notification");
+            notification.classList.toggle("show");
+        }
+
+        // Add event listener to close notification on document click
+        document.addEventListener('click', function (event) {
+            var notification = document.getElementById("notification");
+            var bellIcon = document.querySelector('.notification-trigger');
+
+            if (!notification.contains(event.target) && !bellIcon.contains(event.target)) {
+                notification.classList.remove("show");
+            }
+        });
+
+
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -50,6 +76,65 @@
                     <li><a href="/disaster/index" class="nav-link px-3 text-white">Disaster</a></li>
                     <li><a href="/evacuationcenter/index" class="nav-link px-3 text-white">Centers</a></li>
                     <li><a href="/family/index" class="nav-link px-3 text-white">Family</a></li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link px-3 notification-trigger" onclick="toggleNotification()">
+                            <i class="bi bi-bell-fill bell-icon text-white"></i> <!-- Bell icon -->
+                        </a>
+                        <div id="notification" class="notification position-absolute top-100 start-50 translate-middle-x">
+                            <div class="notifi-heading-container">
+                                <a class="notifi-heading"><strong>Notification</strong></a>
+                                <button class="btn btn-link" onclick="markAllAsRead()" style="text-decoration: none; font-family: poppins; color: #495057; font-size: 14px;">Mark All as Read</button>
+                            </div>
+                            <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
+
+                            <!-- notif1 -->
+                            <div class="notifi-text">
+                                <div class="notifi-text-margin">
+                                    <!-- href for specific evacuation!!! -->
+                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
+                                        <a><strong>Assigned</strong></a>
+                                        <p>
+                                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
+                                            Severina Covered Court<br>
+
+                                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>
+                                            Typhoon Betty<br>
+
+                                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
+                                            2023-11-24 04:59 AM
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
+                            </div>
+
+                            <!-- notif2 -->
+                            <div class="notifi-text unread">
+                                <!-- "add unread if its new notification!! -->
+                                <div class="notifi-text-margin">
+                                    <!-- href for specific evacuation!!! -->
+                                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
+                                        <a><strong>You have a new assignment!</strong></a>
+                                        <p>
+                                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
+                                            Barangay Merville Health Center<br>
+                                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>
+                                            Magnitude 5.5 Earthquake<br>
+                                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
+                                            2023-12-28 04:59 AM
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
+                            </div>
+
+                            
+
+                        </div>
+                    </li>
+
+
+
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle text-white"></i>
