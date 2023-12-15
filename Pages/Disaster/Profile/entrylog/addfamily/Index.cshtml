@@ -144,7 +144,7 @@ else
 					<label class="form-label">
 						Telephone Number:
 					</label>
-					<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="044XXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
+					<input type="tel" class="form-control" name="telephoneNum" id="telephoneNum" value="@Model.familyInfo.telephoneNum" placeholder="02XXXXYYYY" maxlength="10" pattern="[0-9]{10}" title="Enter digits only." />
 				</div>
 			</div>
 		</div>
@@ -348,8 +348,8 @@ else
 	});
 
 	telephoneInput.addEventListener('focus', function () {
-		if (!this.value.startsWith('044')) {
-			this.value = '044';
+		if (!this.value.startsWith('02')) {
+			this.value = '02';
 		}
 	});
 
@@ -366,8 +366,8 @@ else
 	telephoneInput.addEventListener('input', function () {
 		let cleanedValue = this.value.replace(/[^0-9]/g, '');
 
-		if (cleanedValue.length >= 3) {
-			cleanedValue = '044' + cleanedValue.slice(3);
+		if (cleanedValue.length >= 2) {
+			cleanedValue = '02' + cleanedValue.slice(2);
 		}
 
 		this.value = cleanedValue.slice(0, 10);
