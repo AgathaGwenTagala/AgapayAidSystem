@@ -32,88 +32,6 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script>
-        function showNotification() {
-            var notification = document.getElementById("notification");
-            notification.classList.add("show");
-            setTimeout(function () {
-                closeNotification();
-            }, 5000); // Close the notification after 5 seconds (adjust as needed)
-        }
-
-        function closeNotification() {
-            var notification = document.getElementById("notification");
-            notification.classList.remove("show");
-        }
-
-        // Uncomment the line below to show the notification on page load
-        // showNotification();
-    </script>
-
-    <style>
-        .nav-item {
-            position: relative;
-        }
-        /* Add the styles for the notification here */
-        .notification {
-            position: fixed;
-            top: 10vh;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #fff;
-            color: black;
-            padding: 16px;
-            border-radius: 3px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column; /* Set flex direction to column */
-            align-items: center; /* Align children in the center */
-            width: 300px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            z-index: 1000;
-        }
-
-            .notification.show {
-                opacity: 1;
-            }
-
-        .close-btn {
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: inherit;
-            font-size: 18px;
-            font-weight: bold;
-            align-self: flex-end; /* Align the close button to the end (right) */
-        }
-
-        .notifi-heading {
-            color: #408c8c; 
-            font-size: 18px;
-            width: 100%; /* Make the notification text take the full width */
-            text-align: left;
-        }
-
-        .notifi-text {
-            width: 100%; /* Make the notification text take the full width */
-            text-align: left; /* Align the text to the left */
-        }
-
-        .text {
-            margin-bottom: 16px; /* Add margin at the bottom for separation */
-        }
-
-        .h2 {
-            font-family:sans-serif;
-            }
-
-        .notifi-heading-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -136,47 +54,6 @@
                     <li><a href="/ecstaff/index" class="nav-link px-3 text-white">EC Staff</a></li>
                     <li><a href="/inventory/index" class="nav-link px-3 text-white">Inventory</a></li>
                     <li><a href="/usermanagement/index" class="nav-link px-3 text-white">Users</a></li>
-                    <li class="nav-item">
-                        <a href="javascript:void(0);" class="nav-link px-3 notification-trigger" onclick="showNotification()">
-                            <i class="bi bi-bell bell-icon"></i> <!-- Bell icon -->
-                        </a>
-                        <div id="notification" class="notification position-absolute top-100 start-50 translate-middle-x">
-                            <div class="notifi-heading-container">
-                                <a class="notifi-heading" ><strong>Notification</strong></a>
-                                <button class="close-btn" onclick="closeNotification()">×</button>
-                            </div>
-                            <hr style="width: 100%; margin: 8px 0;">
-                            <div class="notifi-text">
-                                <div class="text">
-                                    <a><strong>Elais Abdul</strong></a>
-                                    <p>cLorem ipsum</p>
-                                    <hr style="width: 100%; margin: 8px 0;">
-                                </div>
-                            </div>
-                            
-                            <div class="notifi-text">
-                                <div class="text">
-                                    <a><strong>Elais Abdul</strong></a>
-                                    <p>cLorem ipsum</p>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    @*<li class="nav-item">
-                        <a href="javascript:void(0);" class="nav-link px-3 notification-trigger" onclick="showNotification()">
-                            <i class="bi bi-bell bell-icon"></i> <!-- Bell icon -->
-                        </a>
-                    </li>*@
-                    @*<li class="icon">
-                        <i class="bi bi-bell bell-icon"></i>
-                    </li>
-                    <li class="notifi-box">
-                        <h2>Notifications <span>17</span></h2>
-                        <li class="text">
-                            <h4>Elais Abdul</h4>
-                            <p>cLorem ipsum</p>
-                        </li>
-                    </li>*@
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle text-white"></i>
@@ -193,47 +70,6 @@
             </div>
         </div>
     </nav>
-
-
-
-    @*<div id="notification" class="notification">
-        <img src="/images/bellicon.jpg" alt=""> <span>17</span>
-    </div>
-    <div class="notifi-box">
-        <h2>Notification <span>17</span></h2>
-        <div class="notifi-text">
-            <div class="text">
-                <a><strong>Elais Abdul</strong></a>
-                <p>cLorem ipsum</p>
-            </div>
-        </div>
-
-        <div class="notifi-text">
-            <div class="text">
-                <a><strong>Elais Abdul</strong></a>
-                <p>cLorem ipsum</p>
-            </div>
-        </div>
-
-        <div class="notifi-text">
-            <div class="text">
-                <a><strong>Elais Abdul</strong></a>
-                <p>cLorem ipsum</p>
-            </div>
-        </div>
-
-        <div class="notifi-text">
-            <div class="text">
-                <a><strong>Elais Abdul</strong></a>
-                <p>cLorem ipsum</p>
-            </div>
-        </div>
-        
-    </div>
-    *@
-
-    
-
 
     @RenderSection("dashboard", required: false)
 
