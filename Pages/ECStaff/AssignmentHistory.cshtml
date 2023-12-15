@@ -131,9 +131,27 @@ else
 						}
 					</td>
 					<td>
-						<a class="btn btn-primary" href="/disaster/profile/staffassignment/index?centerLogID=@item.centerLogID">
-							View
-						</a>
+						<div class="d-inline position-relative">
+							<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-three-dots-vertical"></i>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="recordOptions">
+								<li>
+									<a class="dropdown-item" href="/disaster/profile/staffassignment/index?centerLogID=@item.centerLogID">
+										View
+									</a>
+								</li>
+
+								@if (@item.status == "Assigned")
+								{
+									<li>
+										<a class="dropdown-item" href="">
+											Mark Completed
+										</a>
+									</li>
+								}
+							</ul>
+						</div>
 					</td>
 				</tr>
 				counter++;
