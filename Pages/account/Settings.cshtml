@@ -92,6 +92,10 @@ else
     .short-dropdown {
         max-width: 210px; /* Adjust the width as needed */
     }
+    
+    .email {
+        width: 300px;
+    }
 </style>
 
 <div class="row mb-2">
@@ -113,7 +117,7 @@ else
                             <li class="list-group-item d-flex lh-sm">
                                 <div class="label-col"><h6 class="my-0">Email Address</h6></div>
                                 <div class="input-col">
-                                    <input type="email" class="form-control" name="emailAddress" id="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="65" placeholder="example@email.com">
+                                    <input type="email" class="form-control email" name="emailAddress" id="emailAddress" value="@Model.profileInfo.emailAddress" required maxlength="65" placeholder="example@email.com">
                                     <small id="emailAddressError" class="text-danger" style="display:none;">Invalid email address format</small>
                                 </div>
                             </li>
