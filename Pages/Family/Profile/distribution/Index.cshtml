@@ -130,7 +130,7 @@ else
 									<th>Disaster</th>
 									<th>Evacuation Center</th>
 									<th>Received by</th>
-									@*<th>Distributed by</th>*@
+									<th>Distributed by</th>
 									<th>Qty</th>
 									<th>Receive Date</th>
 									<th></th>
@@ -147,13 +147,22 @@ else
 										<td width="20%">@item.disasterName</td>
 										<td width="20%">@item.centerName</td>
 										<td width="25%">@item.fullName</td>
-										@*<td width="25%">@item.staffName</td>*@
+										<td width="25%">@item.staffFullName</td>
 										<td width="5%">@item.qty</td>
 										<td width="15%">@item.receiveDate</td>
 										<td width="5%">
-											<a class="btn btn-primary edit-button" href="/family/profile/distribution/view?packID=@item.packID&familyID=@Model.familyInfo.familyID">
-												View
-											</a>
+											<div class="d-inline position-relative">
+												<a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
+													<i class="bi bi-three-dots-vertical"></i>
+												</a>
+												<ul class="dropdown-menu" aria-labelledby="recordOptions">
+													<li>
+														<a class="dropdown-item" href="/family/profile/distribution/view?packID=@item.packID&familyID=@Model.familyInfo.familyID">
+															View Pack Inclusion
+														</a>
+													</li>
+												</ul>
+											</div>
 										</td>
 									</tr>
 									counter++;
@@ -174,53 +183,9 @@ else
 			responsive: true,
 			pageLength: 25,
 			columnDefs: [
-				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5] }, // Sortable columns
-				{ "orderable": false, "targets": [6] } // Non-sortable columns
+				{ "orderable": true, "targets": [0, 1, 2, 3, 4, 5, 6] }, // Sortable columns
+				{ "orderable": false, "targets": [7] } // Non-sortable columns
 			]
-		});
-
-		table.columns([3]).every(function () {
-			var column = this;
-			var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
-			var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);
-			var menu = $('<div class="dropdown-menu p-3"></div>').appendTo(filterContainer);
-
-			function updateFilterButton() {
-				var hasActiveFilter = column.search() !== '';
-				btn.toggleClass('btn-warning', hasActiveFilter);
-			}
-
-			column.data().unique().sort().each(function (d, j) {
-				menu.append('<div class="form-check"><input class="form-check-input" type="checkbox" value="' + d + '">' +
-					'<label class="form-check-label ps-1">' + d + '</label></div>');
-			});
-			menu.prepend('<div class="form-check"><input class="form-check-input select-all" type="checkbox" value="select-all">' +
-				'<label class="form-check-label ps-1">Select All</label></div>');
-
-			menu.append('<hr class="dropdown-divider"><div class="p-1"><button type="button" class="btn btn-sm btn-light clear-filter"><i class="bi bi-eraser pe-1"></i>Clear Filter</button></div>');
-
-			menu.find('.form-check-input, .clear-filter').on('click', function () {
-				var checked = $(this).prop('checked');
-
-				if ($(this).hasClass('form-check-input')) {
-					if ($(this).val() === 'select-all') {
-						menu.find('.form-check-input').prop('checked', checked);
-					} else if (!checked) {
-						menu.find('.form-check-input[value="select-all"]').prop('checked', false);
-					}
-				} else {
-					menu.find('.form-check-input').prop('checked', false);
-					menu.find('.form-check-input[value="select-all"]').prop('checked', false);
-				}
-
-				var selectedValues = menu.find('.form-check-input:checked').map(function () {
-					return $(this).val();
-				}).get();
-
-				column.search(selectedValues.length > 0 ? '^(' + selectedValues.join('|') + ')$' : '', true, false).draw();
-				updateFilterButton();
-			});
-			updateFilterButton();
 		});
 	});
 </script>

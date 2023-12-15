@@ -200,10 +200,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
                 errorOccurred = true;
             }
 
-            // Retrieve input from the form
-            string centerLogID = Request.Form["centerLogID"];
+            // Retrieve userID
+			UserId = HttpContext.Session.GetString("UserId");
+
+			// Retrieve input from the form
+			string centerLogID = Request.Form["centerLogID"];
             distributionInfo.packID = Request.Form["packID"];
-            // distributionInfo.assignmentID = Request.Form["assignmentID"];
+            distributionInfo.assignmentID = "";
             distributionInfo.entryLogID = Request.Form["entryLogID"];
             distributionInfo.qty = Request.Form["qty"];
 
@@ -220,13 +223,32 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
                 {
                     connection.Open();
 
-                    // Insert data into the 'distribution_record' table
-                    string sql = "INSERT INTO distribution_record " +
-                                 "(packID, entryLogID, qty) " +
-                                 "VALUES (@packID, @entryLogID, @qty);";
+					// Fetch assignmentID of logged in user 
+					string assignSql = "SELECT esa.assignmentID " +
+                                       "FROM ec_staff_assignment esa " +
+                                       "JOIN ec_staff ec ON esa.ecStaffID = ec.ecStaffID " +
+                                       "JOIN user u ON ec.userID = u.userID " +
+                                       "WHERE ec.userID = @userID AND esa.status = 'Assigned';";
+					using (MySqlCommand assignCommand = new MySqlCommand(assignSql, connection))
+					{
+						assignCommand.Parameters.AddWithValue("@userID", UserId);
+						using (MySqlDataReader assignReader = assignCommand.ExecuteReader())
+						{
+							if (assignReader.Read())
+							{
+								distributionInfo.assignmentID = assignReader.GetString(0);
+							}
+						}
+					}
+
+					// Insert data into the 'distribution_record' table
+					string sql = "INSERT INTO distribution_record " +
+                                 "(packID, assignmentID, entryLogID, qty) " +
+								 "VALUES (@packID, @assignmentID, @entryLogID, @qty);";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@packID", distributionInfo.packID);
+                        command.Parameters.AddWithValue("@assignmentID", distributionInfo.assignmentID);
                         command.Parameters.AddWithValue("@entryLogID", distributionInfo.entryLogID);
                         command.Parameters.AddWithValue("@qty", distributionInfo.qty);
                         command.ExecuteNonQuery();

@@ -74,7 +74,8 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 									disasterName = reader.GetString(6),
 									centerName = reader.GetString(7),
 									familyID = reader.GetString(8),
-									fullName = reader.GetString(9)
+									fullName = reader.GetString(9),
+									staffFullName = reader.GetString(10)
 								};
 								listRecord.Add(recordInfo);
 							}
@@ -101,5 +102,6 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 		public string centerName { get; set; }
 		public string familyID { get; set; }
 		public string fullName { get; set; }
+		public string staffFullName { get; set; }
 	}
 }
