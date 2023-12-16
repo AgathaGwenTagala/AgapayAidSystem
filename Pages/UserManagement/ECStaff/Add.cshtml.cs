@@ -16,7 +16,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
         public string UserId { get; set; }
         public string UserType { get; set; }
 
-        public void OnGet(string action, string userIDToDelete)
+        public void OnGet(string action)
         {
             // Check if UserId is set in the session
             UserId = HttpContext.Session.GetString("UserId");
@@ -39,10 +39,10 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
             userID = WebUtility.UrlDecode(encodedUserID);
 
             // Call the deletion method
-            if (action == "cancel" && !string.IsNullOrEmpty(userIDToDelete))
+            if (action == "cancel" && !string.IsNullOrEmpty(userID))
             {
                 // Delete the record associated with userIDToDelete
-                DeleteUserRecord(userIDToDelete);
+                DeleteUserRecord(userID);
                 return;
             }
         }
@@ -180,19 +180,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@userID", userIDToDelete);
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            // User deleted successfully
-                            // successMessage = "User addition aborted";
-                        }
-                        else
-                        {
-                            // No user found with the provided userID
-                            errorMessage = "User not found with the provided userID";
-                            errorOccurred = true;
-                        }
+                        command.ExecuteNonQuery();
                     }
                 }
             }
