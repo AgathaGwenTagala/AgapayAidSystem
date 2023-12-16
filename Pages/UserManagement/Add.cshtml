@@ -114,7 +114,6 @@ else
     </div>
 </div>
 
-
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -172,5 +171,25 @@ else
             ecImage.src = '/images/ec-w.png'; // Change the image source
             checkFormValidity();
         });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const button = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function (event) {
+            // Disable the button to prevent multiple submissions
+            button.disabled = true;
+
+            // Change the text of the button
+            button.innerText = 'Loading...';
+        });
+
+        // Disable the button if it should be disabled
+        if (@Model.IsAddButtonDisabled) {
+            button.disabled = true;
+        }
     });
 </script>

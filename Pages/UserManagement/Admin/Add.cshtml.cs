@@ -50,10 +50,12 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
 
         public void OnPost()
         {
+            bool errorOccurred = false;
+
             if (!ModelState.IsValid)
             {
                 errorMessage = "Please correct the errors below.";
-                return;
+                errorOccurred = true;
             }
 
             // Retrieve the userID and adminName from the form
@@ -64,7 +66,7 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
             if (string.IsNullOrEmpty(userID))
             {
                 errorMessage = "UserID is missing.";
-                return;
+                errorOccurred = true;
             }
 
             try
@@ -89,14 +91,24 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
-                return;
+                errorOccurred = true;
             }
 
-            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/usermanagement/admin/add?userID=" + userID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                Response.Redirect("/usermanagement/index?successMessage=" + successMessage);
+            }
         }
 
         private void DeleteUserRecord(string userIDToDelete)
         {
+            bool errorOccurred = false;
+
             try
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -120,6 +132,7 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
                         {
                             // No user found with the provided userID
                             errorMessage = "User not found with the provided userID";
+                            errorOccurred = true;
                         }
                     }
                 }
@@ -127,10 +140,18 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                errorOccurred = true;
             }
 
-            // Redirect to the appropriate URL after deletion
-            Response.Redirect("/usermanagement/index?errorMessage=" + errorMessage + "&successMessage=" + successMessage);
+            if (errorOccurred)
+            {
+                // Show an error message banner on the current page
+                Response.Redirect("/usermanagement/admin/add?userID=" + userID + "&errorMessage=" + errorMessage);
+            }
+            else
+            {
+                Response.Redirect("/usermanagement/index");
+            }
         }
     }
 }

@@ -13,13 +13,14 @@ namespace AgapayAidSystem.Pages.Login
         public UserInfo userInfo = new UserInfo();
         public string successMessage = "";
         public string errorMessage = "";
+		public bool IsLoginButtonDisabled { get; set; }
 
-        public void OnGet()
+		public void OnGet()
         {
             // Check if there is already a user in session
             if (HttpContext.Session.GetString("UserId") != null)
             {
-                Response.Redirect("/index");
+                Response.Redirect("/account/index");
                 return;
             }
         }
@@ -96,7 +97,8 @@ namespace AgapayAidSystem.Pages.Login
             }
             else
             {
-                Response.Redirect("/index?successMessage=" + successMessage);
+				IsLoginButtonDisabled = true;
+				Response.Redirect("/index?successMessage=" + successMessage);
             }
         }
 

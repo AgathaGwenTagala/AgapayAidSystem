@@ -159,3 +159,23 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.querySelector('form');
+        const loginButton = document.querySelector('.btnlogin-popup');
+
+        loginForm.addEventListener('submit', function (event) {
+            // Disable the login button to prevent multiple submissions
+            loginButton.disabled = true;
+
+            // Change the text of the button
+            loginButton.innerText = 'Logging in...';
+        });
+
+        // Disable the login button if it should be disabled (set from the server-side)
+        if (@Model.IsLoginButtonDisabled) {
+            loginButton.disabled = true;
+        }
+    });
+</script>
