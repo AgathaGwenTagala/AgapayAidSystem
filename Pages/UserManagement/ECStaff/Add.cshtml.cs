@@ -11,14 +11,6 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
         public AddModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo { get; set; } = new UserInfo();
         public string userID { get; set; } = "";
-        public string firstName { get; set; } = "";
-        public string middleName { get; set; } = "";
-        public string lastName { get; set; } = "";
-        public string extName { get; set; } = "";
-        public string sex { get; set; } = "";
-        public string birthdate { get; set; } = "";
-        public string mobileNum { get; set; } = "";
-        public string emailAddress { get; set; } = "";
         public string errorMessage = "";
         public string successMessage = "";
         public string UserId { get; set; }
@@ -68,9 +60,11 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
             // Retrieve the userID and other fields from the form
             string userID = Request.Form["userID"];
             string firstName = Request.Form["firstName"];
-            string middleName = Request.Form["middleName"];
+            string? middleName = Request.Form["middleName"];
+            string? middleName1 = Request.Form["middleName"];
             string lastName = Request.Form["lastName"];
-            string extName = Request.Form["extName"];
+            string? extName = Request.Form["extName"];
+            string? extName1 = Request.Form["extName"];
             string sex = Request.Form["sex"];
             string birthdate = Request.Form["birthdate"];
             string mobileNum = Request.Form["mobileNum"];
@@ -79,22 +73,32 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
             // Check if userID is null or empty
             if (string.IsNullOrEmpty(userID))
             {
-                errorMessage = "UserID is missing";
+                errorMessage = "UserID is missing.";
                 errorOccurred = true;
             }
 
-			if (string.IsNullOrEmpty(middleName))
-			{
+            if (string.IsNullOrEmpty(middleName))
+            {
                 middleName = null;
-			}
+            }
 
-			if (string.IsNullOrEmpty(extName))
-			{
-				extName = null;
-			}
+            if (string.IsNullOrEmpty(extName))
+            {
+                extName = null;
+            }
 
-			// Validate mobile number (should be exactly 11 characters)
-			if (mobileNum.Length != 11)
+            if (string.IsNullOrEmpty(middleName))
+            {
+                middleName1 = "";
+            }
+
+            if (string.IsNullOrEmpty(extName))
+            {
+                extName1 = "";
+            }
+
+            // Validate mobile number (should be exactly 11 characters)
+            if (mobileNum.Length != 11)
             {
                 errorMessage = "Mobile number should be exactly 11 characters long";
                 errorOccurred = true;
@@ -126,6 +130,18 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
                         command.Parameters.AddWithValue("@mobileNum", mobileNum);
                         command.Parameters.AddWithValue("@emailAddress", emailAddress);
                         command.ExecuteNonQuery();
+                    }
+
+                    // Update username
+                    string updateSql = "CALL update_username_staff(@userID, @firstName, @middleName, @lastName, @extName)";
+                    using (MySqlCommand updateCommand = new MySqlCommand(updateSql, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@userID", userID);
+                        updateCommand.Parameters.AddWithValue("@firstName", firstName);
+                        updateCommand.Parameters.AddWithValue("@middleName", middleName1);
+                        updateCommand.Parameters.AddWithValue("@lastName", lastName);
+                        updateCommand.Parameters.AddWithValue("@extName", extName1);
+                        updateCommand.ExecuteNonQuery();
                     }
                 }
 
