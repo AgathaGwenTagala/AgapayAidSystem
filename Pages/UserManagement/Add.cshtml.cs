@@ -13,7 +13,6 @@ namespace AgapayAidSystem.Pages.UserManagement
 		public string userID { get; set; } = "";
 		public string errorMessage = "";
 		public string successMessage = "";
-        public bool IsAddButtonDisabled { get; set; }
         public string UserId { get; set; }
         public string UserType { get; set; }
 
@@ -103,17 +102,14 @@ namespace AgapayAidSystem.Pages.UserManagement
 			{
 				if (userInfo.userType == "Admin")
 				{
-                    IsAddButtonDisabled = true;
                     Response.Redirect($"/usermanagement/admin/add?userID=" + lastInsertedUserID);
 				}
 				else if (userInfo.userType == "LGU Staff")
 				{
-                    IsAddButtonDisabled = true;
                     Response.Redirect($"/usermanagement/lgustaff/add?userID=" + lastInsertedUserID);
                 }
 				else if (userInfo.userType == "EC Staff")
 				{
-                    IsAddButtonDisabled = true;
                     Response.Redirect($"/usermanagement/ecstaff/add?userID=" + lastInsertedUserID);
                 }
 			}
