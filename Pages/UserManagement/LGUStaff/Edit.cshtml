@@ -32,16 +32,10 @@ else
 <div class="bg-light rounded px-2 py-0 my-3 text-center">
     <div class="col-lg-6 mx-auto">
         <form method="POST" id="editUserForm">
+            <input type="hidden" name="userID" value="@Model.userID" />
             <h1 class="display-5 fw-bold">Edit User</h1>
             <p class="form-label">EC Staff</p>
-            <br />
-
-            <input type="hidden" name="userID" value="@Model.userID" />
-
-            <!-- User ID -->
-            <div class="row">
-                <label class="col-sm-4 col-form-label text-start">User ID: @Model.userID</label>
-            </div>
+            <br />          
 
             <!-- First Name -->
             <div class="row mb-1">
