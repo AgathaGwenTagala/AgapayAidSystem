@@ -1,4 +1,5 @@
 using AgapayAidSystem.Pages.Disaster.Profile;
+using AgapayAidSystem.Pages.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -14,8 +15,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
         public List<StaffAssignmentInfo> listAssignment { get; set; } = new List<StaffAssignmentInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -90,9 +91,19 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 								assignmentInfo.centerLogID = assignReader.GetString(1);
 								assignmentInfo.ecStaffID = assignReader.GetString(2);
 								assignmentInfo.role = assignReader.GetString(3);
-								assignmentInfo.assignmentDate = assignReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-								assignmentInfo.completionDate = assignReader.IsDBNull(5) ? null : assignReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-								assignmentInfo.status = assignReader.GetString(6);
+                                // assignmentInfo.assignmentDate = assignedReader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                // assignmentInfo.completionDate = assignedReader.IsDBNull(5) ? null : assignedReader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+                                assignmentInfo.status = assignReader.GetString(6);
+
+                                // Convert to UTC+8
+                                DateTime dateUtc1 = assignReader.GetDateTime(4);
+                                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Shanghai"); // Use the time zone for UTC+8
+                                assignmentInfo.assignmentDate = TimeZoneInfo.ConvertTimeFromUtc(dateUtc1, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+
+                                DateTime? dateUtc2 = assignReader.IsDBNull(5) ? (DateTime?)null : assignReader.GetDateTime(5);
+                                assignmentInfo.completionDate = dateUtc2.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(dateUtc2.Value, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper() : null;
+
+                                assignmentInfo.status = assignReader.GetString(6);
 								assignmentInfo.fullName = assignReader.GetString(7);
 								assignmentInfo.sex = assignReader.GetString(8);
 								assignmentInfo.age = assignReader.GetInt64(9).ToString();
@@ -251,18 +262,18 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 
 	public class StaffAssignmentInfo
 	{ 
-		public string assignmentID { get; set; }
-		public string centerLogID { get; set; }
-		public string ecStaffID { get; set; }
-		public string role { get; set; }
-		public string assignmentDate { get; set; }
-		public string completionDate { get; set; }
-		public string status { get; set; }
-		public string fullName { get; set; }
-		public string sex { get; set; }
-		public string age { get; set; }
-		public string birthdate { get; set; }
-		public string mobileNum { get; set; }
-		public string emailAddress { get; set; }
+		public string? assignmentID { get; set; }
+		public string? centerLogID { get; set; }
+		public string? ecStaffID { get; set; }
+		public string? role { get; set; }
+		public string? assignmentDate { get; set; }
+		public string? completionDate { get; set; }
+		public string? status { get; set; }
+		public string? fullName { get; set; }
+		public string? sex { get; set; }
+		public string? age { get; set; }
+		public string? birthdate { get; set; }
+		public string? mobileNum { get; set; }
+		public string? emailAddress { get; set; }
 	}
 }

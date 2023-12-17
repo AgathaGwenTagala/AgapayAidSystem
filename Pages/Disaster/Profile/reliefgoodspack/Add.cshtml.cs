@@ -12,8 +12,8 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
         public List<AvailableInventoryInfo> listAvInventory = new List<AvailableInventoryInfo>();
         public string errorMessage = "";
         public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -143,7 +143,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
                     }
 
                     // Step 2: Retrieve the last inserted packID from the 'pack' table
-                    string newPackID;
+                    string? newPackID;
                     string selectMaxPackIDSql = "SELECT MAX(packID) FROM pack WHERE packQty = @packQty";
                     using (MySqlCommand selectMaxPackID = new MySqlCommand(selectMaxPackIDSql, connection))
                     {
@@ -205,14 +205,14 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.reliefgoodspack
 
     public class AvailableInventoryInfo
     {
-        public string inventoryID { get; set; }
-        public string centerLogID { get; set; }
-        public string itemName { get; set; }
-        public string itemType { get; set; }
-        public string qty { get; set; }
-        public string unitMeasure { get; set; }
-        public string remarks { get; set; }
-        public string packedQty { get; set; }
-        public string remainingQty { get; set; }
+        public string? inventoryID { get; set; }
+        public string? centerLogID { get; set; }
+        public string? itemName { get; set; }
+        public string? itemType { get; set; }
+        public string? qty { get; set; }
+        public string? unitMeasure { get; set; }
+        public string? remarks { get; set; }
+        public string? packedQty { get; set; }
+        public string? remainingQty { get; set; }
     }
 }

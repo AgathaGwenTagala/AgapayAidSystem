@@ -14,8 +14,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
         public List<AvailableStaffInfo> listAvailable = new List<AvailableStaffInfo>();
         public string errorMessage = "";
         public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -181,11 +181,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 
     public class AvailableStaffInfo
     {
-        public string ecStaffID { get; set; }
-        public string fullName { get; set; }
-        public string sex { get; set; }
-        public string birthdate { get; set; }
-        public string mobileNum { get; set; }
-        public string emailAddress { get; set; }
+        public string? ecStaffID { get; set; }
+        public string? fullName { get; set; }
+        public string? sex { get; set; }
+        public string? birthdate { get; set; }
+        public string? mobileNum { get; set; }
+        public string? emailAddress { get; set; }
     }
 }

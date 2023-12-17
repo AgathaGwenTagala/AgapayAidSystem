@@ -11,8 +11,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 		public List<UserInfo> listUsers = new List<UserInfo>();
         public string successMessage = "";
         public string errorMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -56,8 +56,19 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
-                                userInfo.lastLogin = reader.IsDBNull(5) ? "-" : reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+                                //userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+                                //userInfo.lastLogin = reader.IsDBNull(5) ? "-" : reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+                                
+                                // Convert createdAt to UTC+8
+                                DateTime createdAtUtc = reader.GetDateTime(4);
+                                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Shanghai"); // Use the time zone for UTC+8
+                                userInfo.createdAt = TimeZoneInfo.ConvertTimeFromUtc(createdAtUtc, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+
+                                // Convert lastLogin to UTC+8
+                                DateTime? lastLoginUtc = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5);
+                                userInfo.lastLogin = lastLoginUtc.HasValue
+                                    ? TimeZoneInfo.ConvertTimeFromUtc(lastLoginUtc.Value, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper()
+                                    : "-";
                                 listUsers.Add(userInfo);
                             }
                         }
@@ -74,11 +85,11 @@ namespace AgapayAidSystem.Pages.UserManagement
 
     public class UserInfo
     {
-        public string userID { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string userType { get; set; }
-        public string createdAt { get; set; }
-        public string lastLogin { get; set; }
+        public string? userID { get; set; }
+        public string? username { get; set; }
+        public string? password { get; set; }
+        public string? userType { get; set; }
+        public string? createdAt { get; set; }
+        public string? lastLogin { get; set; }
     }
 }

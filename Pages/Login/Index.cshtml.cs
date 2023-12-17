@@ -61,7 +61,12 @@ namespace AgapayAidSystem.Pages.Login
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
+                                // userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+
+                                // Convert createdAt to UTC+8
+                                DateTime createdAtUtc = reader.GetDateTime(4);
+                                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Shanghai"); // Use the time zone for UTC+8
+                                userInfo.createdAt = TimeZoneInfo.ConvertTimeFromUtc(createdAtUtc, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
 
                                 // Set user information in the session
                                 HttpContext.Session.SetString("UserId", userInfo.userID);
@@ -112,17 +117,17 @@ namespace AgapayAidSystem.Pages.Login
                     connection.Open();
 
                     // Insert log entry into table_log
-                    string logSql = "INSERT INTO table_log (userID, tableName, tableID, logType, description) " +
-                                    "VALUES (@userID, 'user', @userID, 'Login', CONCAT(@userType, ' ', @username, ' logged in'))";
+                    string logSql = "INSERT INTO table_log (userID, tableName, tableID, logType, description, loggedAt) " +
+                                    "VALUES (@userID, 'user', @userID, 'Login', CONCAT(@userType, ' ', @username, ' logged in'), current_timestamp())";
 
                     using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
                     {
                         logCommand.Parameters.AddWithValue("@userID", userID);
                         logCommand.Parameters.AddWithValue("@userType", userType);
                         logCommand.Parameters.AddWithValue("@username", username);
-                        logCommand.ExecuteNonQuery();
+                        // logCommand.ExecuteNonQuery();
 
-                        /*int rowsAffected = logCommand.ExecuteNonQuery();
+                        int rowsAffected = logCommand.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
                             // Log entry inserted successfully
@@ -132,7 +137,7 @@ namespace AgapayAidSystem.Pages.Login
                         {
                             // Failed to insert log entry
                             Console.WriteLine("Failed to insert login log entry");
-                        }*/
+                        }
                     }
                 }
             }   
@@ -146,12 +151,12 @@ namespace AgapayAidSystem.Pages.Login
 
     public class TableLogInfo
     {
-        public string logID { get; set; }
-        public string userID { get; set; }
-        public string tableName { get; set; }
-        public string tableID { get; set; }
-        public string logType { get; set; }
-        public string description { get; set; }
-        public string loggedAt { get; set; }
+        public string? logID { get; set; }
+        public string? userID { get; set; }
+        public string? tableName { get; set; }
+        public string? tableID { get; set; }
+        public string? logType { get; set; }
+        public string? description { get; set; }
+        public string? loggedAt { get; set; }
 	}
 }

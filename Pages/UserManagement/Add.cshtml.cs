@@ -13,8 +13,8 @@ namespace AgapayAidSystem.Pages.UserManagement
 		public string userID { get; set; } = "";
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{
@@ -60,7 +60,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 			}
 
 			// Initialize a variable to store the last inserted userID
-			string lastInsertedUserID = "";
+			string? lastInsertedUserID = "";
 
 			// Save the new user into the database
 			try
