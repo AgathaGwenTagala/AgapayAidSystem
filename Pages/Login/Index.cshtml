@@ -172,10 +172,5 @@
             // Change the text of the button
             loginButton.innerText = 'Logging in...';
         });
-
-        // Disable the login button if it should be disabled (set from the server-side)
-        if (@Model.IsLoginButtonDisabled) {
-            loginButton.disabled = true;
-        }
     });
 </script>

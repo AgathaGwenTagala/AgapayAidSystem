@@ -13,7 +13,6 @@ namespace AgapayAidSystem.Pages.Login
         public UserInfo userInfo = new UserInfo();
         public string successMessage = "";
         public string errorMessage = "";
-		public bool IsLoginButtonDisabled { get; set; }
 
 		public void OnGet()
         {
@@ -102,7 +101,6 @@ namespace AgapayAidSystem.Pages.Login
             }
             else
             {
-				IsLoginButtonDisabled = true;
 				Response.Redirect("/index?successMessage=" + successMessage);
             }
         }
