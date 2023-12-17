@@ -61,10 +61,8 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
             string userID = Request.Form["userID"];
             string firstName = Request.Form["firstName"];
             string? middleName = Request.Form["middleName"];
-            string? middleName1 = Request.Form["middleName"];
             string lastName = Request.Form["lastName"];
             string? extName = Request.Form["extName"];
-            string? extName1 = Request.Form["extName"];
             string sex = Request.Form["sex"];
             string birthdate = Request.Form["birthdate"];
             string mobileNum = Request.Form["mobileNum"];
@@ -86,16 +84,6 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
 			{
 				extName = null;
 			}
-
-            if (string.IsNullOrEmpty(middleName))
-            {
-                middleName1 = "";
-            }
-
-            if (string.IsNullOrEmpty(extName))
-            {
-                extName1 = "";
-            }
 
             // Validate mobile number (should be exactly 11 characters)
             if (mobileNum.Length != 11)
@@ -130,18 +118,6 @@ namespace AgapayAidSystem.Pages.UserManagement.LGUStaff
                         command.Parameters.AddWithValue("@mobileNum", mobileNum);
                         command.Parameters.AddWithValue("@emailAddress", emailAddress);
                         command.ExecuteNonQuery();
-                    }
-
-                    // Update username
-                    string updateSql = "CALL update_username_staff(@userID, @firstName, @middleName, @lastName, @extName)";
-                    using (MySqlCommand updateCommand = new MySqlCommand(updateSql, connection))
-                    {
-                        updateCommand.Parameters.AddWithValue("@userID", userID);
-                        updateCommand.Parameters.AddWithValue("@firstName", firstName);
-                        updateCommand.Parameters.AddWithValue("@middleName", middleName1);
-                        updateCommand.Parameters.AddWithValue("@lastName", lastName);
-                        updateCommand.Parameters.AddWithValue("@extName", extName1);
-                        updateCommand.ExecuteNonQuery();
                     }
                 }
 
