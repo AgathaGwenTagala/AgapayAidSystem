@@ -38,7 +38,13 @@ namespace AgapayAidSystem.Pages.UserManagement
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "SELECT * FROM user ORDER BY createdAt";
+                    string sql = "SELECT u.*, log.lastLogin " +
+                                 "FROM user u " +
+                                 "LEFT JOIN (SELECT userID, MAX(loggedAt) AS lastLogin " +
+                                 "FROM table_log " +
+                                 "WHERE logType = 'Login' " +
+                                 "GROUP BY userID, logType) log ON u.userID = log.userID " +
+                                 "ORDER BY u.createdAt;";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -50,7 +56,8 @@ namespace AgapayAidSystem.Pages.UserManagement
                                 userInfo.username = reader.GetString(1);
                                 userInfo.password = reader.GetString(2);
                                 userInfo.userType = reader.GetString(3);
-                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").Replace("am", "AM").Replace("pm", "PM");
+                                userInfo.createdAt = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+                                userInfo.lastLogin = reader.IsDBNull(5) ? "-" : reader.GetDateTime(5).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
                                 listUsers.Add(userInfo);
                             }
                         }
@@ -72,5 +79,6 @@ namespace AgapayAidSystem.Pages.UserManagement
         public string password { get; set; }
         public string userType { get; set; }
         public string createdAt { get; set; }
+        public string lastLogin { get; set; }
     }
 }
