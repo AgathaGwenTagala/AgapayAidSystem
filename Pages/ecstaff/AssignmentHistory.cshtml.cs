@@ -59,9 +59,18 @@ namespace AgapayAidSystem.Pages.ecstaff
 								assignmentInfo.centerLogID = reader.GetString(1);
 								assignmentInfo.ecStaffID = reader.GetString(2);
 								assignmentInfo.role = reader.GetString(3);
-								assignmentInfo.assignmentDate = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
-								assignmentInfo.completionDate = reader.IsDBNull(5) ? "-" : reader.GetDateTime(5).ToString("yyyy-MM-dd  hh:mm tt").ToUpper();
-								assignmentInfo.status = reader.GetString(6);
+								//assignmentInfo.assignmentDate = reader.GetDateTime(4).ToString("yyyy-MM-dd hh:mm tt").ToUpper();
+								//assignmentInfo.completionDate = reader.IsDBNull(5) ? "-" : reader.GetDateTime(5).ToString("yyyy-MM-dd  hh:mm tt").ToUpper();
+
+                                // Convert to UTC+8
+                                DateTime dateUtc1 = reader.GetDateTime(4);
+                                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("Asia/Shanghai"); // Use the time zone for UTC+8
+                                assignmentInfo.assignmentDate = TimeZoneInfo.ConvertTimeFromUtc(dateUtc1, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper();
+
+                                DateTime? dateUtc2 = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5);
+                                assignmentInfo.completionDate = dateUtc2.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(dateUtc2.Value, tzInfo).ToString("yyyy-MM-dd hh:mm:ss tt").ToUpper() : null;
+
+                                assignmentInfo.status = reader.GetString(6);
 								assignmentInfo.userID = reader.GetString(7);
 								assignmentInfo.disasterName = reader.GetString(8);
 								assignmentInfo.centerName = reader.GetString(9);
