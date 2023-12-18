@@ -13,8 +13,8 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 		public List<RecordInfo> listRecord = new List<RecordInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{
@@ -92,16 +92,16 @@ namespace AgapayAidSystem.Pages.family.profile.distribution
 
 	public class RecordInfo
 	{
-		public string distributionID { get; set; }
-		public string packID { get; set; }
-		public string assignmentID { get; set; }
-		public string entryLogID { get; set; }
-		public string qty { get; set; }
-		public string receiveDate { get; set; }
-		public string disasterName { get; set; }
-		public string centerName { get; set; }
-		public string familyID { get; set; }
-		public string fullName { get; set; }
-		public string staffFullName { get; set; }
+		public string? distributionID { get; set; }
+		public string? packID { get; set; }
+		public string? assignmentID { get; set; }
+		public string? entryLogID { get; set; }
+		public string? qty { get; set; }
+		public string? receiveDate { get; set; }
+		public string? disasterName { get; set; }
+		public string? centerName { get; set; }
+		public string? familyID { get; set; }
+		public string? fullName { get; set; }
+		public string? staffFullName { get; set; }
 	}
 }
