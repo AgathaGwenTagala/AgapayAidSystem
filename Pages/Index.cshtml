@@ -4,20 +4,15 @@
     ViewData["Title"] = "Home";
 }
 
-@{
-    var UserId = HttpContext.Session.GetString("UserId");
-    var UserType = HttpContext.Session.GetString("UserType");
-}
-
-@if (UserType == "Admin")
+@if (Model.UserType == "Admin")
 {
     Layout = "_Layout";
 }
-else if (UserType == "LGU Staff")
+else if (Model.UserType == "LGU Staff")
 {
     Layout = "_Layout - LGU";
 }
-else if (UserType == "EC Staff")
+else if (Model.UserType == "EC Staff")
 {
     Layout = "_Layout - ECStaff";
 }
