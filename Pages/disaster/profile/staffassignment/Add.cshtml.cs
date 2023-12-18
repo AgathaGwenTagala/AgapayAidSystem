@@ -2,7 +2,6 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Crypto.Tls;
 
 namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 {
@@ -149,6 +148,26 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                             else
                             {
                                 errorMessage = "Failed to assign one or more staff members.";
+                                errorOccurred = true;
+                                break;
+                            }
+                        }
+
+                        string sendNotifSql = "INSERT INTO ec_staff_notification (ecStaffID, centerLogID) " +
+                                              "VALUES (@ecStaffID, @centerLogID)";
+                        using (MySqlCommand sendNotifCommand = new MySqlCommand(sendNotifSql, connection))
+                        {
+                            sendNotifCommand.Parameters.AddWithValue("@ecStaffID", ecStaffID);
+                            sendNotifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+
+                            int rowsInserted = sendNotifCommand.ExecuteNonQuery();
+                            if (rowsInserted == 1)
+                            {
+                                successMessage = "Notification sent.";
+                            }
+                            else
+                            {
+                                errorMessage = "Failed to send one or more notifications.";
                                 errorOccurred = true;
                                 break;
                             }
