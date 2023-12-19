@@ -161,54 +161,46 @@ else
     <br />
 
     <div>
-        <h4 class="pb-2"><strong>STATUS OF DISASTER OPERATIONS</strong></h4>
+        <h4 class="pb-2"><strong>NUMBER OF DISPLACED INSIDE EVACUATION CENTER</strong></h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="center-header" rowspan="2">AFFECTED BARANGAYS</th>
-                    <th colspan="2">NUMBER OF DISPLACED INSIDE EVACUATION CENTER</th>
-                    <th colspan="2">NUMBER SERVED INSIDE EVACUATION CENTER</th>
+                    <th>#</th>
+                    <th>Affected Barangays</th>
+                    @*<th colspan="2">NUMBER OF DISPLACED INSIDE EVACUATION CENTER</th>*@
+                    <th>Families</th>
+                    <th>Persons</th>
                 </tr>                
-                <tr>
-                    <th>Families</th>
-                    <th>Persons</th>
-
-                    <th>Families</th>
-                    <th>Persons</th>
-                </tr>
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Barangay A</td>
-                    <td>50</td>
-                    <td>60</td>
-                    <td>30</td>
-                    <td>80</td>
-                </tr>
-                <tr>
-                    <td>Barangay B</td>
-                    <td>50</td>
-                    <td>60</td>
-                    <td>30</td>
-                    <td>80</td>
-                </tr>
-                <tr>
-                    <td>Barangay C</td>
-                    <td>50</td>
-                    <td>60</td>
-                    <td>30</td>
-                    <td>80</td>
-                </tr>
+                @{
+                    var counter2 = 1;
+                    var totalFamilies = 0;
+                    var totalPersons = 0;
+                }
+                @foreach (var item in Model.listDisplaced)
+                {
+                    if (item.barangayID != null)
+                    {
+                        <tr>
+                            <td>@counter2</td>
+                            <td>@item.affectedBarangays</td>
+                            <td>@item.totalFamilies</td>
+                            <td>@item.totalPersons</td>
+                        </tr>
+                        counter2++;
+                        totalFamilies += item.totalFamilies;
+                        totalPersons += item.totalPersons;
+                    }
+                }
             </tbody>
 
             <tfoot>
                 <tr>
-                    <th>SUB-TOTAL</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th colspan="2">TOTAL</th>
+                    <th>@totalFamilies</th>
+                    <th>@totalPersons</th>
                 </tr>
             </tfoot>
         </table>
