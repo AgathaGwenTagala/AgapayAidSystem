@@ -3,6 +3,7 @@ using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using System.Reflection.Metadata;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.Disaster.Profile
@@ -14,6 +15,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public DisasterInfo disasterInfo { get; set; } = new DisasterInfo();
         public ProfileInfo profileInfo = new ProfileInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
+        public List<DisplacedInfo> listDisplaced { get; set; } = new List<DisplacedInfo>();
         public string errorMessage = "";
         public string successMessage = "";
         public string UserId { get; set; }
@@ -48,7 +50,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                     // Fetch user information
                     if (UserType == "Admin")
                     {
-                        string userSql = "SELECT adminName FROM user_profile_view " +
+                        string userSql = "SELECT adminName as fullName FROM user_profile_view " +
                                          "WHERE userID = @userID ";
                         using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
                         {
@@ -57,7 +59,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             {
                                 if (userReader.Read())
                                 {
-                                    profileInfo.adminName = userReader.GetString(0);
+                                    profileInfo.fullName = userReader.GetString(0);
                                 }
                             }
                         }
@@ -156,6 +158,26 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                             }
                         }
                     }
+
+                    // Fetch displaced data related to the selected disaster
+                    string displacedSql = "SELECT * FROM get_displaced_summary WHERE disasterID = @disasterID";
+                    using (MySqlCommand displacedCommand = new MySqlCommand(displacedSql, connection))
+                    {
+                        displacedCommand.Parameters.AddWithValue("@disasterID", disasterID);
+                        using (MySqlDataReader displacedReader = displacedCommand.ExecuteReader())
+                        {
+                            while (displacedReader.Read())
+                            {
+                                DisplacedInfo displacedInfo = new DisplacedInfo();
+                                displacedInfo.disasterID = displacedReader.GetString(0);
+                                displacedInfo.barangayID = displacedReader.IsDBNull(1) ? null : displacedReader.GetString(1);
+                                displacedInfo.affectedBarangays = displacedReader.IsDBNull(2) ? null : displacedReader.GetString(2);
+                                displacedInfo.totalFamilies = displacedReader.GetInt32(3);
+                                displacedInfo.totalPersons = displacedReader.GetInt32(4);
+                                listDisplaced.Add(displacedInfo);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -165,5 +187,14 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
             }
 
         }
+    }
+
+    public class DisplacedInfo
+    {
+        public string? disasterID { get; set; }
+        public string? barangayID { get; set; }
+        public string? affectedBarangays { get; set; }
+        public int totalFamilies { get; set; }
+        public int totalPersons { get; set; }
     }
 }
