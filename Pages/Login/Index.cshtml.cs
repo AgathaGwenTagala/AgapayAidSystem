@@ -1,3 +1,4 @@
+using AgapayAidSystem.Pages.account;
 using AgapayAidSystem.Pages.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ namespace AgapayAidSystem.Pages.Login
         private readonly IConfiguration _configuration;
         public IndexModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo = new UserInfo();
+        public ProfileInfo profileInfo = new ProfileInfo();
         public string successMessage = "";
         public string errorMessage = "";
 
@@ -71,8 +73,6 @@ namespace AgapayAidSystem.Pages.Login
                                 HttpContext.Session.SetString("UserId", userInfo.userID);
                                 HttpContext.Session.SetString("UserType", userInfo.userType);
 
-                                successMessage = $"Hello, {userInfo.username}!";
-
                                 // Log the successful login
                                 LogLoginSuccess(userInfo.userID, userInfo.userType, userInfo.username);
                             }
@@ -83,9 +83,64 @@ namespace AgapayAidSystem.Pages.Login
 								errorOccurred = true;
 							}
 						}
-                        
-                        // Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
                     }
+
+                    // Fetch user information
+                    if (userInfo.userType == "Admin")
+                    {
+                        string userSql = "SELECT adminName as fullName FROM user_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", userInfo.userID);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.fullName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
+                    if (userInfo.userType == "LGU Staff")
+                    {
+                        string userSql = "SELECT firstName AS fullName " +
+                                         "FROM lgu_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", userInfo.userID);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.fullName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
+                    if (userInfo.userType == "EC Staff")
+                    {
+                        string userSql = "SELECT firstName AS fullName " +
+                                         "FROM ec_profile_view " +
+                                         "WHERE userID = @userID ";
+                        using (MySqlCommand userCommand = new MySqlCommand(userSql, connection))
+                        {
+                            userCommand.Parameters.AddWithValue("@userID", userInfo.userID);
+                            using (MySqlDataReader userReader = userCommand.ExecuteReader())
+                            {
+                                if (userReader.Read())
+                                {
+                                    profileInfo.fullName = userReader.GetString(0);
+                                }
+                            }
+                        }
+                    }
+
+                    // Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
+                    successMessage = $"Hello, {profileInfo.fullName}!";
                 }
             }
             catch (Exception ex)
