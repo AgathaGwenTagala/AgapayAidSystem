@@ -84,7 +84,7 @@ namespace AgapayAidSystem.Pages.Login
 							}
 						}
                         
-                        Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
+                        // Console.WriteLine($"Retrieved username [{username}] with type [{userInfo.userType}]");
                     }
                 }
             }
