@@ -2,6 +2,7 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
 
 namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
 {
@@ -133,10 +134,10 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                         string selectedRole = role[i]; // Retrieve the role for the current staff member
 
                         string insertSql = "INSERT INTO ec_staff_assignment (ecStaffID, centerLogID, role) " +
-                                           "VALUES (@memberID, @centerLogID, @role)";
+                                           "VALUES (@ecStaffID, @centerLogID, @role)";
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSql, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@memberID", ecStaffID);
+                            insertCommand.Parameters.AddWithValue("@ecStaffID", ecStaffID);
                             insertCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
                             insertCommand.Parameters.AddWithValue("@role", selectedRole); // Use the selected role
 
@@ -153,12 +154,44 @@ namespace AgapayAidSystem.Pages.disaster.profile.staffassignment
                             }
                         }
 
-                        string sendNotifSql = "INSERT INTO ec_staff_notification (ecStaffID, centerLogID) " +
-                                              "VALUES (@ecStaffID, @centerLogID)";
+                        string? newAssignID;
+                        string selectMaxIDSql = "SELECT MAX(assignmentID) FROM ec_staff_assignment WHERE ecStaffID = @ecStaffID";
+                        using (MySqlCommand selectMaxID = new MySqlCommand(selectMaxIDSql, connection))
+                        {
+                            selectMaxID.Parameters.AddWithValue("@ecStaffID", ecStaffID);
+                            newAssignID = selectMaxID.ExecuteScalar()?.ToString();
+                        }
+
+                        // Fetch info of selected center log from the database
+                        string logSql = "SELECT log.centerLogID, d.disasterID, d.disasterName, ec.centerName " +
+                                        "FROM evacuation_center_log AS log " +
+                                        "INNER JOIN evacuation_center AS ec ON log.centerID = ec.centerID " +
+                                        "INNER JOIN disaster AS d ON log.disasterID = d.disasterID " +
+                                        "WHERE log.centerLogID = @centerLogID";
+                        using (MySqlCommand logCommand = new MySqlCommand(logSql, connection))
+                        {
+                            logCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                            using (MySqlDataReader logReader = logCommand.ExecuteReader())
+                            {
+                                if (logReader.Read())
+                                {
+                                    logInfo.centerLogID = logReader.GetString(0);
+                                    logInfo.disasterID = logReader.GetString(1);
+                                    logInfo.disasterName = logReader.GetString(2);
+                                    logInfo.centerName = logReader.GetString(3);
+                                }
+                            }
+                        }
+
+                        string message = $"New Assignment: {selectedRole} at {logInfo.centerName} for {logInfo.disasterName}";
+
+                        string sendNotifSql = "INSERT INTO ec_staff_notification (assignmentID, centerLogID, message) " +
+                                              "VALUES (@assignmentID, @centerLogID, @message)";
                         using (MySqlCommand sendNotifCommand = new MySqlCommand(sendNotifSql, connection))
                         {
-                            sendNotifCommand.Parameters.AddWithValue("@ecStaffID", ecStaffID);
+                            sendNotifCommand.Parameters.AddWithValue("@assignmentID", newAssignID);
                             sendNotifCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                            sendNotifCommand.Parameters.AddWithValue("@message", message);
 
                             int rowsInserted = sendNotifCommand.ExecuteNonQuery();
                             if (rowsInserted == 1)
