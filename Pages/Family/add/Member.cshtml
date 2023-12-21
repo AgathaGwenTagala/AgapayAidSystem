@@ -266,11 +266,46 @@ else
 <!-- Save Changes -->
 <script>
 	document.getElementById('noButton').addEventListener('click', function () {
-		document.getElementById('add-family').submit();
+		const noButton = this;
+		const yesButton = document.getElementById('yesButton');
+		const form = document.getElementById('add-family');
+		const redirectType = document.getElementById('redirectType');
+
+		// Disable the buttons to prevent multiple submissions
+		noButton.disabled = true;
+		yesButton.disabled = true;
+
+		// Change the text and styling of the No button
+		noButton.classList.add('processing-btn');
+		noButton.innerText = 'Processing...';
+
+		// Submit the form
+		form.submit();
 	});
 
 	document.getElementById('yesButton').addEventListener('click', function () {
-		document.getElementById('redirectType').value = 'add';
-		document.getElementById('add-family').submit();
+		const yesButton = this;
+		const noButton = document.getElementById('noButton');
+		const form = document.getElementById('add-family');
+		const redirectType = document.getElementById('redirectType');
+
+		// Disable the buttons to prevent multiple submissions
+		yesButton.disabled = true;
+		noButton.disabled = true;
+
+		// Change the text and styling of the Yes button
+		yesButton.classList.add('processing-btn');
+		yesButton.innerText = 'Processing...';
+
+		// Set the redirect type and submit the form
+		redirectType.value = 'add';
+		form.submit();
 	});
 </script>
+
+<style>
+	.processing-btn {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+</style>

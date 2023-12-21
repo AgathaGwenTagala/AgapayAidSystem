@@ -124,7 +124,7 @@ else
                 <p>Are you sure you want to assign the selected staff members to @Model.logInfo.centerName?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">Cancel</button>
                 <button type="button" class="btn btn-primary" id="confirmSaveButton">Assign</button>
             </div>
         </div>
@@ -251,3 +251,45 @@ else
         });
     });
 </script>
+
+<!-- Enable/disable "Cancel" and "Add" buttons -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cancelButton = document.getElementById('cancelBtn');
+        const saveButton = document.getElementById('confirmSaveButton');
+        const form = document.querySelector('form');
+
+        cancelButton.addEventListener('click', function (event) {
+            // Change the text and styling of the Cancel button
+            cancelButton.classList.add('processing-btn');
+            cancelButton.innerText = 'Processing...';
+
+            // Disable the Save button to prevent multiple submissions
+            saveButton.disabled = true;
+
+            // Redirect to the specified href after a short delay
+            setTimeout(function () {
+                window.location.href = cancelButton.getAttribute('href');
+            }, 500);
+        });
+
+        saveButton.addEventListener('click', function () {
+            // Disable both buttons to prevent multiple submissions
+            cancelButton.classList.add('processing-btn');
+            saveButton.disabled = true;
+
+            // Change the text of the Save button
+            saveButton.innerText = 'Processing...';
+
+            // Submit the form
+            form.submit();
+        });
+    });
+</script>
+
+<style>
+    .processing-btn {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
