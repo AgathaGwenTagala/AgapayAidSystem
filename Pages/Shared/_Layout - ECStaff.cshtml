@@ -32,14 +32,14 @@
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script>
+    @*<script>
         function toggleNotification() {
             var notification = document.getElementById('notification');
             notification.style.display = (notification.style.display === 'none' || notification.style.display === '') ? 'block' : 'none';
 
             window.location.href = "/notification";
         }
-    </script>
+    </script>*@
 
 </head>
 <body>
@@ -60,7 +60,7 @@
                     <li><a href="/disaster/index" class="nav-link px-3 text-white">Disaster</a></li>
                     <li><a href="/evacuationcenter/index" class="nav-link px-3 text-white">Centers</a></li>
                     <li><a href="/family/index" class="nav-link px-3 text-white">Family</a></li>
-                    <!-- Notifications -->
+                    @*<!-- Notifications -->
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="nav-link px-3 notification-trigger" onclick="toggleNotification()">
                             <i class="bi bi-bell-fill bell-icon text-white"></i> <!-- Bell icon -->
@@ -71,7 +71,7 @@
                            </div>
                            <hr style="width: 100%; margin: 0; border: 1px solid #408c8c"/>
                         </div>
-                    </li>
+                    </li>*@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle text-white" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
