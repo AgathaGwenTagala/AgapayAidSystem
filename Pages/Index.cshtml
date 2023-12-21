@@ -145,6 +145,154 @@ else
     </div>
 }
 
+<!-- Start Inbox -->
+<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-14">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>Inbox</b></h3>
+                        <!-- /.card-tools -->
+                    </div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive mailbox-messages" style="max-height: 160px; overflow-y: auto;">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr class="openMail" data-msgid="2302060001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+                                        <td class="mailbox-date">February 06, 2023</td>
+                                        <td class="mailbox-subject">You have a new assignment!<br></td>
+                                    <td class="mailbox-date text-danger"><i class="bi bi-envelope-fill"></i></td>
+                                    </tr>
+
+                                    <tr class="openMail" data-msgid="2109240001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+                                        <td class="mailbox-date">September 24, 2021</td>
+                                        <td class="mailbox-subject">You have a new assignment!<br></td>
+                                        <td class="mailbox-date text-success"><i class="bi bi-envelope-paper-fill"></i></td>
+                                    </tr>
+
+                                    <tr class="openMail" data-msgid="2011190001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+                                        <td class="mailbox-date">November 19, 2020</td>
+                                        <td class="mailbox-subject">You have a new assignment!<br></td>
+                                        <td class="mailbox-date text-success"><i class="bi bi-envelope-paper-fill"></i></td>
+                                    </tr>
+
+                                    <tr class="openMail" data-msgid="2009290001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+                                        <td class="mailbox-date">September 29, 2020</td>
+                                        <td class="mailbox-subject">You have a new assignment!<br></td>
+                                        <td class="text-success"><i class="bi bi-envelope-paper-fill"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+</div>
+
+
+
+<!-- MODAL-->
+<div class="modal fade" id="modal-msg" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-msg-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-msg-body"></div>
+            <div class="modal-footer text-right">
+                <a href="/evacuationcenter/profile" class="btn btn-secondary" data-dismiss="modal">Go to assigned Center</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle click on table rows
+        var mailRows = document.querySelectorAll('.openMail');
+        mailRows.forEach(function (row) {
+            row.addEventListener('click', function () {
+                var subject = this.getAttribute('data-msgsubj');
+                var from = this.getAttribute('data-msgfrom');
+                var date = this.querySelector('.mailbox-date').textContent;
+                var body = this.querySelector('.mailbox-subject').innerHTML;
+                var evacuationCenter = this.getAttribute('data-evacuation-center');
+                var disasterName = this.getAttribute('data-disaster-name');
+
+                // Set modal content dynamically
+                document.getElementById('modal-msg-title').textContent = subject;
+                document.getElementById('modal-msg-body').innerHTML = '<h6>From: <span id="msg-from">' + from + '</span><span class="mailbox-read-time float-right"><span id="msg-date">' + date + '</span></span></h6> <br>' +
+                    '<p>Evacuation Center: ' + evacuationCenter + '</p>' +
+                    '<p>Disaster Name: ' + disasterName + '</p>';
+
+                // Show the modal
+                var modal = new bootstrap.Modal(document.getElementById('modal-msg'));
+                modal.show();
+            });
+        });
+    });
+</script>
+<!-- End Inbox -->
+
+
+@*<script>
+    function showInfo(disasterType, description, dateOccured) {
+        // Set the content of the modal with the provided info
+        document.getElementById('disasterType').innerText = disasterType;
+        document.getElementById('description').innerText = description;
+        document.getElementById('dateOccured').innerText = dateOccured;
+    }
+</script>*@
+
+
+@*<!-- MODAL -->
+<div class="modal fade" id="modal-msg" tabindex="-1" aria-labelledby="modal-msg-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-msg-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-msg-body"></div>
+            <div class="modal-footer text-right">
+                <button type="button" class="btn btn-default" data-dismiss="modal">(placeholder)</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@*<script>
+    $(document).ready(function () {
+        // Handle click on table rows
+        $('.openMail').on('click', function () {
+            var subject = $(this).data('msgsubj');
+            var from = $(this).data('msgfrom');
+            var date = $(this).find('.mailbox-date').text();
+            var body = $(this).find('.mailbox-subject').html();
+            var evacuationCenter = $(this).data('evacuation-center');
+            var disasterName = $(this).data('disaster-name');
+
+            // Set modal content dynamically
+            $('#modal-msg-title').text(subject);
+            $('#modal-msg-body').html('<h6>From: <span id="msg-from">' + from + '</span><span class="mailbox-read-time float-right"><span id="msg-date">' + date + '</span></span></h6> <br>' +
+                '<p>Evacuation Center: ' + evacuationCenter + '</p>' +
+                '<p>Disaster Name: ' + disasterName + '</p>');
+
+            // Show the modal
+            $('#modal-msg').modal('show');
+        });
+    });
+</script>*@
+
+
+
 <div class="container form-container1">
     <div class="container form-container-content1">
         <!-- Title, Info Button, Menu Button -->
