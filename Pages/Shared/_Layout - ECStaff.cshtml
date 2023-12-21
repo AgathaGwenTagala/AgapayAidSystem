@@ -33,82 +33,14 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
-        function markAllAsRead() {
-            var checkboxes = document.querySelectorAll('.form-check-input');
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = true;
-            });
-        }
-
         function toggleNotification() {
-            var notification = document.getElementById("notification");
-            notification.classList.toggle("show");
+            var notification = document.getElementById('notification');
+            notification.style.display = (notification.style.display === 'none' || notification.style.display === '') ? 'block' : 'none';
+
+            window.location.href = "/notification";
         }
-
-        // Add event listener to close notification on document click
-        document.addEventListener('click', function (event) {
-            var notification = document.getElementById("notification");
-            var bellIcon = document.querySelector('.notification-trigger');
-
-            if (!notification.contains(event.target) && !bellIcon.contains(event.target)) {
-                notification.classList.remove("show");
-            }
-        });
-
-         document.addEventListener('DOMContentLoaded', function () {
-            // Fetch notifications when the page loads
-            fetchNotifications();
-
-            function fetchNotifications() {
-                fetch('/Notification')  // Adjust the URL accordingly
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update your notification UI with the retrieved data
-                        updateNotificationUI(data);
-                    })
-                    .catch(error => console.error('Error fetching notifications:', error));
-            }
-
-            function updateNotificationUI(notifications) {
-                var notificationContainer = document.getElementById("notification");
-
-                // Clear existing notifications
-                notificationContainer.innerHTML = "";
-
-                if (notifications.length > 0) {
-                    notifications.forEach(function (notification) {
-                        var notificationElement = document.createElement("div");
-                        notificationElement.classList.add("notifi-text", notification.isRead === "true" ? "" : "unread");
-                        notificationElement.innerHTML = `
-                                    <div class="notifi-text-margin">
-                                        <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
-                                            <a><strong>${notification.disasterName}</strong></a>
-                                            <p>
-                                                <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
-                                                ${notification.centerName}<br>
-
-                                                <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
-                                                ${notification.sentAt}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
-                                `;
-
-                        notificationContainer.appendChild(notificationElement);
-                    });
-                } else {
-                    // Display a message when there are no notifications
-                    var noNotificationMessage = document.createElement("p");
-                    noNotificationMessage.textContent = "No notifications available.";
-                    notificationContainer.appendChild(noNotificationMessage);
-                }
-            }
-
-            // Add other event listeners and functions as needed
-        });
-
     </script>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">

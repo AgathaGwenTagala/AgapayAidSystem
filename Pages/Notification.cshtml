@@ -3,62 +3,91 @@
 @{
 }
 
-@*<div id="notification" class="notification position-absolute top-100 start-50 translate-middle-x">
-    <div class="notifi-heading-container">
-        <a class="notifi-heading"><strong>Notification</strong></a>
-        <button class="btn btn-link" onclick="markAllAsRead()" style="text-decoration: none; font-family: poppins; color: #495057; font-size: 14px;">Mark All as Read</button>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-9">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title"><b>Inbox</b></h3>
+					<!-- /.card-tools -->
+				</div>
+				<div class="card-body p-0">
+					<div class="table-responsive mailbox-messages">
+						<table class="table table-hover">
+							<tbody>
+                            <tr class="openMail" data-msgid="2302060001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+							<td class="mailbox-date">February 06, 2023</td>
+                            <td class="mailbox-subject">You have a new assignment!<br></td>
+							<td class="mailbox-date text-danger"><i class="bi bi-envelope-paper-fill"></i></td>
+							</tr>
+
+                            <tr class="openMail" data-msgid="2109240001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+							<td class="mailbox-date">September 24, 2021</td>
+                            <td class="mailbox-subject">You have a new assignment!<br></td>
+							<td class="mailbox-date text-danger"><i class="bi bi-envelope-paper-fill"></i></td>
+							</tr>
+
+                            <tr class="openMail" data-msgid="2011190001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+							<td class="mailbox-date">November 19, 2020</td>
+                            <td class="mailbox-subject">You have a new assignment!0<br></td>
+							<td class="mailbox-date text-danger"><i class="bi bi-envelope-paper-fill"></i></td>
+							</tr>
+
+                            <tr class="openMail" data-msgid="2009290001" data-msgsubj="You have a new assignment!" data-msgfrom="noreply@agapay" data-msgdate="">
+							<td class="mailbox-date">September 29, 2020</td>
+                             <td class="mailbox-subject">You have a new assignment!<br></td>
+							<td class="text-danger"><i class="bi bi-envelope-paper-fill"></i></td>
+							</tr>
+							</tbody>
+						</table>
+					 </div>
+				</div>
+										
+			</div>
+					<!-- /.card -->
+		</div>
+	</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modal-msg" tabindex="-1" aria-labelledby="modal-msg-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-msg-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-msg-body"></div>
+            <div class="modal-footer text-right">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Redirect to page (placeholder)</button>
+            </div>
+        </div>
     </div>
-    <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
+</div>
 
-    @foreach (var item in Model.listNotification)
-    {
-        if (item.isRead == "Read")
-        {
-            <!-- notif1 -->
-            <div class="notifi-text">
-                <div class="notifi-text-margin">
-                    <!-- href for specific evacuation!!! -->
-                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
-                        <a><strong>Assigned</strong></a>
-                        <p>
-                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
-                            @item.centerName<br>
 
-                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>
-                            @item.disasterName<br>
+<script>
+    $(document).ready(function () {
+        // Handle click on table rows
+        $('.openMail').on('click', function () {
+            var subject = $(this).data('msgsubj');
+            var from = $(this).data('msgfrom');
+            var date = $(this).find('.mailbox-date').text();
+            var body = $(this).find('.mailbox-subject').html();
+            var evacuationCenter = $(this).data('evacuation-center');
+            var disasterName = $(this).data('disaster-name');
 
-                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
-                            @item.sentAt
-                        </p>
-                    </div>
-                </div>
-                <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
-            </div>
-        }
+            // Set modal content dynamically
+            $('#modal-msg-title').text(subject);
+            $('#modal-msg-body').html('<h6>From: <span id="msg-from">' + from + '</span><span class="mailbox-read-time float-right"><span id="msg-date">' + date + '</span></span></h6>' +
+                '<p id="msg-body">' + body + '</p>' +
+                '<p>Evacuation Center: ' + evacuationCenter + '</p>' +
+                '<p>Disaster Name: ' + disasterName + '</p>');
 
-        if (item.isRead == "Sent")
-        {
-            <!-- notif2 -->
-            <div class="notifi-text unread">
-                <!-- "add unread if its new notification!! -->
-                <div class="notifi-text-margin">
-                    <!-- href for specific evacuation!!! -->
-                    <div class="row" onclick="window.location.href='/evacuationcenter/profile'" style="cursor: pointer;">
-                        <a><strong>You have a new assignment!</strong></a>
-                        <p>
-                            <i class="bi bi-building-fill" style="padding: 0 5px 0 5px;"></i>
-                            @item.centerName<br>
-
-                            <i class="bi bi-house-door-fill" style="padding: 5px;"></i>
-                            @item.disasterName<br>
-
-                            <i class="bi bi-calendar-check-fill" style="padding: 5px;"></i>
-                            @item.sentAt
-                        </p>
-                    </div>
-                </div>
-                <hr style="width: 100%; margin:0; border: 1px solid #408c8c;">
-            </div>
-        }
-    }
-</div>*@
+            // Show the modal
+            $('#modal-msg').modal('show');
+        });
+    });
+</script>
