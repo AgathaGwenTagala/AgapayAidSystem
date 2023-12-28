@@ -150,28 +150,28 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
 
 	public class EvacuationCenterLogInfo
     {
-        public string centerLogID { get; set; }
-        public string disasterID { get; set; }
-        public string centerID { get; set; }
-        public string occupancy { get; set; }
-        public string openingDateTime { get; set; }
-        public string closingDateTime { get; set; }
-        public string status { get; set; }
-        public string disasterName { get; set; }
-        public string centerName { get; set; }
-        public string maxCapacity { get; set; }
-        public string fullAddress { get; set; }
-        public string barangayName { get; set; }
-        public string totalStaff { get; set; }
-        public string toilet { get; set; }
-        public string bathingCubicle { get; set; }
-        public string communityKitchen { get; set; }
-        public string washingArea { get; set; }
-        public string womenChildSpace { get; set; }
-        public string multipurposeArea { get; set; }
-        public string centerType { get; set; }
-        public string mobileNum { get; set; }
-        public string telephoneNum { get; set; }
+        public string? centerLogID { get; set; }
+        public string? disasterID { get; set; }
+        public string? centerID { get; set; }
+        public string? occupancy { get; set; }
+        public string? openingDateTime { get; set; }
+        public string? closingDateTime { get; set; }
+        public string? status { get; set; }
+        public string? disasterName { get; set; }
+        public string? centerName { get; set; }
+        public string? maxCapacity { get; set; }
+        public string? fullAddress { get; set; }
+        public string? barangayName { get; set; }
+        public string? totalStaff { get; set; }
+        public string? toilet { get; set; }
+        public string? bathingCubicle { get; set; }
+        public string? communityKitchen { get; set; }
+        public string? washingArea { get; set; }
+        public string? womenChildSpace { get; set; }
+        public string? multipurposeArea { get; set; }
+        public string? centerType { get; set; }
+        public string? mobileNum { get; set; }
+        public string? telephoneNum { get; set; }
     }
 
 	public class EcLogNotification
