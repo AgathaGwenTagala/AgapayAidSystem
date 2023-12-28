@@ -2,6 +2,8 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.disaster.profile.inventory
 {
@@ -13,8 +15,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 		public InventoryInfo inventoryInfo { get; set; } = new InventoryInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{
@@ -114,9 +116,29 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 						command.Parameters.AddWithValue("@remarks", inventoryInfo.remarks);
 						command.ExecuteNonQuery();
 					}
-				}
 
-				successMessage = "Inventory item added successfully!";
+                    // Retrieve the last inserted inventoryID
+                    string? lastInsertID;
+                    string lastInsertSql = "SELECT MAX(inventoryID) FROM inventory WHERE itemName = @itemName AND qty = @qty";
+                    using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                    {
+                        lastInsertCommand.Parameters.AddWithValue("@itemName", inventoryInfo.itemName);
+                        lastInsertCommand.Parameters.AddWithValue("@qty", inventoryInfo.qty);
+                        lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@tableID", lastInsertID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
+                }
+
+                successMessage = "Inventory item added successfully!";
 			}
 
 			catch (Exception ex)

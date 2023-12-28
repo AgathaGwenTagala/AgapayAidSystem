@@ -15,8 +15,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 		public List<LatestEntryInfo> listLatestEntry = new List<LatestEntryInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{
@@ -187,6 +187,27 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                                 break;
                             }
                         }
+
+                        // Retrieve the last inserted inventoryID
+                        string? lastInsertID;
+                        string lastInsertSql = "SELECT MAX(entryLogID) FROM entry_log WHERE memberID = @member AND centerLogID = @centerLogID AND remarks = @remarks";
+                        using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                        {
+                            lastInsertCommand.Parameters.AddWithValue("@memberID", memberID);
+                            lastInsertCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                            lastInsertCommand.Parameters.AddWithValue("@remarks", selectedRemarks);
+                            lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Update userID in table_log
+                        UserId = HttpContext.Session.GetString("UserId");
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID";
+                        using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                        {
+                            updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                            updateUserIdCommand.Parameters.AddWithValue("@tableID", lastInsertID);
+                            updateUserIdCommand.ExecuteNonQuery();
+                        }
                     }
 
                     // If all selected centers were successfully allocated
@@ -214,13 +235,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
 	public class LatestEntryInfo
 	{
-		public string memberID { get; set; }
-		public string fullName { get; set; }
-		public string sex { get; set; }
-		public string birthdate { get; set; }
-		public string barangayName { get; set; }
-		public string entryStatus { get; set; }
-		public string age { get; set; }
-		public string serialNum { get; set; }
+		public string? memberID { get; set; }
+		public string? fullName { get; set; }
+		public string? sex { get; set; }
+		public string? birthdate { get; set; }
+		public string? barangayName { get; set; }
+		public string? entryStatus { get; set; }
+		public string? age { get; set; }
+		public string? serialNum { get; set; }
 	}
 }
