@@ -9,7 +9,7 @@ namespace AgapayAidSystem.Pages.UserManagement.ECStaff
         private readonly IConfiguration _configuration;
         public EditModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo { get; set; } = new UserInfo();
-        public string? UserId { get; set; } = "";
+        public string userID { get; set; } = "";
         public string ecStaffID { get; set; } = "";
         public string firstName { get; set; } = "";
         public string middleName { get; set; } = "";
