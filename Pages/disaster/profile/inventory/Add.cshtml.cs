@@ -2,8 +2,6 @@ using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Bcpg;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.disaster.profile.inventory
 {

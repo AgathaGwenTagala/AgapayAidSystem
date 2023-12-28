@@ -227,16 +227,16 @@ namespace AgapayAidSystem.Pages
 
     public class DashboardInfo
     {
-        public string totalDistinctEvacuees { get; set; }
-        public string totalCheckIn { get; set; }
-        public string totalCheckOut { get; set; }
-        public string totalCenter { get; set; }
-        public string totalOpenCenter { get; set; }
-        public string totalClosedCenter { get; set; }
-        public string totalDistinctBarangays { get; set; }
-        public string totalDistinctFamilies { get; set; }
-        public string totalDistinctFemale { get; set; }
-        public string totalDistinctMale { get; set; }
+        public string? totalDistinctEvacuees { get; set; }
+        public string? totalCheckIn { get; set; }
+        public string? totalCheckOut { get; set; }
+        public string? totalCenter { get; set; }
+        public string? totalOpenCenter { get; set; }
+        public string? totalClosedCenter { get; set; }
+        public string? totalDistinctBarangays { get; set; }
+        public string? totalDistinctFamilies { get; set; }
+        public string? totalDistinctFemale { get; set; }
+        public string? totalDistinctMale { get; set; }
     }
 
 	public class NotificationInfo
