@@ -11,8 +11,8 @@ namespace AgapayAidSystem.Pages.Inventory
         public List<InventoryInfo> listInventory = new List<InventoryInfo>();
         public string errorMessage = "";
         public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {

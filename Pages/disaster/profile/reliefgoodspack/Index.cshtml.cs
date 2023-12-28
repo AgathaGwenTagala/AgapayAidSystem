@@ -16,8 +16,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
 		public List<ReliefPackInfo> listReliefPack { get; set; } = new List<ReliefPackInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{

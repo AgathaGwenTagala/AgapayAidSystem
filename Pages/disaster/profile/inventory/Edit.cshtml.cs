@@ -12,8 +12,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 		public InventoryInfo inventoryInfo { get; set; } = new InventoryInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
 		{

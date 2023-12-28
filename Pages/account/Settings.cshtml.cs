@@ -12,8 +12,8 @@ namespace AgapayAidSystem.Pages.account
         public ProfileInfo profileInfo = new ProfileInfo();
         public string successMessage = "";
         public string errorMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {

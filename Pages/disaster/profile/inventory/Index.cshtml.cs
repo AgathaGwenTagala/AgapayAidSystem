@@ -16,8 +16,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
         public List<InventoryInfo> listInventory { get; set; } = new List<InventoryInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -136,14 +136,14 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 
 	public class InventoryInfo
 	{
-		public string inventoryID { get; set; }
-		public string centerLogID { get; set; }
-		public string itemName { get; set; }
-		public string itemType { get; set; }
-		public string qty { get; set; }
-		public string unitMeasure { get; set; }
-		public string remarks { get; set; }
-		public string packedQty { get; set; }
-		public string remainingQty { get; set; }
+		public string? inventoryID { get; set; }
+		public string? centerLogID { get; set; }
+		public string? itemName { get; set; }
+		public string? itemType { get; set; }
+		public string? qty { get; set; }
+		public string? unitMeasure { get; set; }
+		public string? remarks { get; set; }
+		public string? packedQty { get; set; }
+		public string? remainingQty { get; set; }
 	}
 }

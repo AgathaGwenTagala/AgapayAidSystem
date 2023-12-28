@@ -12,8 +12,8 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 		public List<BarangayInfo> Barangays { get; set; }
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {

@@ -9,13 +9,13 @@ namespace AgapayAidSystem.Pages.UserManagement.Admin
         private readonly IConfiguration _configuration;
         public EditModel(IConfiguration configuration) => _configuration = configuration;
         public UserInfo userInfo { get; set; } = new UserInfo();
-        public string userID { get; set; } = "";
+        public string? UserId { get; set; } = "";
         public string adminID { get; set; } = "";
         public string adminName { get; set; } = "";
         public string errorMessage = "";
         public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {

@@ -14,8 +14,8 @@ namespace AgapayAidSystem.Pages.family.add
 		public MemberInfo memberInfo { get; set; } = new MemberInfo();
 		public string errorMessage = "";
 		public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         [BindProperty(SupportsGet = true)]
 		public string familyID { get; set; }

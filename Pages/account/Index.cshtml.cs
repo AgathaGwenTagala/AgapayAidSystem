@@ -12,8 +12,8 @@ namespace AgapayAidSystem.Pages.account
         public ProfileInfo profileInfo = new ProfileInfo();
         public string successMessage = "";
         public string errorMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {
@@ -171,17 +171,17 @@ namespace AgapayAidSystem.Pages.account
         public string assignmentDate { get; set; }
         public string completionDate { get; set; }
         public string status { get; set; }
-        public string userID { get; set; }
+        public string? UserId { get; set; }
         public string disasterName { get; set; }
         public string centerName { get; set; }
     }
 
     public class ProfileInfo
     {
-        public string userID { get; set; }
+        public string? UserId { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public string userType { get; set; }
+        public string? UserType { get; set; }
         public string createdAt { get; set; }
         public string adminID { get; set; }
         public string lguStaffID { get; set; }

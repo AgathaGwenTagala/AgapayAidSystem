@@ -8,8 +8,8 @@ namespace AgapayAidSystem.Pages
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {

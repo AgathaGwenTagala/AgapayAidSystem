@@ -18,8 +18,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.reliefgoodspack
         public List<EligibleFamInfo> listEligibleFam { get; set; } = new List<EligibleFamInfo>();
         public string errorMessage = "";
         public string successMessage = "";
-        public string UserId { get; set; }
-        public string UserType { get; set; }
+        public string? UserId { get; set; }
+        public string? UserType { get; set; }
 
         public void OnGet()
         {

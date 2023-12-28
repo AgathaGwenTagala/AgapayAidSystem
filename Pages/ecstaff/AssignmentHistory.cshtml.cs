@@ -15,8 +15,8 @@ namespace AgapayAidSystem.Pages.ecstaff
 		public List<AssignmentInfo> listAssignment = new List<AssignmentInfo>();
 		public string errorMessage = "";
 		public string successMessage = "";
-		public string UserId { get; set; }
-		public string UserType { get; set; }
+		public string? UserId { get; set; }
+		public string? UserType { get; set; }
 
 		public void OnGet()
         {

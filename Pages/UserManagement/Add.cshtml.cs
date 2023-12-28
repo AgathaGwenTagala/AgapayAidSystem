@@ -10,7 +10,7 @@ namespace AgapayAidSystem.Pages.UserManagement
 		private readonly IConfiguration _configuration;
 		public AddUserModel(IConfiguration configuration) => _configuration = configuration;
 		public UserInfo userInfo { get; set; } = new UserInfo();
-		public string userID { get; set; } = "";
+		public string? UserId { get; set; } = "";
 		public string errorMessage = "";
 		public string successMessage = "";
         public string? UserId { get; set; }
