@@ -164,38 +164,38 @@ namespace AgapayAidSystem.Pages.account
 
     public class AssignmentInfo
     {
-        public string assignmentID { get; set; }
-        public string centerLogID { get; set; }
-        public string ecStaffID { get; set; }
-        public string role { get; set; }
-        public string assignmentDate { get; set; }
-        public string completionDate { get; set; }
-        public string status { get; set; }
-        public string? UserId { get; set; }
-        public string disasterName { get; set; }
-        public string centerName { get; set; }
+        public string? assignmentID { get; set; }
+        public string? centerLogID { get; set; }
+        public string? ecStaffID { get; set; }
+        public string? role { get; set; }
+        public string? assignmentDate { get; set; }
+        public string? completionDate { get; set; }
+        public string? status { get; set; }
+        public string? userID { get; set; }
+        public string? disasterName { get; set; }
+        public string? centerName { get; set; }
     }
 
     public class ProfileInfo
     {
-        public string? UserId { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string? UserType { get; set; }
-        public string createdAt { get; set; }
-        public string adminID { get; set; }
-        public string lguStaffID { get; set; }
-        public string ecStaffID { get; set; }
-        public string adminName { get; set; }
-        public string firstName { get; set; }
-        public string middleName { get; set; }
-        public string lastName { get; set; }
-        public string extName { get; set; }
-        public string fullName { get; set; }
-        public string sex { get; set; }
-        public string birthdate { get; set; }
-        public string mobileNum { get; set; }
-        public string emailAddress { get; set; }
-        public string availabilityStatus { get; set; }
+        public string? userID { get; set; }
+        public string? username { get; set; }
+        public string? password { get; set; }
+        public string? userType { get; set; }
+        public string? createdAt { get; set; }
+        public string? adminID { get; set; }
+        public string? lguStaffID { get; set; }
+        public string? ecStaffID { get; set; }
+        public string? adminName { get; set; }
+        public string? firstName { get; set; }
+        public string? middleName { get; set; }
+        public string? lastName { get; set; }
+        public string? extName { get; set; }
+        public string? fullName { get; set; }
+        public string? sex { get; set; }
+        public string? birthdate { get; set; }
+        public string? mobileNum { get; set; }
+        public string? emailAddress { get; set; }
+        public string? availabilityStatus { get; set; }
     }
 }

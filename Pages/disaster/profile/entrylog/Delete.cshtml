@@ -36,6 +36,16 @@
                     {
                         errorMessage = "Entry log not found with the provided entryLogID.";
                     }
+
+                    // Update userID in table_log
+                    string? UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Delete'";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@tableID", entryLogID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
                 }
             }
         }

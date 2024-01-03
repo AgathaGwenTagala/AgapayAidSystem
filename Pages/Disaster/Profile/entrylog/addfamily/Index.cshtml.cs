@@ -154,7 +154,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 			// Others
 			string centerLogID = Request.Form["centerLogID"];
 			string redirectType = Request.Form["redirectType"];
-			string newFamilyID = null;
+			string? newFamilyID = null;
 
 			if (string.IsNullOrEmpty(memberInfo.middleName))
 			{
@@ -199,7 +199,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 						command.Parameters.AddWithValue("@mobileNum", familyInfo.mobileNum);
 						command.Parameters.AddWithValue("@telephoneNum", familyInfo.telephoneNum);
 						command.ExecuteNonQuery();
-						Console.WriteLine("Successfully inserted into 'family' table.");
+						// Console.WriteLine("Successfully inserted into 'family' table.");
 					}
 
 					// Step 2: Retrieve the last inserted familyID from the 'family' table
@@ -209,10 +209,20 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 						selectMaxFamilyID.Parameters.AddWithValue("@streetAddress", familyInfo.streetAddress);
 						newFamilyID = selectMaxFamilyID.ExecuteScalar()?.ToString();
 					}
-					Console.WriteLine($"Retrieved new FamilyID: {newFamilyID} with streetAddress {familyInfo.streetAddress}");
+					// Console.WriteLine($"Retrieved new FamilyID: {newFamilyID} with streetAddress {familyInfo.streetAddress}");
 
-					// Step 3: Insert family head details into the 'family_member' table
-					string memberSql = "INSERT INTO family_member " +
+                    // Step 3: Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@tableID", newFamilyID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
+
+                    // Step 4: Insert family head details into the 'family_member' table
+                    string memberSql = "INSERT INTO family_member " +
 									   "(familyID, firstName, middleName, lastName, extName, sex, birthdate, relationship, " +
 									   "civilStatus, education, occupation, religion, isIndigenousPerson, healthCondition, remarks) " +
 									   "VALUES (@familyID, @firstName, @middleName, @lastName, @extName, @sex, @birthdate, @relationship, " +
@@ -235,9 +245,37 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 						memberCommand.Parameters.AddWithValue("@healthCondition", memberInfo.healthCondition);
 						memberCommand.Parameters.AddWithValue("@remarks", memberInfo.remarks);
 						memberCommand.ExecuteNonQuery();
-						Console.WriteLine($"Successfully inserted family head for familyID {newFamilyID}");
+						// Console.WriteLine($"Successfully inserted family head for familyID {newFamilyID}");
 					}
-				}
+
+                    // Step 5: Retrieve the last inserted memberID
+                    string? lastInsertID;
+                    string lastInsertSql = "SELECT MAX(memberID) FROM family_member " +
+										   "WHERE familyID = @familyID AND firstName = @firstName AND middleName = @middleName " +
+                                           "AND lastName = @lastName AND extName = @extName AND sex = @sex " +
+										   "AND birthdate = @birthdate AND relationship = @relationship";
+                    using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                    {
+                        lastInsertCommand.Parameters.AddWithValue("@familyID", newFamilyID);
+                        lastInsertCommand.Parameters.AddWithValue("@firstName", memberInfo.firstName);
+                        lastInsertCommand.Parameters.AddWithValue("@middleName", memberInfo.middleName);
+                        lastInsertCommand.Parameters.AddWithValue("@lastName", memberInfo.lastName);
+                        lastInsertCommand.Parameters.AddWithValue("@extName", memberInfo.extName);
+                        lastInsertCommand.Parameters.AddWithValue("@sex", memberInfo.sex);
+                        lastInsertCommand.Parameters.AddWithValue("@birthdate", memberInfo.birthdate);
+                        lastInsertCommand.Parameters.AddWithValue("@relationship", memberInfo.relationship);
+                        lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Step 6: Update userID in table_log
+                    string updateUserId1Sql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
+                    using (MySqlCommand updateUserId1Command = new MySqlCommand(updateUserId1Sql, connection))
+                    {
+                        updateUserId1Command.Parameters.AddWithValue("@userID", UserId);
+                        updateUserId1Command.Parameters.AddWithValue("@tableID", lastInsertID);
+                        updateUserId1Command.ExecuteNonQuery();
+                    }
+                }
 				successMessage = "Family added successfully!";
 			}
 
@@ -268,7 +306,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 
 	public class BarangayInfo
 	{
-		public string barangayID { get; set; }
-		public string barangayName { get; set; }
+		public string? barangayID { get; set; }
+		public string? barangayName { get; set; }
 	}
 }

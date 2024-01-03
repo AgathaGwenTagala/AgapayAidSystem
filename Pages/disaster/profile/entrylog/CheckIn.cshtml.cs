@@ -188,9 +188,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
                             }
                         }
 
-                        // Retrieve the last inserted inventoryID
+                        // Retrieve the last inserted entryLogID
                         string? lastInsertID;
-                        string lastInsertSql = "SELECT MAX(entryLogID) FROM entry_log WHERE memberID = @member AND centerLogID = @centerLogID AND remarks = @remarks";
+                        string lastInsertSql = "SELECT MAX(entryLogID) FROM entry_log WHERE memberID = @memberID AND centerLogID = @centerLogID AND remarks = @remarks";
                         using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
                         {
                             lastInsertCommand.Parameters.AddWithValue("@memberID", memberID);
@@ -201,7 +201,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
                         // Update userID in table_log
                         UserId = HttpContext.Session.GetString("UserId");
-                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID";
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
                         using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
                         {
                             updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);

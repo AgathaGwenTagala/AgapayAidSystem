@@ -66,16 +66,16 @@ namespace AgapayAidSystem.Pages.Family
 
 	public class FamilyInfo
 	{
-		public string familyID { get; set; }
-		public string streetAddress { get; set; }
-		public string barangayID { get; set; }
-		public string mobileNum { get; set; }
-		public string telephoneNum { get; set; }
-		public string serialNum { get; set; }
-		public string barangayName { get; set; }
-		public string fullAddress { get; set; }
-		public string municipalityCity { get; set; }
-		public string familyHead { get; set; }
-		public string familySize { get; set; }
+		public string? familyID { get; set; }
+		public string? streetAddress { get; set; }
+		public string? barangayID { get; set; }
+		public string? mobileNum { get; set; }
+		public string? telephoneNum { get; set; }
+		public string? serialNum { get; set; }
+		public string? barangayName { get; set; }
+		public string? fullAddress { get; set; }
+		public string? municipalityCity { get; set; }
+		public string? familyHead { get; set; }
+		public string? familySize { get; set; }
 	}
 }

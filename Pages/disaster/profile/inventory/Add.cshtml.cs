@@ -127,7 +127,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 
                     // Update userID in table_log
                     UserId = HttpContext.Session.GetString("UserId");
-                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID";
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
                     using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
                     {
                         updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);

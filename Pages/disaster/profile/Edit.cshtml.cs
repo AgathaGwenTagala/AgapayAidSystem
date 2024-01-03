@@ -146,8 +146,26 @@ namespace AgapayAidSystem.Pages.disaster.profile
 						command.Parameters.AddWithValue("@disasterID", disasterInfo.disasterID);
 						command.ExecuteNonQuery();
 					}
-				}
 
+                    // Retrieve the last inserted logID
+                    string? lastInsertLogID;
+                    string lastInsertLogSql = "SELECT MAX(logID) FROM table_log WHERE tableID = @tableID AND logType = 'Update'";
+                    using (MySqlCommand lastInsertLogCommand = new MySqlCommand(lastInsertLogSql, connection))
+                    {
+                        lastInsertLogCommand.Parameters.AddWithValue("@tableID", disasterInfo.disasterID);
+                        lastInsertLogID = lastInsertLogCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE logID = @logID";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@logID", lastInsertLogID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
+                }
 				successMessage = "Disaster updated successfully!";
 			}
 

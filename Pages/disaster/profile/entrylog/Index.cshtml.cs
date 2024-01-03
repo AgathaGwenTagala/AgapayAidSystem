@@ -1,4 +1,5 @@
 using AgapayAidSystem.Pages.disaster.profile.staffassignment;
+using AgapayAidSystem.Pages.Disaster;
 using AgapayAidSystem.Pages.Disaster.Profile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -180,7 +181,26 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 								errorMessage = "Failed to check-out one or more evacuees.";
 							}
 						}
-					}
+
+                        // Retrieve the last inserted logID
+                        string? lastInsertLogID;
+                        string lastInsertLogSql = "SELECT MAX(logID) FROM table_log WHERE tableID = @tableID AND logType = 'Update'";
+                        using (MySqlCommand lastInsertLogCommand = new MySqlCommand(lastInsertLogSql, connection))
+                        {
+                            lastInsertLogCommand.Parameters.AddWithValue("@tableID", entryLogID);
+                            lastInsertLogID = lastInsertLogCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Update userID in table_log
+                        UserId = HttpContext.Session.GetString("UserId");
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE logID = @logID";
+                        using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                        {
+                            updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                            updateUserIdCommand.Parameters.AddWithValue("@logID", lastInsertLogID);
+                            updateUserIdCommand.ExecuteNonQuery();
+                        }
+                    }
 
 					// If all selected evacuees were successfully allocated
 					successMessage = "Selected evacuees checked-out successfully!";
@@ -198,15 +218,15 @@ namespace AgapayAidSystem.Pages.disaster.profile.entrylog
 
 	public class EntryLogInfo
 	{
-		public string entryLogID { get; set; }
-		public string memberID { get; set; }
-		public string centerLogID { get; set; }
-		public string checkInDate { get; set; }
-		public string checkOutDate { get; set; }
-		public string entryStatus { get; set; }
-		public string remarks { get; set; }
-		public string fullName { get; set; }
-		public string serialNum { get; set; }
-		public string familyID { get; set; }
+		public string? entryLogID { get; set; }
+		public string? memberID { get; set; }
+		public string? centerLogID { get; set; }
+		public string? checkInDate { get; set; }
+		public string? checkOutDate { get; set; }
+		public string? entryStatus { get; set; }
+		public string? remarks { get; set; }
+		public string? fullName { get; set; }
+		public string? serialNum { get; set; }
+		public string? familyID { get; set; }
 	}
 }

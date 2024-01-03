@@ -153,9 +153,9 @@ namespace AgapayAidSystem.Pages.account
                     {
                         // Insert updated data into the 'ec_staff' table
                         string sql = "UPDATE ec_staff " +
-                                 "SET emailAddress = @emailAddress, mobileNum = @mobileNum, " +
-                                 "availabilityStatus = @availabilityStatus " +
-                                 "WHERE userID = @userID";
+                                     "SET emailAddress = @emailAddress, mobileNum = @mobileNum, " +
+                                     "availabilityStatus = @availabilityStatus " +
+                                     "WHERE userID = @userID";
 
                         using (MySqlCommand command = new MySqlCommand(sql, connection))
                         {
@@ -164,6 +164,34 @@ namespace AgapayAidSystem.Pages.account
                             command.Parameters.AddWithValue("@availabilityStatus", profileInfo.availabilityStatus);
                             command.Parameters.AddWithValue("@userID", UserId);
                             command.ExecuteNonQuery();
+                        }
+
+                        // Retrieve the ecStaffID
+                        string? ecStaffID;
+                        string ecStaffSql = "SELECT ecStaffID FROM ec_staff WHERE userID = @userID";
+                        using (MySqlCommand ecStaffCommand = new MySqlCommand(ecStaffSql, connection))
+                        {
+                            ecStaffCommand.Parameters.AddWithValue("@userID", UserId);
+                            ecStaffID = ecStaffCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Retrieve the last inserted logID
+                        string? lastInsertLogID;
+                        string lastInsertLogSql = "SELECT MAX(logID) FROM table_log WHERE tableID = @tableID AND logType = 'Update'";
+                        using (MySqlCommand lastInsertLogCommand = new MySqlCommand(lastInsertLogSql, connection))
+                        {
+                            lastInsertLogCommand.Parameters.AddWithValue("@tableID", ecStaffID);
+                            lastInsertLogID = lastInsertLogCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Update userID in table_log
+                        UserId = HttpContext.Session.GetString("UserId");
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE logID = @logID";
+                        using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                        {
+                            updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                            updateUserIdCommand.Parameters.AddWithValue("@logID", lastInsertLogID);
+                            updateUserIdCommand.ExecuteNonQuery();
                         }
                     }
 
@@ -180,6 +208,34 @@ namespace AgapayAidSystem.Pages.account
                             command.Parameters.AddWithValue("@mobileNum", profileInfo.mobileNum);
                             command.Parameters.AddWithValue("@userID", UserId);
                             command.ExecuteNonQuery();
+                        }
+
+                        // Retrieve the lguStaffID
+                        string? lguStaffID;
+                        string lguStaffSql = "SELECT lguStaffID FROM lgu_staff WHERE userID = @userID";
+                        using (MySqlCommand lguStaffCommand = new MySqlCommand(lguStaffSql, connection))
+                        {
+                            lguStaffCommand.Parameters.AddWithValue("@userID", UserId);
+                            lguStaffID = lguStaffCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Retrieve the last inserted logID
+                        string? lastInsertLogID;
+                        string lastInsertLogSql = "SELECT MAX(logID) FROM table_log WHERE tableID = @tableID AND logType = 'Update'";
+                        using (MySqlCommand lastInsertLogCommand = new MySqlCommand(lastInsertLogSql, connection))
+                        {
+                            lastInsertLogCommand.Parameters.AddWithValue("@tableID", lguStaffID);
+                            lastInsertLogID = lastInsertLogCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Update userID in table_log
+                        UserId = HttpContext.Session.GetString("UserId");
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE logID = @logID";
+                        using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                        {
+                            updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                            updateUserIdCommand.Parameters.AddWithValue("@logID", lastInsertLogID);
+                            updateUserIdCommand.ExecuteNonQuery();
                         }
                     }
 
@@ -229,7 +285,7 @@ namespace AgapayAidSystem.Pages.account
                     using (MySqlCommand checkPasswordCommand = new MySqlCommand(checkPasswordSql, connection))
                     {
                         checkPasswordCommand.Parameters.AddWithValue("@userID", UserId);
-                        string storedPassword = checkPasswordCommand.ExecuteScalar()?.ToString();
+                        string? storedPassword = checkPasswordCommand.ExecuteScalar()?.ToString();
 
                         // Compare the stored password with the entered current password
                         if (storedPassword != currentPassword)
@@ -249,6 +305,25 @@ namespace AgapayAidSystem.Pages.account
                         command.Parameters.AddWithValue("@password", confirmPassword);
                         command.Parameters.AddWithValue("@userID", UserId);
                         command.ExecuteNonQuery();
+                    }
+
+                    // Retrieve the last inserted logID
+                    string? lastInsertLogID;
+                    string lastInsertLogSql = "SELECT MAX(logID) FROM table_log WHERE tableID = @tableID AND logType = 'Update'";
+                    using (MySqlCommand lastInsertLogCommand = new MySqlCommand(lastInsertLogSql, connection))
+                    {
+                        lastInsertLogCommand.Parameters.AddWithValue("@tableID", UserId);
+                        lastInsertLogID = lastInsertLogCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE logID = @logID";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@logID", lastInsertLogID);
+                        updateUserIdCommand.ExecuteNonQuery();
                     }
                 }
 

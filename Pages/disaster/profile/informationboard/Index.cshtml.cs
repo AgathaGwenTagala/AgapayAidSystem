@@ -3,7 +3,6 @@ using AgapayAidSystem.Pages.Disaster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using AgapayAidSystem.Pages.disaster.profile.staffassignment;
 
 namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 {
@@ -181,6 +180,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 			if (string.IsNullOrEmpty(centerLogID))
 			{
 				errorMessage = "Missing centerLogID";
+                errorOccurred = true;
 			}
 
 			try
@@ -189,13 +189,71 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 				using (MySqlConnection connection = new MySqlConnection(connectionString))
 				{
 					connection.Open();
-					string sql = "CALL close_evacuation_center(@centerLogID);";
+
+					// Update status of evacuation center log
+					string sql = "UPDATE evacuation_center_log " +
+								 "SET closingDateTime = CURRENT_TIMESTAMP(), status = 'Closed' " +
+								 "WHERE centerLogID = @centerLogID";
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@centerLogID", centerLogID);
 						command.ExecuteNonQuery();
 					}
-				}
+                    
+                    UpdateUserIDInTableLog1(connection, centerLogID, "evacuation_center_log", 2, ref errorOccurred);
+
+                    // Retrieve the centerID related to the centerLogID
+                    string? centerID;
+                    string centerIDSql = "SELECT centerID FROM evacuation_center_log " +
+                                         "WHERE centerLogID = @centerLogID";
+                    using (MySqlCommand centerIDCommand = new MySqlCommand(centerIDSql, connection))
+                    {
+                        centerIDCommand.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        centerID = centerIDCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Set status of evacuation_center to 'Inactive'
+                    string sql1 = "UPDATE evacuation_center SET status = 'Inactive' WHERE centerID = @centerID";
+                    using (MySqlCommand command1 = new MySqlCommand(sql1, connection))
+                    {
+                        command1.Parameters.AddWithValue("@centerID", centerID);
+                        command1.ExecuteNonQuery();
+                    }
+
+                    UpdateUserIDInTableLog1(connection, centerID, "evacuation_center", 1, ref errorOccurred);
+
+                    // Set status of entry_log with status 'Check-in' to 'Check-out'
+                    string sql2 = "UPDATE entry_log " +
+								  "SET entryStatus = 'Check-out', checkOutDate = CURRENT_TIMESTAMP() " +
+								  "WHERE centerLogID = @centerLogID AND entryStatus = 'Check-in'";
+                    using (MySqlCommand command2 = new MySqlCommand(sql2, connection))
+                    {
+                        command2.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        int rowsAffected = command2.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            UpdateUserIDInTableLog2(connection, "entry_log", rowsAffected, ref errorOccurred);
+                            UpdateUserIDInTableLog2(connection, "evacuation_center_log", rowsAffected, ref errorOccurred);
+                        }
+                    }
+
+                    // Set status of ec_staff_assignment with status 'Assigned' to 'Completed'
+                    string sql3 = "UPDATE ec_staff_assignment " +
+                                  "SET status = 'Completed', completionDate = CURRENT_TIMESTAMP() " +
+                                  "WHERE centerLogID = @centerLogID AND status = 'Assigned'";
+                    using (MySqlCommand command3 = new MySqlCommand(sql3, connection))
+                    {
+                        command3.Parameters.AddWithValue("@centerLogID", centerLogID);
+                        int rowsAffected = command3.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            UpdateUserIDInTableLog2(connection, "ec_staff_assignment", rowsAffected, ref errorOccurred);
+                            UpdateUserIDInTableLog2(connection, "ec_staff", rowsAffected, ref errorOccurred);
+                        }
+                    }
+                }
 
 				successMessage = centerName + " closed successfully!";
 			}
@@ -215,16 +273,84 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 			{
 				// Redirect to the Disaster page after successful close
 				Response.Redirect("/disaster/profile/index?disasterID=" + disasterID + "&successMessage=" + successMessage);
-				//Response.Redirect("/disaster/profile/informationboard/index?centerLogID=" + centerLogID + "&errorMessage=" + errorMessage);
 			}
 		}
+
+        private void UpdateUserIDInTableLog1(MySqlConnection connection, string tableID, string tableName, int limit, ref bool errorOccurred)
+        {
+            try
+            {
+                UserId = HttpContext.Session.GetString("UserId");
+                if (tableName == "evacuation_center")
+                {
+                    string updateUserIdSql = "UPDATE table_log " +
+                                         "SET userID = @userID, description = 'status: Active -> Inactive'" +
+                                         "WHERE tableID = @tableID AND logType = 'Update'" +
+                                         "ORDER BY loggedAt DESC " +
+                                         "LIMIT @limit;";
+                    using (MySqlCommand command = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userID", UserId);
+                        command.Parameters.AddWithValue("@tableID", tableID);
+                        command.Parameters.AddWithValue("@limit", limit);
+                        command.ExecuteNonQuery();
+                    }
+                }
+                if (tableName == "evacuation_center_log")
+                {
+                    string updateUserIdSql = "UPDATE table_log " +
+                                         "SET userID = @userID " +
+                                         "WHERE tableID = @tableID AND logType = 'Update'" +
+                                         "ORDER BY loggedAt DESC " +
+                                         "LIMIT @limit;";
+                    using (MySqlCommand command = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userID", UserId);
+                        command.Parameters.AddWithValue("@tableID", tableID);
+                        command.Parameters.AddWithValue("@limit", limit);
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                errorOccurred = true;
+                throw new Exception("Error in UpdateUserIDInTableLog1: ", ex);
+            }
+        }
+
+        private void UpdateUserIDInTableLog2(MySqlConnection connection, string tableName, int limit, ref bool errorOccurred)
+        {
+            try
+            {
+                UserId = HttpContext.Session.GetString("UserId");
+                string updateUserIdSql = "UPDATE table_log " +
+                                         "SET userID = @userID " +
+                                         "WHERE tableName = @tableName AND logType = 'Update' " +
+                                         "ORDER BY loggedAt DESC " +
+                                         "LIMIT @limit";
+                using (MySqlCommand command = new MySqlCommand(updateUserIdSql, connection))
+                {
+                    command.Parameters.AddWithValue("@userID", UserId);
+                    command.Parameters.AddWithValue("@tableName", tableName);
+                    command.Parameters.AddWithValue("@limit", limit);
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorOccurred = true;
+                throw new Exception("Error in UpdateUserIDInTableLog2: ", ex);
+            }
+        }
     }
 
     public class InformationBoard
     {
 		public int assignedStaffCount { get; set; }
-		public string assignedManager { get; set; }
-		public string assignedAsstManager { get; set; }
+		public string? assignedManager { get; set; }
+		public string? assignedAsstManager { get; set; }
 		public int totalDistinctFamilies { get; set; }
 		public int totalDistinctIndividuals { get; set; }
 		public int totalDistinctMale { get; set; }

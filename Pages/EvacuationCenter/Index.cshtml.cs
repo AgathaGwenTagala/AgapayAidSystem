@@ -75,21 +75,21 @@ namespace AgapayAidSystem.Pages.EvacuationCenter
 
     public class EvacuationInfo
     {
-		public string centerID { get; set; }
-		public string centerName { get; set; }
-		public string centerType { get; set; }
-		public string streetAddress { get; set; }
-		public string barangayID { get; set; }
-		public string mobileNum { get; set; }
-		public string telephoneNum { get; set; }
-		public string maxCapacity { get; set; }
-		public string status { get; set; }
-		public string toilet { get; set; }
-		public string bathingCubicle { get; set; }
-		public string communityKitchen { get; set; }
-		public string washingArea { get; set; }
-		public string womenChildSpace { get; set; }
-		public string multipurposeArea { get; set; }
-        public string barangayName { get; set; }
+		public string? centerID { get; set; }
+		public string? centerName { get; set; }
+		public string? centerType { get; set; }
+		public string? streetAddress { get; set; }
+		public string? barangayID { get; set; }
+		public string? mobileNum { get; set; }
+		public string? telephoneNum { get; set; }
+		public string? maxCapacity { get; set; }
+		public string? status { get; set; }
+		public string? toilet { get; set; }
+		public string? bathingCubicle { get; set; }
+		public string? communityKitchen { get; set; }
+		public string? washingArea { get; set; }
+		public string? womenChildSpace { get; set; }
+		public string? multipurposeArea { get; set; }
+        public string? barangayName { get; set; }
     }
 }

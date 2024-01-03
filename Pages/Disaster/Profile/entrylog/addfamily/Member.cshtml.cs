@@ -171,9 +171,38 @@ namespace AgapayAidSystem.Pages.Disaster.Profile.entrylog.addfamily
 						memberCommand.Parameters.AddWithValue("@healthCondition", memberInfo.healthCondition);
 						memberCommand.Parameters.AddWithValue("@remarks", memberInfo.remarks);
 						memberCommand.ExecuteNonQuery();
-						Console.WriteLine($"Successfully inserted family member for familyID {familyID}");
+						// Console.WriteLine($"Successfully inserted family member for familyID {familyID}");
 					}
-				}
+
+                    // Retrieve the last inserted memberID
+                    string? lastInsertID;
+                    string lastInsertSql = "SELECT MAX(memberID) FROM family_member " +
+                                           "WHERE familyID = @familyID AND firstName = @firstName AND middleName = @middleName " +
+                                           "AND lastName = @lastName AND extName = @extName AND sex = @sex " +
+                                           "AND birthdate = @birthdate AND relationship = @relationship";
+                    using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                    {
+                        lastInsertCommand.Parameters.AddWithValue("@familyID", familyID);
+                        lastInsertCommand.Parameters.AddWithValue("@firstName", memberInfo.firstName);
+                        lastInsertCommand.Parameters.AddWithValue("@middleName", memberInfo.middleName);
+                        lastInsertCommand.Parameters.AddWithValue("@lastName", memberInfo.lastName);
+                        lastInsertCommand.Parameters.AddWithValue("@extName", memberInfo.extName);
+                        lastInsertCommand.Parameters.AddWithValue("@sex", memberInfo.sex);
+                        lastInsertCommand.Parameters.AddWithValue("@birthdate", memberInfo.birthdate);
+                        lastInsertCommand.Parameters.AddWithValue("@relationship", memberInfo.relationship);
+                        lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@tableID", lastInsertID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
+                }
 				successMessage = "Family added successfully!";
 			}
 

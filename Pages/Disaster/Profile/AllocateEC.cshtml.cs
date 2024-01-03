@@ -160,6 +160,26 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 break;
                             }
                         }
+
+                        // Retrieve the last inserted centerLogID
+                        string? lastInsertID;
+                        string lastInsertSql = "SELECT MAX(centerLogID) FROM evacuation_center_log WHERE disasterID = @disasterID AND centerID = @centerID";
+                        using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                        {
+                            lastInsertCommand.Parameters.AddWithValue("@disasterID", disasterID);
+                            lastInsertCommand.Parameters.AddWithValue("@centerID", centerID);
+                            lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                        }
+
+                        // Update userID in table_log
+                        UserId = HttpContext.Session.GetString("UserId");
+                        string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
+                        using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                        {
+                            updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                            updateUserIdCommand.Parameters.AddWithValue("@tableID", lastInsertID);
+                            updateUserIdCommand.ExecuteNonQuery();
+                        }
                     }
 
                     // If all selected centers were successfully allocated

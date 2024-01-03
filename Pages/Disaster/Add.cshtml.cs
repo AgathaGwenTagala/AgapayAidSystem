@@ -109,7 +109,27 @@ namespace AgapayAidSystem.Pages.Disaster
 						command.Parameters.AddWithValue("@dateOccured", disasterInfo.dateOccured);
 						command.ExecuteNonQuery();
 					}
-				}
+
+                    // Retrieve the last inserted disasterID
+                    string? lastInsertID;
+                    string lastInsertSql = "SELECT MAX(disasterID) FROM disaster WHERE disasterName = @disasterName AND disasterType = @disasterType";
+                    using (MySqlCommand lastInsertCommand = new MySqlCommand(lastInsertSql, connection))
+                    {
+                        lastInsertCommand.Parameters.AddWithValue("@disasterName", disasterInfo.disasterName);
+                        lastInsertCommand.Parameters.AddWithValue("@disasterType", disasterInfo.disasterType);
+                        lastInsertID = lastInsertCommand.ExecuteScalar()?.ToString();
+                    }
+
+                    // Update userID in table_log
+                    UserId = HttpContext.Session.GetString("UserId");
+                    string updateUserIdSql = "UPDATE table_log SET userID = @userID WHERE tableID = @tableID AND logType = 'Add'";
+                    using (MySqlCommand updateUserIdCommand = new MySqlCommand(updateUserIdSql, connection))
+                    {
+                        updateUserIdCommand.Parameters.AddWithValue("@userID", UserId);
+                        updateUserIdCommand.Parameters.AddWithValue("@tableID", lastInsertID);
+                        updateUserIdCommand.ExecuteNonQuery();
+                    }
+                }
 
 				successMessage = "Disaster added successfully!";
 			}
