@@ -71,61 +71,64 @@ else
                     <li class="nav-item">
                         <a class="nav-link active" href="/disaster/profile/informationboard/index?centerLogID=@Model.logInfo.centerLogID">Information Board</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
-                    </li>
-                    @if (@Model.ecLogNotif.remainingInventoryCount == 0)
+                    @if (!string.IsNullOrEmpty(Model.UserId))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
-                                Inventory
-                            </a>
+                            <a class="nav-link" href="/disaster/profile/entrylog/index?centerLogID=@Model.logInfo.centerLogID">Entry Log</a>
                         </li>
-                    }
-                    else
-                    {
                         <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
-                                Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingInventoryCount</span>
-                            </a>
+                            <a class="nav-link" href="/disaster/profile/staffassignment/index?centerLogID=@Model.logInfo.centerLogID">Staff Assignment</a>
                         </li>
-                    }
+                        @if (@Model.ecLogNotif.remainingInventoryCount == 0)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Inventory
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/inventory/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Inventory <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingInventoryCount</span>
+                                </a>
+                            </li>
+                        }
 
-                    @if (@Model.ecLogNotif.remainingPackCount == 0)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-                                Relief Goods Pack
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
-                                Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
-                            </a>
-                        </li>
-                    }
+                        @if (@Model.ecLogNotif.remainingPackCount == 0)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Relief Goods Pack
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/reliefgoodspack/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Relief Goods Pack <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingPackCount</span>
+                                </a>
+                            </li>
+                        }
 
-                    @if (@Model.ecLogNotif.remainingAssessmentCount == 0)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-                                Vulnerability Assessment
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
-                                Vulnerability Assessment <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingAssessmentCount</span>
-                            </a>
-                        </li>
+                        @if (@Model.ecLogNotif.remainingAssessmentCount == 0)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Vulnerability Assessment
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/disaster/profile/vulnerabilityassessment/index?centerLogID=@Model.logInfo.centerLogID">
+                                    Vulnerability Assessment <span class="badge rounded-pill bg-primary ps-2">@Model.ecLogNotif.remainingAssessmentCount</span>
+                                </a>
+                            </li>
+                        }
                     }
                 </ul>
             </div>
@@ -183,16 +186,30 @@ else
 		<div class="col-md-9 ms-sm-auto col-lg-9 px-md-4 pb-3 pt-3">
 			<div class="container">
                 <!-- Breadcrumb -->
-                <div class="row pb-2" aria-label="breadcrumb">
-                    <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
-                            <li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
-                            <li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
-                            <li class="breadcrumb-item active"><a><strong>@Model.logInfo.centerName</strong></a></li>
-                        </ol>
-                    </nav>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.UserId))
+                {
+                    <div class="row pb-2" aria-label="breadcrumb">
+                        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                                <li class="breadcrumb-item"><a href="/disaster/index">Disaster</a></li>
+                                <li class="breadcrumb-item"><a href="/disaster/profile/index?disasterID=@Model.logInfo.disasterID">@Model.logInfo.disasterName</a></li>
+                                <li class="breadcrumb-item active"><a><strong>@Model.logInfo.centerName</strong></a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                }
+                else
+                {
+                    <div class="row pb-2" aria-label="breadcrumb">
+                        <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/index"><i class="bi bi-house-door-fill" style="padding: 5px;"></i>Home</a></li>
+                                <li class="breadcrumb-item active"><a><strong>@Model.logInfo.centerName</strong></a></li>
+                            </ol>
+                        </nav>
+                    </div>                    
+                }
 
                 <!-- Title -->
                 <div class="row pb-2">
@@ -384,37 +401,40 @@ else
 				</div>
 
                 <!-- Close Button -->
-                @if (Model.UserType != "EC Staff")
+                @if (!string.IsNullOrEmpty(Model.UserId))
                 {
-                    <form method="POST" id="closeEC" style="padding: 0px;">
-                        <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
-                        <input type="hidden" name="disasterID" value="@Model.logInfo.disasterID" />
-                        <input type="hidden" name="centerName" value="@Model.logInfo.centerName" />
-                        <div class="row pb-2">
-                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                                @if (@Model.logInfo.status == "Open")
-                                {
-                                    if (@Model.ecLogNotif.remainingInventoryCount != 0 || @Model.ecLogNotif.remainingPackCount != 0 || @Model.ecLogNotif.remainingAssessmentCount != 0)
+                    @if (Model.UserType != "EC Staff")
+                    {
+                        <form method="POST" id="closeEC" style="padding: 0px;">
+                            <input type="hidden" name="centerLogID" value="@Model.logInfo.centerLogID" />
+                            <input type="hidden" name="disasterID" value="@Model.logInfo.disasterID" />
+                            <input type="hidden" name="centerName" value="@Model.logInfo.centerName" />
+                            <div class="row pb-2">
+                                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                    @if (@Model.logInfo.status == "Open")
                                     {
-                                        <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
-                                            <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
-                                        </button>
+                                        if (@Model.ecLogNotif.remainingInventoryCount != 0 || @Model.ecLogNotif.remainingPackCount != 0 || @Model.ecLogNotif.remainingAssessmentCount != 0)
+                                        {
+                                            <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal" disabled>
+                                                <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
+                                                <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
+                                            </button>
+                                        }
                                     }
-                                    else
+                                    else if (@Model.logInfo.status == "Closed")
                                     {
-                                        <button id="completeButton" type="button" class="btn btn-danger mb-2" name="saveSelection" data-bs-toggle="modal" data-bs-target="#confirmSaveModal">
-                                            <i class="bi bi-x-circle pt" style="padding: 5px;"></i> Close EC
-                                        </button>
                                     }
-                                }
-                                else if (@Model.logInfo.status == "Closed")
-                                {
-                                }
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    }
                 }
-			</div>
+            </div>
 		</div>
 	</div>
 </div>

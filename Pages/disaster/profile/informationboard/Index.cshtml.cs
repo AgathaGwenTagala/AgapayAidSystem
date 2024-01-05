@@ -26,12 +26,6 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
             UserId = HttpContext.Session.GetString("UserId");
             UserType = HttpContext.Session.GetString("UserType");
 
-            if (string.IsNullOrEmpty(UserId) || string.IsNullOrEmpty(UserType))
-            {
-                Response.Redirect("/login/index");
-                return;
-            }
-
             string disasterID = Request.Query["disasterID"];
 			string centerLogID = Request.Query["centerLogID"];
 
