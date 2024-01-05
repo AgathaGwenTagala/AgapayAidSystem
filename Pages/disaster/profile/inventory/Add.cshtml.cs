@@ -85,7 +85,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 			inventoryInfo.itemType = Request.Form["itemType"];
 			inventoryInfo.qty = Request.Form["qty"];
 			inventoryInfo.unitMeasure = Request.Form["unitMeasure"];
+			inventoryInfo.earliestExpiryDate = Request.Form["earliestExpiryDate"];
 			inventoryInfo.remarks = Request.Form["remarks"];
+			
+			if (string.IsNullOrEmpty(inventoryInfo.earliestExpiryDate))
+			{
+				inventoryInfo.earliestExpiryDate = null;
+			}
 
 			if (string.IsNullOrEmpty(inventoryInfo.remarks))
 			{
@@ -101,8 +107,8 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 
 					// Insert data into the 'inventory' table
 					string sql = "INSERT INTO inventory " +
-								 "(centerLogID, itemName, itemType, qty, unitMeasure, remarks) " +
-								 "VALUES (@centerLogID, @itemName, @itemType, @qty, @unitMeasure, @remarks)";
+                                 "(centerLogID, itemName, itemType, qty, unitMeasure, earliestExpiryDate, remarks) " +
+                                 "VALUES (@centerLogID, @itemName, @itemType, @qty, @unitMeasure, @earliestExpiryDate, @remarks)";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
 					{
@@ -111,6 +117,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 						command.Parameters.AddWithValue("@itemType", inventoryInfo.itemType);
 						command.Parameters.AddWithValue("@qty", inventoryInfo.qty);
 						command.Parameters.AddWithValue("@unitMeasure", inventoryInfo.unitMeasure);
+						command.Parameters.AddWithValue("@earliestExpiryDate", inventoryInfo.earliestExpiryDate);
 						command.Parameters.AddWithValue("@remarks", inventoryInfo.remarks);
 						command.ExecuteNonQuery();
 					}

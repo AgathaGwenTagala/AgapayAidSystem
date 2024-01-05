@@ -200,7 +200,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 						command.ExecuteNonQuery();
 					}
                     
-                    UpdateUserIDInTableLog1(connection, centerLogID, "evacuation_center_log", 2, ref errorOccurred);
+                    UpdateUserIDInTableLog1(connection, centerLogID, "evacuation_center_log", ref errorOccurred);
 
                     // Retrieve the centerID related to the centerLogID
                     string? centerID;
@@ -220,7 +220,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                         command1.ExecuteNonQuery();
                     }
 
-                    UpdateUserIDInTableLog1(connection, centerID, "evacuation_center", 1, ref errorOccurred);
+                    UpdateUserIDInTableLog1(connection, centerID, "evacuation_center", ref errorOccurred);
 
                     // Set status of entry_log with status 'Check-in' to 'Check-out'
                     string sql2 = "UPDATE entry_log " +
@@ -276,7 +276,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
 			}
 		}
 
-        private void UpdateUserIDInTableLog1(MySqlConnection connection, string tableID, string tableName, int limit, ref bool errorOccurred)
+        private void UpdateUserIDInTableLog1(MySqlConnection connection, string tableID, string tableName, ref bool errorOccurred)
         {
             try
             {
@@ -284,15 +284,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                 if (tableName == "evacuation_center")
                 {
                     string updateUserIdSql = "UPDATE table_log " +
-                                         "SET userID = @userID, description = 'status: Active -> Inactive'" +
+                                         "SET userID = @userID " +
                                          "WHERE tableID = @tableID AND logType = 'Update'" +
-                                         "ORDER BY loggedAt DESC " +
-                                         "LIMIT @limit;";
+                                         "ORDER BY loggedAt DESC;";
                     using (MySqlCommand command = new MySqlCommand(updateUserIdSql, connection))
                     {
                         command.Parameters.AddWithValue("@userID", UserId);
                         command.Parameters.AddWithValue("@tableID", tableID);
-                        command.Parameters.AddWithValue("@limit", limit);
                         command.ExecuteNonQuery();
                     }
                 }
@@ -302,12 +300,11 @@ namespace AgapayAidSystem.Pages.disaster.profile.informationboard
                                          "SET userID = @userID " +
                                          "WHERE tableID = @tableID AND logType = 'Update'" +
                                          "ORDER BY loggedAt DESC " +
-                                         "LIMIT @limit;";
+                                         "LIMIT 2;";
                     using (MySqlCommand command = new MySqlCommand(updateUserIdSql, connection))
                     {
                         command.Parameters.AddWithValue("@userID", UserId);
                         command.Parameters.AddWithValue("@tableID", tableID);
-                        command.Parameters.AddWithValue("@limit", limit);
                         command.ExecuteNonQuery();
                     }
                 }

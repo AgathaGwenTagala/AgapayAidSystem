@@ -98,7 +98,7 @@ else
                 <th width="20%">Item</th>
                 <th width="15%">Type</th>
                 <th width="10%">Remaining Qty</th>
-                <th width="10%">Unit Measure</th>               
+                <th width="10%">Time to Expiry</th>
                 <th width="5%"></th>
             </tr>
         </thead>
@@ -108,6 +108,31 @@ else
             }
             @foreach (var item in Model.listInventory)
             {
+                string message = "";
+                if (!string.IsNullOrEmpty(item.earliestExpiryDate))
+                {
+                    var expiryDate = DateTime.Parse(item.earliestExpiryDate);
+                    var currentDate = DateTime.Now;
+                    var daysRemaining = (expiryDate - currentDate).Days;
+
+                    if (daysRemaining > 365)
+                    {
+                        var years = daysRemaining / 365;
+                        var remainingDays = daysRemaining % 365;
+                        var months = remainingDays / 30;
+                        message = $"{years} years and {months} months";
+                    }
+                    else if (daysRemaining > 31)
+                    {
+                        var months = daysRemaining / 30;
+                        message = $"{months} months";
+                    }
+                    else
+                    {
+                        message = daysRemaining > 0 ? $"{daysRemaining} days" : "Expired";
+                    }
+                }
+
                 @if (int.Parse(item.remainingQty) > 0)
                 {
                     <tr style="font-weight:bold;">
@@ -116,8 +141,8 @@ else
                         <td>@item.centerName</td>
                         <td>@item.itemName</td>
                         <td>@item.itemType</td>
-                        <td>@item.remainingQty</td>
-                        <td>@item.unitMeasure</td>
+                        <td>@item.remainingQty @item.unitMeasure.ToLower()</td>
+                        <td>@message</td>
                         <td>
                             <div class="d-inline position-relative">
                                 <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
@@ -142,8 +167,8 @@ else
                         <td>@item.centerName</td>
                         <td>@item.itemName</td>
                         <td>@item.itemType</td>
-                        <td>@item.remainingQty</td>
-                        <td>@item.unitMeasure</td>
+                        <td>@item.remainingQty @item.unitMeasure.ToLower()</td>
+                        <td>@message</td>
                         <td>
                             <div class="d-inline position-relative">
                                 <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
@@ -178,7 +203,7 @@ else
 			]
 		});
 
-        table.columns([1,2,4,5]).every(function () {
+        table.columns([1,2,4]).every(function () {
             var column = this;
             var filterContainer = $('<div class="dropdown align-items-center d-inline-flex ps-2"></div>').appendTo($(column.header()));
             var btn = $('<button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-funnel"></i></button>').appendTo(filterContainer);

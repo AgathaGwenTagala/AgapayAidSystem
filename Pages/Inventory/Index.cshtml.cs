@@ -52,10 +52,11 @@ namespace AgapayAidSystem.Pages.Inventory
                                 inventoryInfo.itemType = reader.GetString(3);
                                 inventoryInfo.qty = reader.GetString(4);
                                 inventoryInfo.unitMeasure = reader.GetString(5);
-                                inventoryInfo.remarks = reader.IsDBNull(6) ? null : reader.GetString(6);
-								inventoryInfo.disasterName = reader.GetString(7);
-								inventoryInfo.centerName = reader.GetString(8);
-								inventoryInfo.remainingQty = reader.GetInt32(9).ToString();
+								inventoryInfo.earliestExpiryDate = reader.IsDBNull(6) ? null : reader.GetDateTime(6).ToString("yyyy-MM-dd");
+								inventoryInfo.remarks = reader.IsDBNull(7) ? "-" : reader.GetString(7);
+								inventoryInfo.disasterName = reader.GetString(8);
+								inventoryInfo.centerName = reader.GetString(9);
+								inventoryInfo.remainingQty = reader.GetInt32(10).ToString();
 								listInventory.Add(inventoryInfo);
                             }
                         }
@@ -72,15 +73,16 @@ namespace AgapayAidSystem.Pages.Inventory
 
     public class InventoryInfo
     {
-        public string inventoryID { get; set; }
-        public string disasterName { get; set; }
-        public string centerLogID { get; set; }
-        public string centerName { get; set; }
-        public string itemName { get; set; }
-        public string itemType { get; set; }
-        public string qty { get; set; }
-        public string unitMeasure { get; set; }
-        public string remarks { get; set; }
-        public string remainingQty { get; set; }
+        public string? inventoryID { get; set; }
+        public string? disasterName { get; set; }
+        public string? centerLogID { get; set; }
+        public string? centerName { get; set; }
+        public string? itemName { get; set; }
+        public string? itemType { get; set; }
+        public string? qty { get; set; }
+        public string? unitMeasure { get; set; }
+        public string? earliestExpiryDate { get; set; }
+        public string? remarks { get; set; }
+        public string? remainingQty { get; set; }
     }
 }

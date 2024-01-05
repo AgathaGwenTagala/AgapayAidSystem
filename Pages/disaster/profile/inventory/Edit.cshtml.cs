@@ -55,8 +55,9 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 								inventoryInfo.itemType = inventoryReader.GetString(3);
 								inventoryInfo.qty = inventoryReader.GetInt32(4).ToString();
 								inventoryInfo.unitMeasure = inventoryReader.GetString(5);
-								inventoryInfo.remarks = inventoryReader.IsDBNull(6) ? null : inventoryReader.GetString(6);
-							}
+                                inventoryInfo.earliestExpiryDate = inventoryReader.IsDBNull(6) ? null : inventoryReader.GetDateTime(6).ToString("yyyy-MM-dd");
+								inventoryInfo.remarks = inventoryReader.IsDBNull(7) ? "-" : inventoryReader.GetString(7);
+                            }
 						}
 					}
 				}
@@ -85,7 +86,13 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 			inventoryInfo.itemType = Request.Form["itemType"];
 			inventoryInfo.qty = Request.Form["qty"];
 			inventoryInfo.unitMeasure = Request.Form["unitMeasure"];
+			inventoryInfo.earliestExpiryDate = Request.Form["earliestExpiryDate"];
 			inventoryInfo.remarks = Request.Form["remarks"];
+
+			if (string.IsNullOrEmpty(inventoryInfo.earliestExpiryDate))
+			{
+				inventoryInfo.earliestExpiryDate = null;
+			}
 
 			if (string.IsNullOrEmpty(inventoryInfo.remarks))
 			{
@@ -102,7 +109,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 					// Insert data into the 'inventory' table
 					string sql = "UPDATE inventory " +
 								 "SET itemName = @itemName, itemName = @itemName, qty = @qty, " +
-								 "unitMeasure = @unitMeasure, remarks = @remarks " +
+								 "unitMeasure = @unitMeasure, earliestExpiryDate = @earliestExpiryDate, remarks = @remarks " +
 								 "WHERE inventoryID = @inventoryID";
 
 					using (MySqlCommand command = new MySqlCommand(sql, connection))
@@ -112,6 +119,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
 						command.Parameters.AddWithValue("@itemType", inventoryInfo.itemType);
 						command.Parameters.AddWithValue("@qty", inventoryInfo.qty);
 						command.Parameters.AddWithValue("@unitMeasure", inventoryInfo.unitMeasure);
+						command.Parameters.AddWithValue("@earliestExpiryDate", inventoryInfo.earliestExpiryDate);
 						command.Parameters.AddWithValue("@remarks", inventoryInfo.remarks);
 						command.ExecuteNonQuery();
 					}
