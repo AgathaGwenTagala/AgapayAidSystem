@@ -54,9 +54,10 @@ namespace AgapayAidSystem.Pages.Inventory
                                 inventoryInfo.unitMeasure = reader.GetString(5);
 								inventoryInfo.earliestExpiryDate = reader.IsDBNull(6) ? null : reader.GetDateTime(6).ToString("yyyy-MM-dd");
 								inventoryInfo.remarks = reader.IsDBNull(7) ? "-" : reader.GetString(7);
-								inventoryInfo.disasterName = reader.GetString(8);
-								inventoryInfo.centerName = reader.GetString(9);
-								inventoryInfo.remainingQty = reader.GetInt32(10).ToString();
+								inventoryInfo.disasterID = reader.GetString(8);
+								inventoryInfo.disasterName = reader.GetString(9);
+								inventoryInfo.centerName = reader.GetString(10);
+								inventoryInfo.remainingQty = reader.GetInt32(11).ToString();
 								listInventory.Add(inventoryInfo);
                             }
                         }
@@ -74,6 +75,7 @@ namespace AgapayAidSystem.Pages.Inventory
     public class InventoryInfo
     {
         public string? inventoryID { get; set; }
+        public string? disasterID { get; set; }
         public string? disasterName { get; set; }
         public string? centerLogID { get; set; }
         public string? centerName { get; set; }
@@ -84,5 +86,6 @@ namespace AgapayAidSystem.Pages.Inventory
         public string? earliestExpiryDate { get; set; }
         public string? remarks { get; set; }
         public string? remainingQty { get; set; }
+        public int remainingQty1 { get; set; }
     }
 }

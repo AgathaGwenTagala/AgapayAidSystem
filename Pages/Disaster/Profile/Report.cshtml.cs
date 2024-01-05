@@ -1,10 +1,9 @@
 using AgapayAidSystem.Pages.account;
+using AgapayAidSystem.Pages.Inventory;
 using AgapayAidSystem.Pages.disaster.profile.reliefgoodspack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using System.Reflection.Metadata;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgapayAidSystem.Pages.Disaster.Profile
 {
@@ -16,6 +15,7 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
         public ProfileInfo profileInfo = new ProfileInfo();
         public List<EvacuationCenterLogInfo> listCenterLog { get; set; } = new List<EvacuationCenterLogInfo>();
         public List<DisplacedInfo> listDisplaced { get; set; } = new List<DisplacedInfo>();
+        public List<InventoryInfo> listInventory = new List<InventoryInfo>();
         public string errorMessage = "";
         public string successMessage = "";
         public string? UserId { get; set; }
@@ -175,6 +175,33 @@ namespace AgapayAidSystem.Pages.Disaster.Profile
                                 displacedInfo.totalFamilies = displacedReader.GetInt32(3);
                                 displacedInfo.totalPersons = displacedReader.GetInt32(4);
                                 listDisplaced.Add(displacedInfo);
+                            }
+                        }
+                    }
+                    
+                    // Fetch info of inventory items
+                    string sql = "SELECT * FROM all_inventory_view WHERE disasterID = @disasterID ORDER BY itemName;";
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@disasterID", disasterID);
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                InventoryInfo inventoryInfo = new InventoryInfo();
+                                inventoryInfo.inventoryID = reader.GetString(0);
+                                inventoryInfo.centerLogID = reader.GetString(1);
+                                inventoryInfo.itemName = reader.GetString(2);
+                                inventoryInfo.itemType = reader.GetString(3);
+                                inventoryInfo.qty = reader.GetString(4);
+                                inventoryInfo.unitMeasure = reader.GetString(5);
+                                inventoryInfo.earliestExpiryDate = reader.IsDBNull(6) ? null : reader.GetDateTime(6).ToString("yyyy-MM-dd");
+                                inventoryInfo.remarks = reader.IsDBNull(7) ? "-" : reader.GetString(7);
+                                inventoryInfo.disasterID = reader.GetString(8);
+                                inventoryInfo.disasterName = reader.GetString(9);
+                                inventoryInfo.centerName = reader.GetString(10);
+                                inventoryInfo.remainingQty1 = reader.GetInt32(11);
+                                listInventory.Add(inventoryInfo);
                             }
                         }
                     }

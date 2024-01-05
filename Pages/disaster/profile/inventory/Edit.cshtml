@@ -92,12 +92,7 @@ else
 			<div class="row mb-1">
 				<label class="col-sm-4 col-form-label text-start" for="earliestExpiryDate">Earliest Expiry Date:</label>
 				<div class="col-sm-8">
-					@{
-						DateTime maxDate = DateTime.Now.AddYears(+100);
-						string maxDateString = maxDate.ToString("yyyy-MM-dd");
-					}
-					<input type="date" class="form-control" name="earliestExpiryDate" value="@Model.inventoryInfo.earliestExpiryDate"
-						   max="@maxDateString" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+					<input type="date" class="form-control" name="earliestExpiryDate" value="@Model.inventoryInfo.earliestExpiryDate">
 				</div>
 			</div>
 

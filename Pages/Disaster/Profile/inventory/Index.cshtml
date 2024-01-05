@@ -308,13 +308,28 @@ else
 											message = daysRemaining > 0 ? $"{daysRemaining} days" : "Expired";
 										}
 									}
+									else
+									{
+										message = "No expiry date";
+									}
 
 									<tr style="text-align:center;">
 										<td width="5%">@counter</td>
 										<td width="20%">@item.itemName</td>
 										<td width="15%">@item.itemType</td>
 										<td width="18%">@item.remainingQty/@item.qty @item.unitMeasure.ToLower()</td>
-										<td width="17%">@message</td>
+										@if (@message == "Expired")
+										{
+											<td width="17%"><b class="text-danger">@message</b></td>
+										}
+										else if (@message == "No expiry date")
+										{
+											<td width="17%"><i>@message</i></td>
+										}
+										else
+										{
+											<td width="17%">@message</td>
+										}
 										@if (@item.remarks == "-")
 										{
 											<td width="20%" style="text-align:center;">@item.remarks</td>

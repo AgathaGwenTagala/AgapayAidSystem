@@ -143,7 +143,7 @@ namespace AgapayAidSystem.Pages.disaster.profile.inventory
                     }
                 }
 
-                successMessage = "Inventory item added successfully!";
+                successMessage = "Item added successfully!";
 			}
 
 			catch (Exception ex)

@@ -132,6 +132,10 @@ else
                         message = daysRemaining > 0 ? $"{daysRemaining} days" : "Expired";
                     }
                 }
+                else
+                {
+                    message = "No expiry date";
+                }
 
                 @if (int.Parse(item.remainingQty) > 0)
                 {
@@ -142,7 +146,18 @@ else
                         <td>@item.itemName</td>
                         <td>@item.itemType</td>
                         <td>@item.remainingQty @item.unitMeasure.ToLower()</td>
-                        <td>@message</td>
+                        @if (@message == "Expired")
+                        {
+                            <td><b class="text-danger">@message</b></td>
+                        }
+                        else if (@message == "No expiry date")
+                        {
+                            <td><i>@message</i></td>
+                        }
+                        else
+                        {
+                            <td>@message</td>
+                        }
                         <td>
                             <div class="d-inline position-relative">
                                 <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">
@@ -168,7 +183,18 @@ else
                         <td>@item.itemName</td>
                         <td>@item.itemType</td>
                         <td>@item.remainingQty @item.unitMeasure.ToLower()</td>
-                        <td>@message</td>
+                        @if (@message == "Expired")
+                        {
+                            <td><b class="text-danger">@message</b></td>
+                        }
+                        else if (@message == "No expiry date")
+                        {
+                            <td><i>@message</i></td>
+                        }
+                        else
+                        {
+                            <td>@message</td>
+                        }
                         <td>
                             <div class="d-inline position-relative">
                                 <a href="#" role="button" id="recordOptions" data-bs-toggle="dropdown" aria-expanded="false">

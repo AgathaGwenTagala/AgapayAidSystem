@@ -160,6 +160,7 @@ else
     </div>
     <br />
 
+    <!-- NUMBER OF DISPLACED -->
     <div>
         <h4 class="pb-2"><strong>NUMBER OF DISPLACED INSIDE EVACUATION CENTER</strong></h4>
         <table class="table table-bordered">
@@ -203,6 +204,86 @@ else
                     <th>@totalPersons</th>
                 </tr>
             </tfoot>
+        </table>
+    </div>
+    <br />
+
+    <!-- REMAINING AND EXPIRED RELIEF ITEMS -->
+    <div>
+        <h4 class="pb-2"><strong>REMAINING AND EXPIRED RELIEF ITEMS</strong></h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Type</th>
+                    <th>Remaining Qty</th>
+                    <th>Time to Expiry</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    var counter3 = 1;
+                }
+
+                @foreach (var item in Model.listInventory)
+                {
+                    string message = "";
+                    if (!string.IsNullOrEmpty(item.earliestExpiryDate))
+                    {
+                        var expiryDate = DateTime.Parse(item.earliestExpiryDate);
+                        var currentDate = DateTime.Now;
+                        var daysRemaining = (expiryDate - currentDate).Days;
+
+                        if (daysRemaining > 365)
+                        {
+                            var years = daysRemaining / 365;
+                            var remainingDays = daysRemaining % 365;
+                            var months = remainingDays / 30;
+                            message = $"{years} years and {months} months";
+                        }
+                        else if (daysRemaining > 31)
+                        {
+                            var months = daysRemaining / 30;
+                            message = $"{months} months";
+                        }
+                        else
+                        {
+                            message = daysRemaining > 0 ? $"{daysRemaining} days" : "Expired";
+                        }
+                    }
+                    else
+                    {
+                        message = "No expiry date";
+                    }
+
+                    if (item.remainingQty1 > 0)
+                    {
+                        <tr>
+                            <td>@counter3</td>
+                            <td>@item.itemName</td>
+                            <td>@item.itemType</td>
+                            <td>@item.remainingQty1 @item.unitMeasure.ToLower()</td>
+                            @if (@message == "Expired")
+                            {
+                                <td><b class="text-danger">@message</b></td>
+                            }
+                            else if (@message == "No expiry date")
+                            {
+                                <td><i>@message</i></td>
+                            }
+                            else
+                            {
+                                <td>@message</td>
+                            }
+                            <td>@item.centerName</td>
+                        </tr>
+                        counter3++;
+                    }
+                }
+            </tbody>
         </table>
     </div>
 </div>
