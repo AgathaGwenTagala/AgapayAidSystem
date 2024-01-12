@@ -53,6 +53,10 @@ else
 	}
 </style>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 
 <div class="bg-light rounded px-2 py-0 my-3 text-center">
@@ -296,12 +300,6 @@ else
 	});
 </script>
 
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-<!-- Leaflet JavaScript -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script>
 	// Define the bounds for Paranaque
 	var paranaqueBounds = L.latLngBounds(
@@ -324,23 +322,34 @@ else
 		.openPopup();
 
 	map.on('click', function (e) {
-		// Get the clicked coordinates
 		var lat = e.latlng.lat;
 		var lng = e.latlng.lng;
 
-		// Use the Nominatim API to reverse geocode the coordinates to an address
 		fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
 			.then(response => response.json())
 			.then(data => {
-				// Update the input field with the full address
-				var fullAddress = data.display_name;
-				document.querySelector('input[name="streetAddress"]').value = fullAddress;
+				// Extract relevant parts of the address
+				var addressElements = [
+					data.address.road
+					// You can add more elements if needed
+				];
+
+				// Remove unwanted elements
+				var filteredAddress = addressElements.filter(Boolean).join(', ');
+
+				// Update the input field with the modified address
+				document.querySelector('input[name="streetAddress"]').value = filteredAddress;
 			})
 			.catch(error => console.error('Error fetching address:', error));
 
-		// Move the marker to the clicked location
 		marker.setLatLng(e.latlng).bindPopup('Selected Location').openPopup();
 	});
+
+	var searchControl = L.Control.geocoder({
+		defaultMarkGeocode: false
+	}).on('markgeocode', function (e) {
+		map.fitBounds(e.geocode.bbox);
+	}).addTo(map);
 </script>
 
 <style>
@@ -349,6 +358,3 @@ else
 		opacity: 0.5;
 	}
 </style>
-
-<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />

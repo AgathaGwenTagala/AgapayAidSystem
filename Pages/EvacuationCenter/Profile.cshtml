@@ -202,6 +202,50 @@ else
 	</div>
 </div>
 
+<!-- Map Container -->
+<div id="map" style="height: 400px;"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+	var streetAddress = "@Model.evacuationInfo.streetAddress";
+
+	// Initialize the Leaflet map
+	var map = L.map('map').setView([0, 0], 13);
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '© OpenStreetMap contributors'
+	}).addTo(map);
+
+	// Use Nominatim for geocoding
+	var nominatimUrl = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(streetAddress);
+
+	fetch(nominatimUrl)
+		.then(response => response.json())
+		.then(data => {
+			if (data && data.length > 0) {
+				var location = data[0];
+				var latlng = [location.lat, location.lon];
+				map.setView(latlng, 13);
+				L.marker(latlng).addTo(map)
+					.bindPopup(streetAddress)
+					.openPopup();
+			} else {
+				console.error('No results found for address:', streetAddress);
+			}
+		})
+		.catch(error => {
+			console.error('Error during geocoding request:', error);
+		});
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <br />
 
 <!-- Table -->
